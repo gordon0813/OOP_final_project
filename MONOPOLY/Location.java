@@ -14,7 +14,7 @@ public class Location {
 		price = 0;
 		fee = 0;
 		xcoordinate = 0;
-		yccordinate = 0;
+		ycoordinate = 0;
 		owner = -1;
 		iconpath = " ";
 		canbuy = true;
