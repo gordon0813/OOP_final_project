@@ -62,8 +62,17 @@ public class HotelPreference extends JFrame {
 		final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
 		private JLabel cancel = new JLabel("CANCEL", JLabel.CENTER);
-		private JTextArea creditText = new JTextArea(20, 60);
-		private JLabel creditButt = new JLabel("BACK");
+		
+		
+		//attribute of Hotel_list/Reserve/Revise/Inquiry
+		private JPanel hrri = new JPanel();
+		final private int hrriWidth = 600, hrriHeight = 600;
+		final private Dimension hrriCenter = new Dimension(frameWidth / 2, frameHeight/2);
+		private JLabel hotellistText = new JLabel("HOTEL LIST", JLabel.CENTER);
+		private JLabel reserveText = new JLabel("RESERVE", JLabel.CENTER);
+		private JLabel reviseText = new JLabel("REVISE", JLabel.CENTER);
+		private JLabel inquiryText = new JLabel("INQUIRY", JLabel.CENTER);
+		
 
 		// Menu(Panel) settings
 		private void initPanel() {
@@ -75,6 +84,10 @@ public class HotelPreference extends JFrame {
 			titleText.setFont(new Font("Arial Black", Font.BOLD, 60));
 			signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			hotellistText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			reviseText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		}
 
 		private void initTitle() {
@@ -174,9 +187,20 @@ public class HotelPreference extends JFrame {
 			signup.add(buttons);
 
 		}
-
+		
+		private void initHRRI() {
+			hrri.setLayout(new GridLayout(4, 1, 0, 0));
+			hrri.setOpaque(true);
+			hrri.setBackground(new Color(245, 222, 179));
+			hrri.add(hotellistText);
+			hrri.add(reserveText);
+			hrri.add(reviseText);
+			hrri.add(inquiryText);
+			hrri.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));			
+		}
+		
+		
 		private void initSubMenu() {
-			// initCredit();
 			subMenu.setLayout(new GridLayout(2, 1, 0, 0));
 			subMenu.setOpaque(true);
 			subMenu.setBackground(new Color(245, 222, 179));
@@ -200,12 +224,15 @@ public class HotelPreference extends JFrame {
 			this.subMenu.setBounds(subMenuCenter.width - (subMenuWidth / 2), subMenuCenter.height - (subMenuHeight / 2),
 					subMenuWidth, subMenuHeight);
 			layeredPane.add(subMenu, new Integer(2));
-
+			
 			this.signin.setBounds(signinSetCenter.width - (signinSetWidth / 2),
 					signinSetCenter.height - (signinSetHeight / 2), signinSetWidth, signinSetHeight);
 
 			this.signup.setBounds(signupSetCenter.width - (signupSetWidth / 2),
 					signupSetCenter.height - (signupSetHeight / 2), signupSetWidth, signupSetHeight);
+			
+			this.hrri.setBounds(hrriCenter.width - (hrriWidth / 2), hrriCenter.height - (hrriHeight / 2),
+					hrriWidth, hrriHeight);
 
 			this.add(layeredPane);
 		}
@@ -217,15 +244,19 @@ public class HotelPreference extends JFrame {
 			initSubMenu();
 			initSignIn();
 			initSignUp();
+			initHRRI();
 			initLayerPane();
 
 			signinText.addMouseListener(ml);
 			signupText.addMouseListener(ml);
-			creditButt.addMouseListener(ml);
 			back.addMouseListener(ml);
 			login.addMouseListener(ml);
 			cancel.addMouseListener(ml);
 			signuplogin.addMouseListener(ml);
+			hotellistText.addMouseListener(ml);
+			reserveText.addMouseListener(ml);
+			reviseText.addMouseListener(ml);
+			inquiryText.addMouseListener(ml);
 
 		};
 
@@ -242,7 +273,7 @@ public class HotelPreference extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				if (e.getSource() == signupText) { // TODO optional
+				if (e.getSource() == signupText) { 
 					layeredPane.remove(subMenu);
 					layeredPane.add(signup, new Integer(2));
 					validate();
@@ -255,10 +286,13 @@ public class HotelPreference extends JFrame {
 					repaint();
 					cancel.setForeground(Color.black);
 				} else if (e.getSource() == signuplogin) {
-					System.exit(0);
+					layeredPane.remove(signup);
+					layeredPane.remove(title);
+					layeredPane.add(hrri, new Integer(2));
+					validate();
+					repaint();
 				}
-
-				if (e.getSource() == signinText) {
+				else if (e.getSource() == signinText) {
 					layeredPane.remove(subMenu);
 					layeredPane.add(signin, new Integer(2));
 					validate();
@@ -271,8 +305,17 @@ public class HotelPreference extends JFrame {
 					repaint();
 					back.setForeground(Color.black);
 				} else if (e.getSource() == login) {
-					System.exit(0);
+					layeredPane.remove(signin);
+					layeredPane.remove(title);
+					layeredPane.add(hrri, new Integer(2));
+					validate();
+					repaint();
 				}
+				else if (e.getSource() == hotellistText) System.exit(0);
+				else if (e.getSource() == reserveText) System.exit(0);
+				else if (e.getSource() == reviseText) System.exit(0);
+				else if (e.getSource() == inquiryText) System.exit(0);
+				
 			}
 		};
 
