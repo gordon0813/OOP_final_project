@@ -63,11 +63,10 @@ public class HotelPreference extends JFrame {
 		private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
 		private JLabel cancel = new JLabel("CANCEL", JLabel.CENTER);
 		
-		
 		//attribute of Hotel_list/Reserve/Revise/Inquiry
 		private JPanel hrri = new JPanel();
-		final private int hrriWidth = 600, hrriHeight = 600;
-		final private Dimension hrriCenter = new Dimension(frameWidth / 2, frameHeight/2);
+		final private int hrriWidth = 500, hrriHeight = 500;
+		final private Dimension hrriCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 		private JLabel hotellistText = new JLabel("HOTEL LIST", JLabel.CENTER);
 		private JLabel reserveText = new JLabel("RESERVE", JLabel.CENTER);
 		private JLabel reviseText = new JLabel("REVISE", JLabel.CENTER);
@@ -84,10 +83,6 @@ public class HotelPreference extends JFrame {
 			titleText.setFont(new Font("Arial Black", Font.BOLD, 60));
 			signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			hotellistText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			reviseText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		}
 
 		private void initTitle() {
@@ -106,7 +101,7 @@ public class HotelPreference extends JFrame {
 		// sign in 
 		private void initSignIn() {
 			signin.setLayout(new GridLayout(3, 1));
-			
+			//enter ID
 			JPanel IDPanel = new JPanel();
 			JLabel ID = new JLabel("   ID         : ");
 			TextField IDField = new TextField(15);
@@ -117,7 +112,8 @@ public class HotelPreference extends JFrame {
 			IDPanel.add(IDField);
 			ID.setBackground(new Color(245, 222, 179));
 			signin.add(IDPanel);
-
+			
+			//enter password
 			JPanel passwordPanel = new JPanel();
 			JLabel password = new JLabel("PASSWORD : ");
 			TextField passwordField = new TextField(15);
@@ -129,7 +125,6 @@ public class HotelPreference extends JFrame {
 			password.setBackground(new Color(245, 222, 179));
 			signin.add(passwordPanel);
 			
-
 			// set 'back' and 'login' button
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new GridLayout(1, 3));
@@ -144,6 +139,7 @@ public class HotelPreference extends JFrame {
 		private void initSignUp() {
 			signup.setLayout(new GridLayout(4, 1));
 			
+			//set ID
 			JPanel IDPanel = new JPanel();
 			JLabel ID = new JLabel("   ID         : ");
 			TextField IDField = new TextField(15);
@@ -154,7 +150,8 @@ public class HotelPreference extends JFrame {
 			IDPanel.add(IDField);
 			ID.setBackground(new Color(245, 222, 179));
 			signup.add(IDPanel);
-
+			
+			//set password
 			JPanel passwordPanel = new JPanel();
 			JLabel password = new JLabel("PASSWORD : ");
 			TextField passwordField = new TextField(15);
@@ -166,6 +163,7 @@ public class HotelPreference extends JFrame {
 			password.setBackground(new Color(245, 222, 179));
 			signup.add(passwordPanel);
 			
+			//enter verify code
 			JPanel verifycodePanel = new JPanel();
 			JLabel verifycode = new JLabel("VERIFYCODE : ");
 			TextField verifycodeField = new TextField(15);
@@ -188,7 +186,13 @@ public class HotelPreference extends JFrame {
 
 		}
 		
+		
+		// hotel list/reserve/revise/inquiry
 		private void initHRRI() {
+			hotellistText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			reviseText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			hrri.setLayout(new GridLayout(4, 1, 0, 0));
 			hrri.setOpaque(true);
 			hrri.setBackground(new Color(245, 222, 179));
@@ -199,7 +203,7 @@ public class HotelPreference extends JFrame {
 			hrri.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));			
 		}
 		
-		
+		//sub menu
 		private void initSubMenu() {
 			subMenu.setLayout(new GridLayout(2, 1, 0, 0));
 			subMenu.setOpaque(true);
