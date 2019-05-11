@@ -31,7 +31,36 @@ public class MonopolyMain extends JFrame {
  		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
  	}    
-	
+	// start game
+ 	private void startGame() {
+ 		this.remove(menu);
+		Game game =new Game();
+		this.add(game);
+ 	}
+ 	
+	// the Game class
+ 	class Game extends JPanel{
+ 		private JLayeredPane layeredPane;
+ 		private JPanel map=new JPanel();
+ 		private JLabel MAP = new JLabel();
+ 		
+ 		final private int mapWidth = frameWidth, mapHeight = 500;
+ 		final private Dimension mapCenter = new Dimension(frameWidth/2, mapHeight/2);
+ 		private void initLayerPane() {
+			layeredPane = new JLayeredPane();
+			layeredPane.setPreferredSize(new Dimension(mapWidth, mapHeight));
+	        
+			this.MAP.setIcon(new ImageIcon("images/Menu/menuBackground.png"));// TODO map icon path
+			this.MAP.setBounds(0, 0, mapWidth, mapHeight);
+	        layeredPane.add(MAP, new Integer(0));
+	     
+	        this.add(layeredPane);
+		}
+ 		public Game() {
+ 			initLayerPane();
+ 		}
+ 		
+ 	}
  	// the Menu class
  	class Menu extends JPanel {
  		private JLayeredPane layeredPane;
