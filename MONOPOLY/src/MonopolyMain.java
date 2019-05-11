@@ -11,11 +11,14 @@ import javax.swing.border.MatteBorder;
 	
 public class MonopolyMain extends JFrame {
 	final private int frameWidth = 1152, frameHeight = 720;
+	
 	// Program constructor
     public MonopolyMain() {
 		initFrame();
 		Menu menu = new Menu();
 		this.add(menu);
+		
+		
 		this.setVisible(true);
 	}
     
@@ -44,7 +47,7 @@ public class MonopolyMain extends JFrame {
  		private JPanel subMenu = new JPanel();
 		final private int subMenuWidth = 384, subMenuHeight = 300;
  		final private Dimension subMenuCenter = new Dimension(frameWidth/2, 524);
- 		private JLabel startText = new JLabel("Start a new game", JLabel.CENTER);
+ 		private JLabel startText = new JLabel("START", JLabel.CENTER);
 		private JLabel credits = new JLabel("View Credits", JLabel.CENTER);
 		
 		//attribute of credits
@@ -67,8 +70,8 @@ public class MonopolyMain extends JFrame {
 		
 		private void initFonts() {
 			titleText.setFont(new Font("Arial Black", Font.BOLD, 60));
-			startText.setFont(new Font("Arial Black", Font.BOLD, 18));
-			credits.setFont(new Font("Arial Black", Font.BOLD, 18));
+			startText.setFont(new Font("Arial Black", Font.BOLD, 30));
+			credits.setFont(new Font("Arial Black", Font.BOLD, 30));
 		}
 		
 		private void initTitle() {
@@ -138,7 +141,7 @@ public class MonopolyMain extends JFrame {
 			layeredPane = new JLayeredPane();
 			layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
 	        
-			this.background.setIcon(new ImageIcon("images/Menu/menu_background1.png"));
+			this.background.setIcon(new ImageIcon("images/Menu/menuBackground.png"));
 			this.background.setBounds(0, 0, frameWidth, frameHeight);
 	        layeredPane.add(background, new Integer(0));
 	        
