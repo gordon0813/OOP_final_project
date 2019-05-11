@@ -6,7 +6,7 @@ public class Location {
 	int xcoordinate;// store the x coordinate
 	int ycoordinate;// store the y coordinate
 	int owner;// the owner who owns the location = -1, 0, 1, 2, 3. (-1 means no one owns it. 0,1,2,3 means player)
-	String iconpath;//the stored path of the icon
+	icon path;//the stored path of the icon
 	boolean canbuy;//whether the location can be bought or not. For example, library, start...etc cannot be bought
 
 	public Location() {
@@ -20,14 +20,14 @@ public class Location {
 		canbuy = true;
 	}
 
-	public Location(String name,int price, int x, int y, String iconpath, boolean a) {
+	public Location(String name,int price, int x, int y,icon path, boolean a) {
 		this.name = name;
 		this.price = price;
 		this.fee = price / 2;
 		this.xcoordinate = x;
 		this.ycoordinate = y;
 		this.owner = -1;
-		this.iconpath = iconpath;
+		this.path = iconpath;
 		this.canbuy = a;
 	}
 
