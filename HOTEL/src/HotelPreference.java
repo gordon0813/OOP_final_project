@@ -23,7 +23,7 @@ public class HotelPreference extends JFrame {
 
 	// Initialize the frame
 	private void initFrame() {
-		this.setTitle("TRIANGLE");
+		this.setTitle("HOTEL");
 		this.setSize(frameWidth, frameHeight);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -44,7 +44,7 @@ public class HotelPreference extends JFrame {
 
 		// attribute of sub menu
 		private JPanel subMenu = new JPanel();
-		final private int subMenuWidth = 384, subMenuHeight = 300;
+		final private int subMenuWidth = 500, subMenuHeight = 70;
 		final private Dimension subMenuCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel signinText = new JLabel("SIGN IN", JLabel.CENTER);
 		private JLabel signupText = new JLabel("SIGN UP", JLabel.CENTER);
@@ -65,8 +65,8 @@ public class HotelPreference extends JFrame {
 		
 		//attribute of Hotel_list/Reserve/Revise/Inquiry
 		private JPanel hrri = new JPanel();
-		final private int hrriWidth = 500, hrriHeight = 500;
-		final private Dimension hrriCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+		final private int hrriWidth = 500, hrriHeight = 200;
+		final private Dimension hrriCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel hotellistText = new JLabel("HOTEL LIST", JLabel.CENTER);
 		private JLabel reserveText = new JLabel("RESERVE", JLabel.CENTER);
 		private JLabel reviseText = new JLabel("REVISE", JLabel.CENTER);
@@ -90,9 +90,9 @@ public class HotelPreference extends JFrame {
 			title.setLayout(new GridLayout(1, 1, 0, 0));
 			title.setOpaque(true);
 
-			titleText.setForeground(new Color(115, 74, 18));
+			titleText.setForeground(new Color(65, 105, 225));
 			titleText.setOpaque(true);
-			titleText.setBackground(new Color(250, 235, 215));
+			titleText.setBackground(new Color(245, 245, 245));
 			titleText.setBorder(new MatteBorder(5, 5, 5, 5, new Color(61, 89, 171)));
 
 			title.add(titleText);
@@ -133,6 +133,7 @@ public class HotelPreference extends JFrame {
 //			buttons.add(new Panel());
 			buttons.add(login);
 			signin.add(buttons);
+			
 		}
 
 		// sign up
@@ -193,21 +194,21 @@ public class HotelPreference extends JFrame {
 			reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			reviseText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			hrri.setLayout(new GridLayout(4, 1, 0, 0));
+			hrri.setLayout(new GridLayout(2, 2, 0, 0));
 			hrri.setOpaque(true);
-			hrri.setBackground(new Color(245, 222, 179));
+			hrri.setBackground(new Color(245, 245, 245));
 			hrri.add(hotellistText);
 			hrri.add(reserveText);
 			hrri.add(reviseText);
 			hrri.add(inquiryText);
-			hrri.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));			
+			hrri.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));	
 		}
 		
 		//sub menu
 		private void initSubMenu() {
-			subMenu.setLayout(new GridLayout(2, 1, 0, 0));
+			subMenu.setLayout(new GridLayout(1, 2, 0, 0));
 			subMenu.setOpaque(true);
-			subMenu.setBackground(new Color(245, 222, 179));
+			subMenu.setBackground(new Color(245, 245, 245));
 			subMenu.add(signinText);
 			subMenu.add(signupText);
 			subMenu.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -217,7 +218,7 @@ public class HotelPreference extends JFrame {
 			layeredPane = new JLayeredPane();
 			layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
 
-			this.background.setIcon(new ImageIcon("images/Menu/menuBackground.png"));
+			this.background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
 			this.background.setBounds(0, 0, frameWidth, frameHeight);
 			layeredPane.add(background, new Integer(0));
 
@@ -291,7 +292,6 @@ public class HotelPreference extends JFrame {
 					cancel.setForeground(Color.black);
 				} else if (e.getSource() == signuplogin) {
 					layeredPane.remove(signup);
-					layeredPane.remove(title);
 					layeredPane.add(hrri, new Integer(2));
 					validate();
 					repaint();
@@ -310,7 +310,6 @@ public class HotelPreference extends JFrame {
 					back.setForeground(Color.black);
 				} else if (e.getSource() == login) {
 					layeredPane.remove(signin);
-					layeredPane.remove(title);
 					layeredPane.add(hrri, new Integer(2));
 					validate();
 					repaint();
