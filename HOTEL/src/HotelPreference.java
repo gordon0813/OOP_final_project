@@ -92,7 +92,7 @@ public class HotelPreference extends JFrame {
 
 			titleText.setForeground(new Color(65, 105, 225));
 			titleText.setOpaque(true);
-			titleText.setBackground(new Color(245, 245, 245));
+			titleText.setBackground(new Color(176, 196, 222));
 			titleText.setBorder(new MatteBorder(5, 5, 5, 5, new Color(61, 89, 171)));
 
 			title.add(titleText);
@@ -100,6 +100,7 @@ public class HotelPreference extends JFrame {
 
 		// sign in 
 		private void initSignIn() {
+			signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));	
 			signin.setLayout(new GridLayout(3, 1));
 			//enter ID
 			JPanel IDPanel = new JPanel();
@@ -107,10 +108,10 @@ public class HotelPreference extends JFrame {
 			TextField IDField = new TextField(15);
 			IDField.setFont(new Font("Serif", Font.BOLD, 23));
 			IDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			IDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+			IDPanel.setBorder(new MatteBorder(20, 40,20, 40, new Color(176, 196, 222)));
+			IDPanel.setBackground(new Color(176, 196, 222));
 			IDPanel.add(ID);
 			IDPanel.add(IDField);
-			ID.setBackground(new Color(245, 222, 179));
 			signin.add(IDPanel);
 			
 			//enter password
@@ -119,16 +120,17 @@ public class HotelPreference extends JFrame {
 			TextField passwordField = new TextField(15);
 			passwordField.setFont(new Font("Serif", Font.BOLD, 23));
 			passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			passwordPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+			passwordPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			passwordPanel.setBackground(new Color(176, 196, 222));
 			passwordPanel.add(password);
 			passwordPanel.add(passwordField);
-			password.setBackground(new Color(245, 222, 179));
 			signin.add(passwordPanel);
 			
 			// set 'back' and 'login' button
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new GridLayout(1, 3));
-			buttons.setBackground(new Color(245, 222, 179));
+			//buttons.setBackground(new Color(245, 222, 179));
+			buttons.setBackground(new Color(176, 196, 222));
 			buttons.add(back);
 //			buttons.add(new Panel());
 			buttons.add(login);
@@ -138,6 +140,7 @@ public class HotelPreference extends JFrame {
 
 		// sign up
 		private void initSignUp() {
+			signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));	
 			signup.setLayout(new GridLayout(4, 1));
 			
 			//set ID
@@ -146,10 +149,10 @@ public class HotelPreference extends JFrame {
 			TextField IDField = new TextField(15);
 			IDField.setFont(new Font("Serif", Font.BOLD, 23));
 			IDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			IDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+			IDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			IDPanel.setBackground(new Color(176, 196, 222));
 			IDPanel.add(ID);
 			IDPanel.add(IDField);
-			ID.setBackground(new Color(245, 222, 179));
 			signup.add(IDPanel);
 			
 			//set password
@@ -158,10 +161,10 @@ public class HotelPreference extends JFrame {
 			TextField passwordField = new TextField(15);
 			passwordField.setFont(new Font("Serif", Font.BOLD, 23));
 			passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			passwordPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+			passwordPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			passwordPanel.setBackground(new Color(176, 196, 222));
 			passwordPanel.add(password);
 			passwordPanel.add(passwordField);
-			password.setBackground(new Color(245, 222, 179));
 			signup.add(passwordPanel);
 			
 			//enter verify code
@@ -170,16 +173,16 @@ public class HotelPreference extends JFrame {
 			TextField verifycodeField = new TextField(15);
 			verifycodeField.setFont(new Font("Serif", Font.BOLD, 23));
 			verifycodePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			verifycodePanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+			verifycodePanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			verifycodePanel.setBackground(new Color(176, 196, 222));
 			verifycodePanel.add(verifycode);
 			verifycodePanel.add(verifycodeField);
-			verifycode.setBackground(new Color(245, 222, 179));
 			signup.add(verifycodePanel);
 
 			// set 'cancel' and 'sign up and login' button
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new GridLayout(1, 2));
-			buttons.setBackground(new Color(245, 222, 179));
+			buttons.setBackground(new Color(176, 196, 222));
 			buttons.add(cancel);
 //			buttons.add(new Panel());
 			buttons.add(signuplogin);
@@ -196,7 +199,7 @@ public class HotelPreference extends JFrame {
 			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			hrri.setLayout(new GridLayout(2, 2, 0, 0));
 			hrri.setOpaque(true);
-			hrri.setBackground(new Color(245, 245, 245));
+			hrri.setBackground(new Color(176, 196, 222));
 			hrri.add(hotellistText);
 			hrri.add(reserveText);
 			hrri.add(reviseText);
@@ -208,7 +211,7 @@ public class HotelPreference extends JFrame {
 		private void initSubMenu() {
 			subMenu.setLayout(new GridLayout(1, 2, 0, 0));
 			subMenu.setOpaque(true);
-			subMenu.setBackground(new Color(245, 245, 245));
+			subMenu.setBackground(new Color(176, 196, 222));
 			subMenu.add(signinText);
 			subMenu.add(signupText);
 			subMenu.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
