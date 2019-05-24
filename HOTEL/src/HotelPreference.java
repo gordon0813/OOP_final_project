@@ -63,7 +63,7 @@ public class HotelPreference extends JFrame {
 		final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
 		private JLabel signupcancel = new JLabel("CANCEL", JLabel.CENTER);
-		protected TextField signupidField = new TextField(15);
+		protected TextField signupidField = new TextField(13);
 		protected JPasswordField signuppasswordField = new JPasswordField(9);
 		protected TextField verifycodeField = new TextField(15);
 
@@ -262,7 +262,6 @@ public class HotelPreference extends JFrame {
 					}
 				}
 			});
-
 			IDPanel.add(ID);
 			IDPanel.add(signupidField);
 
