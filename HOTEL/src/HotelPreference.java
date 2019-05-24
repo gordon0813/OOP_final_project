@@ -11,7 +11,6 @@ import javax.swing.border.MatteBorder;
 
 public class HotelPreference extends JFrame {
 	final private int frameWidth = 1152, frameHeight = 720;
-	protected int userid;
 
 	// Program constructor
 	public HotelPreference() {
@@ -40,7 +39,7 @@ public class HotelPreference extends JFrame {
 		private JPanel title = new JPanel();
 		final private int titleWidth = 930, titleHeight = 80;
 		final private Dimension titleCenter = new Dimension(frameWidth / 2, frameHeight / 4);
-		private JLabel titleText = new JLabel("== TRIANGLE ==", JLabel.CENTER);
+		private JLabel titleText = new JLabel("== HOTEL ==", JLabel.CENTER);
 
 		// attribute of sub menu
 		private JPanel subMenu = new JPanel();
@@ -53,15 +52,20 @@ public class HotelPreference extends JFrame {
 		private JPanel signin = new JPanel();
 		final private int signinSetWidth = 500, signinSetHeight = 180;
 		final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 524);
-		private JLabel login = new JLabel("LOGIN", JLabel.CENTER);
-		private JLabel back = new JLabel("BACK", JLabel.CENTER);
+		private JLabel signinlogin = new JLabel("LOGIN", JLabel.CENTER);
+		private JLabel signinback = new JLabel("BACK", JLabel.CENTER);
+		protected TextField signinidField = new TextField(15);
+		protected JPasswordField signinpasswordField = new JPasswordField(9);
 
 		// attribute of sign up
 		private JPanel signup = new JPanel();
 		final private int signupSetWidth = 500, signupSetHeight = 240;
 		final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
-		private JLabel cancel = new JLabel("CANCEL", JLabel.CENTER);
+		private JLabel signupcancel = new JLabel("CANCEL", JLabel.CENTER);
+		protected TextField signupidField = new TextField(15);
+		protected JPasswordField signuppasswordField = new JPasswordField(9);
+		protected TextField verifycodeField = new TextField(15);
 
 		// attribute of Hotel function Hotel list/Reserve/Inquiry
 		private JPanel Hotelfunction = new JPanel();
@@ -70,7 +74,7 @@ public class HotelPreference extends JFrame {
 		private JLabel hotellistText = new JLabel("HOTEL LIST", JLabel.CENTER);
 		private JLabel reserveText = new JLabel("RESERVE", JLabel.CENTER);
 		private JLabel inquiryText = new JLabel("INQUIRY", JLabel.CENTER);
-		private JLabel logouthf = new JLabel("LOGOUT", JLabel.CENTER);
+		private JLabel logout = new JLabel("LOGOUT", JLabel.CENTER);
 
 		// attribute of entering hotel list date, people, rooms
 		private JPanel EnterHotellist = new JPanel();
@@ -78,6 +82,14 @@ public class HotelPreference extends JFrame {
 		final private Dimension enterhotellistCenter = new Dimension(frameWidth / 2, 500);
 		private JLabel backenterhotellist = new JLabel("BACK", JLabel.CENTER);
 		private JLabel nextenterhotellist = new JLabel("NEXT", JLabel.CENTER);
+		protected TextField entercheckindayField = new TextField(2);
+		protected TextField entercheckinmonthField = new TextField(2);
+		protected TextField entercheckinyearField = new TextField(4);
+		protected TextField entercheckoutdayField = new TextField(2);
+		protected TextField entercheckoutmonthField = new TextField(2);
+		protected TextField entercheckoutyearField = new TextField(4);
+		protected TextField enterpeopleField = new TextField(15);
+		protected TextField enterroomField = new TextField(15);
 
 		// attribute of hotel list
 		private JPanel Hotellist = new JPanel();
@@ -97,6 +109,16 @@ public class HotelPreference extends JFrame {
 		final private Dimension reserveCenter = new Dimension(frameWidth / 2, 500);
 		private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 		private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
+		protected TextField reservecheckindayField = new TextField(2);
+		protected TextField reservecheckinmonthField = new TextField(2);
+		protected TextField reservecheckinyearField = new TextField(4);
+		protected TextField reservecheckoutdayField = new TextField(2);
+		protected TextField reservecheckoutmonthField = new TextField(2);
+		protected TextField reservecheckoutyearField = new TextField(4);
+		protected TextField reservehotelIDField = new TextField(15);
+		protected TextField reservesingleroomField = new TextField(2);
+		protected TextField reservedoubleroomField = new TextField(2);
+		protected TextField reservequadroomField = new TextField(2);
 
 		// attribute of inquiry
 		private JPanel Inquiry = new JPanel();
@@ -104,14 +126,27 @@ public class HotelPreference extends JFrame {
 		final private Dimension InquiryCenter = new Dimension(frameWidth / 2, 524);
 		private JLabel backinquiry = new JLabel("BACK", JLabel.CENTER);
 		private JLabel nextinquiry = new JLabel("NEXT", JLabel.CENTER);
+		protected TextField reservenumberField = new TextField(15);
 
-		// attribute of reservation record and modify and cancel reservation
+		// attribute of MCR (reservation record and modify and cancel reservation)
 		private JPanel MCR = new JPanel();
 		final private int mcrWidth = 600, mcrHeight = 300;
 		final private Dimension mcrCenter = new Dimension(frameWidth / 2, 500);
 		private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
 		private JLabel cancelText = new JLabel("CANCEL", JLabel.CENTER);
 		private JLabel backmcr = new JLabel("BACK", JLabel.CENTER);
+		protected TextField mcrhotelIDField = new TextField(15);
+		protected TextField mcrsingleroomField = new TextField(2);
+		protected TextField mcrdoubleroomField = new TextField(2);
+		protected TextField mcrquadroomField = new TextField(2);
+		protected TextField mcrcheckinday = new TextField(2);
+		protected TextField mcrcheckinmonth = new TextField(2);
+		protected TextField mcrcheckinyear = new TextField(4);
+		protected TextField mcrcheckoutday = new TextField(2);
+		protected TextField mcrcheckoutmonth = new TextField(2);
+		protected TextField mcrcheckoutyear = new TextField(4);
+		protected TextField mcrstaynightField = new TextField(2);
+		protected TextField mcrpriceField = new TextField(5);
 
 		// Menu(Panel) settings
 		private void initPanel() {
@@ -144,17 +179,17 @@ public class HotelPreference extends JFrame {
 			signin.setLayout(new GridLayout(3, 1));
 			signin.setOpaque(true);
 
-			// enter ID
+			// enter ID Panel setting
 			JPanel IDPanel = new JPanel();
 			IDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 			IDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
 			IDPanel.setBackground(new Color(176, 196, 222));
-
+			// enter ID
 			JLabel ID = new JLabel("       ID       : ");
 			ID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField IDField = new TextField(15);
-			IDField.setFont(new Font("Arial Black", Font.BOLD, 23));
-			IDField.addKeyListener(new KeyAdapter() {// can only enter number!
+			signinidField.setEditable(true);
+			signinidField.setFont(new Font("Arial Black", Font.BOLD, 23));
+			signinidField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -162,21 +197,21 @@ public class HotelPreference extends JFrame {
 					}
 				}
 			});
-
+			// ID Panel adding
 			IDPanel.add(ID);
-			IDPanel.add(IDField);
+			IDPanel.add(signinidField);
 
-			// enter password
+			// enter password Panel setting
 			JPanel passwordPanel = new JPanel();
 			passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 			passwordPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
 			passwordPanel.setBackground(new Color(176, 196, 222));
-
+			// enter password
 			JLabel password = new JLabel("PASSWORD : ");
 			password.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			JPasswordField passwordField = new JPasswordField(9);
-			passwordField.setFont(new Font("Arial Black", Font.BOLD, 23));
-			passwordField.addKeyListener(new KeyAdapter() {// can only enter number!
+			signinpasswordField.setEditable(true);
+			signinpasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+			signinpasswordField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -184,18 +219,18 @@ public class HotelPreference extends JFrame {
 					}
 				}
 			});
-
+			// password Panel adding
 			passwordPanel.add(password);
-			passwordPanel.add(passwordField);
+			passwordPanel.add(signinpasswordField);
 
 			// set 'back' and 'login' button
 			JPanel buttons = new JPanel();
-			login.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			back.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			signinlogin.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			signinback.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			buttons.setLayout(new GridLayout(1, 2));
 			buttons.setBackground(new Color(176, 196, 222));
-			buttons.add(back);
-			buttons.add(login);
+			buttons.add(signinback);
+			buttons.add(signinlogin);
 
 			// sign in adding
 			signin.add(IDPanel);
@@ -217,9 +252,9 @@ public class HotelPreference extends JFrame {
 
 			JLabel ID = new JLabel("         ID         : ");
 			ID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField IDField = new TextField(15);
-			IDField.setFont(new Font("Arial Black", Font.BOLD, 23));
-			IDField.addKeyListener(new KeyAdapter() {// can only enter number!
+			signupidField.setEditable(true);
+			signupidField.setFont(new Font("Arial Black", Font.BOLD, 23));
+			signupidField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -229,7 +264,7 @@ public class HotelPreference extends JFrame {
 			});
 
 			IDPanel.add(ID);
-			IDPanel.add(IDField);
+			IDPanel.add(signupidField);
 
 			// set password
 			JPanel passwordPanel = new JPanel();
@@ -239,9 +274,9 @@ public class HotelPreference extends JFrame {
 
 			JLabel password = new JLabel("PASSWORD   : ");
 			password.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			JPasswordField passwordField = new JPasswordField(9);
-			passwordField.setFont(new Font("Arial Black", Font.BOLD, 23));
-			passwordField.addKeyListener(new KeyAdapter() {// can only enter number!
+			signuppasswordField.setEditable(true);
+			signuppasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+			signuppasswordField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -251,19 +286,27 @@ public class HotelPreference extends JFrame {
 			});
 
 			passwordPanel.add(password);
-			passwordPanel.add(passwordField);
+			passwordPanel.add(signuppasswordField);
 
-			// enter verify code
+			// verify code Panel
 			JPanel verifycodePanel = new JPanel();
 			verifycodePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 			verifycodePanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
 			verifycodePanel.setBackground(new Color(176, 196, 222));
-
+			// enter verify code
 			JLabel verifycode = new JLabel("VERIFY CODE : ");
 			verifycode.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField verifycodeField = new TextField(15);
+			verifycodeField.setEditable(true);
 			verifycodeField.setFont(new Font("Arial Black", Font.BOLD, 23));
-
+			verifycodeField.addKeyListener(new KeyAdapter() {// can only enter number!
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (!(keyChar >= '0' && keyChar <= '9')) {
+						e.consume();
+					}
+				}
+			});
+			// verify code panel adding
 			verifycodePanel.add(verifycode);
 			verifycodePanel.add(verifycodeField);
 
@@ -272,8 +315,8 @@ public class HotelPreference extends JFrame {
 			buttons.setLayout(new GridLayout(1, 2));
 			buttons.setBackground(new Color(176, 196, 222));
 			signuplogin.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			cancel.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			buttons.add(cancel);
+			signupcancel.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			buttons.add(signupcancel);
 			buttons.add(signuplogin);
 
 			// sign up adding
@@ -289,7 +332,7 @@ public class HotelPreference extends JFrame {
 			hotellistText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
 			inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
-			logouthf.setFont(new Font("Arial Black", Font.BOLD, 30));
+			logout.setFont(new Font("Arial Black", Font.BOLD, 30));
 
 			Hotelfunction.setLayout(new GridLayout(2, 2, 0, 0));
 			Hotelfunction.setOpaque(true);
@@ -298,7 +341,7 @@ public class HotelPreference extends JFrame {
 			Hotelfunction.add(hotellistText);
 			Hotelfunction.add(reserveText);
 			Hotelfunction.add(inquiryText);
-			Hotelfunction.add(logouthf);
+			Hotelfunction.add(logout);
 
 		}
 
@@ -317,59 +360,60 @@ public class HotelPreference extends JFrame {
 			JLabel checkin = new JLabel("  CHECK IN DATE: ");
 			checkin.setFont(new Font("Arial Black", Font.PLAIN, 20));
 			// setting check in dd/mm/yyyy
-			TextField checkind1 = new TextField(2);
-			checkind1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkind1.addKeyListener(new KeyAdapter() {// can only enter number!
+
+			entercheckindayField.setEditable(true);
+			entercheckindayField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckindayField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkind1.getText();
+					String s = entercheckindayField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkind2 = new JLabel("dd");
-			checkind2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkinm1 = new TextField(2);
-			checkinm1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkinm1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkindd = new JLabel("dd");
+			checkindd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			entercheckinmonthField.setEditable(true);
+			entercheckinmonthField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckinmonthField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkinm1.getText();
+					String s = entercheckinmonthField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkinm2 = new JLabel("mm");
-			checkinm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkiny1 = new TextField(4);
-			checkiny1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkiny1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkinmm = new JLabel("mm");
+			checkinmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			entercheckinyearField.setEditable(true);
+			entercheckinyearField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckinyearField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkiny1.getText();
+					String s = entercheckinyearField.getText();
 					if (s.length() >= 4)
 						e.consume();
 				}
 			});
-			JLabel checkiny2 = new JLabel("yyyy");
-			checkiny2.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			JLabel checkinyyyy = new JLabel("yyyy");
+			checkinyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			// check in panel adding
 			checkinPanel.add(checkin);
-			checkinPanel.add(checkind1);
-			checkinPanel.add(checkind2);
-			checkinPanel.add(checkinm1);
-			checkinPanel.add(checkinm2);
-			checkinPanel.add(checkiny1);
-			checkinPanel.add(checkiny2);
+			checkinPanel.add(entercheckindayField);
+			checkinPanel.add(checkindd);
+			checkinPanel.add(entercheckinmonthField);
+			checkinPanel.add(checkinmm);
+			checkinPanel.add(entercheckinyearField);
+			checkinPanel.add(checkinyyyy);
 
 			// check out date panel
 			JPanel checkoutPanel = new JPanel();
@@ -380,59 +424,59 @@ public class HotelPreference extends JFrame {
 			JLabel checkout = new JLabel("  CHECK OUT DATE: ");
 			checkout.setFont(new Font("Arial Black", Font.PLAIN, 20));
 			// setting check out dd/mm/yyyy
-			TextField checkoutd1 = new TextField(2);
-			checkoutd1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkoutd1.addKeyListener(new KeyAdapter() {// can only enter number!
+			entercheckoutdayField.setEditable(true);
+			entercheckoutdayField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckoutdayField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkoutd1.getText();
+					String s = entercheckoutdayField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkoutd2 = new JLabel("dd");
-			checkoutd2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkoutm1 = new TextField(2);
-			checkoutm1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkoutm1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkoutdd = new JLabel("dd");
+			checkoutdd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			entercheckoutmonthField.setEditable(true);
+			entercheckoutmonthField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckoutmonthField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkoutm1.getText();
+					String s = entercheckoutmonthField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkoutm2 = new JLabel("mm");
-			checkoutm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkouty1 = new TextField(4);
-			checkouty1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkouty1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkoutmm = new JLabel("mm");
+			checkoutmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			entercheckoutyearField.setEditable(true);
+			entercheckoutyearField.setFont(new Font("Serif", Font.BOLD, 23));
+			entercheckoutyearField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkouty1.getText();
+					String s = entercheckoutyearField.getText();
 					if (s.length() >= 4)
 						e.consume();
 				}
 			});
-			JLabel checkouty2 = new JLabel("yyyy");
-			checkouty2.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			JLabel checkoutyyyy = new JLabel("yyyy");
+			checkoutyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			// check out panel adding
 			checkoutPanel.add(checkout);
-			checkoutPanel.add(checkoutd1);
-			checkoutPanel.add(checkoutd2);
-			checkoutPanel.add(checkoutm1);
-			checkoutPanel.add(checkoutm2);
-			checkoutPanel.add(checkouty1);
-			checkoutPanel.add(checkouty2);
+			checkoutPanel.add(entercheckoutdayField);
+			checkoutPanel.add(checkoutdd);
+			checkoutPanel.add(entercheckoutmonthField);
+			checkoutPanel.add(checkoutmm);
+			checkoutPanel.add(entercheckoutyearField);
+			checkoutPanel.add(checkoutyyyy);
 
 			// people panel
 			JPanel peoplePanel = new JPanel();
@@ -442,9 +486,9 @@ public class HotelPreference extends JFrame {
 			// enter people panel
 			JLabel people = new JLabel("NUMBER OF PEOPLE: ");
 			people.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField peopleField = new TextField(15);
-			peopleField.setFont(new Font("Serif", Font.BOLD, 23));
-			peopleField.addKeyListener(new KeyAdapter() {// can only enter number!
+			enterpeopleField.setEditable(true);
+			enterpeopleField.setFont(new Font("Serif", Font.BOLD, 23));
+			enterpeopleField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -454,7 +498,7 @@ public class HotelPreference extends JFrame {
 			});
 			// people panel adding
 			peoplePanel.add(people);
-			peoplePanel.add(peopleField);
+			peoplePanel.add(enterpeopleField);
 
 			// room panel
 			JPanel roomPanel = new JPanel();
@@ -464,9 +508,9 @@ public class HotelPreference extends JFrame {
 			// enter room panel
 			JLabel room = new JLabel("NUMBER OF ROOMS: ");
 			room.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField roomField = new TextField(15);
-			roomField.setFont(new Font("Serif", Font.BOLD, 23));
-			roomField.addKeyListener(new KeyAdapter() {// can only enter number!
+			enterroomField.setEditable(true);
+			enterroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			enterroomField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -476,7 +520,7 @@ public class HotelPreference extends JFrame {
 			});
 			// room panel adding
 			roomPanel.add(room);
-			roomPanel.add(roomField);
+			roomPanel.add(enterroomField);
 
 			// set 'back' and 'next' button
 			JPanel buttons = new JPanel();
@@ -505,12 +549,10 @@ public class HotelPreference extends JFrame {
 			pricehighText.setFont(new Font("Arial Black", Font.BOLD, 28));
 			pricelowText.setFont(new Font("Arial Black", Font.BOLD, 28));
 			backhotellist.setFont(new Font("Arial Black", Font.BOLD, 28));
-
 			Hotellist.setLayout(new GridLayout(4, 1, 0, 0));
 			Hotellist.setOpaque(true);
 			Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 			Hotellist.setBackground(new Color(176, 196, 222));
-
 			JPanel star = new JPanel();
 			star.setLayout(new GridLayout(1, 4, 0, 0));
 			star.setBackground(new Color(176, 196, 222));
@@ -518,207 +560,10 @@ public class HotelPreference extends JFrame {
 			star.add(star4);
 			star.add(star3);
 			star.add(star2);
-
 			Hotellist.add(star);
 			Hotellist.add(pricehighText);
 			Hotellist.add(pricelowText);
 			Hotellist.add(backhotellist);
-		}
-
-		// inquiry
-		private void initInquiry() {
-			Inquiry.setLayout(new GridLayout(2, 1, 0, 0));
-			Inquiry.setOpaque(true);
-			Inquiry.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-			Inquiry.setBackground(new Color(176, 196, 222));
-			// enter reserve number
-			JPanel reservenumberPanel = new JPanel();
-			JLabel reservenumber = new JLabel("RESERVATION NUMBER : ");
-			reservenumber.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField resnumField = new TextField(15);
-			resnumField.setFont(new Font("Serif", Font.BOLD, 23));
-			resnumField.addKeyListener(new KeyAdapter() {// can only enter number!
-				public void keyTyped(KeyEvent e) {
-					char keyChar = e.getKeyChar();
-					if (!(keyChar >= '0' && keyChar <= '9')) {
-						e.consume();
-					}
-				}
-			});
-
-			reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			reservenumberPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
-			reservenumberPanel.setBackground(new Color(176, 196, 222));
-
-			reservenumberPanel.add(reservenumber);
-			reservenumberPanel.add(resnumField);
-
-			// set 'back' and 'next' buttons
-			JPanel buttons = new JPanel();
-			buttons.setLayout(new GridLayout(1, 3));
-			buttons.setBackground(new Color(176, 196, 222));
-			backinquiry.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			nextinquiry.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			buttons.add(backinquiry);
-			buttons.add(nextinquiry);
-
-			Inquiry.add(reservenumberPanel);
-			Inquiry.add(buttons);
-		}
-
-		// MCR
-		private void initMCR() {
-			MCR.setLayout(new GridLayout(5, 1, 0, 0));
-			MCR.setOpaque(true);
-			MCR.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-			MCR.setBackground(new Color(176, 196, 222));
-			
-			// hotelID Panel
-			JPanel hotelIDPanel = new JPanel();
-			hotelIDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			hotelIDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
-			hotelIDPanel.setBackground(new Color(176, 196, 222));
-			// enter hotel ID
-			JLabel hotelID = new JLabel("    HotelID     : ");
-			hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField hotelIDField = new TextField(15);
-			hotelIDField.setFont(new Font("Serif", Font.BOLD, 23));	
-			// hotel ID Panel adding
-			hotelIDPanel.add(hotelID);
-			hotelIDPanel.add(hotelIDField);
-
-			// number of room panel
-			JPanel roomPanel = new JPanel();
-			roomPanel.setLayout(new GridLayout(1, 6));
-			roomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			roomPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
-			roomPanel.setBackground(new Color(176, 196, 222));
-			// single room
-			JLabel singleroom = new JLabel("Single: ");
-			singleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField singleroomField = new TextField(2);
-			singleroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			singleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
-				public void keyTyped(KeyEvent e) {
-					char keyChar = e.getKeyChar();
-					if (!(keyChar >= '0' && keyChar <= '9')) {
-						e.consume();
-					}
-				}
-			});
-			// double room
-			JLabel doubleroom = new JLabel("Double: ");
-			doubleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField doubleroomField = new TextField(2);
-			doubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			doubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
-				public void keyTyped(KeyEvent e) {
-					char keyChar = e.getKeyChar();
-					if (!(keyChar >= '0' && keyChar <= '9')) {
-						e.consume();
-					}
-				}
-			});
-			// quad room
-			JLabel quadroom = new JLabel("Quad: ");
-			quadroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField quadroomField = new TextField(2);
-			quadroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			quadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
-				public void keyTyped(KeyEvent e) {
-					char keyChar = e.getKeyChar();
-					if (!(keyChar >= '0' && keyChar <= '9')) {
-						e.consume();
-					}
-				}
-			});
-			// room panel adding
-			roomPanel.add(singleroom);
-			roomPanel.add(singleroomField);
-			roomPanel.add(doubleroom);
-			roomPanel.add(doubleroomField);
-			roomPanel.add(quadroom);
-			roomPanel.add(quadroomField);
-
-			// lodging date panel
-			JPanel lodgingPanel = new JPanel();
-			lodgingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			lodgingPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
-			lodgingPanel.setBackground(new Color(176, 196, 222));
-			TextField checkind1 = new TextField(2);
-			checkind1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkind2 = new JLabel("/");
-			checkind2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkinm1 = new TextField(2);
-			checkinm1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkinm2 = new JLabel("/");
-			checkinm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkiny1 = new TextField(4);
-			checkiny1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkiny2 = new JLabel("~");
-			checkiny2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkoutd1 = new TextField(2);
-			checkoutd1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkoutd2 = new JLabel("/");
-			checkoutd2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkoutm1 = new TextField(2);
-			checkoutm1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkoutm2 = new JLabel("/");
-			checkoutm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkouty1 = new TextField(4);
-			checkouty1.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel checkouty2 = new JLabel("");
-			checkouty2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			// lodgingPanel adding
-			lodgingPanel.add(checkind1);
-			lodgingPanel.add(checkind2);
-			lodgingPanel.add(checkinm1);
-			lodgingPanel.add(checkinm2);
-			lodgingPanel.add(checkiny1);
-			lodgingPanel.add(checkiny2);
-			lodgingPanel.add(checkoutd1);
-			lodgingPanel.add(checkoutd2);
-			lodgingPanel.add(checkoutm1);
-			lodgingPanel.add(checkoutm2);
-			lodgingPanel.add(checkouty1);
-			lodgingPanel.add(checkouty2);
-			
-			// 'total length of stay' and 'total price'
-			JPanel staypricePanel =new JPanel();
-			staypricePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-			staypricePanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
-			staypricePanel.setBackground(new Color(176, 196, 222));
-			JLabel stay = new JLabel("Total Nights of Stay:");
-			stay.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField stayField = new TextField(2);
-			stayField.setFont(new Font("Serif", Font.BOLD, 23));
-			JLabel price = new JLabel("Total Price:");
-			price.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField priceField = new TextField(5);
-			priceField.setFont(new Font("Serif", Font.BOLD, 23));
-			// stay price Panel adding
-			staypricePanel.add(stay);
-			staypricePanel.add(stayField);
-			staypricePanel.add(price);
-			staypricePanel.add(priceField);
-
-			// set 'back' and 'next' button
-			JPanel buttons = new JPanel();
-			buttons.setLayout(new GridLayout(1, 3));
-			buttons.setBackground(new Color(176, 196, 222));
-			modifyText.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			cancelText.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			backmcr.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			buttons.add(backmcr);
-			buttons.add(cancelText);
-			buttons.add(modifyText);
-
-			//
-			MCR.add(hotelIDPanel);
-			MCR.add(roomPanel);
-			MCR.add(lodgingPanel);
-			MCR.add(staypricePanel);
-			MCR.add(buttons);
 		}
 
 		// Reserve
@@ -732,126 +577,124 @@ public class HotelPreference extends JFrame {
 			checkinPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 			checkinPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
 			checkinPanel.setBackground(new Color(176, 196, 222));
-			// enter check in date
+			// enter check in date dd/mm/yyyy
 			JLabel checkin = new JLabel("  CHECK IN DATE: ");
 			checkin.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			// setting check in dd/mm/yyyy
-			TextField checkind1 = new TextField(2);
-			checkind1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkind1.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservecheckindayField.setEditable(true);
+			reservecheckindayField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckindayField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkind1.getText();
+					String s = reservecheckindayField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkind2 = new JLabel("dd");
-			checkind2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkinm1 = new TextField(2);
-			checkinm1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkinm1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkindd = new JLabel("dd");
+			checkindd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			reservecheckinmonthField.setEditable(true);
+			reservecheckinmonthField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckinmonthField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkinm1.getText();
+					String s = reservecheckinmonthField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkinm2 = new JLabel("mm");
-			checkinm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkiny1 = new TextField(4);
-			checkiny1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkiny1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkinmm = new JLabel("mm");
+			checkinmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			reservecheckinyearField.setEditable(true);
+			reservecheckinyearField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckinyearField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkiny1.getText();
+					String s = reservecheckinyearField.getText();
 					if (s.length() >= 4)
 						e.consume();
 				}
 			});
-			JLabel checkiny2 = new JLabel("yyyy");
-			checkiny2.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			JLabel checkinyyyy = new JLabel("yyyy");
+			checkinyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			// check in panel adding
 			checkinPanel.add(checkin);
-			checkinPanel.add(checkind1);
-			checkinPanel.add(checkind2);
-			checkinPanel.add(checkinm1);
-			checkinPanel.add(checkinm2);
-			checkinPanel.add(checkiny1);
-			checkinPanel.add(checkiny2);
+			checkinPanel.add(reservecheckindayField);
+			checkinPanel.add(checkindd);
+			checkinPanel.add(reservecheckinmonthField);
+			checkinPanel.add(checkinmm);
+			checkinPanel.add(reservecheckinyearField);
+			checkinPanel.add(checkinyyyy);
 
 			// check out date panel
 			JPanel checkoutPanel = new JPanel();
 			checkoutPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 			checkoutPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
 			checkoutPanel.setBackground(new Color(176, 196, 222));
-			// enter check out date
+			// enter check out date dd/mm/yyyy
 			JLabel checkout = new JLabel("  CHECK OUT DATE: ");
 			checkout.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			// setting check out dd/mm/yyyy
-			TextField checkoutd1 = new TextField(2);
-			checkoutd1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkoutd1.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservecheckoutdayField.setEditable(true);
+			reservecheckoutdayField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckoutdayField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkoutd1.getText();
+					String s = reservecheckoutdayField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkoutd2 = new JLabel("dd");
-			checkoutd2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkoutm1 = new TextField(2);
-			checkoutm1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkoutm1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkoutdd = new JLabel("dd");
+			checkoutdd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			reservecheckoutmonthField.setEditable(true);
+			reservecheckoutmonthField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckoutmonthField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkoutm1.getText();
+					String s = reservecheckoutmonthField.getText();
 					if (s.length() >= 2)
 						e.consume();
 				}
 			});
-			JLabel checkoutm2 = new JLabel("mm");
-			checkoutm2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-			TextField checkouty1 = new TextField(4);
-			checkouty1.setFont(new Font("Serif", Font.BOLD, 23));
-			checkouty1.addKeyListener(new KeyAdapter() {// can only enter number!
+			JLabel checkoutmm = new JLabel("mm");
+			checkoutmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			reservecheckoutyearField.setEditable(true);
+			reservecheckoutyearField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservecheckoutyearField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = checkouty1.getText();
+					String s = reservecheckoutyearField.getText();
 					if (s.length() >= 4)
 						e.consume();
 				}
 			});
-			JLabel checkouty2 = new JLabel("yyyy");
-			checkouty2.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			JLabel checkoutyyyy = new JLabel("yyyy");
+			checkoutyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			// check out panel adding
 			checkoutPanel.add(checkout);
-			checkoutPanel.add(checkoutd1);
-			checkoutPanel.add(checkoutd2);
-			checkoutPanel.add(checkoutm1);
-			checkoutPanel.add(checkoutm2);
-			checkoutPanel.add(checkouty1);
-			checkoutPanel.add(checkouty2);
+			checkoutPanel.add(reservecheckoutdayField);
+			checkoutPanel.add(checkoutdd);
+			checkoutPanel.add(reservecheckoutmonthField);
+			checkoutPanel.add(checkoutmm);
+			checkoutPanel.add(reservecheckoutyearField);
+			checkoutPanel.add(checkoutyyyy);
 
 			// hotelID Panel
 			JPanel hotelIDPanel = new JPanel();
@@ -861,21 +704,21 @@ public class HotelPreference extends JFrame {
 			// enter hotel ID
 			JLabel hotelID = new JLabel("    HotelID     : ");
 			hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField hotelIDField = new TextField(15);
-			hotelIDField.setFont(new Font("Serif", Font.BOLD, 23));
-			hotelIDField.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservehotelIDField.setEditable(true);
+			reservehotelIDField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservehotelIDField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
 						e.consume();
 					}
-					String s = hotelIDField.getText();
+					String s = reservehotelIDField.getText();
 					if (s.length() >= 4)
 						e.consume();
 				}
 			});
 			hotelIDPanel.add(hotelID);
-			hotelIDPanel.add(hotelIDField);
+			hotelIDPanel.add(reservehotelIDField);
 
 			// number of room panel
 			JPanel roomPanel = new JPanel();
@@ -886,9 +729,9 @@ public class HotelPreference extends JFrame {
 			// single room
 			JLabel singleroom = new JLabel("Single: ");
 			singleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField singleroomField = new TextField(2);
-			singleroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			singleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservesingleroomField.setEditable(true);
+			reservesingleroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservesingleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -899,9 +742,9 @@ public class HotelPreference extends JFrame {
 			// double room
 			JLabel doubleroom = new JLabel("Double: ");
 			doubleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField doubleroomField = new TextField(2);
-			doubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			doubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservedoubleroomField.setEditable(true);
+			reservedoubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservedoubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -912,9 +755,9 @@ public class HotelPreference extends JFrame {
 			// quad room
 			JLabel quadroom = new JLabel("Quad: ");
 			quadroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
-			TextField quadroomField = new TextField(2);
-			quadroomField.setFont(new Font("Serif", Font.BOLD, 23));
-			quadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+			reservequadroomField.setEditable(true);
+			reservequadroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservequadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
 				public void keyTyped(KeyEvent e) {
 					char keyChar = e.getKeyChar();
 					if (!(keyChar >= '0' && keyChar <= '9')) {
@@ -924,11 +767,11 @@ public class HotelPreference extends JFrame {
 			});
 			// room panel adding
 			roomPanel.add(singleroom);
-			roomPanel.add(singleroomField);
+			roomPanel.add(reservesingleroomField);
 			roomPanel.add(doubleroom);
-			roomPanel.add(doubleroomField);
+			roomPanel.add(reservedoubleroomField);
 			roomPanel.add(quadroom);
-			roomPanel.add(quadroomField);
+			roomPanel.add(reservequadroomField);
 
 			// setting 'back' and 'next' buttons
 			JPanel buttons = new JPanel();
@@ -945,6 +788,210 @@ public class HotelPreference extends JFrame {
 			Reserve.add(hotelIDPanel);
 			Reserve.add(roomPanel);
 			Reserve.add(buttons);
+		}
+
+		// inquiry
+		private void initInquiry() {
+			Inquiry.setLayout(new GridLayout(2, 1, 0, 0));
+			Inquiry.setOpaque(true);
+			Inquiry.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+			Inquiry.setBackground(new Color(176, 196, 222));
+
+			// enter reserve number
+			JPanel reservenumberPanel = new JPanel();
+			reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			reservenumberPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			reservenumberPanel.setBackground(new Color(176, 196, 222));
+			JLabel reservenumber = new JLabel("RESERVATION NUMBER : ");
+			reservenumber.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			reservenumberField.setFont(new Font("Serif", Font.BOLD, 23));
+			reservenumberField.addKeyListener(new KeyAdapter() {// can only enter number!
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (!(keyChar >= '0' && keyChar <= '9')) {
+						e.consume();
+					}
+				}
+			});
+			// reservenumberPanel adding
+			reservenumberPanel.add(reservenumber);
+			reservenumberPanel.add(reservenumberField);
+
+			// set 'back' and 'next' buttons
+			JPanel buttons = new JPanel();
+			buttons.setLayout(new GridLayout(1, 3));
+			buttons.setBackground(new Color(176, 196, 222));
+			backinquiry.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			nextinquiry.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			buttons.add(backinquiry);
+			buttons.add(nextinquiry);
+
+			// inquiry adding
+			Inquiry.add(reservenumberPanel);
+			Inquiry.add(buttons);
+		}
+
+		// MCR
+		private void initMCR() {
+			MCR.setLayout(new GridLayout(5, 1, 0, 0));
+			MCR.setOpaque(true);
+			MCR.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+			MCR.setBackground(new Color(176, 196, 222));
+
+			// hotelID Panel
+			JPanel hotelIDPanel = new JPanel();
+			hotelIDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			hotelIDPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			hotelIDPanel.setBackground(new Color(176, 196, 222));
+			// enter hotel ID
+			JLabel hotelID = new JLabel("    HotelID     : ");
+			hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrhotelIDField.setFont(new Font("Serif", Font.BOLD, 23));
+			// hotel ID Panel adding
+			hotelIDPanel.add(hotelID);
+			hotelIDPanel.add(mcrhotelIDField);
+
+			// number of room panel
+			JPanel roomPanel = new JPanel();
+			roomPanel.setLayout(new GridLayout(1, 6));
+			roomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			roomPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			roomPanel.setBackground(new Color(176, 196, 222));
+			// single room
+			JLabel singleroom = new JLabel("Single: ");
+			singleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrsingleroomField.setEditable(true);
+			mcrsingleroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			mcrsingleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (!(keyChar >= '0' && keyChar <= '9')) {
+						e.consume();
+					}
+				}
+			});
+			// double room
+			JLabel doubleroom = new JLabel("Double: ");
+			doubleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrdoubleroomField.setEditable(true);
+			mcrdoubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			mcrdoubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (!(keyChar >= '0' && keyChar <= '9')) {
+						e.consume();
+					}
+				}
+			});
+			// quad room
+			JLabel quadroom = new JLabel("Quad: ");
+			quadroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrquadroomField.setEditable(true);
+			mcrquadroomField.setFont(new Font("Serif", Font.BOLD, 23));
+			mcrquadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (!(keyChar >= '0' && keyChar <= '9')) {
+						e.consume();
+					}
+				}
+			});
+			// room panel adding
+			roomPanel.add(singleroom);
+			roomPanel.add(mcrsingleroomField);
+			roomPanel.add(doubleroom);
+			roomPanel.add(mcrdoubleroomField);
+			roomPanel.add(quadroom);
+			roomPanel.add(mcrquadroomField);
+
+			// lodging date panel
+			JPanel lodgingPanel = new JPanel();
+			lodgingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			lodgingPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			lodgingPanel.setBackground(new Color(176, 196, 222));
+			mcrcheckinday.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkindd = new JLabel("/");
+			checkindd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			mcrcheckinmonth.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkinmm = new JLabel("/");
+			checkinmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			mcrcheckinyear.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkinyyyy = new JLabel("~");
+			checkinyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			mcrcheckoutday.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkoutdd = new JLabel("/");
+			checkoutdd.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			mcrcheckoutmonth.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkoutmm = new JLabel("/");
+			checkoutmm.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			mcrcheckoutyear.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel checkoutyyyy = new JLabel("");
+			checkoutyyyy.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			// lodgingPanel adding
+			lodgingPanel.add(mcrcheckinday);
+			lodgingPanel.add(checkindd);
+			lodgingPanel.add(mcrcheckinmonth);
+			lodgingPanel.add(checkinmm);
+			lodgingPanel.add(mcrcheckinyear);
+			lodgingPanel.add(checkinyyyy);
+			lodgingPanel.add(mcrcheckoutday);
+			lodgingPanel.add(checkoutdd);
+			lodgingPanel.add(mcrcheckoutmonth);
+			lodgingPanel.add(checkoutmm);
+			lodgingPanel.add(mcrcheckoutyear);
+			lodgingPanel.add(checkoutyyyy);
+
+			// 'total length of stay' and 'total price'
+			JPanel staypricePanel = new JPanel();
+			staypricePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			staypricePanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(176, 196, 222)));
+			staypricePanel.setBackground(new Color(176, 196, 222));
+			JLabel stay = new JLabel("Total Nights of Stay:");
+			stay.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrstaynightField.setFont(new Font("Serif", Font.BOLD, 23));
+			JLabel price = new JLabel("Total Price:");
+			price.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			mcrpriceField.setFont(new Font("Serif", Font.BOLD, 23));
+			// stay price Panel adding
+			staypricePanel.add(stay);
+			staypricePanel.add(mcrstaynightField);
+			staypricePanel.add(price);
+			staypricePanel.add(mcrpriceField);
+
+			// set 'back' and 'next' button
+			JPanel buttons = new JPanel();
+			buttons.setLayout(new GridLayout(1, 3));
+			buttons.setBackground(new Color(176, 196, 222));
+			modifyText.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			cancelText.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			backmcr.setFont(new Font("Arial Black", Font.PLAIN, 20));
+			buttons.add(backmcr);
+			buttons.add(cancelText);
+			buttons.add(modifyText);
+
+			// MCR adding
+			MCR.add(hotelIDPanel);
+			MCR.add(roomPanel);
+			MCR.add(lodgingPanel);
+			MCR.add(staypricePanel);
+			MCR.add(buttons);
+		}
+
+		// show the reserve information
+		private void showMCR(int chkind, int chkinm, int chkiny, int chkoutd, int chkoutm, int chkouty, int h,
+				int sroom, int droom, int qroom, int n, int p) {
+			mcrcheckinday.setText(Integer.toString(chkind));
+			mcrcheckinmonth.setText(Integer.toString(chkinm));
+			mcrcheckinyear.setText(Integer.toString(chkiny));
+			mcrcheckoutday.setText(Integer.toString(chkoutd));
+			mcrcheckoutmonth.setText(Integer.toString(chkoutm));
+			mcrcheckoutyear.setText(Integer.toString(chkouty));
+			mcrhotelIDField.setText(Integer.toString(h));
+			mcrsingleroomField.setText(Integer.toString(sroom));
+			mcrdoubleroomField.setText(Integer.toString(droom));
+			mcrquadroomField.setText(Integer.toString(qroom));
+			mcrstaynightField.setText(Integer.toString(n));
+			mcrpriceField.setText(Integer.toString(p));
 		}
 
 		// sub menu
@@ -1018,19 +1065,18 @@ public class HotelPreference extends JFrame {
 			// buttons in sub menu / sign in / sign up
 			signinText.addMouseListener(ml);
 			signupText.addMouseListener(ml);
-			back.addMouseListener(ml);
-			login.addMouseListener(ml);
-			cancel.addMouseListener(ml);
+			signinback.addMouseListener(ml);
+			signinlogin.addMouseListener(ml);
+			signupcancel.addMouseListener(ml);
 			signuplogin.addMouseListener(ml);
 			// buttons in hotel function
 			hotellistText.addMouseListener(ml);
 			reserveText.addMouseListener(ml);
 			inquiryText.addMouseListener(ml);
-			logouthf.addMouseListener(ml);
+			logout.addMouseListener(ml);
 			// buttons in enter hotel list
 			backenterhotellist.addMouseListener(ml);
 			nextenterhotellist.addMouseListener(ml);
-			star5.addMouseListener(ml);
 			// buttons in hotel list
 			star5.addMouseListener(ml);
 			star4.addMouseListener(ml);
@@ -1070,44 +1116,51 @@ public class HotelPreference extends JFrame {
 					validate();
 					repaint();
 					signupText.setForeground(Color.black);
-				} else if (e.getSource() == cancel) {
+				} else if (e.getSource() == signupcancel) {
 					layeredPane.remove(signup);
 					layeredPane.add(subMenu, new Integer(2));
 					validate();
 					repaint();
-					cancel.setForeground(Color.black);
+					signupcancel.setForeground(Color.black);
 				} else if (e.getSource() == signuplogin) {
 					layeredPane.remove(signup);
 					layeredPane.add(Hotelfunction, new Integer(2));
 					validate();
 					repaint();
 					signuplogin.setForeground(Color.black);
+					// get the sign up id and password and verify code
+					Integer.parseInt(signupidField.getText());
+					Integer.parseInt(new String(signuppasswordField.getPassword()));
+					Integer.parseInt(verifycodeField.getText());
 				} else if (e.getSource() == signinText) {
 					layeredPane.remove(subMenu);
 					layeredPane.add(signin, new Integer(2));
 					validate();
 					repaint();
 					signinText.setForeground(Color.black);
-				} else if (e.getSource() == back) {
+				} else if (e.getSource() == signinback) {
 					layeredPane.remove(signin);
 					layeredPane.add(subMenu, new Integer(2));
 					validate();
 					repaint();
-					back.setForeground(Color.black);
-				} else if (e.getSource() == login) {
+					signinback.setForeground(Color.black);
+				} else if (e.getSource() == signinlogin) {
 					layeredPane.remove(signin);
 					layeredPane.add(Hotelfunction, new Integer(2));
 					validate();
 					repaint();
-					login.setForeground(Color.black);
-				} else if (e.getSource() == logouthf) {
+					signinlogin.setForeground(Color.black);
+					// get the sign in id and password
+					Integer.parseInt(signinidField.getText());
+					Integer.parseInt(new String(signinpasswordField.getPassword()));
+				} else if (e.getSource() == logout) {
 					layeredPane.remove(Hotelfunction);
 					layeredPane.remove(signin);
 					layeredPane.remove(signup);
 					layeredPane.add(subMenu, new Integer(2));
 					validate();
 					repaint();
-					logouthf.setForeground(Color.black);
+					logout.setForeground(Color.black);
 				} else if (e.getSource() == hotellistText) {
 					layeredPane.remove(Hotelfunction);
 					layeredPane.add(EnterHotellist, new Integer(3));
@@ -1120,6 +1173,17 @@ public class HotelPreference extends JFrame {
 					validate();
 					repaint();
 					nextenterhotellist.setForeground(Color.black);
+					// get enter check in day month year
+					Integer.parseInt(entercheckindayField.getText());
+					Integer.parseInt(entercheckinmonthField.getText());
+					Integer.parseInt(entercheckinyearField.getText());
+					// get enter check out day month year
+					Integer.parseInt(entercheckoutdayField.getText());
+					Integer.parseInt(entercheckoutmonthField.getText());
+					Integer.parseInt(entercheckoutyearField.getText());
+					// get enter people and room
+					Integer.parseInt(enterpeopleField.getText());
+					Integer.parseInt(enterroomField.getText());
 				} else if (e.getSource() == backhotellist) {
 					layeredPane.remove(Hotellist);
 					layeredPane.add(EnterHotellist, new Integer(3));
@@ -1145,9 +1209,22 @@ public class HotelPreference extends JFrame {
 					validate();
 					repaint();
 					reserveText.setForeground(Color.black);
-				}
-
-				else if (e.getSource() == inquiryText) {
+				} else if (e.getSource() == nextreserve) {
+					// get reserve check in day month year
+					Integer.parseInt(reservecheckindayField.getText());
+					Integer.parseInt(reservecheckinmonthField.getText());
+					Integer.parseInt(reservecheckinyearField.getText());
+					// get reserve check out day month year
+					Integer.parseInt(reservecheckoutdayField.getText());
+					Integer.parseInt(reservecheckoutmonthField.getText());
+					Integer.parseInt(reservecheckoutyearField.getText());
+					// get reserve HOTEL ID
+					Integer.parseInt(reservehotelIDField.getText());
+					// get reserve number of room
+					Integer.parseInt(reservesingleroomField.getText());
+					Integer.parseInt(reservedoubleroomField.getText());
+					Integer.parseInt(reservequadroomField.getText());
+				} else if (e.getSource() == inquiryText) {
 					layeredPane.remove(Hotelfunction);
 					layeredPane.add(Inquiry, new Integer(3));
 					validate();
@@ -1159,6 +1236,8 @@ public class HotelPreference extends JFrame {
 					validate();
 					repaint();
 					nextinquiry.setForeground(Color.black);
+					// get reserve number
+					Integer.parseInt(reservenumberField.getText());
 				}
 
 			}
