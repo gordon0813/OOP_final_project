@@ -977,19 +977,19 @@ public class HotelPreference extends JFrame {
 		}
 
 		// show the reserve information
-		private void showMCR(int chkind, int chkinm, int chkiny, int chkoutd, int chkoutm, int chkouty, int h,
-				int sroom, int droom, int qroom, int n, int p) {
+		private void showMCR(int chkind, int chkinm, int chkiny, int chkoutd, int chkoutm, int chkouty, int hid,
+				int sroom, int droom, int qroom, int night, int p) {
 			mcrcheckinday.setText(Integer.toString(chkind));
 			mcrcheckinmonth.setText(Integer.toString(chkinm));
 			mcrcheckinyear.setText(Integer.toString(chkiny));
 			mcrcheckoutday.setText(Integer.toString(chkoutd));
 			mcrcheckoutmonth.setText(Integer.toString(chkoutm));
 			mcrcheckoutyear.setText(Integer.toString(chkouty));
-			mcrhotelIDField.setText(Integer.toString(h));
+			mcrhotelIDField.setText(Integer.toString(hid));
 			mcrsingleroomField.setText(Integer.toString(sroom));
 			mcrdoubleroomField.setText(Integer.toString(droom));
 			mcrquadroomField.setText(Integer.toString(qroom));
-			mcrstaynightField.setText(Integer.toString(n));
+			mcrstaynightField.setText(Integer.toString(night));
 			mcrpriceField.setText(Integer.toString(p));
 		}
 
