@@ -1,39 +1,34 @@
 import java.util.Arrays;
 import java.util.Random;
-public class Dice {
-	private int diceNum;
-	private String diceIcon;
-	public Dice(){
-		diceNum=1;
-		diceIcon="images/Dice/dieRed1.png";
-	}
-	public int setDice() {
-		diceNum = MonopolyMain.r.nextInt(6)+1;
-		System.out.println(diceNum);
-		return diceNum;
-	}
-	public String getDiceIcon() {
-		switch (diceNum) {
-		case 1:
-			diceIcon= "images/Dice/dieRed1.png";
-			break;
-		case 2:
-			diceIcon= "images/Dice/dieRed2.png";
-			break;
-		case 3:
-			diceIcon= "images/Dice/dieRed3.png";
-			break;
-		case 4:
-			diceIcon= "images/Dice/dieRed4.png";
-			break;
-		case 5:
-			diceIcon= "images/Dice/dieRed5.png";
-			break;
-		case 6:
-			diceIcon= "images/Dice/dieRed6.png";
-			break;
-		
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Dice extends JPanel {
+	final private int x = 570, y = 200, width = 64, height = 64;
+	private JButton diceButton = new JButton();
+	private int number;
+	private ImageIcon[] iconList = new ImageIcon[7]; // 0 should not be used, instead, use 1~6 
+	private Random r;
+	
+	private void initIconList() {
+		iconList[0] = null;
+		for (int i = 1; i <= 6; i++) {
+			iconList[i] = new ImageIcon("images/Dice/dieRed"+(i+1)+".png");
 		}
-		return diceIcon;
 	}
+	
+	public Dice(){
+		initIconList();
+		this.number = 1;
+	}
+	
+	public int setDice() {
+		number = r.nextInt(6)+1;
+		System.out.println(number);
+		return number;
+	}
+	
 }
