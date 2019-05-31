@@ -8,6 +8,7 @@ public class Player {
 	private int account; //cash+estateValue
 	private int locat; //the location the player is at
 	private boolean stop; //if the player is stop in the turn: true = go to jail (library)
+	
 	public Player(String Name) {
 		name = Name;
 		cash = 20000;
@@ -18,8 +19,9 @@ public class Player {
 		locat = 0;
 		stop = false;
 	}
+	
 	public Player() {
-		name = "";
+		name = "no name";
 		cash = 20000;
 		this.estate = new Integer[20];
 		for(int i = 0; i < 20; i++) estate[i] = -1;
@@ -28,12 +30,19 @@ public class Player {
 		locat = 0;
 		stop = false;
 	}
+	
 	public void setName(String Name) {
-		name = Name;
+		this.name = Name;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
 	public int getLocat() {
 		return locat;
 	}
+	
 	public void setLocat() {
 		//decided by dice;
 		if(stop) {
@@ -41,7 +50,7 @@ public class Player {
 		}
 		else{
 			int pre_loc = locat;
-			locat = (pre_loc+(int)Math.random()*6+1)%20;
+			locat = (pre_loc + (int)Math.random()*6 + 1)%20;
 			if(pre_loc > locat && locat != 0)//the player plays a round, get 1500,but if the player stops at 0 get nothing
 				cash += 1500;
 			if(locat == 13)//if the player stops at library(estate[13]), stop for a round
@@ -49,16 +58,16 @@ public class Player {
 		}
 	}
 	public int getAccount() {
-		return account;
+		return this.account;
 	}
 	public void setAccount() {
-		account = cash + estateValue;
+		this.account = this.cash + this.estateValue;
 	}
 	public int getEstateValue() {
-		return estateValue;
+		return this.estateValue;
 	}
 	public void setEstateValue() {
-		
+
 	}
 	
 	
