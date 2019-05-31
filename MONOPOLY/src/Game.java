@@ -1,15 +1,22 @@
 import java.awt.*;
+import java.util.Random;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-
+import java.awt.event.*;
 public class Game extends JPanel {
 	final int frameWidth = 1152, frameHeight = 740;
 	private JLayeredPane layeredPane;
-
+	private int turn;
+	public static Random r;
+	private JPanel user1,user2,user3,user4;
+	Player player1;
+	Player player2;
+	Player player3;
+	Player player4;
 	// map
 	final private int mapWidth = frameWidth, mapHeight = 450;
 	private JLabel MAP = new JLabel();
@@ -18,7 +25,6 @@ public class Game extends JPanel {
 	// dice
 	private JLabel ROWDICE = new JLabel();
 	private JButton diceButton = new JButton();
-	
 	//user frame
 	private PlayerInfo[] playerInfoList = new PlayerInfo[4];
 	private JPanel msg = new Message();
@@ -84,18 +90,29 @@ public class Game extends JPanel {
         msg = new Message();
         layeredPane.add(msg, new Integer(0));
         
+      //dice
+		this.ROWDICE.setBounds(570, 200, 64, 64);
+		  try {
+			  ROWDICE.add(diceButton);
+			  diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
+			  diceButton.setBounds(570, 200, 64, 64);
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  }
+		layeredPane.add(diceButton, new Integer(1));
         
         
         this.add(layeredPane);
 	}
 	
 	public Game() {
+		r = new Random();
 		initPanel();
 		initLandmarkList();
 		initPlayerInfoList();
 		initLayerPane();
 		
-		
+		myEvent();
 	}
 	
 	class Landmark extends JLabel {
@@ -220,8 +237,23 @@ public class Game extends JPanel {
 	    }
 	}
 	
+	private void myEvent(){
+		diceButton.addActionListener(
+				new ActionListener()
+	    {
+	      public void actionPerformed(ActionEvent e)
+	      {
+	        //  when the button is pressed
+	    	Dice d=new Dice();
+		d.setDice();
+		diceButton.setIcon(new ImageIcon(d.getDiceIcon()));
+				
+	      }
+	    });
+		}
+	
 	class Message extends JPanel {	
-		private JLabel text = new JLabel("NTU Monopoly", JLabel.CENTER);
+		private JLabel text = new JLabel("NTU Monopoly",JLabel.CENTER);
 		
 		public Message() {
 	        text.setFont(new Font("Arial Black", Font.BOLD, 40));
@@ -231,6 +263,7 @@ public class Game extends JPanel {
 	        this.setBounds(700, mapHeight, frameWidth-700, frameHeight-mapHeight-4*5);
 	        this.setOpaque(true);
 	        this.setBackground(new Color(253, 245, 230));
+	        
 		}
 	}
 	
