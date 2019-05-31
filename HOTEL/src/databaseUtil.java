@@ -20,7 +20,7 @@ public class databaseUtil {
 			System.out.print("Connecting to MySQL...");
 
 			Class.forName("com.mysql.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=123456798Abcd");
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=root");
 			stmt = connect.createStatement();
 
 			System.out.println("finish!");

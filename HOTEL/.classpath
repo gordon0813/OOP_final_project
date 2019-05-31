@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/Users/linenting/Desktop/OOP_Final/OOP_final_project/HOTEL/jar/json-20180813.jar"/>
-	<classpathentry kind="lib" path="/Users/linenting/Desktop/OOP_Final/OOP_final_project/HOTEL/jar/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/linenting/Desktop/OOP_Final/OOP_final_project/HOTEL/jar/mysql-connector-java-5.1.47.jar"/>
+	<classpathentry kind="lib" path="jar/json-20180813.jar"/>
+	<classpathentry kind="lib" path="jar/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jar/mysql-connector-java-5.1.47.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
