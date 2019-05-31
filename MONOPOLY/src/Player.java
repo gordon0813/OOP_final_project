@@ -35,6 +35,10 @@ public class Player {
 		this.name = Name;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
 	public int getLocat() {
 		return locat;
 	}

@@ -46,6 +46,7 @@ public class Menu extends JPanel {
 		
 		// game setting
 		private JPanel gameSet = new JPanel();
+		private TextField[] textList = new TextField[4];
 		final private int gameSetWidth = 500, gameSetHeight = 250;
 		final private Dimension gameSetCenter = new Dimension(frameWidth/2, 524);
 		private JLabel start = new JLabel("START GAME", JLabel.CENTER);
@@ -97,12 +98,12 @@ public class Menu extends JPanel {
 				int playerNumber = i + 1;
 				JLabel player = new JLabel("Player " + playerNumber + " : ");
 				player.setFont(new Font("Arial Black", Font.PLAIN, 18));
-				TextField inputField = new TextField(15);
-				inputField.setFont(new Font("Serif", Font.BOLD, 23));
+				textList[i] = new TextField(15);
+				textList[i].setFont(new Font("Serif", Font.BOLD, 23));
 				inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 				inputPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
 				inputPanel.add(player);
-				inputPanel.add(inputField);
+				inputPanel.add(textList[i]);
 				inputPanel.setBackground(new Color(245, 222, 179));
 				gameSet.add(inputPanel);
 			}
@@ -202,10 +203,13 @@ public class Menu extends JPanel {
 					repaint();
 					back.setForeground(Color.black);
 				} else if(e.getSource() == start) {
-					// to 'close' the menu
+					Player[] playerList = new Player[4];
+					for (int i = 0; i < 4; i++)
+						playerList[i] = new Player(Menu.this.textList[i].getText());
+					
 					Menu.this.setVisible(false);
 					JFrame root = (JFrame)SwingUtilities.getRoot(Menu.this);
-					root.setContentPane(new Game());
+					root.setContentPane(new Game(playerList));
 				}
 			}					
 		};

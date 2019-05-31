@@ -13,10 +13,8 @@ public class Game extends JPanel {
 	private int turn;
 	public static Random r;
 	private JPanel user1,user2,user3,user4;
-	Player player1;
-	Player player2;
-	Player player3;
-	Player player4;
+	Player[] playerList = null;
+	
 	// map
 	final private int mapWidth = frameWidth, mapHeight = 450;
 	private JLabel MAP = new JLabel();
@@ -58,7 +56,7 @@ public class Game extends JPanel {
 	
 	private void initPlayerInfoList() {
 		for (int i = 0; i < playerInfoList.length; i++) {
-			playerInfoList[i] = new PlayerInfo();
+			playerInfoList[i] = new PlayerInfo(playerList[i]);
 		}
 	}
 	
@@ -82,31 +80,31 @@ public class Game extends JPanel {
         	playerArea.add(playerInfoList[i]);
         }
 
-        playerArea.setBorder(new MatteBorder(5, 5, 5, 5, Color.GRAY));
-        playerArea.setBounds(0, mapHeight, 700, frameHeight-mapHeight-4*5);
+        playerArea.setBounds(0, mapHeight, 700, frameHeight-mapHeight-3*5);
         layeredPane.add(playerArea, new Integer(0));
         
         // Massage's info
         msg = new Message();
         layeredPane.add(msg, new Integer(0));
         
-      //dice
-		this.ROWDICE.setBounds(570, 200, 64, 64);
-		  try {
-			  ROWDICE.add(diceButton);
-			  diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
-			  diceButton.setBounds(570, 200, 64, 64);
-		  } catch (Exception ex) {
+        //dice
+        this.ROWDICE.setBounds(570, 200, 64, 64);
+        try {
+        	ROWDICE.add(diceButton);
+			diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
+			diceButton.setBounds(570, 200, 64, 64);
+		} catch (Exception ex) {
 		    System.out.println(ex);
-		  }
+		}
 		layeredPane.add(diceButton, new Integer(1));
         
         
         this.add(layeredPane);
 	}
 	
-	public Game() {
+	public Game(Player[] playerList) {
 		r = new Random();
+		this.playerList = playerList;
 		initPanel();
 		initLandmarkList();
 		initPlayerInfoList();
@@ -217,17 +215,19 @@ public class Game extends JPanel {
 	
 	class PlayerInfo extends JPanel {
 		private Image background;
-		private JLabel text = new JLabel("player");
+		private JLabel nameText = null;
 		Player player; // share the reference with 'player' when the game is playing
 
-		public PlayerInfo() {
+		public PlayerInfo(Player player) {
+			this.player = player;
 			try {
 				this.background = ImageIO.read(new File("images/Menu/1.jpg"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			this.setBorder(new MatteBorder(5, 5, 5, 5, Color.BLACK));
-			this.add(text);
+			this.nameText = new JLabel(player.getName());
+			this.add(nameText);
 		}
 		
 		@Override
@@ -276,7 +276,13 @@ public class Game extends JPanel {
  		f.setLocationRelativeTo(null);
  		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
-		f.add(new Game());
+        
+        Player[] list = new Player[4];
+        for (int i = 0; i < 4; i++) {
+        	list[i] = new Player("Player"+(i+1));
+        }
+        
+		f.add(new Game(list));
 		f.setVisible(true);
 
 	}
