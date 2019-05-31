@@ -65,7 +65,7 @@ public class HotelPreference extends JFrame {
 		private JLabel signupcancel = new JLabel("CANCEL", JLabel.CENTER);
 		protected TextField signupidField = new TextField(13);
 		protected JPasswordField signuppasswordField = new JPasswordField(9);
-		protected TextField verifycodeField = new TextField(15);
+		protected TextField verifycodeField = new TextField(12);
 
 		// attribute of Hotel function Hotel list/Reserve/Inquiry
 		private JPanel Hotelfunction = new JPanel();
@@ -298,11 +298,10 @@ public class HotelPreference extends JFrame {
 			verifycodeField.setEditable(true);
 			verifycodeField.setFont(new Font("Arial Black", Font.BOLD, 23));
 			verifycodeField.addKeyListener(new KeyAdapter() {// can only enter number!
-				public void keyTyped(KeyEvent e) {
-					char keyChar = e.getKeyChar();
-					if (!(keyChar >= '0' && keyChar <= '9')) {
+				public void keyTyped(KeyEvent e) {					
+					String s = verifycodeField.getText();
+					if (s.length() >= 6)
 						e.consume();
-					}
 				}
 			});
 			// verify code panel adding
@@ -1128,9 +1127,9 @@ public class HotelPreference extends JFrame {
 					repaint();
 					signuplogin.setForeground(Color.black);
 					// get the sign up id and password and verify code
-					Integer.parseInt(signupidField.getText());
-					Integer.parseInt(new String(signuppasswordField.getPassword()));
-					Integer.parseInt(verifycodeField.getText());
+					signupidField.getText();
+					signuppasswordField.getPassword();
+					verifycodeField.getText();
 				} else if (e.getSource() == signinText) {
 					layeredPane.remove(subMenu);
 					layeredPane.add(signin, new Integer(2));
@@ -1151,7 +1150,8 @@ public class HotelPreference extends JFrame {
 					signinlogin.setForeground(Color.black);
 					// get the sign in id and password
 					Integer.parseInt(signinidField.getText());
-					Integer.parseInt(new String(signinpasswordField.getPassword()));
+					//Integer.parseInt(new String(signinpasswordField.getPassword()));
+					signinpasswordField.getPassword();
 				} else if (e.getSource() == logout) {
 					layeredPane.remove(Hotelfunction);
 					layeredPane.remove(signin);
