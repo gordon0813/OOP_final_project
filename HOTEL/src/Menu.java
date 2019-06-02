@@ -22,7 +22,7 @@ public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
 	private JLabel background = new JLabel();
 	final int frameWidth = 1152, frameHeight = 720;
-	
+
 	// attribute of title
 	private JPanel title = new JPanel();
 	final private int titleWidth = 930, titleHeight = 80;
@@ -36,17 +36,31 @@ public class Menu extends JPanel {
 	private JLabel signinText = new JLabel("SIGN IN", JLabel.CENTER);
 	private JLabel signupText = new JLabel("SIGN UP", JLabel.CENTER);
 
+	// attribute of sign in error
+	private JPanel Signinerror = new JPanel();
+	final private int signinerrorWidth = 700, signinerrorHeight = 110;
+	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 524);
+	private JLabel signinerrorText = new JLabel("UNKNOWN ID or WRING PASSWORD", JLabel.CENTER);
+	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
+
+	// attribute of sign up error
+	private JPanel Signuperror = new JPanel();
+	final private int signuperrorWidth = 500, signuperrorHeight = 110;
+	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 524);
+	private JLabel signuperrorText = new JLabel("INVALID VERIFY CODE", JLabel.CENTER);
+	private JLabel backsignuperror = new JLabel("BACK", JLabel.CENTER);
+
 	// attribute of sign in
-	private JPanel signin = new JPanel();
+	private JPanel Signin = new JPanel();
 	final private int signinSetWidth = 500, signinSetHeight = 180;
 	final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 524);
 	private JLabel signinlogin = new JLabel("LOGIN", JLabel.CENTER);
 	private JLabel signinback = new JLabel("BACK", JLabel.CENTER);
 	protected TextField signinidField = new TextField(15);
-	protected JPasswordField signinpasswordField = new JPasswordField(9);
+	protected TextField signinpasswordField = new TextField(15);
 
 	// attribute of sign up
-	private JPanel signup = new JPanel();
+	private JPanel Signup = new JPanel();
 	final private int signupSetWidth = 500, signupSetHeight = 240;
 	final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 524);
 	private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
@@ -161,11 +175,25 @@ public class Menu extends JPanel {
 		title.add(titleText);
 	}
 
+	// sign in error
+	private void initSigninerror() {
+		signinerrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		signinerrorText.setForeground(new Color(255, 0, 0));
+		backsigninerror.setFont(new Font("Arial Black", Font.BOLD, 28));
+		Signinerror.setLayout(new GridLayout(2, 1, 0, 0));
+		Signinerror.setOpaque(true);
+		Signinerror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Signinerror.setBackground(new Color(176, 196, 222));
+		Signinerror.add(signinerrorText);
+		Signinerror.add(backsigninerror);
+
+	}
+
 	// sign in
 	private void initSignIn() {
-		signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		signin.setLayout(new GridLayout(3, 1));
-		signin.setOpaque(true);
+		Signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Signin.setLayout(new GridLayout(3, 1));
+		Signin.setOpaque(true);
 
 		// enter ID Panel setting
 		JPanel IDPanel = new JPanel();
@@ -197,6 +225,7 @@ public class Menu extends JPanel {
 		// enter password
 		JLabel password = new JLabel("PASSWORD : ");
 		password.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		signinpasswordField.setEchoChar('●');
 		signinpasswordField.setEditable(true);
 		signinpasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		signinpasswordField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -221,16 +250,16 @@ public class Menu extends JPanel {
 		buttons.add(signinlogin);
 
 		// sign in adding
-		signin.add(IDPanel);
-		signin.add(passwordPanel);
-		signin.add(buttons);
+		Signin.add(IDPanel);
+		Signin.add(passwordPanel);
+		Signin.add(buttons);
 	}
 
 	// sign up
 	private void initSignUp() {
-		signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		signup.setLayout(new GridLayout(4, 1));
-		signup.setOpaque(true);
+		Signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Signup.setLayout(new GridLayout(4, 1));
+		Signup.setOpaque(true);
 
 		// set ID
 		JPanel IDPanel = new JPanel();
@@ -286,7 +315,7 @@ public class Menu extends JPanel {
 		verifycodeField.setEditable(true);
 		verifycodeField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		verifycodeField.addKeyListener(new KeyAdapter() {// can only enter number!
-			public void keyTyped(KeyEvent e) {					
+			public void keyTyped(KeyEvent e) {
 				String s = verifycodeField.getText();
 				if (s.length() >= 6)
 					e.consume();
@@ -306,10 +335,10 @@ public class Menu extends JPanel {
 		buttons.add(signuplogin);
 
 		// sign up adding
-		signup.add(IDPanel);
-		signup.add(passwordPanel);
-		signup.add(verifycodePanel);
-		signup.add(buttons);
+		Signup.add(IDPanel);
+		Signup.add(passwordPanel);
+		Signup.add(verifycodePanel);
+		Signup.add(buttons);
 
 	}
 
@@ -964,8 +993,8 @@ public class Menu extends JPanel {
 	}
 
 	// show the reserve information
-	private void showMCR(int chkind, int chkinm, int chkiny, int chkoutd, int chkoutm, int chkouty, int hid,
-			int sroom, int droom, int qroom, int night, int p) {
+	private void showMCR(int chkind, int chkinm, int chkiny, int chkoutd, int chkoutm, int chkouty, int hid, int sroom,
+			int droom, int qroom, int night, int p) {
 		mcrcheckinday.setText(Integer.toString(chkind));
 		mcrcheckinmonth.setText(Integer.toString(chkinm));
 		mcrcheckinyear.setText(Integer.toString(chkiny));
@@ -998,8 +1027,8 @@ public class Menu extends JPanel {
 		this.background.setBounds(0, 0, frameWidth, frameHeight);
 		layeredPane.add(background, new Integer(0));
 
-		this.title.setBounds(titleCenter.width - (titleWidth / 2), titleCenter.height - (titleHeight / 2),
-				titleWidth, titleHeight);
+		this.title.setBounds(titleCenter.width - (titleWidth / 2), titleCenter.height - (titleHeight / 2), titleWidth,
+				titleHeight);
 		layeredPane.add(title, new Integer(1));
 
 		this.subMenu.setBounds(subMenuCenter.width - (subMenuWidth / 2), subMenuCenter.height - (subMenuHeight / 2),
@@ -1008,18 +1037,20 @@ public class Menu extends JPanel {
 
 		this.add(layeredPane);
 
-		this.signin.setBounds(signinSetCenter.width - (signinSetWidth / 2),
+		this.Signin.setBounds(signinSetCenter.width - (signinSetWidth / 2),
 				signinSetCenter.height - (signinSetHeight / 2), signinSetWidth, signinSetHeight);
 
-		this.signup.setBounds(signupSetCenter.width - (signupSetWidth / 2),
+		this.Signup.setBounds(signupSetCenter.width - (signupSetWidth / 2),
 				signupSetCenter.height - (signupSetHeight / 2), signupSetWidth, signupSetHeight);
+
+		this.Signinerror.setBounds(signinerrorCenter.width - (signinerrorWidth / 2),
+				signinerrorCenter.height - (signinerrorHeight / 2), signinerrorWidth, signinerrorHeight);
 
 		this.Hotelfunction.setBounds(hotelfunctionCenter.width - (hotelfunctionWidth / 2),
 				hotelfunctionCenter.height - (hotelfunctionHeight / 2), hotelfunctionWidth, hotelfunctionHeight);
 
 		this.EnterHotellist.setBounds(enterhotellistCenter.width - (enterhotellistWidth / 2),
-				enterhotellistCenter.height - (enterhotellistHeight / 2), enterhotellistWidth,
-				enterhotellistHeight);
+				enterhotellistCenter.height - (enterhotellistHeight / 2), enterhotellistWidth, enterhotellistHeight);
 
 		this.Hotellist.setBounds(hotellistCenter.width - (hotellistWidth / 2),
 				hotellistCenter.height - (hotellistHeight / 2), hotellistWidth, hotellistHeight);
@@ -1030,8 +1061,7 @@ public class Menu extends JPanel {
 		this.Inquiry.setBounds(InquiryCenter.width - (InquiryWidth / 2), InquiryCenter.height - (InquiryHeight / 2),
 				InquiryWidth, InquiryHeight);
 
-		this.MCR.setBounds(mcrCenter.width - (mcrWidth / 2), mcrCenter.height - (mcrHeight / 2), mcrWidth,
-				mcrHeight);
+		this.MCR.setBounds(mcrCenter.width - (mcrWidth / 2), mcrCenter.height - (mcrHeight / 2), mcrWidth, mcrHeight);
 	}
 
 	public Menu() {
@@ -1048,6 +1078,7 @@ public class Menu extends JPanel {
 		initInquiry();
 		initMCR();
 		initLayerPane();
+		initSigninerror();
 		// buttons in sub menu / sign in / sign up
 		signinText.addMouseListener(ml);
 		signupText.addMouseListener(ml);
@@ -1055,6 +1086,8 @@ public class Menu extends JPanel {
 		signinlogin.addMouseListener(ml);
 		signupcancel.addMouseListener(ml);
 		signuplogin.addMouseListener(ml);
+		// buttons of sign in error
+		backsigninerror.addMouseListener(ml);
 		// buttons in hotel function
 		hotellistText.addMouseListener(ml);
 		reserveText.addMouseListener(ml);
@@ -1098,18 +1131,18 @@ public class Menu extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == signupText) {
 				layeredPane.remove(subMenu);
-				layeredPane.add(signup, new Integer(2));
+				layeredPane.add(Signup, new Integer(2));
 				validate();
 				repaint();
 				signupText.setForeground(Color.black);
 			} else if (e.getSource() == signupcancel) {
-				layeredPane.remove(signup);
+				layeredPane.remove(Signup);
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
 				repaint();
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
-				layeredPane.remove(signup);
+				layeredPane.remove(Signup);
 				layeredPane.add(Hotelfunction, new Integer(2));
 				validate();
 				repaint();
@@ -1120,31 +1153,34 @@ public class Menu extends JPanel {
 				verifycodeField.getText();
 			} else if (e.getSource() == signinText) {
 				layeredPane.remove(subMenu);
-				layeredPane.add(signin, new Integer(2));
+				layeredPane.add(Signin, new Integer(2));
 				validate();
 				repaint();
 				signinText.setForeground(Color.black);
 			} else if (e.getSource() == signinback) {
-				layeredPane.remove(signin);
+				layeredPane.remove(Signin);
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
 				repaint();
 				signinback.setForeground(Color.black);
 			} else if (e.getSource() == signinlogin) {
-				layeredPane.remove(signin);
+				layeredPane.remove(Signin);
 				layeredPane.add(Hotelfunction, new Integer(2));
+//				layeredPane.add(Signinerror, new Integer(2));
 				validate();
 				repaint();
 				signinlogin.setForeground(Color.black);
 				// get the sign in id and password
-				Integer.parseInt(signinidField.getText());
-				//Integer.parseInt(new String(signinpasswordField.getPassword()));
-				signinpasswordField.getPassword();
-			} else if (e.getSource() == logout) {
+				signinidField.getText();
+				signinpasswordField.getText();
+			} else if (e.getSource() == logout || e.getSource() == backsigninerror) {
 				layeredPane.remove(Hotelfunction);
-				layeredPane.remove(signin);
-				layeredPane.remove(signup);
+				layeredPane.remove(Signin);
+				layeredPane.remove(Signup);
+				layeredPane.remove(Signinerror);
 				layeredPane.add(subMenu, new Integer(2));
+				signinidField.setText(null);
+				signinpasswordField.setText(null);
 				validate();
 				repaint();
 				logout.setForeground(Color.black);
