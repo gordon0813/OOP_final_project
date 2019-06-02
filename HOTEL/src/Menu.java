@@ -22,6 +22,7 @@ public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
 	private JLabel background = new JLabel();
 	final int frameWidth = 1152, frameHeight = 720;
+	
 	// attribute of title
 	private JPanel title = new JPanel();
 	final private int titleWidth = 930, titleHeight = 80;
