@@ -43,21 +43,21 @@ public class Menu extends JPanel {
 	// attribute of sign in error
 	private JPanel Signinerror = new JPanel();
 	final private int signinerrorWidth = 700, signinerrorHeight = 110;
-	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 500);
 	private JLabel signinerrorText = new JLabel("UNKNOWN ID or WRING PASSWORD", JLabel.CENTER);
 	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign up error
 	private JPanel Signuperror = new JPanel();
 	final private int signuperrorWidth = 500, signuperrorHeight = 110;
-	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 500);
 	private JLabel signuperrorText = new JLabel("INVALID VERIFY CODE", JLabel.CENTER);
 	private JLabel backsignuperror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign in
 	private JPanel Signin = new JPanel();
 	final private int signinSetWidth = 500, signinSetHeight = 180;
-	final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 500);
 	private JLabel signinlogin = new JLabel("LOGIN", JLabel.CENTER);
 	private JLabel signinback = new JLabel("BACK", JLabel.CENTER);
 	protected TextField signinidField = new TextField(15);
@@ -66,19 +66,19 @@ public class Menu extends JPanel {
 	// attribute of sign up
 	private JPanel Signup = new JPanel();
 	final private int signupSetWidth = 500, signupSetHeight = 240;
-	final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 500);
 	private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
 	private JLabel signupcancel = new JLabel("CANCEL", JLabel.CENTER);
 	protected TextField signupidField = new TextField(13);
 	protected TextField signuppasswordField = new TextField(13);
 	protected TextField usercodeField = new TextField(6);
-	protected TextField verifycodeField = new TextField(7);
+	protected JLabel verifycodeField = new JLabel("");
 
 	// attribute of Hotel function Hotel list/Reserve/Inquiry
 	private JPanel Hotelfunction = new JPanel();
 	final private int hotelfunctionWidth = 500, hotelfunctionHeight = 200;
-	final private Dimension hotelfunctionCenter = new Dimension(frameWidth / 2, 524);
-	private JLabel hotellistText = new JLabel("HOTEL LIST", JLabel.CENTER);
+	final private Dimension hotelfunctionCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel searchText = new JLabel("SEARCH", JLabel.CENTER);
 	private JLabel reserveText = new JLabel("RESERVE", JLabel.CENTER);
 	private JLabel inquiryText = new JLabel("INQUIRY", JLabel.CENTER);
 	private JLabel logout = new JLabel("LOGOUT", JLabel.CENTER);
@@ -86,7 +86,7 @@ public class Menu extends JPanel {
 	// attribute of entering hotel list date, people, rooms
 	private JPanel EnterSearch = new JPanel();
 	final private int enterhotellistWidth = 700, enterhotellistHeight = 300;
-	final private Dimension enterhotellistCenter = new Dimension(frameWidth / 2, 500);
+	final private Dimension enterhotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel backenterhotellist = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextenterhotellist = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField entercheckindateField = new JTextField(10);
@@ -97,14 +97,14 @@ public class Menu extends JPanel {
 	// attribute of enter hotel list error
 	private JPanel Entersearcherror = new JPanel();
 	final private int enterhotelerrorWidth = 300, enterhotelerrorHeight = 150;
-	final private Dimension enterhotelerrorCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension enterhotelerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel entersearcherrorText = new JLabel("INVALID DATE!", JLabel.CENTER);
 	private JLabel backenterhotelerror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of search hotel
 	private JPanel Search = new JPanel();
 	final private int searchWidth = 570, searchHeight = 250;
-	final private Dimension searchCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension searchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel star5 = new JLabel("5-star", JLabel.CENTER);
 	private JLabel star4 = new JLabel("4-star", JLabel.CENTER);
 	private JLabel star3 = new JLabel("3-star", JLabel.CENTER);
@@ -116,7 +116,7 @@ public class Menu extends JPanel {
 	// attribute of reserve
 	private JPanel Reserve = new JPanel();
 	final private int reserveWidth = 620, reserveHeight = 300;
-	final private Dimension reserveCenter = new Dimension(frameWidth / 2, 500);
+	final private Dimension reserveCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField reservecheckindateField = new JTextField(10);
@@ -125,12 +125,12 @@ public class Menu extends JPanel {
 	protected TextField reservesingleroomField = new TextField(2);
 	protected TextField reservedoubleroomField = new TextField(2);
 	protected TextField reservequadroomField = new TextField(2);
-	protected JComboBox reservehotelid = new JComboBox();
+	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
 
 	// attribute of inquiry
 	private JPanel Inquiry = new JPanel();
 	final private int InquiryWidth = 600, InquiryHeight = 150;
-	final private Dimension InquiryCenter = new Dimension(frameWidth / 2, 524);
+	final private Dimension InquiryCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel backinquiry = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextinquiry = new JLabel("NEXT", JLabel.CENTER);
 	protected TextField reservenumberField = new TextField(15);
@@ -138,7 +138,7 @@ public class Menu extends JPanel {
 	// attribute of MCR (reservation record and modify and cancel reservation)
 	private JPanel MCR = new JPanel();
 	final private int mcrWidth = 600, mcrHeight = 300;
-	final private Dimension mcrCenter = new Dimension(frameWidth / 2, 500);
+	final private Dimension mcrCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
 	private JLabel cancelText = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backmcr = new JLabel("BACK", JLabel.CENTER);
@@ -158,7 +158,7 @@ public class Menu extends JPanel {
 	}
 
 	private void initFonts() {
-		titleText.setFont(new Font("Arial Black", Font.BOLD, 60));
+		titleText.setFont(new Font("Chalkboard", Font.BOLD, 60));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
 	}
@@ -316,14 +316,14 @@ public class Menu extends JPanel {
 
 	// hotel function hotel list/reserve/inquiry
 	private void initHotelfunction() {
-		hotellistText.setFont(new Font("Arial Black", Font.BOLD, 30));
+		searchText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		logout.setFont(new Font("Arial Black", Font.BOLD, 30));
 		Hotelfunction.setLayout(new GridLayout(2, 2, 0, 0));
 		Hotelfunction.setOpaque(false);
 		Hotelfunction.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		Hotelfunction.add(hotellistText);
+		Hotelfunction.add(searchText);
 		Hotelfunction.add(reserveText);
 		Hotelfunction.add(inquiryText);
 		Hotelfunction.add(logout);
@@ -386,7 +386,7 @@ public class Menu extends JPanel {
 		// check out panel adding
 		checkoutPanel.add(checkout);
 		checkoutPanel.add(entercheckoutdateField);
-
+				
 		// people panel
 		JPanel peoplePanel = new JPanel();
 		peoplePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -834,6 +834,43 @@ public class Menu extends JPanel {
 		mcrpriceField.setText(Integer.toString(p));
 	}
 
+	// clear all the Text
+	private void clearalltext() {
+		signinidField.setText(null);
+		signinpasswordField.setText(null);
+		signupidField.setText(null);
+		signuppasswordField.setText(null);
+		usercodeField.setText(null);
+		entercheckindateField.setText("SELECT DATE");
+		entercheckoutdateField.setText("SELECT DATE");
+		enterpeopleField.setText(null);
+		enterroomField.setText(null);
+		mcrhotelIDField.setText(null);
+		mcrsingleroomField.setText(null);
+		mcrdoubleroomField.setText(null);
+		mcrquadroomField.setText(null);
+		mcrcheckindateField.setText(null);
+		mcrcheckoutdateField.setText(null);
+		mcrstaynightField.setText(null);
+		mcrpriceField.setText(null);
+		reservenumberField.setText(null);
+		reservecheckindateField.setText("SELECT DATE");
+		reservecheckoutdateField.setText("SELECT DATE");
+		reservehotelIDField.setText(null);
+		reservesingleroomField.setText(null);
+		reservedoubleroomField.setText(null);
+		reservequadroomField.setText(null);
+		Integer[] option = new Integer[1500];
+		for (int i = 0; i < 1500; i++) {
+			option[i] = i;
+		}
+		String[] option2 = new String[1500];
+		for (int i = 0; i < 1500; i++) {
+			option2[i] = (option[i]).toString();
+		}
+		reservehotelid = new JComboBox<Object>(option2);
+	}
+
 	// sub menu
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
@@ -896,6 +933,9 @@ public class Menu extends JPanel {
 		this.MCR.setBounds(mcrCenter.width - (mcrWidth / 2), mcrCenter.height - (mcrHeight / 2), mcrWidth, mcrHeight);
 	}
 
+	
+	
+	
 	public Menu() {
 		initPanel();
 		initFonts();
@@ -924,7 +964,7 @@ public class Menu extends JPanel {
 		backsigninerror.addMouseListener(ml);
 		backsignuperror.addMouseListener(ml);
 		// buttons in hotel function
-		hotellistText.addMouseListener(ml);
+		searchText.addMouseListener(ml);
 		reserveText.addMouseListener(ml);
 		inquiryText.addMouseListener(ml);
 		logout.addMouseListener(ml);
@@ -983,8 +1023,9 @@ public class Menu extends JPanel {
 				// get the sign up id and password and verify code
 				String x = signupidField.getText();
 				String y = signuppasswordField.getText();
-				String z = usercodeField.getText(); // user enter
+				String z = usercodeField.getText(); // user enter verify code
 				String w = verifycodeField.getText(); // random verify code
+				layeredPane.add(title);
 				layeredPane.remove(Signup);
 //				layeredPane.add(Signuperror, new Integer(3));
 				layeredPane.add(Hotelfunction, new Integer(3));
@@ -992,6 +1033,7 @@ public class Menu extends JPanel {
 				repaint();
 				signuplogin.setForeground(Color.black);
 			} else if (e.getSource() == signinText) {
+				
 				layeredPane.remove(subMenu);
 				layeredPane.add(Signin, new Integer(2));
 				validate();
@@ -1007,6 +1049,7 @@ public class Menu extends JPanel {
 				// get the sign in id and password
 				String x = signinidField.getText();
 				String y = signinpasswordField.getText();
+				layeredPane.add(title);
 				layeredPane.remove(Signin);
 //				layeredPane.add(Signinerror, new Integer(2));
 				layeredPane.add(Hotelfunction, new Integer(2));
@@ -1020,24 +1063,21 @@ public class Menu extends JPanel {
 				layeredPane.remove(Signup);
 				layeredPane.remove(Signinerror);
 				layeredPane.remove(Signuperror);
+				layeredPane.add(title);
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
 				repaint();
 				logout.setForeground(Color.black);
 				backsigninerror.setForeground(Color.black);
 				backsignuperror.setForeground(Color.black);
-				// remove wrong id or password or verify code
-				signinidField.setText(null);
-				signinpasswordField.setText(null);
-				signupidField.setText(null);
-				signuppasswordField.setText(null);
-				usercodeField.setText(null);
-			} else if (e.getSource() == hotellistText) {
+				// clear all the text field
+				clearalltext();
+			} else if (e.getSource() == searchText) {
 				layeredPane.remove(Hotelfunction);
 				layeredPane.add(EnterSearch, new Integer(3));
 				validate();
 				repaint();
-				hotellistText.setForeground(Color.black);
+				searchText.setForeground(Color.black);
 			} else if (e.getSource() == nextenterhotellist) {
 				// get enter check in date yyyy/mm/dd
 				String x = entercheckindateField.getText();

@@ -147,12 +147,12 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
         } else if (cmd.equals("confirm")) {
             String pFinalDate = "";
             if (this.mMonth < 9) {
-                pFinalDate = this.mYear + "/0" + (this.mMonth + 1);
+                pFinalDate = this.mYear + "/" + 0 + (this.mMonth + 1);
             } else {
                 pFinalDate = this.mYear + "/" + (this.mMonth + 1);
             }
             if (this.mDay < 10) {
-                pFinalDate = pFinalDate + "/0" + this.mDay;
+                pFinalDate = pFinalDate + "/" + 0 + this.mDay;
             } else {
                 pFinalDate = pFinalDate + "/" + this.mDay;
             }
