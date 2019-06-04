@@ -85,21 +85,28 @@ public class Menu extends JPanel {
 
 	// attribute of entering hotel list date, people, rooms
 	private JPanel EnterSearch = new JPanel();
-	final private int enterhotellistWidth = 700, enterhotellistHeight = 300;
-	final private Dimension enterhotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-	private JLabel backenterhotellist = new JLabel("BACK", JLabel.CENTER);
-	private JLabel nextenterhotellist = new JLabel("NEXT", JLabel.CENTER);
+	final private int entersearchWidth = 700, entersearchlistHeight = 300;
+	final private Dimension entersearchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel backentersearch = new JLabel("BACK", JLabel.CENTER);
+	private JLabel nextentersearch = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField entercheckindateField = new JTextField(10);
 	protected JTextField entercheckoutdateField = new JTextField(10);
 	protected TextField enterpeopleField = new TextField(15);
 	protected TextField enterroomField = new TextField(15);
 
-	// attribute of enter hotel list error
-	private JPanel Entersearcherror = new JPanel();
-	final private int enterhotelerrorWidth = 300, enterhotelerrorHeight = 150;
-	final private Dimension enterhotelerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-	private JLabel entersearcherrorText = new JLabel("INVALID DATE!", JLabel.CENTER);
-	private JLabel backenterhotelerror = new JLabel("BACK", JLabel.CENTER);
+	// attribute of enter invalid date error
+	private JPanel Enter_invalid_date_error = new JPanel();
+	final private int enterinvaiddateerrorWidth = 300, enterinvaliddateerrorHeight = 150;
+	final private Dimension enterinvaliddateerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel enterinvaliddateerrorText = new JLabel("INVALID DATE!", JLabel.CENTER);
+	private JLabel backenterinvaliddateerror = new JLabel("BACK", JLabel.CENTER);
+
+	// attribute of no matched hotel error
+	private JPanel No_matched_hotel_error = new JPanel();
+	final private int nomatchedhotelerrorWidth = 500, nomatchedhotelerrorHeight = 150;
+	final private Dimension nomatchedhotelerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel nomatchedhotelerrorText = new JLabel("NO MATCHED HOTEL!", JLabel.CENTER);
+	private JLabel backnomatchedhotelerror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of search hotel
 	private JPanel Search = new JPanel();
@@ -121,11 +128,25 @@ public class Menu extends JPanel {
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField reservecheckindateField = new JTextField(10);
 	protected JTextField reservecheckoutdateField = new JTextField(10);
-	protected TextField reservehotelIDField = new TextField(15);
+//	protected TextField reservehotelIDField = new TextField(15);
 	protected TextField reservesingleroomField = new TextField(2);
 	protected TextField reservedoubleroomField = new TextField(2);
 	protected TextField reservequadroomField = new TextField(2);
 	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
+
+	// attribute of sold out
+	private JPanel Soldout = new JPanel();
+	final private int soldoutWidth = 700, soldoutHeight = 150;
+	final private Dimension soldoutCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel soldoutText = new JLabel("Sorry, NO VACANT SUITES!", JLabel.CENTER);
+	private JLabel backsoldout = new JLabel("BACK", JLabel.CENTER);
+
+	// attribute of reserve invalid date error
+	private JPanel Reserve_invalid_date_error = new JPanel();
+	final private int reserveinvaiddateerrorWidth = 300, reserveinvaliddateerrorHeight = 150;
+	final private Dimension reserveinvaliddateerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel reserveinvaliddateerrorText = new JLabel("INVALID DATE!", JLabel.CENTER);
+	private JLabel backreserveinvaliddateerror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of inquiry
 	private JPanel Inquiry = new JPanel();
@@ -134,6 +155,13 @@ public class Menu extends JPanel {
 	private JLabel backinquiry = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextinquiry = new JLabel("NEXT", JLabel.CENTER);
 	protected TextField reservenumberField = new TextField(15);
+
+	// attribute of wrong reservation number
+	private JPanel Wrong_reservation_number = new JPanel();
+	final private int wrongreservationnumberWidth = 700, wrongreservationnumberHeight = 150;
+	final private Dimension wrongreservationnumberCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel wrongreservationnumberText = new JLabel("WRONG RESERVATION NUMBER!", JLabel.CENTER);
+	private JLabel backwrongreservationnumber = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of MCR (reservation record and modify and cancel reservation)
 	private JPanel MCR = new JPanel();
@@ -157,13 +185,11 @@ public class Menu extends JPanel {
 		setOpaque(false);
 	}
 
-	private void initFonts() {
+	private void initTitle() {
 		titleText.setFont(new Font("Chalkboard", Font.BOLD, 60));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
-	}
 
-	private void initTitle() {
 		title.setLayout(new GridLayout(1, 1, 0, 0));
 		title.setOpaque(false);
 		titleText.setForeground(new Color(65, 105, 225));
@@ -386,7 +412,7 @@ public class Menu extends JPanel {
 		// check out panel adding
 		checkoutPanel.add(checkout);
 		checkoutPanel.add(entercheckoutdateField);
-				
+
 		// people panel
 		JPanel peoplePanel = new JPanel();
 		peoplePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -436,10 +462,10 @@ public class Menu extends JPanel {
 		buttons.setLayout(new GridLayout(1, 2));
 		buttons.setOpaque(false);
 		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
-		backenterhotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		nextenterhotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		buttons.add(backenterhotellist);
-		buttons.add(nextenterhotellist);
+		backentersearch.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		nextentersearch.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		buttons.add(backentersearch);
+		buttons.add(nextentersearch);
 
 		// EnterHotellist adding
 		EnterSearch.add(checkinPanel);
@@ -450,20 +476,20 @@ public class Menu extends JPanel {
 	}
 
 	// enter hotel list error (select wrong date)
-	private void initEnterSearcherror() {
-		entersearcherrorText.setFont(new Font("Arial", Font.BOLD, 28));
-		entersearcherrorText.setForeground(new Color(255, 0, 0));
-		entersearcherrorText.setBorder(new EmptyBorder(20, 40, 20, 40));
-		backenterhotelerror.setFont(new Font("Arial Black", Font.BOLD, 28));
-		backenterhotelerror.setBorder(new EmptyBorder(20, 40, 20, 40));
-		Entersearcherror.setLayout(new GridLayout(2, 1, 0, 0));
-		Entersearcherror.setOpaque(false);
-		Entersearcherror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		Entersearcherror.add(entersearcherrorText);
-		Entersearcherror.add(backenterhotelerror);
+	private void initEnterinvaliddateerror() {
+		enterinvaliddateerrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		enterinvaliddateerrorText.setForeground(new Color(255, 0, 0));
+		enterinvaliddateerrorText.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backenterinvaliddateerror.setFont(new Font("Arial Black", Font.BOLD, 28));
+		backenterinvaliddateerror.setBorder(new EmptyBorder(20, 40, 20, 40));
+		Enter_invalid_date_error.setLayout(new GridLayout(2, 1, 0, 0));
+		Enter_invalid_date_error.setOpaque(false);
+		Enter_invalid_date_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Enter_invalid_date_error.add(enterinvaliddateerrorText);
+		Enter_invalid_date_error.add(backenterinvaliddateerror);
 	}
 
-	// hotel list
+	// search hotel
 	private void initSearch() {
 		// set font
 		star5.setFont(new Font("Arial Black", Font.BOLD, 28));
@@ -474,12 +500,12 @@ public class Menu extends JPanel {
 		pricelowText.setFont(new Font("Arial Black", Font.BOLD, 28));
 		backsearch.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Search.setLayout(new GridLayout(4, 1, 0, 0));
-		Search.setOpaque(true);
+		Search.setOpaque(false);
 		Search.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		Search.setBackground(new Color(176, 196, 222));
 		JPanel star = new JPanel();
 		star.setLayout(new GridLayout(1, 4, 0, 0));
-		star.setBackground(new Color(176, 196, 222));
+//		star.setBorder(new EmptyBorder(20, 40, 20, 40));
+		star.setOpaque(false);
 		star.add(star5);
 		star.add(star4);
 		star.add(star3);
@@ -488,6 +514,20 @@ public class Menu extends JPanel {
 		Search.add(pricehighText);
 		Search.add(pricelowText);
 		Search.add(backsearch);
+	}
+
+	// search hotel error (No matched Hotel)
+	private void initNomatchedhotelerror() {
+		nomatchedhotelerrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		nomatchedhotelerrorText.setForeground(new Color(255, 0, 0));
+		nomatchedhotelerrorText.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backnomatchedhotelerror.setFont(new Font("Arial Black", Font.BOLD, 28));
+		backnomatchedhotelerror.setBorder(new EmptyBorder(20, 40, 20, 40));
+		No_matched_hotel_error.setLayout(new GridLayout(2, 1, 0, 0));
+		No_matched_hotel_error.setOpaque(false);
+		No_matched_hotel_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		No_matched_hotel_error.add(nomatchedhotelerrorText);
+		No_matched_hotel_error.add(backnomatchedhotelerror);
 	}
 
 	// Reserve
@@ -556,15 +596,11 @@ public class Menu extends JPanel {
 		// select hotel ID
 		JLabel hotelID = new JLabel("    HotelID     : ");
 		hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		Integer[] option = new Integer[1500];
-		for (int i = 0; i < 1500; i++) {
-			option[i] = i;
+		String[] option = new String[1500];
+		for (Integer i = 0; i < 1500; i++) {
+			option[i] = i.toString();
 		}
-		String[] option2 = new String[1500];
-		for (int i = 0; i < 1500; i++) {
-			option2[i] = (option[i]).toString();
-		}
-		reservehotelid = new JComboBox<Object>(option2);
+		reservehotelid = new JComboBox<Object>(option);
 //		reservehotelIDField.setEditable(false);
 //		reservehotelIDField.setFont(new Font("Serif", Font.BOLD, 23));
 //		reservehotelIDField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -651,6 +687,34 @@ public class Menu extends JPanel {
 		Reserve.add(buttons);
 	}
 
+	// Reserve invalid date error
+	private void initReserveinvaliddateerror() {
+		reserveinvaliddateerrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		reserveinvaliddateerrorText.setForeground(new Color(255, 0, 0));
+		reserveinvaliddateerrorText.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backreserveinvaliddateerror.setFont(new Font("Arial Black", Font.BOLD, 28));
+		backreserveinvaliddateerror.setBorder(new EmptyBorder(20, 40, 20, 40));
+		Reserve_invalid_date_error.setLayout(new GridLayout(2, 1, 0, 0));
+		Reserve_invalid_date_error.setOpaque(false);
+		Reserve_invalid_date_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Reserve_invalid_date_error.add(reserveinvaliddateerrorText);
+		Reserve_invalid_date_error.add(backreserveinvaliddateerror);
+	}
+	
+	// sold out
+	private void initSoldout() {
+		soldoutText.setFont(new Font("Arial", Font.BOLD, 28));
+		soldoutText.setForeground(new Color(255, 0, 0));
+		soldoutText.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backsoldout.setFont(new Font("Arial Black", Font.BOLD, 28));
+		backsoldout.setBorder(new EmptyBorder(20, 40, 20, 40));
+		Soldout.setLayout(new GridLayout(2, 1, 0, 0));
+		Soldout.setOpaque(false);
+		Soldout.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Soldout.add(soldoutText);
+		Soldout.add(backsoldout);
+	}
+
 	// inquiry
 	private void initInquiry() {
 		Inquiry.setLayout(new GridLayout(2, 1, 0, 0));
@@ -662,7 +726,6 @@ public class Menu extends JPanel {
 		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		reservenumberPanel.setOpaque(false);
 		reservenumberPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
-
 		JLabel reservenumber = new JLabel("RESERVATION NUMBER : ");
 		reservenumber.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		reservenumberField.setFont(new Font("Serif", Font.BOLD, 23));
@@ -691,6 +754,20 @@ public class Menu extends JPanel {
 		// inquiry adding
 		Inquiry.add(reservenumberPanel);
 		Inquiry.add(buttons);
+	}
+
+	// wrong reservation number
+	private void initWrongreservationnumber() {
+		wrongreservationnumberText.setFont(new Font("Arial", Font.BOLD, 28));
+		wrongreservationnumberText.setForeground(new Color(255, 0, 0));
+		wrongreservationnumberText.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backwrongreservationnumber.setFont(new Font("Arial Black", Font.BOLD, 28));
+		backwrongreservationnumber.setBorder(new EmptyBorder(20, 40, 20, 40));
+		Wrong_reservation_number.setLayout(new GridLayout(2, 1, 0, 0));
+		Wrong_reservation_number.setOpaque(false);
+		Wrong_reservation_number.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Wrong_reservation_number.add(wrongreservationnumberText);
+		Wrong_reservation_number.add(backwrongreservationnumber);
 	}
 
 	// MCR
@@ -834,7 +911,7 @@ public class Menu extends JPanel {
 		mcrpriceField.setText(Integer.toString(p));
 	}
 
-	// clear all the Text
+	// clear all the Text when logout
 	private void clearalltext() {
 		signinidField.setText(null);
 		signinpasswordField.setText(null);
@@ -856,19 +933,15 @@ public class Menu extends JPanel {
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
 		reservecheckoutdateField.setText("SELECT DATE");
-		reservehotelIDField.setText(null);
+//		reservehotelIDField.setText(null);
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
-		Integer[] option = new Integer[1500];
-		for (int i = 0; i < 1500; i++) {
-			option[i] = i;
+		String[] option = new String[1500];
+		for (Integer i = 0; i < 1500; i++) {
+			option[i] = i.toString();
 		}
-		String[] option2 = new String[1500];
-		for (int i = 0; i < 1500; i++) {
-			option2[i] = (option[i]).toString();
-		}
-		reservehotelid = new JComboBox<Object>(option2);
+		reservehotelid = new JComboBox<Object>(option);
 	}
 
 	// sub menu
@@ -914,31 +987,42 @@ public class Menu extends JPanel {
 		this.Hotelfunction.setBounds(hotelfunctionCenter.width - (hotelfunctionWidth / 2),
 				hotelfunctionCenter.height - (hotelfunctionHeight / 2), hotelfunctionWidth, hotelfunctionHeight);
 
-		this.EnterSearch.setBounds(enterhotellistCenter.width - (enterhotellistWidth / 2),
-				enterhotellistCenter.height - (enterhotellistHeight / 2), enterhotellistWidth, enterhotellistHeight);
+		this.EnterSearch.setBounds(entersearchCenter.width - (entersearchWidth / 2),
+				entersearchCenter.height - (entersearchlistHeight / 2), entersearchWidth, entersearchlistHeight);
 
-		this.Entersearcherror.setBounds(enterhotelerrorCenter.width - (enterhotelerrorWidth / 2),
-				enterhotelerrorCenter.height - (enterhotelerrorHeight / 2), enterhotelerrorWidth,
-				enterhotelerrorHeight);
+		this.Enter_invalid_date_error.setBounds(enterinvaliddateerrorCenter.width - (enterinvaiddateerrorWidth / 2),
+				enterinvaliddateerrorCenter.height - (enterinvaliddateerrorHeight / 2), enterinvaiddateerrorWidth,
+				enterinvaliddateerrorHeight);
+
+		this.No_matched_hotel_error.setBounds(nomatchedhotelerrorCenter.width - (nomatchedhotelerrorWidth / 2),
+				nomatchedhotelerrorCenter.height - (nomatchedhotelerrorHeight / 2), nomatchedhotelerrorWidth,
+				nomatchedhotelerrorHeight);
 
 		this.Search.setBounds(searchCenter.width - (searchWidth / 2), searchCenter.height - (searchHeight / 2),
 				searchWidth, searchHeight);
 
 		this.Reserve.setBounds(reserveCenter.width - (reserveWidth / 2), reserveCenter.height - (reserveHeight / 2),
 				reserveWidth, reserveHeight);
+		
+		this.Reserve_invalid_date_error.setBounds(reserveinvaliddateerrorCenter.width - (reserveinvaiddateerrorWidth / 2),
+				reserveinvaliddateerrorCenter.height - (reserveinvaliddateerrorHeight / 2), reserveinvaiddateerrorWidth,
+				reserveinvaliddateerrorHeight);
+
+		this.Soldout.setBounds(soldoutCenter.width - (soldoutWidth / 2), soldoutCenter.height - (soldoutHeight / 2),
+				soldoutWidth, soldoutHeight);
 
 		this.Inquiry.setBounds(InquiryCenter.width - (InquiryWidth / 2), InquiryCenter.height - (InquiryHeight / 2),
 				InquiryWidth, InquiryHeight);
 
+		this.Wrong_reservation_number.setBounds(wrongreservationnumberCenter.width - (wrongreservationnumberWidth / 2),
+				wrongreservationnumberCenter.height - (wrongreservationnumberHeight / 2), wrongreservationnumberWidth,
+				wrongreservationnumberHeight);
+
 		this.MCR.setBounds(mcrCenter.width - (mcrWidth / 2), mcrCenter.height - (mcrHeight / 2), mcrWidth, mcrHeight);
 	}
 
-	
-	
-	
 	public Menu() {
 		initPanel();
-		initFonts();
 		initTitle();
 		initSubMenu();
 		initSignIn();
@@ -952,7 +1036,11 @@ public class Menu extends JPanel {
 		initLayerPane();
 		initSigninerror();
 		initSignuperror();
-		initEnterSearcherror();
+		initEnterinvaliddateerror();
+		initNomatchedhotelerror();
+		initWrongreservationnumber();
+		initSoldout();
+		initReserveinvaliddateerror();
 		// buttons in sub menu / sign in / sign up
 		signinText.addMouseListener(ml);
 		signupText.addMouseListener(ml);
@@ -969,10 +1057,12 @@ public class Menu extends JPanel {
 		inquiryText.addMouseListener(ml);
 		logout.addMouseListener(ml);
 		// buttons in enter hotel list
-		backenterhotellist.addMouseListener(ml);
-		nextenterhotellist.addMouseListener(ml);
-		// buttons in enter hotel list error
-		backenterhotelerror.addMouseListener(ml);
+		backentersearch.addMouseListener(ml);
+		nextentersearch.addMouseListener(ml);
+		// buttons in enter invalid date error
+		backenterinvaliddateerror.addMouseListener(ml);
+		// buttons in no matched hotel error
+		backnomatchedhotelerror.addMouseListener(ml);
 		// buttons in hotel list
 		star5.addMouseListener(ml);
 		star4.addMouseListener(ml);
@@ -984,9 +1074,15 @@ public class Menu extends JPanel {
 		// buttons in reserve
 		backreserve.addMouseListener(ml);
 		nextreserve.addMouseListener(ml);
+		// buttons in sold out
+		backsoldout.addMouseListener(ml);
+		// buttons in reserve invalid date
+		backreserveinvaliddateerror.addMouseListener(ml);
 		// buttons in inquiry
 		backinquiry.addMouseListener(ml);
 		nextinquiry.addMouseListener(ml);
+		// buttons in wrong reservation number
+		backwrongreservationnumber.addMouseListener(ml);
 		// buttons in modify and cancel reservation
 		modifyText.addMouseListener(ml);
 		cancelText.addMouseListener(ml);
@@ -1033,7 +1129,7 @@ public class Menu extends JPanel {
 				repaint();
 				signuplogin.setForeground(Color.black);
 			} else if (e.getSource() == signinText) {
-				
+
 				layeredPane.remove(subMenu);
 				layeredPane.add(Signin, new Integer(2));
 				validate();
@@ -1078,7 +1174,7 @@ public class Menu extends JPanel {
 				validate();
 				repaint();
 				searchText.setForeground(Color.black);
-			} else if (e.getSource() == nextenterhotellist) {
+			} else if (e.getSource() == nextentersearch) {
 				// get enter check in date yyyy/mm/dd
 				String x = entercheckindateField.getText();
 				// get enter check out date yyyy/mm/dd
@@ -1088,28 +1184,31 @@ public class Menu extends JPanel {
 				int n = Integer.parseInt(enterroomField.getText());
 				layeredPane.remove(EnterSearch);
 				layeredPane.add(Search, new Integer(3));
-//				layeredPane.add(Entersearcherror,new Integer(3));
+//				layeredPane.add(Enter_invalid_date_error,new Integer(3)); // if enter invalid date
+//				layeredPane.add(No_matched_hotel_error,new Integer(3)); // if no matched hotel
 				validate();
 				repaint();
-				nextenterhotellist.setForeground(Color.black);
+				nextentersearch.setForeground(Color.black);
 			} else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
 				layeredPane.add(EnterSearch, new Integer(3));
 				validate();
 				repaint();
 				backsearch.setForeground(Color.black);
-			} else if (e.getSource() == backenterhotelerror) {
-				layeredPane.remove(Entersearcherror);
+			} else if (e.getSource() == backenterinvaliddateerror || e.getSource() == backnomatchedhotelerror) {
+				layeredPane.remove(Enter_invalid_date_error);
+				layeredPane.remove(No_matched_hotel_error);
 				layeredPane.add(EnterSearch, new Integer(3));
-				validate();
-				repaint();
-				backenterhotelerror.setForeground(Color.black);
-				entercheckindateField.setText(null);
-				entercheckoutdateField.setText(null);
+				entercheckindateField.setText("SELECT DATE");
+				entercheckoutdateField.setText("SELECT DATE");
 				enterpeopleField.setText(null);
 				enterroomField.setText(null);
-			} else if (e.getSource() == backenterhotellist || e.getSource() == backreserve
-					|| e.getSource() == backinquiry || e.getSource() == backmcr) {
+				validate();
+				repaint();
+				backenterinvaliddateerror.setForeground(Color.black);
+				backnomatchedhotelerror.setForeground(Color.black);
+			} else if (e.getSource() == backentersearch || e.getSource() == backreserve || e.getSource() == backinquiry
+					|| e.getSource() == backmcr) {
 				layeredPane.remove(EnterSearch);
 				layeredPane.remove(Inquiry);
 				layeredPane.remove(MCR);
@@ -1117,7 +1216,7 @@ public class Menu extends JPanel {
 				layeredPane.add(Hotelfunction);
 				validate();
 				repaint();
-				backenterhotellist.setForeground(Color.black);
+				backentersearch.setForeground(Color.black);
 				backinquiry.setForeground(Color.black);
 				backmcr.setForeground(Color.black);
 				backreserve.setForeground(Color.black);
@@ -1138,24 +1237,51 @@ public class Menu extends JPanel {
 				int p = Integer.parseInt(reservesingleroomField.getText());
 				int q = Integer.parseInt(reservedoubleroomField.getText());
 				int r = Integer.parseInt(reservequadroomField.getText());
-			} else if (e.getSource() == inquiryText) {
+				layeredPane.remove(Reserve);
+//				layeredPane.add(Soldout, new Integer(3)); // if all the room sold out
+//				layeredPane.add(Reserve_invalid_date_error, new Integer(3)); // if invalid date
+				validate();
+				repaint();
+				nextreserve.setForeground(Color.black);
+			} else if(e.getSource() == backsoldout || e.getSource() == backreserveinvaliddateerror) {
+				layeredPane.remove(Soldout);
+				layeredPane.remove(Reserve_invalid_date_error);
+				layeredPane.add(Reserve,new Integer(3));
+				validate();
+				repaint();
+				backsoldout.setForeground(Color.black);
+			}
+			else if (e.getSource() == inquiryText) {
 				layeredPane.remove(Hotelfunction);
 				layeredPane.add(Inquiry, new Integer(3));
 				validate();
 				repaint();
 				inquiryText.setForeground(Color.black);
 			} else if (e.getSource() == nextinquiry) {
+				layeredPane.remove(Inquiry);
 				// get reserve number
 				Integer.parseInt(reservenumberField.getText());
-				layeredPane.remove(Inquiry);
-				showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
-						Integer.parseInt(reservedoubleroomField.getText()),
-						Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
-						reservecheckoutdateField.getText(), 10, 30);
+
+				// if enter wrong reserve number
+//				layeredPane.add(Wrong_reservation_number, new Integer(3));
+
+				// if enter right reservation number
+//				showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
+//						Integer.parseInt(reservedoubleroomField.getText()),
+//						Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
+//						reservecheckoutdateField.getText(), night, price);
 				layeredPane.add(MCR, new Integer(3));
+
 				validate();
 				repaint();
 				nextinquiry.setForeground(Color.black);
+			} else if (e.getSource() == backwrongreservationnumber) {
+				layeredPane.remove(Wrong_reservation_number);
+				reservenumberField.setText(null);
+				layeredPane.add(Inquiry, new Integer(3));
+				validate();
+				repaint();
+				backwrongreservationnumber.setForeground(Color.black);
 			}
 
 		}
