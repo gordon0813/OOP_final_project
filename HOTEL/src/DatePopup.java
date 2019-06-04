@@ -30,9 +30,6 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
         }
     }
 
-    
-    
-    
     public void DatePopupInit() {
 
     	Container contentPane = getContentPane();
@@ -125,7 +122,6 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
     }
 
     
-    
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         Object obj = e.getSource();
@@ -168,8 +164,6 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
         }
     }
 
-    
-    
     public void mypaint() {
         this.invalidate();
         mPanel3.removeAll();
@@ -212,8 +206,6 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
         mPanel1.add(mPanel3, BorderLayout.CENTER);
         this.validate();
     }
-    
-    
     
     public void showDialog(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

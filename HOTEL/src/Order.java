@@ -4,7 +4,7 @@ public class Order {
 	private String UserID;
 	private String CheckInDate;
 	private String CheckOutDate;
-	private int[] Demand;
+	private int sn, dn, qn;
 	private int SumPrice;
 	Order() {
 		ID = 0;
@@ -12,21 +12,19 @@ public class Order {
 		HotelID = 0;
 		CheckInDate = "";
 		CheckOutDate = "";
-		Demand = new int[3];
+		sn = dn = qn = 0;
 		SumPrice = 0;
 	}
-	Order(int _ID, String _UserID, int _HotelID, String _CheckInDate, String _CheckOutDate, int[] _Demand) {
+	Order(int _ID, String _UserID, int _HotelID, String _CheckInDate, String _CheckOutDate, int _sn, int _dn, int _qn) {
 		ID = _ID;
 		UserID = _UserID;
 		HotelID = _HotelID;
 		CheckInDate = _CheckInDate;
 		CheckOutDate = _CheckOutDate;
-		Demand = new int[3];
-		for (int i = 0; i < 3; i++)
-			Demand[i] = _Demand[i];
-		SumPrice = Hotel.getSingleRoomPrice() * Demand[0] 
-				+ Hotel.getDoubleRoomPrice() * Demand[1] 
-				+ Hotel.getQuadRoomPrice() * Demand[2];
+		sn = _sn; dn = _dn; qn = _qn;
+		SumPrice = Hotel.getSingleRoomPrice() * sn 
+				+ Hotel.getDoubleRoomPrice() * dn 
+				+ Hotel.getQuadRoomPrice() * qn;
 	}
 	Order(Order _Order) {
 		ID = _Order.ID;
@@ -34,12 +32,10 @@ public class Order {
 		HotelID = _Order.HotelID;
 		CheckInDate = _Order.CheckInDate;
 		CheckOutDate = _Order.CheckOutDate;
-		Demand = new int[_Order.Demand.length];
-		for (int i = 0; i < 3; i++)
-			Demand[i] = _Order.Demand[i];
-		SumPrice = Hotel.getSingleRoomPrice() * Demand[0] 
-				+ Hotel.getDoubleRoomPrice() * Demand[1] 
-				+ Hotel.getQuadRoomPrice() * Demand[2];
+		sn = _Order.sn; dn = _Order.dn; qn = _Order.qn;
+		SumPrice = Hotel.getSingleRoomPrice() * sn 
+				+ Hotel.getDoubleRoomPrice() * dn 
+				+ Hotel.getQuadRoomPrice() * qn;
 	}
 	int getID() {
 		return ID;
@@ -56,16 +52,25 @@ public class Order {
 	String getCheckOutDate() {
 		return CheckOutDate;
 	}
-	int[] getDemand() {
-		int[] nDemand = new int[3];
-		for (int i = 0; i < 3; i++) 
-			nDemand[i] = Demand[i];
-		return nDemand;
+	int getsn() {
+		return sn;
+	}
+	int getdn() {
+		return dn;
+	}
+	int getqn() {
+		return qn;
 	}
 	int getSumPrice() {
 		return SumPrice;
 	}
-	void setDemand(int i, int x) {
-		Demand[i] -= x;
+	void setsn(int x) {
+		sn -= x;
+	}
+	void setdn(int x) {
+		dn -= x;
+	}
+	void setqn(int x) {
+		qn -= x;
 	}
 }

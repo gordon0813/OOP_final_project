@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -40,19 +41,33 @@ public class Menu extends JPanel {
 	private JLabel signinText = new JLabel("SIGN IN", JLabel.CENTER);
 	private JLabel signupText = new JLabel("SIGN UP", JLabel.CENTER);
 
-	// attribute of sign in error
+	// attribute of sign in error - USERID DOESN'T EXIST.
 	private JPanel Signinerror = new JPanel();
 	final private int signinerrorWidth = 700, signinerrorHeight = 110;
 	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signinerrorText = new JLabel("UNKNOWN ID or WRING PASSWORD", JLabel.CENTER);
+	private JLabel signinerrorText = new JLabel("USERID DOESN'T EXIST.", JLabel.CENTER);
 	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
+	
+	// attribute of sign in error - WRONG PASSWORD.
+	private JPanel Signinerror1 = new JPanel();
+	final private int signinerrorWidth1 = 700, signinerrorHeight1 = 110;
+	final private Dimension signinerrorCenter1 = new Dimension(frameWidth / 2, 500);
+	private JLabel signinerrorText1 = new JLabel("WRONG PASSWORD.", JLabel.CENTER);
+	private JLabel backsigninerror1 = new JLabel("BACK", JLabel.CENTER);
 
-	// attribute of sign up error
+	// attribute of sign up error - USERID ALREADY EXISTS.
 	private JPanel Signuperror = new JPanel();
 	final private int signuperrorWidth = 500, signuperrorHeight = 110;
 	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signuperrorText = new JLabel("INVALID VERIFY CODE", JLabel.CENTER);
+	private JLabel signuperrorText = new JLabel("USERID ALREADY EXISTS.", JLabel.CENTER);
 	private JLabel backsignuperror = new JLabel("BACK", JLabel.CENTER);
+		
+	// attribute of sign up error - WRONG VERIFY CODE.
+	private JPanel Signuperror1 = new JPanel();
+	final private int signuperrorWidth1 = 500, signuperrorHeight1 = 110;
+	final private Dimension signuperrorCenter1 = new Dimension(frameWidth / 2, 500);
+	private JLabel signuperrorText1 = new JLabel("WRONG VERIFY CODE.", JLabel.CENTER);
+	private JLabel backsignuperror1 = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign in
 	private JPanel Signin = new JPanel();
@@ -94,7 +109,7 @@ public class Menu extends JPanel {
 	protected TextField enterpeopleField = new TextField(15);
 	protected TextField enterroomField = new TextField(15);
 
-	// attribute of enter hotel list error
+	// attribute of enter hotel list error - INVALID DATE!
 	private JPanel Entersearcherror = new JPanel();
 	final private int enterhotelerrorWidth = 300, enterhotelerrorHeight = 150;
 	final private Dimension enterhotelerrorCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -156,13 +171,11 @@ public class Menu extends JPanel {
 		setLayout(new GridLayout(1, 1));
 		setOpaque(false);
 	}
-
 	private void initFonts() {
 		titleText.setFont(new Font("Chalkboard", Font.BOLD, 60));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
 	}
-
 	private void initTitle() {
 		title.setLayout(new GridLayout(1, 1, 0, 0));
 		title.setOpaque(false);
@@ -172,7 +185,6 @@ public class Menu extends JPanel {
 		titleText.setBorder(new EmptyBorder(5, 5, 5, 5));
 		title.add(titleText);
 	}
-
 	// sign in error
 	private void initSigninerror() {
 		signinerrorText.setFont(new Font("Arial", Font.BOLD, 28));
@@ -185,7 +197,6 @@ public class Menu extends JPanel {
 		Signinerror.add(backsigninerror);
 
 	}
-
 	// sign up error
 	private void initSignuperror() {
 		signuperrorText.setFont(new Font("Arial", Font.BOLD, 28));
@@ -197,7 +208,6 @@ public class Menu extends JPanel {
 		Signuperror.add(signuperrorText);
 		Signuperror.add(backsignuperror);
 	}
-
 	// sign in
 	private void initSignIn() {
 		Signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -245,7 +255,6 @@ public class Menu extends JPanel {
 		Signin.add(passwordPanel);
 		Signin.add(buttons);
 	}
-
 	// sign up
 	private void initSignUp() {
 		Signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -313,7 +322,6 @@ public class Menu extends JPanel {
 		Signup.add(buttons);
 
 	}
-
 	// hotel function hotel list/reserve/inquiry
 	private void initHotelfunction() {
 		searchText.setFont(new Font("Arial Black", Font.BOLD, 30));
@@ -328,7 +336,6 @@ public class Menu extends JPanel {
 		Hotelfunction.add(inquiryText);
 		Hotelfunction.add(logout);
 	}
-
 	// enter hotel list date/people/rooms
 	private void initEnterSearch() {
 		EnterSearch.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -448,7 +455,6 @@ public class Menu extends JPanel {
 		EnterSearch.add(roomPanel);
 		EnterSearch.add(buttons);
 	}
-
 	// enter hotel list error (select wrong date)
 	private void initEnterSearcherror() {
 		entersearcherrorText.setFont(new Font("Arial", Font.BOLD, 28));
@@ -462,7 +468,6 @@ public class Menu extends JPanel {
 		Entersearcherror.add(entersearcherrorText);
 		Entersearcherror.add(backenterhotelerror);
 	}
-
 	// hotel list
 	private void initSearch() {
 		// set font
@@ -489,7 +494,6 @@ public class Menu extends JPanel {
 		Search.add(pricelowText);
 		Search.add(backsearch);
 	}
-
 	// Reserve
 	private void initReserve() {
 		Reserve.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -650,7 +654,6 @@ public class Menu extends JPanel {
 		Reserve.add(roomPanel);
 		Reserve.add(buttons);
 	}
-
 	// inquiry
 	private void initInquiry() {
 		Inquiry.setLayout(new GridLayout(2, 1, 0, 0));
@@ -692,7 +695,6 @@ public class Menu extends JPanel {
 		Inquiry.add(reservenumberPanel);
 		Inquiry.add(buttons);
 	}
-
 	// MCR
 	private void initMCR() {
 		MCR.setLayout(new GridLayout(5, 1, 0, 0));
@@ -820,7 +822,6 @@ public class Menu extends JPanel {
 		MCR.add(staypricePanel);
 		MCR.add(buttons);
 	}
-
 	// show the reserve information
 	public void showMCR(int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
 			int p) {
@@ -833,7 +834,6 @@ public class Menu extends JPanel {
 		mcrstaynightField.setText(Integer.toString(night));
 		mcrpriceField.setText(Integer.toString(p));
 	}
-
 	// clear all the Text
 	private void clearalltext() {
 		signinidField.setText(null);
@@ -870,7 +870,6 @@ public class Menu extends JPanel {
 		}
 		reservehotelid = new JComboBox<Object>(option2);
 	}
-
 	// sub menu
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
@@ -880,7 +879,6 @@ public class Menu extends JPanel {
 		subMenu.add(signupText);
 //		subMenu.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 	}
-
 	private void initLayerPane() {
 		layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
@@ -932,9 +930,6 @@ public class Menu extends JPanel {
 
 		this.MCR.setBounds(mcrCenter.width - (mcrWidth / 2), mcrCenter.height - (mcrHeight / 2), mcrWidth, mcrHeight);
 	}
-
-	
-	
 	
 	public Menu() {
 		initPanel();
@@ -999,12 +994,10 @@ public class Menu extends JPanel {
 			l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			l.setForeground(Color.red);
 		}
-
 		public void mouseExited(MouseEvent e) {
 			JLabel l = (JLabel) e.getSource();
 			l.setForeground(Color.black);
 		}
-
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == signupText) {
 				layeredPane.remove(subMenu);
@@ -1021,19 +1014,34 @@ public class Menu extends JPanel {
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
 				// get the sign up id and password and verify code
-				String x = signupidField.getText();
-				String y = signuppasswordField.getText();
-				String z = usercodeField.getText(); // user enter verify code
-				String w = verifycodeField.getText(); // random verify code
-				layeredPane.add(title);
-				layeredPane.remove(Signup);
-//				layeredPane.add(Signuperror, new Integer(3));
-				layeredPane.add(Hotelfunction, new Integer(3));
-				validate();
-				repaint();
-				signuplogin.setForeground(Color.black);
+				String UserID = signupidField.getText();
+				String Password = signuppasswordField.getText();
+				String UserCode = usercodeField.getText(); // user enter verify code
+				String VerifyCode = verifycodeField.getText(); // random verify code
+				if (main.SignUpCheck(UserID, Password, UserCode)) {
+					if (UserCode.equals(VerifyCode)) {
+						System.out.println("hi");
+						main.user = new User(UserID, Password);
+						main.UserList.add(main.user);
+						
+						layeredPane.add(title);
+						layeredPane.remove(Signup);
+	//					layeredPane.add(Signuperror, new Integer(3));
+						layeredPane.add(Hotelfunction, new Integer(3));
+						validate();
+						repaint();
+						signuplogin.setForeground(Color.black);
+					} else {
+//跳出錯誤訊息:Wrong verify code.		
+//清空欄位
+						verifycodeField.setText(main.getRandomString(6));
+					}
+				} else {
+//跳出錯誤訊息:UserID already existed.
+//清空三個欄位	 
+					verifycodeField.setText(main.getRandomString(6));
+				}
 			} else if (e.getSource() == signinText) {
-				
 				layeredPane.remove(subMenu);
 				layeredPane.add(Signin, new Integer(2));
 				validate();
@@ -1046,16 +1054,24 @@ public class Menu extends JPanel {
 				repaint();
 				signinback.setForeground(Color.black);
 			} else if (e.getSource() == signinlogin) {
-				// get the sign in id and password
-				String x = signinidField.getText();
-				String y = signinpasswordField.getText();
-				layeredPane.add(title);
-				layeredPane.remove(Signin);
-//				layeredPane.add(Signinerror, new Integer(2));
-				layeredPane.add(Hotelfunction, new Integer(2));
-				validate();
-				repaint();
-				signinlogin.setForeground(Color.black);
+				String UserID = signinidField.getText();
+				String Password = signinpasswordField.getText();
+				int re = main.SignInCheck(UserID, Password);
+				if (re == 1) {
+					layeredPane.add(title);
+					layeredPane.remove(Signin);
+//					layeredPane.add(Signinerror, new Integer(2));
+					layeredPane.add(Hotelfunction, new Integer(2));
+					validate();
+					repaint();
+					signinlogin.setForeground(Color.black);
+				} else if (re == 0) {
+//錯誤訊息:UserID doesn't exist.
+//清空欄位
+				} else if (re == -1) {
+//錯誤訊息:Wrong Password.
+//清空欄位
+				}
 			} else if (e.getSource() == logout || e.getSource() == backsigninerror
 					|| e.getSource() == backsignuperror) {
 				layeredPane.remove(Hotelfunction);
@@ -1080,18 +1096,24 @@ public class Menu extends JPanel {
 				searchText.setForeground(Color.black);
 			} else if (e.getSource() == nextenterhotellist) {
 				// get enter check in date yyyy/mm/dd
-				String x = entercheckindateField.getText();
+				String CID = entercheckindateField.getText();
 				// get enter check out date yyyy/mm/dd
-				String y = entercheckoutdateField.getText();
+				String COD = entercheckoutdateField.getText();
 				// get enter people and room
-				int m = Integer.parseInt(enterpeopleField.getText());
-				int n = Integer.parseInt(enterroomField.getText());
-				layeredPane.remove(EnterSearch);
-				layeredPane.add(Search, new Integer(3));
-//				layeredPane.add(Entersearcherror,new Integer(3));
-				validate();
-				repaint();
-				nextenterhotellist.setForeground(Color.black);
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int RoomNumbers = Integer.parseInt(enterroomField.getText());
+//這裡看看能不能直接在選日期的時候限定好				
+				if (main.CountDaysBetween(CID, COD) >= 0) {
+					ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, RoomNumbers);
+					layeredPane.remove(EnterSearch);
+					layeredPane.add(Search, new Integer(3));
+//					layeredPane.add(Entersearcherror,new Integer(3));
+					validate();
+					repaint();
+					nextenterhotellist.setForeground(Color.black);
+				} else {
+//錯誤訊息:Invaid Date.
+				}
 			} else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
 				layeredPane.add(EnterSearch, new Integer(3));
@@ -1128,16 +1150,18 @@ public class Menu extends JPanel {
 				repaint();
 				reserveText.setForeground(Color.black);
 			} else if (e.getSource() == nextreserve) {
-				// get reserve check in date yyyy/mm/dd
-				String x = reservecheckindateField.getText();
-				// get reserve check out day yyyy/mm/dd
-				String y = reservecheckoutdateField.getText();
-				// get reserve HOTEL ID
-				int a = reservehotelid.getSelectedIndex();
-				// get reserve number of room
-				int p = Integer.parseInt(reservesingleroomField.getText());
-				int q = Integer.parseInt(reservedoubleroomField.getText());
-				int r = Integer.parseInt(reservequadroomField.getText());
+				//yyyy/mm/dd
+				String CID = reservecheckindateField.getText();
+				String COD = reservecheckoutdateField.getText();
+				int HotelID = reservehotelid.getSelectedIndex();
+				int sn = Integer.parseInt(reservesingleroomField.getText());
+				int dn = Integer.parseInt(reservedoubleroomField.getText());
+				int qn = Integer.parseInt(reservequadroomField.getText());
+				if (main.BookHotel(CID, COD, HotelID, sn, dn, qn)) {
+//訂房成功的output					
+				} else {
+//錯誤訊息:訂房失敗 房間數量不足/房間已售罄					
+				}
 			} else if (e.getSource() == inquiryText) {
 				layeredPane.remove(Hotelfunction);
 				layeredPane.add(Inquiry, new Integer(3));
@@ -1146,7 +1170,7 @@ public class Menu extends JPanel {
 				inquiryText.setForeground(Color.black);
 			} else if (e.getSource() == nextinquiry) {
 				// get reserve number
-				Integer.parseInt(reservenumberField.getText());
+				int OrderID = Integer.parseInt(reservenumberField.getText());
 				layeredPane.remove(Inquiry);
 				showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
 						Integer.parseInt(reservedoubleroomField.getText()),
