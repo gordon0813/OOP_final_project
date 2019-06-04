@@ -2,21 +2,42 @@
 public class AvailableHotelRooms {
 	private int HotelID;
 	private int HotelStar;
-	private int[] AvailableRoomsNumber;
+	private int Single, Double, Quad;
 
 	public AvailableHotelRooms() {
 		HotelID = 0;
 		HotelStar = 0;
-		AvailableRoomsNumber = new int[3];
+		Single = Double = Quad = 0;
 	}
-	public AvailableHotelRooms(int _HotelID, int _HotelStar, int[] _AvailableRoomsNumber) {
+	public AvailableHotelRooms(int _HotelID, int _HotelStar, int _Single, int _Double, int _Quad) {
 		HotelID = _HotelID;
 		HotelStar = _HotelStar;
-		AvailableRoomsNumber = new int[3];
-		for (int i = 0; i < 3; i++)
-			AvailableRoomsNumber[i] = _AvailableRoomsNumber[i];
+		Single = _Single;
+		Double = _Double;
+		Quad = _Quad;
 	}
-	public void setAvailabelRoomsNumber(int i, int x) {
-		AvailableRoomsNumber[i] = x;
+	public int getHotelID() {
+		return HotelID;
+	}
+	public int getHotelStar() {
+		return HotelStar;
+	}
+	public int getSingle() {
+		return Single;
+	}
+	public int getDouble() {
+		return Double;
+	}
+	public int getQuad() {
+		return Quad;
+	}
+	public void setSingle(int x) {
+		Single = x;
+	}
+	public void setDouble(int x) {
+		Double = x;
+	}
+	public void setQuad(int x) {
+		Quad = x;
 	}
 }

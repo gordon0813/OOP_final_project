@@ -23,6 +23,17 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+
+/*
+ * to do:
+ * 1. Search的output 5~2 Star & Price(highest/lowest first)
+ * 2. CheckInDate/CheckOutDate 日期限制
+ * 3. 訂房成功＆失敗的output
+ * 4. 輸入訂單編號不存在的錯誤訊息
+ * 5. Inquiry的Modify跟Cancel
+ */
+
+
 public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
 	private JLabel background = new JLabel();
@@ -154,7 +165,6 @@ public class Menu extends JPanel {
 	private JPanel MCR = new JPanel();
 	final private int mcrWidth = 600, mcrHeight = 300;
 	final private Dimension mcrCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-//還需要查詢訂單的功能
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
 	private JLabel cancelText = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backmcr = new JLabel("BACK", JLabel.CENTER);
@@ -1021,7 +1031,6 @@ public class Menu extends JPanel {
 				String VerifyCode = verifycodeField.getText(); // random verify code
 				if (main.SignUpCheck(UserID, Password, UserCode)) {
 					if (UserCode.equals(VerifyCode)) {
-						System.out.println("hi");
 						main.user = new User(UserID, Password);
 						main.UserList.add(main.user);
 						
@@ -1032,14 +1041,14 @@ public class Menu extends JPanel {
 						repaint();
 						signuplogin.setForeground(Color.black);
 					} else {
-//跳出錯誤訊息:Wrong verify code.	
+//錯誤訊息:Wrong verify code.	
 //						layeredPane.add(Signuperror1, new Integer(3));
 						signinidField.setText("");
 						signinpasswordField.setText("");
 						verifycodeField.setText(main.getRandomString(6));
 					}
 				} else {
-//跳出錯誤訊息:UserID already existed.
+//錯誤訊息:UserID already existed.
 //					layeredPane.add(Signuperror1, new Integer(3));
 					signinidField.setText("");
 					signinpasswordField.setText("");
@@ -1156,8 +1165,7 @@ public class Menu extends JPanel {
 				repaint();
 				reserveText.setForeground(Color.black);
 			} else if (e.getSource() == nextreserve) {
-				//yyyy/mm/dd
-				String CID = reservecheckindateField.getText();
+				String CID = reservecheckindateField.getText();//yyyy/mm/dd
 				String COD = reservecheckoutdateField.getText();
 				int HotelID = reservehotelid.getSelectedIndex();
 				int sn = Integer.parseInt(reservesingleroomField.getText());
@@ -1166,7 +1174,7 @@ public class Menu extends JPanel {
 				if (main.BookHotel(CID, COD, HotelID, sn, dn, qn)) {
 //訂房成功的output	
 				} else {
-//錯誤訊息:訂房失敗 房間數量不足/房間已售罄					
+//訂房失敗 房間數量不足/房間已售罄					
 				}
 			} else if (e.getSource() == inquiryText) {
 				layeredPane.remove(Hotelfunction);
@@ -1177,12 +1185,21 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == nextinquiry) {
 				// get reserve number
 				int OrderID = Integer.parseInt(reservenumberField.getText());
-				if (main.CheckOrder(OrderID)) {
+				
+				
+				if (main.CheckOrder(OrderID) != null) {//unsolved bug : NPE
+					Order order = main.CheckOrder(OrderID);
+					System.out.println("here" + order != null);
 					layeredPane.remove(Inquiry);
-					showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
+					/*showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
 							Integer.parseInt(reservedoubleroomField.getText()),
 							Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
 							reservecheckoutdateField.getText(), 10, 30);
+					*/
+					showMCR(order.getHotelID(), order.getsn(), order.getdn(), order.getqn(), 
+							order.getCheckInDate(), order.getCheckOutDate(), (int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
+							order.getSumPrice());
+					
 					layeredPane.add(MCR, new Integer(3));
 					validate();
 					repaint();
