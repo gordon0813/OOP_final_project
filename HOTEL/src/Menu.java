@@ -51,40 +51,22 @@ public class Menu extends JPanel {
 	final private Dimension subMenuCenter = new Dimension(frameWidth / 2, 524);
 	private JLabel signinText = new JLabel("SIGN IN", JLabel.CENTER);
 	private JLabel signupText = new JLabel("SIGN UP", JLabel.CENTER);
-
-<<<<<<< HEAD
-	// attribute of sign in error - USERID DOESN'T EXIST.
-	private JPanel Signinerror = new JPanel();
-	final private int signinerrorWidth = 700, signinerrorHeight = 110;
-	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signinerrorText = new JLabel("USERID DOESN'T EXIST.", JLabel.CENTER);
-	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
 	
-	// attribute of sign in error - WRONG PASSWORD.
-	private JPanel Signinerror1 = new JPanel();
-	final private int signinerrorWidth1 = 700, signinerrorHeight1 = 110;
-	final private Dimension signinerrorCenter1 = new Dimension(frameWidth / 2, 500);
-	private JLabel signinerrorText1 = new JLabel("WRONG PASSWORD.", JLabel.CENTER);
-	private JLabel backsigninerror1 = new JLabel("BACK", JLabel.CENTER);
-
-	// attribute of sign up error - USERID ALREADY EXISTS.
-=======
-	// attribute of sign in error (unknown ID)
+	// attribute of sign in error - UNKNOWN ID
 	private JPanel Signinerror = new JPanel();
 	final private int signinerrorWidth = 700, signinerrorHeight = 110;
 	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signinerrorText = new JLabel("UNKNOWN ID", JLabel.CENTER);
+	private JLabel signinerrorText = new JLabel("UNKNOWN ID.", JLabel.CENTER);
 	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
 
-	// attribute of sign in error1 (wrong password)
+	// attribute of sign in error - WRONG PASSWORD
 	private JPanel Signinerror1 = new JPanel();
 	final private int signinerror1Width = 700, signinerror1Height = 110;
 	final private Dimension signinerror1Center = new Dimension(frameWidth / 2, 500);
 	private JLabel signinerror1Text = new JLabel("WRONG PASSWORD.", JLabel.CENTER);
 	private JLabel backsigninerror1 = new JLabel("BACK", JLabel.CENTER);
 
-	// attribute of sign up error
->>>>>>> 2ebf3a1efbbcd5955df5c855b9b6bfc2ff330b43
+	// attribute of sign up error - USERID ALREADY EXISTS.
 	private JPanel Signuperror = new JPanel();
 	final private int signuperrorWidth = 500, signuperrorHeight = 110;
 	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 500);
@@ -93,9 +75,9 @@ public class Menu extends JPanel {
 		
 	// attribute of sign up error - WRONG VERIFY CODE.
 	private JPanel Signuperror1 = new JPanel();
-	final private int signuperrorWidth1 = 500, signuperrorHeight1 = 110;
+	final private int signuperror1Width = 500, signuperror1Height = 110;
 	final private Dimension signuperrorCenter1 = new Dimension(frameWidth / 2, 500);
-	private JLabel signuperrorText1 = new JLabel("WRONG VERIFY CODE.", JLabel.CENTER);
+	private JLabel signuperror1Text = new JLabel("WRONG VERIFY CODE.", JLabel.CENTER);
 	private JLabel backsignuperror1 = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign in
@@ -127,7 +109,7 @@ public class Menu extends JPanel {
 	private JLabel inquiryText = new JLabel("INQUIRY", JLabel.CENTER);
 	private JLabel logout = new JLabel("LOGOUT", JLabel.CENTER);
 
-	// attribute of entering hotel list Date, People, Rooms
+	// attribute of entering Search Date, People, Rooms
 	private JPanel EnterSearch = new JPanel();
 	final private int entersearchWidth = 700, entersearchlistHeight = 300;
 	final private Dimension entersearchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -258,8 +240,7 @@ public class Menu extends JPanel {
 		Signinerror.add(signinerrorText);
 		Signinerror.add(backsigninerror);
 	}
-
-	// sign in error 1
+	// sign in error1
 	private void initSigninerror1() {
 		signinerror1Text.setFont(new Font("Arial", Font.BOLD, 28));
 		signinerror1Text.setForeground(new Color(255, 0, 0));
@@ -281,6 +262,16 @@ public class Menu extends JPanel {
 		Signuperror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signuperror.add(signuperrorText);
 		Signuperror.add(backsignuperror);
+	}
+	private void initSignuperror1() {
+		signuperror1Text.setFont(new Font("Arial", Font.BOLD, 28));
+		signuperror1Text.setForeground(new Color(255, 0, 0));
+		backsignuperror1.setFont(new Font("Arial Black", Font.BOLD, 28));
+		Signuperror1.setLayout(new GridLayout(2, 1, 0, 0));
+		Signuperror1.setOpaque(false);
+		Signuperror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Signuperror1.add(signuperror1Text);
+		Signuperror1.add(backsignuperror);
 	}
 	// sign in
 	private void initSignIn() {
@@ -754,7 +745,6 @@ public class Menu extends JPanel {
 
 		Reserve_success.add(reservenumberPanel);
 	}
-
 	// Reserve invalid date error
 	private void initReserveinvaliddateerror() {
 		reserveinvaliddateerrorText.setFont(new Font("Arial", Font.BOLD, 28));
@@ -768,7 +758,6 @@ public class Menu extends JPanel {
 		Reserve_invalid_date_error.add(reserveinvaliddateerrorText);
 		Reserve_invalid_date_error.add(backreserveinvaliddateerror);
 	}
-
 	// sold out
 	private void initSoldout() {
 		soldoutText.setFont(new Font("Arial", Font.BOLD, 28));
@@ -974,9 +963,12 @@ public class Menu extends JPanel {
 		mcrstaynightField.setText(Integer.toString(night));
 		mcrpriceField.setText(Integer.toString(p));
 	}
-	// reserve success
-	public void showreservesuccess() {
+	// show reserve success
+	public void showreservesuccess(int OrderID, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
+			int p) {
+		successreservenumberField.setText(Integer.toString(OrderID));
 		layeredPane.add(Reserve_success, new Integer(3));
+		showMCR(hid, sroom, droom, qroom, chkindate, chkoutdate, night, p);
 		layeredPane.add(MCR, new Integer(3));
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
@@ -985,7 +977,6 @@ public class Menu extends JPanel {
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
 	}
-
 	// clear all the Text when logout
 	public void clearalltext() {
 		signinidField.setText(null);
@@ -1059,6 +1050,9 @@ public class Menu extends JPanel {
 
 		this.Signuperror.setBounds(signuperrorCenter.width - (signuperrorWidth / 2),
 				signuperrorCenter.height - (signuperrorHeight / 2), signuperrorWidth, signuperrorHeight);
+		
+		this.Signuperror1.setBounds(signuperrorCenter1.width - (signuperror1Width / 2),
+				signuperrorCenter1.height - (signuperror1Height / 2), signuperror1Width, signuperror1Height);
 
 		this.Hotelfunction.setBounds(hotelfunctionCenter.width - (hotelfunctionWidth / 2),
 				hotelfunctionCenter.height - (hotelfunctionHeight / 2), hotelfunctionWidth, hotelfunctionHeight);
@@ -1116,6 +1110,7 @@ public class Menu extends JPanel {
 		initSigninerror();
 		initSigninerror1();
 		initSignuperror();
+		initSignuperror1();
 		initEnterinvaliddateerror();
 		initNomatchedhotelerror();
 		initWrongreservationnumber();
@@ -1196,35 +1191,44 @@ public class Menu extends JPanel {
 				repaint();
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
-				// get the sign up id and password and verify code
 				String UserID = signupidField.getText();
 				String Password = signuppasswordField.getText();
 				String UserCode = usercodeField.getText(); // user enter verify code
 				String VerifyCode = verifycodeField.getText(); // random verify code
 				if (main.SignUpCheck(UserID, Password, UserCode)) {
+					
 					if (UserCode.equals(VerifyCode)) {
+						//Create a new User
 						main.user = new User(UserID, Password);
 						main.UserList.add(main.user);
 						
-						layeredPane.add(title);
 						layeredPane.remove(Signup);
+						layeredPane.add(title);
 						layeredPane.add(Hotelfunction, new Integer(3));
 						validate();
 						repaint();
 						signuplogin.setForeground(Color.black);
-					} else {
-//錯誤訊息:Wrong verify code.	
-//						layeredPane.add(Signuperror1, new Integer(3));
+					} else {//Wrong verify code.	
+						System.out.println("hihi");
+						layeredPane.remove(Signup);
+						layeredPane.add(Signuperror1, new Integer(3));
 						signinidField.setText("");
 						signinpasswordField.setText("");
 						verifycodeField.setText(main.getRandomString(6));
+						signuplogin.setForeground(Color.black);
+						validate();
+						repaint();
 					}
-				} else {
-//錯誤訊息:UserID already existed.
-//					layeredPane.add(Signuperror1, new Integer(3));
-					signinidField.setText("");
-					signinpasswordField.setText("");
+				} else {//UserID already existed.
+					layeredPane.remove(Signup);
+					layeredPane.add(Signuperror, new Integer(3));
+					signupidField.setText("");
+					signuppasswordField.setText("");
 					verifycodeField.setText(main.getRandomString(6));
+					signuplogin.setForeground(Color.black);
+					validate();
+					repaint();
+
 				}
 			} else if (e.getSource() == signinText) {
 				layeredPane.remove(subMenu);
@@ -1243,30 +1247,38 @@ public class Menu extends JPanel {
 				String Password = signinpasswordField.getText();
 				int re = main.SignInCheck(UserID, Password);
 				if (re == 1) {
-					layeredPane.add(title);
 					layeredPane.remove(Signin);
+					layeredPane.add(title);
 					layeredPane.add(Hotelfunction, new Integer(2));
 					validate();
 					repaint();
 					signinlogin.setForeground(Color.black);
 				} else if (re == 0) {
-//錯誤訊息:UserID doesn't exist.
-//					layeredPane.add(Signinerror, new Integer(2));
+					//UserID doesn't exist.
+					layeredPane.remove(Signin);
+					layeredPane.add(Signinerror, new Integer(2));
 					signinidField.setText("");
 					signinpasswordField.setText("");
+					validate();
+					repaint();
 				} else if (re == -1) {
-//錯誤訊息:Wrong Password.
+					//Wrong Password.
+					layeredPane.remove(Signin);
+					layeredPane.add(Signinerror1, new Integer(2));
 					signinidField.setText("");
 					signinpasswordField.setText("");
+					validate();
+					repaint();
 				}
-			} else if (e.getSource() == logout || e.getSource() == backsigninerror
-					|| e.getSource() == backsignuperror) {
+			} else if (e.getSource() == logout || e.getSource() == backsigninerror || e.getSource() == backsignuperror) { 
+//這裡怪怪的 signin/signup error應該不用跑到最首頁吧？
 				layeredPane.remove(Hotelfunction);
 				layeredPane.remove(Signin);
 				layeredPane.remove(Signup);
 				layeredPane.remove(Signinerror);
 				layeredPane.remove(Signinerror1);
 				layeredPane.remove(Signuperror);
+				layeredPane.remove(Signuperror1);
 				layeredPane.add(title);
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
@@ -1284,28 +1296,29 @@ public class Menu extends JPanel {
 				repaint();
 				searchText.setForeground(Color.black);
 			} else if (e.getSource() == nextentersearch) {
-				// get enter check in date yyyy/mm/dd
 				String CID = entercheckindateField.getText();
-				// get enter check out date yyyy/mm/dd
 				String COD = entercheckoutdateField.getText();
-				// get enter people and room
 				int People = Integer.parseInt(enterpeopleField.getText());
-				int RoomNumbers = Integer.parseInt(enterroomField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
 //這裡看看能不能直接在選日期的時候限定好				
 				if (main.CountDaysBetween(CID, COD) >= 0) {
-					ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, RoomNumbers);
-					layeredPane.remove(EnterSearch);
-					layeredPane.add(Search, new Integer(3));
-//					layeredPane.add(Entersearcherror,new Integer(3));
-					validate();
-					repaint();
-					nextenterhotellist.setForeground(Color.black);
-				} else {
-//錯誤訊息:Invaid Date
-               //layeredPane.add(No_matched_hotel_error,new Integer(3)); // if no matched hotel
-				//validate();
-				//repaint();
-				//nextentersearch.setForeground(Color.black);
+					ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+					if (AHR.size() > 0) {
+						layeredPane.remove(EnterSearch);
+						layeredPane.add(Search, new Integer(3));
+						validate();
+						repaint();
+						nextentersearch.setForeground(Color.black);
+					} else {
+						//no matched hotel
+						layeredPane.remove(EnterSearch);
+						layeredPane.add(No_matched_hotel_error, new Integer(3));
+						validate();
+						repaint();
+						nextentersearch.setForeground(Color.black);
+					}
+				} else {//Invaid Date
+					
 				}
 			} else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
@@ -1346,27 +1359,25 @@ public class Menu extends JPanel {
 				repaint();
 				reserveText.setForeground(Color.black);
 			} else if (e.getSource() == nextreserve) {
-<<<<<<< HEAD
 				String CID = reservecheckindateField.getText();//yyyy/mm/dd
 				String COD = reservecheckoutdateField.getText();
 				int HotelID = reservehotelid.getSelectedIndex();
 				int sn = Integer.parseInt(reservesingleroomField.getText());
 				int dn = Integer.parseInt(reservedoubleroomField.getText());
 				int qn = Integer.parseInt(reservequadroomField.getText());
-				if (main.BookHotel(CID, COD, HotelID, sn, dn, qn)) {
-//訂房成功的output
+				Order order = main.BookHotel(CID, COD, HotelID, sn, dn, qn);
+				if (order != null) {
+					//訂房成功
                     layeredPane.remove(Reserve);
-				
-				    // if reserve success
-//				    showMCR();
-				    successreservenumberField.setText(""); // set the reserve number
-				    showreservesuccess();
+				    showreservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(), order.getqn(), order.getCheckInDate(), order.getCheckOutDate(), 
+				    		(int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()) ,order.getSumPrice());
 			       	validate();
 				    repaint();
 				    nextreserve.setForeground(Color.black);
                 } else {
-//訂房失敗 房間數量不足/房間已售罄					                    
-//				layeredPane.add(Soldout, new Integer(3)); // if all the room sold out
+                	//訂房失敗 房間數量不足/房間已售罄		
+                	layeredPane.remove(Reserve);
+                	layeredPane.add(Soldout, new Integer(3)); 
             	    validate();
 				    repaint();
 				    nextreserve.setForeground(Color.black);
@@ -1393,11 +1404,6 @@ public class Menu extends JPanel {
 					Order order = main.CheckOrder(OrderID);
 					System.out.println("here" + order != null);
 					layeredPane.remove(Inquiry);
-					/*showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
-							Integer.parseInt(reservedoubleroomField.getText()),
-							Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
-							reservecheckoutdateField.getText(), 10, 30);
-					*/
 					showMCR(order.getHotelID(), order.getsn(), order.getdn(), order.getqn(), 
 							order.getCheckInDate(), order.getCheckOutDate(), (int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
@@ -1406,10 +1412,12 @@ public class Menu extends JPanel {
 					validate();
 					repaint();
 					nextinquiry.setForeground(Color.black);
-				} else {
-//錯誤訊息:不存在此訂位代號
+				} else {//不存在此訂單代號
+     				layeredPane.add(Wrong_reservation_number, new Integer(3));
+     				validate();
+					repaint();
 					reservenumberField.setText("");
-//     				layeredPane.add(Wrong_reservation_number, new Integer(3));
+					nextinquiry.setForeground(Color.black);
                 }
 			} else if (e.getSource() == backwrongreservationnumber) {
 				layeredPane.remove(Wrong_reservation_number);

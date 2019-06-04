@@ -29,14 +29,14 @@ public class main {
 		//try (BufferedReader reader = new BufferedReader(new FileReader(file)) {
 	    	Gson gson = new GsonBuilder().create();
 	        HotelList = gson.fromJson(reader, Hotel[].class);
-	        for (Hotel h : HotelList) {
+	        for (Hotel h : HotelList) 
+	        	h.init();
+	        for (Hotel h : HotelList) 
 	        	System.out.println(h);
-	        }
 	    } catch (Exception e) {
 	    	System.out.println("cannot find the file");
 	    }
 	}
-	
 	public static String getRandomString(int length) {
 		String str = "abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
@@ -47,8 +47,8 @@ public class main {
 		}
 		return sf.toString();
 	}
-	
 	public static int SignInCheck(String UserID, String Password) { //0->can't find user  -1->wrong password
+		if (UserList == null) return 0;
 		for (int i = 0; i < UserList.size(); i++) 
 			if (UserList.get(i) != null) {
 				if (UserList.get(i).getUserID().equals(UserID) && UserList.get(i).getPassword().equals(Password)) {
@@ -69,7 +69,6 @@ public class main {
 				return false;
 		return true;
 	}
-	
 	public static boolean CheckDate(int Year, int Month, int Day) { 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 	    sdf.setLenient(false);
@@ -81,7 +80,6 @@ public class main {
 	    }
 		return true;
 	}
-	
 	public static long CountDaysBetween(String D1, String D2) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         final LocalDate firstDate = LocalDate.parse(D1, formatter);
@@ -90,22 +88,24 @@ public class main {
         //System.out.println("Days between: " + days);
         return days;
     }
-
 	public static boolean CheckRoomIsAvailable(Room room, long Start, long end) {
 		boolean[] DIO = room.getDateIsOccupied();
 		for (int i = (int)Start; i < end; i++) 
-			if (DIO[i] == true) 
+			if (DIO[i] == true) {
+				//System.out.println("akljdlsjfl");
 				return false;
+			}
 		return true;
 	}
-
 	public static boolean CheckAllRooms(int HotelID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
 		Room[] doubleroom = hotel.getDoubleRooms();
 		Room[] quadroom = hotel.getQuadRooms();
 		
+		System.out.println(singleroom);
 		if (sn > 0) {
+			if (singleroom == null) return false;
 			int ok = 0;
 			for (Room sr : singleroom) 
 				if (CheckRoomIsAvailable(sr, start, end)) 
@@ -123,7 +123,7 @@ public class main {
 		}
 		if (qn > 0) {
 			int ok = 0;
-			for (Room qr : doubleroom) 
+			for (Room qr : quadroom) 
 				if (CheckRoomIsAvailable(qr, start, end)) 
 					ok ++;
 			if (ok < qn) 
@@ -131,7 +131,6 @@ public class main {
 		}
 		return true;
 	}
-
 	public static void BookRooms(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -172,19 +171,18 @@ public class main {
 			}
 		}
 	}
-
 	public static ArrayList<AvailableHotelRooms> SearchAvailableHotels(String CID, String COD, int p, int n) { 
-		ArrayList<AvailableHotelRooms> AHR = null;
+		ArrayList<AvailableHotelRooms> AHR = new ArrayList<AvailableHotelRooms> ();
+		
+		Date Now = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	    long start = CountDaysBetween(sdf.format(Now), CID);
+		long end = CountDaysBetween(sdf.format(Now), COD);
 		
 		for (Hotel hotel : HotelList) {
 			Room[] singleroom = hotel.getSingleRooms();
 			Room[] doubleroom = hotel.getDoubleRooms();
 			Room[] quadroom = hotel.getQuadRooms();
-			
-			Date Now = new Date();
-		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		    long start = CountDaysBetween(sdf.format(Now), CID);
-			long end = CountDaysBetween(sdf.format(Now), COD);
 			
 			int available_sr = 0;
 			if (singleroom != null) {
@@ -212,21 +210,12 @@ public class main {
 			for (int x = 0; x <= Math.min(n, available_sr); x++)
 				for (int y = 0; y <= Math.min(n, available_dr); y++) 
 					for (int z = 0; z <= Math.min(n, available_qr); z++) 
-						if (x + y + z == n && 1*x + 2*y + 4*z >= p) {
-							if (first) {
-								AHR.add(new AvailableHotelRooms(hotel.getID(), hotel.getStar(), 0, 0, 0));
-								first = false;
-							} else {
-								if (x > 0) AHR.get(AHR.size()-1).setSingle(x);
-								if (y > 0) AHR.get(AHR.size()-1).setDouble(y);
-								if (z > 0) AHR.get(AHR.size()-1).setQuad(z);
-							}
-						}
+						if (x + y + z == n && 1*x + 2*y + 4*z >= p) 
+							AHR.add(new AvailableHotelRooms(hotel.getID(), hotel.getStar(), x, y, z));
 		}
 		return AHR;
 	}
-
-	public static boolean BookHotel(String CID, String COD, int HotelID, int sn, int dn, int qn) { 
+	public static Order BookHotel(String CID, String COD, int HotelID, int sn, int dn, int qn) { 
 		Date Now = new Date();
 	    SimpleDateFormat sdf = new SimpleDateFormat ("yyyy/MM/dd");
 	    long start = CountDaysBetween(sdf.format(Now), CID);
@@ -239,15 +228,14 @@ public class main {
 			hotel.newOrder(nOrder);
 			user.newOrder(nOrder);
 			BookRooms(HotelID, user.getUserID(), start, end, sn, dn, qn);
-			return true;
+			return nOrder;
 		}  
-		return false;
+		return null;
 	}
 
 	public static Order CheckOrder(int OrderID) {
 		return user.getOrders().get(OrderID);
-	}
-	
+	}	
 	public static ArrayList<AvailableHotelRooms> SearchByStar(ArrayList<AvailableHotelRooms> AHR, int Star) {
 		ArrayList<AvailableHotelRooms> nAHR = new ArrayList<AvailableHotelRooms>();
 		for (AvailableHotelRooms ahr : AHR) 
@@ -255,13 +243,11 @@ public class main {
 				nAHR.add(ahr);
 		return nAHR;
 	}
-
 	public static int CountSumPrice(AvailableHotelRooms x) {
 		return Hotel.getSingleRoomPrice() * x.getSingle()
 			+ Hotel.getDoubleRoomPrice() * x.getDouble()
 			+ Hotel.getQuadRoomPrice() * x.getQuad();
 	}
-	
 	public static ArrayList<AvailableHotelRooms> SortByPrice(ArrayList<AvailableHotelRooms> AHR, int op) {
 		Collections.sort(AHR, new Comparator<AvailableHotelRooms>() {
 			public int compare(AvailableHotelRooms a, AvailableHotelRooms b) {
@@ -270,7 +256,6 @@ public class main {
 		});
 		return AHR;
 	}
-	
 	public static void ModifyRooms(int OrderID, int type, int number) {//to do
 		
 	}

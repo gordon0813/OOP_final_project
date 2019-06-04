@@ -7,10 +7,12 @@ public class User {
 	public User() {
 		UserID = "";
 		Password = "";
+		Orders = new ArrayList<Order>();
 	}
 	public User(String _UserID, String _Password) {
 		UserID = _UserID;
 		Password = _Password;
+		Orders = new ArrayList<Order>();
 	}
 	public String getUserID() {
 		return UserID;
