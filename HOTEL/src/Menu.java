@@ -89,7 +89,7 @@ public class Menu extends JPanel {
 	protected TextField usercodeField = new TextField(6);
 	protected JLabel verifycodeField = new JLabel("");
 
-	// attribute of Hotel function Hotel list/Reserve/Inquiry
+	// attribute of Hotel function Search/Reserve/Inquiry
 	private JPanel Hotelfunction = new JPanel();
 	final private int hotelfunctionWidth = 500, hotelfunctionHeight = 200;
 	final private Dimension hotelfunctionCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -98,7 +98,7 @@ public class Menu extends JPanel {
 	private JLabel inquiryText = new JLabel("INQUIRY", JLabel.CENTER);
 	private JLabel logout = new JLabel("LOGOUT", JLabel.CENTER);
 
-	// attribute of entering hotel list date, people, rooms
+	// attribute of entering hotel list Date, People, Rooms
 	private JPanel EnterSearch = new JPanel();
 	final private int enterhotellistWidth = 700, enterhotellistHeight = 300;
 	final private Dimension enterhotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -116,7 +116,7 @@ public class Menu extends JPanel {
 	private JLabel entersearcherrorText = new JLabel("INVALID DATE!", JLabel.CENTER);
 	private JLabel backenterhotelerror = new JLabel("BACK", JLabel.CENTER);
 
-	// attribute of search hotel
+	// attribute of Search
 	private JPanel Search = new JPanel();
 	final private int searchWidth = 570, searchHeight = 250;
 	final private Dimension searchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -128,7 +128,7 @@ public class Menu extends JPanel {
 	private JLabel pricelowText = new JLabel("PRICE (LOWEST FIRST)", JLabel.CENTER);
 	private JLabel backsearch = new JLabel("BACK", JLabel.CENTER);
 
-	// attribute of reserve
+	// attribute of Reserve
 	private JPanel Reserve = new JPanel();
 	final private int reserveWidth = 620, reserveHeight = 300;
 	final private Dimension reserveCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -142,7 +142,7 @@ public class Menu extends JPanel {
 	protected TextField reservequadroomField = new TextField(2);
 	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
 
-	// attribute of inquiry
+	// attribute of Inquiry
 	private JPanel Inquiry = new JPanel();
 	final private int InquiryWidth = 600, InquiryHeight = 150;
 	final private Dimension InquiryCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -154,6 +154,7 @@ public class Menu extends JPanel {
 	private JPanel MCR = new JPanel();
 	final private int mcrWidth = 600, mcrHeight = 300;
 	final private Dimension mcrCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+//還需要查詢訂單的功能
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
 	private JLabel cancelText = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backmcr = new JLabel("BACK", JLabel.CENTER);
@@ -1026,19 +1027,22 @@ public class Menu extends JPanel {
 						
 						layeredPane.add(title);
 						layeredPane.remove(Signup);
-	//					layeredPane.add(Signuperror, new Integer(3));
 						layeredPane.add(Hotelfunction, new Integer(3));
 						validate();
 						repaint();
 						signuplogin.setForeground(Color.black);
 					} else {
-//跳出錯誤訊息:Wrong verify code.		
-//清空欄位
+//跳出錯誤訊息:Wrong verify code.	
+//						layeredPane.add(Signuperror1, new Integer(3));
+						signinidField.setText("");
+						signinpasswordField.setText("");
 						verifycodeField.setText(main.getRandomString(6));
 					}
 				} else {
 //跳出錯誤訊息:UserID already existed.
-//清空三個欄位	 
+//					layeredPane.add(Signuperror1, new Integer(3));
+					signinidField.setText("");
+					signinpasswordField.setText("");
 					verifycodeField.setText(main.getRandomString(6));
 				}
 			} else if (e.getSource() == signinText) {
@@ -1060,17 +1064,19 @@ public class Menu extends JPanel {
 				if (re == 1) {
 					layeredPane.add(title);
 					layeredPane.remove(Signin);
-//					layeredPane.add(Signinerror, new Integer(2));
 					layeredPane.add(Hotelfunction, new Integer(2));
 					validate();
 					repaint();
 					signinlogin.setForeground(Color.black);
 				} else if (re == 0) {
 //錯誤訊息:UserID doesn't exist.
-//清空欄位
+//					layeredPane.add(Signinerror, new Integer(2));
+					signinidField.setText("");
+					signinpasswordField.setText("");
 				} else if (re == -1) {
 //錯誤訊息:Wrong Password.
-//清空欄位
+					signinidField.setText("");
+					signinpasswordField.setText("");
 				}
 			} else if (e.getSource() == logout || e.getSource() == backsigninerror
 					|| e.getSource() == backsignuperror) {
@@ -1158,7 +1164,7 @@ public class Menu extends JPanel {
 				int dn = Integer.parseInt(reservedoubleroomField.getText());
 				int qn = Integer.parseInt(reservequadroomField.getText());
 				if (main.BookHotel(CID, COD, HotelID, sn, dn, qn)) {
-//訂房成功的output					
+//訂房成功的output	
 				} else {
 //錯誤訊息:訂房失敗 房間數量不足/房間已售罄					
 				}
@@ -1171,15 +1177,20 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == nextinquiry) {
 				// get reserve number
 				int OrderID = Integer.parseInt(reservenumberField.getText());
-				layeredPane.remove(Inquiry);
-				showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
-						Integer.parseInt(reservedoubleroomField.getText()),
-						Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
-						reservecheckoutdateField.getText(), 10, 30);
-				layeredPane.add(MCR, new Integer(3));
-				validate();
-				repaint();
-				nextinquiry.setForeground(Color.black);
+				if (main.CheckOrder(OrderID)) {
+					layeredPane.remove(Inquiry);
+					showMCR(reservehotelid.getSelectedIndex(), Integer.parseInt(reservesingleroomField.getText()),
+							Integer.parseInt(reservedoubleroomField.getText()),
+							Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
+							reservecheckoutdateField.getText(), 10, 30);
+					layeredPane.add(MCR, new Integer(3));
+					validate();
+					repaint();
+					nextinquiry.setForeground(Color.black);
+				} else {
+//錯誤訊息:不存在此訂位代號
+					reservenumberField.setText("");
+				}
 			}
 
 		}

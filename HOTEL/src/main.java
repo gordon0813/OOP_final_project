@@ -226,59 +226,66 @@ public class main {
 		}  
 		return false;
 	}
+	public static boolean CheckOrder(int OrderID) {
+		ArrayList<Order> orders = user.getOrders();
+		return (orders != null && orders.size() <= OrderID);
+	}
 	public static void ModifyRooms(int OrderID, int type, int number) {//to do
 		
 	}
-	public static void ModifyDate() {//to do
+	public static void ModifyDate(int OrderID, String CID, String COD) {
+		long nDays = CountDaysBetween(CID, COD);
+		Date Now = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat ("yyyy/MM/dd");
+	    long nstart = CountDaysBetween(sdf.format(Now), CID);
+		long nend = CountDaysBetween(sdf.format(Now), COD);
+	   
 		
 	}
 	public static void ModifyOrder() { //to do
 		Scanner scanner = new Scanner(System.in);
 		//使用者ID, 訂位代號, 取消訂單 / 減少<房型><數量>, … / 變更住宿日期：<入住日期>-<退房日期>
-		String UserID = scanner.next();
 		int OrderID = scanner.nextInt();
 		int op = scanner.nextInt();
 		
 		ArrayList<Order> orders = user.getOrders();
-		if (user.equals(UserID)) {
-			if (op == 1) {
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else {
-					System.out.println("退訂成功，已取消您的訂房紀錄"); //假設任何時間都可以退訂
-				}
-			} else if (op == 2) {//reduce 
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else { 
-					String type = scanner.next();
-					int number = scanner.nextInt();
-					Hotel hotel = HotelList[orders.get(OrderID).getHotelID()];
-					int sn = orders.get(OrderID).getsn();
-					int dn = orders.get(OrderID).getdn();
-					int qn = orders.get(OrderID).getqn();
-					/*int t = type == "Single"? 0 : (type == "Double"? 1 : 2);
-					if (number < demand[t]) {
-						ModifyRooms(OrderID, t, number);
-						System.out.println("修改成功，已將您的訂房數量變更為");
-						
-					} else {
-						System.out.println("修改失敗，修改數量超過訂房數量");
-					}*/
-				}
-			} else if (op == 3) {//change date
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else { 
-					String CID = scanner.next();
-					String COD = scanner.next();
+		
+		if (op == 1) {
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else {
+				System.out.println("退訂成功，已取消您的訂房紀錄"); //假設任何時間都可以退訂
+			}
+		} else if (op == 2) {//reduce 
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else { 
+				String type = scanner.next();
+				int number = scanner.nextInt();
+				Hotel hotel = HotelList[orders.get(OrderID).getHotelID()];
+				int sn = orders.get(OrderID).getsn();
+				int dn = orders.get(OrderID).getdn();
+				int qn = orders.get(OrderID).getqn();
+				/*int t = type == "Single"? 0 : (type == "Double"? 1 : 2);
+				if (number < demand[t]) {
+					ModifyRooms(OrderID, t, number);
+					System.out.println("修改成功，已將您的訂房數量變更為");
 					
-				}
-			} 
+				} else {
+					System.out.println("修改失敗，修改數量超過訂房數量");
+				}*/
+			}
+		} else if (op == 3) {//change date
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else { 
+				String CID = scanner.next();
+				String COD = scanner.next();
+				
+			}
 		} else {
 			System.out.println("您輸入的身分識別碼/訂位代號有誤，請重新輸入");
 		}
-		
 	}
 	
 	public static void SearchOrder() {
