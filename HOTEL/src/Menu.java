@@ -40,12 +40,19 @@ public class Menu extends JPanel {
 	private JLabel signinText = new JLabel("SIGN IN", JLabel.CENTER);
 	private JLabel signupText = new JLabel("SIGN UP", JLabel.CENTER);
 
-	// attribute of sign in error
+	// attribute of sign in error (unknown ID)
 	private JPanel Signinerror = new JPanel();
 	final private int signinerrorWidth = 700, signinerrorHeight = 110;
 	final private Dimension signinerrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signinerrorText = new JLabel("UNKNOWN ID or WRING PASSWORD", JLabel.CENTER);
+	private JLabel signinerrorText = new JLabel("UNKNOWN ID", JLabel.CENTER);
 	private JLabel backsigninerror = new JLabel("BACK", JLabel.CENTER);
+
+	// attribute of sign in error1 (wrong password)
+	private JPanel Signinerror1 = new JPanel();
+	final private int signinerror1Width = 700, signinerror1Height = 110;
+	final private Dimension signinerror1Center = new Dimension(frameWidth / 2, 500);
+	private JLabel signinerror1Text = new JLabel("WRONG PASSWORD.", JLabel.CENTER);
+	private JLabel backsigninerror1 = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign up error
 	private JPanel Signuperror = new JPanel();
@@ -134,7 +141,7 @@ public class Menu extends JPanel {
 	protected TextField reservequadroomField = new TextField(2);
 	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
 
-	// attribute of sold out
+	// attribute of reserve error (sold out)
 	private JPanel Soldout = new JPanel();
 	final private int soldoutWidth = 700, soldoutHeight = 150;
 	final private Dimension soldoutCenter = new Dimension(frameWidth / 2, frameHeight / 2);
@@ -215,6 +222,18 @@ public class Menu extends JPanel {
 		Signinerror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signinerror.add(signinerrorText);
 		Signinerror.add(backsigninerror);
+	}
+
+	// sign in error 1
+	private void initSigninerror1() {
+		signinerror1Text.setFont(new Font("Arial", Font.BOLD, 28));
+		signinerror1Text.setForeground(new Color(255, 0, 0));
+		backsigninerror1.setFont(new Font("Arial Black", Font.BOLD, 28));
+		Signinerror1.setLayout(new GridLayout(2, 1, 0, 0));
+		Signinerror1.setOpaque(false);
+		Signinerror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Signinerror1.add(signinerror1Text);
+		Signinerror1.add(backsigninerror1);
 
 	}
 
@@ -697,7 +716,7 @@ public class Menu extends JPanel {
 		Reserve_success.setLayout(new GridLayout(1, 1, 0, 0));
 		Reserve_success.setOpaque(false);
 		Reserve_success.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		
+
 		JPanel reservenumberPanel = new JPanel();
 		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		reservenumberPanel.setOpaque(false);
@@ -706,8 +725,8 @@ public class Menu extends JPanel {
 		reservenumber.setFont(new Font("Arial Black", Font.PLAIN, 17));
 		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 17));
 		reservenumberPanel.add(reservenumber);
-		reservenumberPanel.add(successreservenumberField); 
-		
+		reservenumberPanel.add(successreservenumberField);
+
 		Reserve_success.add(reservenumberPanel);
 	}
 
@@ -946,7 +965,7 @@ public class Menu extends JPanel {
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
 	}
-	
+
 	// clear all the Text when logout
 	public void clearalltext() {
 		signinidField.setText(null);
@@ -1017,6 +1036,9 @@ public class Menu extends JPanel {
 		this.Signinerror.setBounds(signinerrorCenter.width - (signinerrorWidth / 2),
 				signinerrorCenter.height - (signinerrorHeight / 2), signinerrorWidth, signinerrorHeight);
 
+		this.Signinerror1.setBounds(signinerror1Center.width - (signinerror1Width / 2),
+				signinerror1Center.height - (signinerror1Height / 2), signinerror1Width, signinerror1Height);
+
 		this.Signuperror.setBounds(signuperrorCenter.width - (signuperrorWidth / 2),
 				signuperrorCenter.height - (signuperrorHeight / 2), signuperrorWidth, signuperrorHeight);
 
@@ -1075,6 +1097,7 @@ public class Menu extends JPanel {
 		initMCR();
 		initLayerPane();
 		initSigninerror();
+		initSigninerror1();
 		initSignuperror();
 		initEnterinvaliddateerror();
 		initNomatchedhotelerror();
@@ -1091,6 +1114,7 @@ public class Menu extends JPanel {
 		signuplogin.addMouseListener(ml);
 		// buttons of sign in sign up error
 		backsigninerror.addMouseListener(ml);
+		backsigninerror1.addMouseListener(ml);
 		backsignuperror.addMouseListener(ml);
 		// buttons in hotel function
 		searchText.addMouseListener(ml);
@@ -1187,17 +1211,19 @@ public class Menu extends JPanel {
 				String y = signinpasswordField.getText();
 				layeredPane.add(title);
 				layeredPane.remove(Signin);
-//				layeredPane.add(Signinerror, new Integer(2));
+//				layeredPane.add(Signinerror, new Integer(2)); // unknown ID
+//				layeredPane.add(Signinerror1, new Integer(2)); // wrong password
 				layeredPane.add(Hotelfunction, new Integer(2));
 				validate();
 				repaint();
 				signinlogin.setForeground(Color.black);
-			} else if (e.getSource() == logout || e.getSource() == backsigninerror
+			} else if (e.getSource() == logout || e.getSource() == backsigninerror || e.getSource() == backsigninerror1
 					|| e.getSource() == backsignuperror) {
 				layeredPane.remove(Hotelfunction);
 				layeredPane.remove(Signin);
 				layeredPane.remove(Signup);
 				layeredPane.remove(Signinerror);
+				layeredPane.remove(Signinerror1);
 				layeredPane.remove(Signuperror);
 				layeredPane.add(title);
 				layeredPane.add(subMenu, new Integer(2));
@@ -1205,6 +1231,7 @@ public class Menu extends JPanel {
 				repaint();
 				logout.setForeground(Color.black);
 				backsigninerror.setForeground(Color.black);
+				backsigninerror1.setForeground(Color.black);
 				backsignuperror.setForeground(Color.black);
 				// clear all the text field
 				clearalltext();
@@ -1279,12 +1306,12 @@ public class Menu extends JPanel {
 				int q = Integer.parseInt(reservedoubleroomField.getText());
 				int r = Integer.parseInt(reservequadroomField.getText());
 				layeredPane.remove(Reserve);
-				
+
 				// if reserve success
 //				showMCR();
 				successreservenumberField.setText(""); // set the reserve number
 				showreservesuccess();
-				
+
 //				layeredPane.add(Soldout, new Integer(3)); // if all the room sold out
 //				layeredPane.add(Reserve_invalid_date_error, new Integer(3)); // if invalid date
 				validate();
@@ -1316,7 +1343,7 @@ public class Menu extends JPanel {
 //						Integer.parseInt(reservedoubleroomField.getText()),
 //						Integer.parseInt(reservequadroomField.getText()), reservecheckindateField.getText(),
 //						reservecheckoutdateField.getText(), night, price);
-		        layeredPane.add(MCR, new Integer(3));
+				layeredPane.add(MCR, new Integer(3));
 
 				validate();
 				repaint();
