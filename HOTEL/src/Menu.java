@@ -1,28 +1,9 @@
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.TextField;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.table.*;
 
 /*
  * to do:
@@ -208,12 +189,13 @@ public class Menu extends JPanel {
 	protected JTextField mcrcheckoutdateField = new JTextField(10);
 	protected TextField mcrstaynightField = new TextField(2);
 	protected TextField mcrpriceField = new TextField(5);
-	
+
 	// attribute of hotel list
 	private JPanel Hotellist = new JPanel();
+	final private int hotellistWidth = 850, hotellistHeight = 500;
+	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JTable HotellistTable = new JTable();
 	private JLabel backhotellist = new JLabel("BACK", JLabel.CENTER);
-	
 
 	// Menu(Panel) settings
 	private void initPanel() {
@@ -442,7 +424,7 @@ public class Menu extends JPanel {
 				DP.showDialog();
 			}
 		});
-		
+
 		// check in panel adding
 		checkinPanel.add(checkin);
 		checkinPanel.add(entercheckindateField);
@@ -1016,6 +998,55 @@ public class Menu extends JPanel {
 		reservehotelid = new JComboBox<Object>(option);
 	}
 
+	// HotelList 旅館列表
+	private void initHotellist() {
+		Hotellist.setLayout(new BorderLayout());
+		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Hotellist.setOpaque(true);
+		Hotellist.setBackground(new Color(245,255,250));
+		backhotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
+		backhotellist.setBackground(new Color(245,255,250));
+
+		// 設定標題文字
+		String[] heading = new String[] { "ID", "Star", "City", "Address", "Single room", "Double room", "Quad room" };
+		// 暫時建立空列表
+		String[] s1 = { "", "", "", "", "", "", "" }; 
+		Object[][] data = new Object[][] { s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1 };
+		HotellistTable = new JTable(data, heading);
+
+		JTableHeader head = HotellistTable.getTableHeader(); // 設定標題字型
+		head.setFont(new Font("Arial", Font.PLAIN, 20));
+		HotellistTable.setRowHeight(30); // 設定列高
+		HotellistTable.getColumnModel().getColumn(0).setMaxWidth(60); // 設定欄寬
+		HotellistTable.getColumnModel().getColumn(1).setMaxWidth(60);
+		HotellistTable.getColumnModel().getColumn(2).setMaxWidth(60);
+		HotellistTable.getColumnModel().getColumn(3).setMaxWidth(300);
+		HotellistTable.getColumnModel().getColumn(4).setMaxWidth(120);
+		HotellistTable.getColumnModel().getColumn(5).setMaxWidth(120);
+		HotellistTable.getColumnModel().getColumn(6).setMaxWidth(120);
+
+		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() // 設定表格間隔顏色
+		{
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				if (row % 2 == 0)
+					setBackground(new Color(248, 248, 255));
+				else if (row % 2 == 1)
+					setBackground(Color.white);
+				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			}
+		};
+		for (int i = 0; i < 7; i++) {
+			HotellistTable.getColumn(heading[i]).setCellRenderer(ter);
+		}
+
+		// 建立捲軸Table
+		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
+		Hotellist.add(backhotellist, BorderLayout.SOUTH);
+	}
+
 	// sub menu
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
@@ -1067,6 +1098,9 @@ public class Menu extends JPanel {
 
 		this.EnterSearch.setBounds(entersearchCenter.width - (entersearchWidth / 2),
 				entersearchCenter.height - (entersearchlistHeight / 2), entersearchWidth, entersearchlistHeight);
+
+		this.Hotellist.setBounds(hotellistCenter.width - (hotellistWidth / 2),
+				hotellistCenter.height - (hotellistHeight / 2), hotellistWidth, hotellistHeight);
 
 		this.Enter_invalid_date_error.setBounds(enterinvaliddateerrorCenter.width - (enterinvaiddateerrorWidth / 2),
 				enterinvaliddateerrorCenter.height - (enterinvaliddateerrorHeight / 2), enterinvaiddateerrorWidth,
@@ -1126,6 +1160,7 @@ public class Menu extends JPanel {
 		initSoldout();
 		initReserveinvaliddateerror();
 		initReservesuccess();
+		initHotellist();
 		// buttons in sub menu / sign in / sign up
 		signinText.addMouseListener(ml);
 		signupText.addMouseListener(ml);
@@ -1326,7 +1361,7 @@ public class Menu extends JPanel {
 				String s2 = entercheckoutdateField.getText();
 //這裡看看能不能直接在選日期的時候限定好
 // 我現在想到的方法是：不要一開始就傳給CID COD。先檢查 s1 s2，對的話再傳進去，不對就不要傳。
-				if (main.CountDaysBetween(s1, s2) >= 0) {
+				if (main.CountDaysBetween(s1, s2) > 0) {
 					String CID = entercheckindateField.getText();
 					String COD = entercheckoutdateField.getText();
 					int People = Integer.parseInt(enterpeopleField.getText());
@@ -1349,25 +1384,28 @@ public class Menu extends JPanel {
 						nextentersearch.setForeground(Color.black);
 					}
 				} else {// Invaid Date
-//					layeredPane.remove(EnterSearch);
-					layeredPane.add(Enter_invalid_date_error,new Integer(3));
+					layeredPane.add(Enter_invalid_date_error, new Integer(3));
 					entercheckindateField.setText("SELECT DATE");
 					entercheckoutdateField.setText("SELECT DATE");
 					enterpeopleField.setText(null);
 					enterroomField.setText(null);
-//					layeredPane.add(EnterSearch, new Integer(3));
 					validate();
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
+			} else if (e.getSource() == star5) {
+				layeredPane.remove(Search);
+				layeredPane.add(Hotellist, new Integer(3));
+				validate();
+				repaint();
+				star5.setForeground(Color.black);
 			} else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
 				layeredPane.add(EnterSearch, new Integer(3));
 				validate();
 				repaint();
 				backsearch.setForeground(Color.black);
-			} else if (e.getSource() == backenterinvaliddateerror || e.getSource() == backnomatchedhotelerror) {
-				layeredPane.remove(Enter_invalid_date_error);
+			} else if (e.getSource() == backnomatchedhotelerror) {
 				layeredPane.remove(No_matched_hotel_error);
 				layeredPane.add(EnterSearch, new Integer(3));
 				entercheckindateField.setText("SELECT DATE");
@@ -1376,7 +1414,6 @@ public class Menu extends JPanel {
 				enterroomField.setText(null);
 				validate();
 				repaint();
-				backenterinvaliddateerror.setForeground(Color.black);
 				backnomatchedhotelerror.setForeground(Color.black);
 			} else if (e.getSource() == backentersearch || e.getSource() == backreserve || e.getSource() == backinquiry
 					|| e.getSource() == backmcr) {
@@ -1386,6 +1423,7 @@ public class Menu extends JPanel {
 				layeredPane.remove(Reserve);
 				layeredPane.remove(Reserve_success);
 				layeredPane.remove(Enter_invalid_date_error);
+				layeredPane.remove(Reserve_invalid_date_error);
 				layeredPane.add(Hotelfunction);
 				validate();
 				repaint();
@@ -1400,33 +1438,46 @@ public class Menu extends JPanel {
 				repaint();
 				reserveText.setForeground(Color.black);
 			} else if (e.getSource() == nextreserve) {
-				String CID = reservecheckindateField.getText();// yyyy/mm/dd
-				String COD = reservecheckoutdateField.getText();
-				int HotelID = reservehotelid.getSelectedIndex();
-				int sn = Integer.parseInt(reservesingleroomField.getText());
-				int dn = Integer.parseInt(reservedoubleroomField.getText());
-				int qn = Integer.parseInt(reservequadroomField.getText());
-				Order order = main.BookHotel(CID, COD, HotelID, sn, dn, qn);
-				if (order != null) {
-					// 訂房成功
-					layeredPane.remove(Reserve);
-					showreservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(), order.getqn(),
-							order.getCheckInDate(), order.getCheckOutDate(),
-							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
-							order.getSumPrice());
-					validate();
-					repaint();
-					nextreserve.setForeground(Color.black);
-				} else {
-					// 訂房失敗 房間數量不足/房間已售罄
-					layeredPane.remove(Reserve);
-					layeredPane.add(Soldout, new Integer(3));
+				String s1 = reservecheckindateField.getText();
+				String s2 = reservecheckoutdateField.getText();
+				if (main.CountDaysBetween(s1, s2) >= 0) {
+					String CID = reservecheckindateField.getText();// yyyy/mm/dd
+					String COD = reservecheckoutdateField.getText();
+					int HotelID = reservehotelid.getSelectedIndex();
+					int sn = Integer.parseInt(reservesingleroomField.getText());
+					int dn = Integer.parseInt(reservedoubleroomField.getText());
+					int qn = Integer.parseInt(reservequadroomField.getText());
+					Order order = main.BookHotel(CID, COD, HotelID, sn, dn, qn);
+					if (order != null) {
+						// 訂房成功
+						layeredPane.remove(Reserve);
+						showreservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(),
+								order.getqn(), order.getCheckInDate(), order.getCheckOutDate(),
+								(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
+								order.getSumPrice());
+						validate();
+						repaint();
+						nextreserve.setForeground(Color.black);
+					} else {
+						// 訂房失敗 房間數量不足/房間已售罄
+						layeredPane.remove(Reserve);
+						layeredPane.add(Soldout, new Integer(3));
+						validate();
+						repaint();
+						nextreserve.setForeground(Color.black);
+					}
+				} else { // reserve invalid date
+					layeredPane.add(Reserve_invalid_date_error, new Integer(3));
+					reservecheckindateField.setText("SELECT DATE");
+					reservecheckoutdateField.setText("SELECT DATE");
+					reservesingleroomField.setText(null);
+					reservedoubleroomField.setText(null);
+					reservequadroomField.setText(null);
 					validate();
 					repaint();
 					nextreserve.setForeground(Color.black);
 				}
-			} else if (e.getSource() == backsoldout //|| e.getSource() == backreserveinvaliddateerror
-					) {
+			} else if (e.getSource() == backsoldout) {
 				layeredPane.remove(Soldout);
 				layeredPane.remove(Reserve_invalid_date_error);
 				layeredPane.add(Reserve, new Integer(3));
