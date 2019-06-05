@@ -15,49 +15,28 @@ import java.text.SimpleDateFormat;
 
 public class main {
 	public static Hotel HotelList[];
-	public static User[] UserList = new User[100];
+	public static ArrayList<User> UserList;
 	public static User user;
 	
 	public static void main(String[] args) throws IOException {
 		ReadHotelList();
-		
-		System.out.println("Please choose:\n (1)Sign in \n (2)Sign up");
-		Scanner scanner = new Scanner(System.in);
-		int op = scanner.nextInt();
-		UserCertification(op);
-		
-		while (true) {
-			JSONObject Hotels[] = new JSONObject[1500];
-			
-			System.out.println("Choose what you want:\n (1)Search for available hotels\n (2)Modify/Cancel your order\n"
-					+ " (3)Check your order\n (4)Search your order");
-			
-			op = scanner.nextInt();
-			if (op == 1) {//查詢可訂旅館
-				SearchAvailableHotels();
-			} else if (op == 2) {//住宿預訂
-				BookHotel();
-			} else if (op == 3) {//退訂/減少房間數量/縮短住宿天數
-				ModifyOrder();
-			} else if (op == 4) {//查詢訂房
-				SearchOrder();
-			} 
-			
-		}
+		HotelPreference program = new HotelPreference();
+		program.setVisible(true);
 	}
-	
 	public static void ReadHotelList() throws IOException {
 		File file = new File("HotelList");
 	    try (Reader reader = new InputStreamReader(main.class.getResourceAsStream("HotelList.json"), "big5")) {
 		//try (BufferedReader reader = new BufferedReader(new FileReader(file)) {
 	    	Gson gson = new GsonBuilder().create();
 	        HotelList = gson.fromJson(reader, Hotel[].class);
-	        for (Hotel h : HotelList) {
+	        for (Hotel h : HotelList) 
+	        	h.init();
+	        for (Hotel h : HotelList) 
 	        	System.out.println(h);
-	        }
-	    } 
+	    } catch (Exception e) {
+	    	System.out.println("cannot find the file");
+	    }
 	}
-	
 	public static String getRandomString(int length) {
 		String str = "abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
@@ -68,67 +47,28 @@ public class main {
 		}
 		return sf.toString();
 	}
-	
-	public static void UserCertification(int op) {
-		String UserID = null, Password = null;
-		Scanner scanner = new Scanner(System.in);
-		if (op == 1) { //sign in
-			while (true) {
-				System.out.println("Please enter your UserID:");
-				UserID = scanner.next();
-				System.out.println("Please enter your Password:");
-				Password = scanner.next();	
-				
-				int ok = 0;
-				for (int i = 0; i < UserList.length; i++) {
-					if (UserList[i] != null) {
-						if (UserList[i].getUserID().equals(UserID) && UserList[i].getPassword().equals(Password)) {
-							ok = 1;
-							user = UserList[i]; // Logged in
-							break;
-						} else if (UserList[i].getUserID().equals(UserID)) {
-							System.out.println("Wrong password. Please try again.");
-							ok = -1;
-							break;
-						}
-					}
-				}
-				if (ok == 1) break;
-				else if (ok == 0) System.out.println("User doesn't exist. Please try again.");
+	public static int SignInCheck(String UserID, String Password) { //0->can't find user  -1->wrong password
+		if (UserList == null) return 0;
+		for (int i = 0; i < UserList.size(); i++) 
+			if (UserList.get(i) != null) {
+				if (UserList.get(i).getUserID().equals(UserID) && UserList.get(i).getPassword().equals(Password)) {
+					user = UserList.get(i); // Logged in
+					return 1;
+				} else if (UserList.get(i).getUserID().equals(UserID)) 
+					return -1; //wrong password
 			}
-		} 
-		else if (op == 2) { //sign up
-			while (true) {
-				System.out.println("Please enter your UserID:");
-				UserID = scanner.next();
-				System.out.println("Please enter your Password:");
-				Password = scanner.next();		
-				
-				boolean exist = false;
-				for (int i = 0; i < UserList.length; i++) {
-					if (UserList[i] != null && UserList[i].getUserID().equals(UserID)) {
-						exist = true;
-						break;
-					}
-				}
-				if (exist == false) break;
-				else System.out.println("User has already been existed. Please try another UserID.");
-			}
-			String VerifyCode, UserCode; //驗證碼
-			do {
-				VerifyCode = getRandomString(6);
-				System.out.println(VerifyCode);
-				UserCode = scanner.next();
-			} while (!UserCode.equals(VerifyCode));
-			
-			user = new User(UserID, Password);
-			UserList[UserList.length] = user;
-		}
-		
-		
-		System.out.println("Logged in.");
+		return 0;
 	}
-	
+	public static boolean SignUpCheck(String UserID, String Password, String UserCode) { 
+		if (UserList == null) {
+			UserList = new ArrayList<User>();
+			return true;
+		}
+		for (int i = 0; i < UserList.size(); i++) 
+			if (UserList.get(i) != null && UserList.get(i).getUserID().equals(UserID)) 
+				return false;
+		return true;
+	}
 	public static boolean CheckDate(int Year, int Month, int Day) { 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 	    sdf.setLenient(false);
@@ -140,7 +80,6 @@ public class main {
 	    }
 		return true;
 	}
-	
 	public static long CountDaysBetween(String D1, String D2) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         final LocalDate firstDate = LocalDate.parse(D1, formatter);
@@ -149,153 +88,120 @@ public class main {
         //System.out.println("Days between: " + days);
         return days;
     }
-	
 	public static boolean CheckRoomIsAvailable(Room room, long Start, long end) {
 		boolean[] DIO = room.getDateIsOccupied();
 		for (int i = (int)Start; i < end; i++) 
-			if (DIO[i] == true) 
+			if (DIO[i] == true) {
+				//System.out.println("akljdlsjfl");
 				return false;
+			}
 		return true;
 	}
-	
-	public static boolean CheckAllRooms(int HotelID, int[] demand, long start, long end) {
+	public static boolean CheckAllRooms(int HotelID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
 		Room[] doubleroom = hotel.getDoubleRooms();
 		Room[] quadroom = hotel.getQuadRooms();
 		
-		if (demand[0] > 0) {
+		System.out.println(singleroom);
+		if (sn > 0) {
+			if (singleroom == null) return false;
 			int ok = 0;
-			for (Room sr : singleroom) {
-				if (CheckRoomIsAvailable(sr, start, end)) {
+			for (Room sr : singleroom) 
+				if (CheckRoomIsAvailable(sr, start, end)) 
 					ok ++;
-				}
-			}
-			if (ok < demand[0]) {
+			if (ok < sn) 
 				return false;
-			}
 		}
-		if (demand[1] > 0) {
+		if (dn > 0) {
 			int ok = 0;
-			for (Room dr : doubleroom) {
-				if (CheckRoomIsAvailable(dr, start, end)) {
+			for (Room dr : doubleroom) 
+				if (CheckRoomIsAvailable(dr, start, end)) 
 					ok ++;
-				}
-			}
-			if (ok < demand[1]) {
+			if (ok < dn) 
 				return false;
-			}
 		}
-		if (demand[2] > 0) {
+		if (qn > 0) {
 			int ok = 0;
-			for (Room qr : doubleroom) {
-				if (CheckRoomIsAvailable(qr, start, end)) {
+			for (Room qr : quadroom) 
+				if (CheckRoomIsAvailable(qr, start, end)) 
 					ok ++;
-				}
-			}
-			if (ok < demand[2]) {
+			if (ok < qn) 
 				return false;
-			}
 		}
 		return true;
 	}
-	
-	public static void BookRooms(int HotelID, String userID, int[] demand, long start, long end) {
+	public static void BookRooms(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
 		Room[] doubleroom = hotel.getDoubleRooms();
 		Room[] quadroom = hotel.getQuadRooms();
 		
-		if (demand[0] > 0) { //single room
+		if (sn > 0) { //single room
 			int booked = 0;
 			for (Room sr : singleroom) {
 				if (CheckRoomIsAvailable(sr, start, end)) {
 					for (int i = (int)start; i < end; i++)
-					sr.setDateIsOccupied(i);
+						sr.setDateIsOccupied(i);
 					booked ++;
 				}
-				if (booked == demand[0]) break;
+				if (booked == sn) break;
 			}
 		}
-		
-		if (demand[1] > 0) { //double room
+		if (dn > 0) { //double room
 			int booked = 0;
 			for (Room dr : doubleroom) {
 				if (CheckRoomIsAvailable(dr, start, end)) {
 					for (int i = (int)start; i < end; i++)
-					dr.setDateIsOccupied(i);
+						dr.setDateIsOccupied(i);
 					booked ++;
 				}
-				if (booked == demand[1]) break;
+				if (booked == dn) break;
 			}
 		}
-		if (demand[2] > 0) { //quad room
+		if (qn > 0) { //quad room
 			int booked = 0;
 			for (Room qr : quadroom) {
 				if (CheckRoomIsAvailable(qr, start, end)) {
 					for (int i = (int)start; i < end; i++)
-					qr.setDateIsOccupied(i);
+						qr.setDateIsOccupied(i);
 					booked ++;
 				}
-				if (booked == demand[2]) break;
+				if (booked == qn) break;
 			}
 		}
 	}
-	
-	public static void SearchAvailableHotels() { 
-		Scanner scanner = new Scanner(System.in);
-		//入住日期, 退房日期, 入住人數, 客房數量
-		int y1 = 2019, m1 = 5, d1 = 31, y2 = 2019, m2 = 6, d2 = 1;
-		int people = 0;
-		int roomnum = 0; 
+	public static ArrayList<AvailableHotelRooms> SearchAvailableHotels(String CID, String COD, int p, int n) { 
+		ArrayList<AvailableHotelRooms> AHR = new ArrayList<AvailableHotelRooms> ();
 		
-		boolean tag = false;
-		while (!tag) {
-			System.out.println("y1 m1 d1");
-			y1 = scanner.nextInt(); m1 = scanner.nextInt(); d1 = scanner.nextInt();
-			System.out.println("y2 m2 d2");
-			y2 = scanner.nextInt(); m2 = scanner.nextInt(); d2 = scanner.nextInt();
-			people = scanner.nextInt();
-			roomnum = scanner.nextInt();
-			//assume roomnum <= people 
-			
-			if (CheckDate(y1, m1, d1) && CheckDate(y2, m2, d2)) 
-				tag = true;
-			else System.out.println("Please try again.");
-		}
-		boolean matched = false;
+		Date Now = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	    long start = CountDaysBetween(sdf.format(Now), CID);
+		long end = CountDaysBetween(sdf.format(Now), COD);
+		
 		for (Hotel hotel : HotelList) {
 			Room[] singleroom = hotel.getSingleRooms();
 			Room[] doubleroom = hotel.getDoubleRooms();
 			Room[] quadroom = hotel.getQuadRooms();
-			int n = roomnum, p = people;
-			
-			String CID = Integer.toString(y1) + "/" + Integer.toString(m1) + "/" + Integer.toString(d1);
-			String COD = Integer.toString(y2) + "/" + Integer.toString(m2) + "/" + Integer.toString(d2);
-			Date Now = new Date();
-		    SimpleDateFormat sdf = new SimpleDateFormat ("yyyy/MM/dd");
-		    long start = CountDaysBetween(sdf.format(Now), CID);
-			long end = CountDaysBetween(sdf.format(Now), COD);
 			
 			int available_sr = 0;
-			for (Room sr : singleroom) {
-				boolean[] DIO = sr.getDateIsOccupied();
-				if (CheckRoomIsAvailable(sr, start, end)) 
-					available_sr ++;
+			if (singleroom != null) {
+				for (Room sr : singleroom) 
+					if (CheckRoomIsAvailable(sr, start, end)) 
+						available_sr ++;
 			}
 			int available_dr = 0;
-			for (Room dr : doubleroom) {
-				boolean[] DIO = dr.getDateIsOccupied();
-				if (CheckRoomIsAvailable(dr, start, end)) 
-					available_dr ++;
+			if (doubleroom != null) {
+				for (Room dr : doubleroom) 
+					if (CheckRoomIsAvailable(dr, start, end)) 
+						available_dr ++;
 			}
 			int available_qr = 0;
-			for (Room qr : quadroom) {
-				boolean[] DIO = qr.getDateIsOccupied();
+			if (quadroom != null) {
+				for (Room qr : quadroom) 
 				if (CheckRoomIsAvailable(qr, start, end)) 
 					available_qr ++;
 			}
-			
 			/*
 			 * solve 1*x + 2*y + 4*z >= p
 			 * x >= 0, y >= 0, z >= 0, x + y + z = n
@@ -304,50 +210,12 @@ public class main {
 			for (int x = 0; x <= Math.min(n, available_sr); x++)
 				for (int y = 0; y <= Math.min(n, available_dr); y++) 
 					for (int z = 0; z <= Math.min(n, available_qr); z++) 
-						if (x + y + z == n && 1*x + 2*y + 4*z >= p) {
-							matched = true;
-							if (first) {
-								System.out.println("<" + hotel.getID() + "><" + hotel.getStar() + "> :");
-								first = false;
-							}
-							if (x > 0) System.out.println("<Single> : <" + x + ">");
-							if (y > 0) System.out.println("<Double> : <" + y + ">");
-							if (z > 0) System.out.println("<Quad> : <" + z + ">");
-							System.out.println("總價 : <" + singleroom[0].getPrice()*x + doubleroom[0].getPrice()*y + quadroom[0].getPrice()*z + ">");
-						}
+						if (x + y + z == n && 1*x + 2*y + 4*z >= p) 
+							AHR.add(new AvailableHotelRooms(hotel.getID(), hotel.getStar(), x, y, z));
 		}
-		if (!matched) System.out.println("No matched Hotels.");
+		return AHR;
 	}
-	
-	public static void BookHotel() { 
-		Scanner scanner = new Scanner(System.in);
-		//使用者ID, 旅館編號, 入住日期, 退房日期, 入住房型, 房間數量
-		String UserID = null;
-		int HotelID = 0;
-		int y1 = 2019, m1 = 5, d1 = 31, y2 = 2019, m2 = 6, d2 = 1;
-		int demand[] = new int[3];
-		
-		boolean tag = false;
-		while (!tag) {
-			System.out.println("UserID HotelID");
-			UserID = scanner.next(); 
-			HotelID = scanner.nextInt();
-			System.out.println("y1 m1 d1");
-			y1 = scanner.nextInt(); m1 = scanner.nextInt(); d1 = scanner.nextInt();
-			System.out.println("y2 m2 d2");
-			y2 = scanner.nextInt(); m2 = scanner.nextInt(); d2 = scanner.nextInt();
-			for (int i = 0; i < 3; i++) {
-				String type = scanner.next(); 
-				demand[i] = scanner.nextInt();// 無->0
-			}
-			
-			if (CheckDate(y1, m1, d1) && CheckDate(y2, m2, d2)) 
-				tag = true;
-			else System.out.println("Please try again.");
-		}
-		
-		String CID = Integer.toString(y1) + "/" + Integer.toString(m1) + "/" + Integer.toString(d1);
-		String COD = Integer.toString(y2) + "/" + Integer.toString(m2) + "/" + Integer.toString(d2);
+	public static Order BookHotel(String CID, String COD, int HotelID, int sn, int dn, int qn) { 
 		Date Now = new Date();
 	    SimpleDateFormat sdf = new SimpleDateFormat ("yyyy/MM/dd");
 	    long start = CountDaysBetween(sdf.format(Now), CID);
@@ -355,74 +223,100 @@ public class main {
 		
 		Hotel hotel = HotelList[HotelID];
 		
-		if (CheckAllRooms(HotelID, demand, start, end)) {
-			Order nOrder = new Order(user.getnextOrderID(), UserID, HotelID, CID, COD, demand);
+		if (CheckAllRooms(HotelID, start, end, sn, dn, qn)) {
+			Order nOrder = new Order(user.getnextOrderID(), user.getUserID(), HotelID, CID, COD, sn, dn, qn);
 			hotel.newOrder(nOrder);
 			user.newOrder(nOrder);
-			BookRooms(HotelID, UserID, demand, start, end);
-			System.out.println("<" + (user.getnextOrderID()-1) + ">     <" + UserID + ">");
-			System.out.println("<" + HotelID + "> :");
-			
-			
-		} else {
-			System.out.println("失敗 房間數量不足/房間已售罄");
-		}
+			BookRooms(HotelID, user.getUserID(), start, end, sn, dn, qn);
+			return nOrder;
+		}  
+		return null;
 	}
-	
+
+	public static Order CheckOrder(int OrderID) {
+		return user.getOrders().get(OrderID);
+	}	
+	public static ArrayList<AvailableHotelRooms> SearchByStar(ArrayList<AvailableHotelRooms> AHR, int Star) {
+		ArrayList<AvailableHotelRooms> nAHR = new ArrayList<AvailableHotelRooms>();
+		for (AvailableHotelRooms ahr : AHR) 
+			if (ahr.getHotelStar() == Star) 
+				nAHR.add(ahr);
+		return nAHR;
+	}
+	public static int CountSumPrice(AvailableHotelRooms x) {
+		return Hotel.getSingleRoomPrice() * x.getSingle()
+			+ Hotel.getDoubleRoomPrice() * x.getDouble()
+			+ Hotel.getQuadRoomPrice() * x.getQuad();
+	}
+	public static ArrayList<AvailableHotelRooms> SortByPrice(ArrayList<AvailableHotelRooms> AHR, int op) {
+		Collections.sort(AHR, new Comparator<AvailableHotelRooms>() {
+			public int compare(AvailableHotelRooms a, AvailableHotelRooms b) {
+				return (op == 1? (CountSumPrice(a) - CountSumPrice(b)) : (CountSumPrice(b) - CountSumPrice(a)));
+			}
+		});
+		return AHR;
+	}
 	public static void ModifyRooms(int OrderID, int type, int number) {//to do
 		
 	}
-	public static void ModifyDate() {//to do
+	
+	public static void ModifyDate(int OrderID, String CID, String COD) {//to do
+		long nDays = CountDaysBetween(CID, COD);
+		Date Now = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat ("yyyy/MM/dd");
+	    long nstart = CountDaysBetween(sdf.format(Now), CID);
+		long nend = CountDaysBetween(sdf.format(Now), COD);
+	   
 		
 	}
+	
 	public static void ModifyOrder() { //to do
 		Scanner scanner = new Scanner(System.in);
 		//使用者ID, 訂位代號, 取消訂單 / 減少<房型><數量>, … / 變更住宿日期：<入住日期>-<退房日期>
-		String UserID = scanner.next();
 		int OrderID = scanner.nextInt();
 		int op = scanner.nextInt();
 		
 		ArrayList<Order> orders = user.getOrders();
-		if (user.equals(UserID)) {
-			if (op == 1) {
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else {
-					System.out.println("退訂成功，已取消您的訂房紀錄"); //假設任何時間都可以退訂
-				}
-			} else if (op == 2) {//reduce 
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else { 
-					String type = scanner.next();
-					int number = scanner.nextInt();
-					Hotel hotel = HotelList[orders.get(OrderID).getHotelID()];
-					int[] demand = orders.get(OrderID).getDemand();
-					int t = type == "Single"? 0 : (type == "Double"? 1 : 2);
-					if (number < demand[t]) {
-						ModifyRooms(OrderID, t, number);
-						System.out.println("修改成功，已將您的訂房數量變更為");
-						
-					} else {
-						System.out.println("修改失敗，修改數量超過訂房數量");
-					}
-				}
-			} else if (op == 3) {//change date
-				if (orders.size() <= OrderID) {
-					System.out.println("退訂/修改失敗，此訂位代號不存在");
-				} else { 
-					String CID = scanner.next();
-					String COD = scanner.next();
+		
+		if (op == 1) {
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else {
+				System.out.println("退訂成功，已取消您的訂房紀錄"); //假設任何時間都可以退訂
+			}
+		} else if (op == 2) {//reduce 
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else { 
+				String type = scanner.next();
+				int number = scanner.nextInt();
+				Hotel hotel = HotelList[orders.get(OrderID).getHotelID()];
+				int sn = orders.get(OrderID).getsn();
+				int dn = orders.get(OrderID).getdn();
+				int qn = orders.get(OrderID).getqn();
+				/*int t = type == "Single"? 0 : (type == "Double"? 1 : 2);
+				if (number < demand[t]) {
+					ModifyRooms(OrderID, t, number);
+					System.out.println("修改成功，已將您的訂房數量變更為");
 					
-				}
-			} 
+				} else {
+					System.out.println("修改失敗，修改數量超過訂房數量");
+				}*/
+			}
+		} else if (op == 3) {//change date
+			if (orders.size() <= OrderID) {
+				System.out.println("退訂/修改失敗，此訂位代號不存在");
+			} else { 
+				String CID = scanner.next();
+				String COD = scanner.next();
+				
+			}
 		} else {
 			System.out.println("您輸入的身分識別碼/訂位代號有誤，請重新輸入");
 		}
-		
 	}
 	
-	public static void SearchOrder() {
+	public static void SearchOrder() {//don't use
 		Scanner scanner = new Scanner(System.in);
 		//使用者ID, 訂位代號
 		String UserID = scanner.next();
@@ -431,13 +325,15 @@ public class main {
 		ArrayList<Order> orders = user.getOrders();
 		if (user.equals(UserID) && orders.size() > OrderID) {
 			System.out.println("<" + OrderID + "> :");
-			int[] demand = orders.get(OrderID).getDemand();
-			if (demand[0] > 0) 
-				System.out.println("<Single> : <" + demand[0] + ">");
-			if (demand[1] > 0) 
-				System.out.println("<Double> : <" + demand[1] + ">");
-			if (demand[2] > 0) 
-				System.out.println("<Quad> : <" + demand[2] + ">");
+			int sn = orders.get(OrderID).getsn();
+			int dn = orders.get(OrderID).getdn();
+			int qn = orders.get(OrderID).getqn();
+			if (sn > 0) 
+				System.out.println("<Single> : <" + sn + ">");
+			if (dn > 0) 
+				System.out.println("<Double> : <" + dn + ">");
+			if (qn > 0) 
+				System.out.println("<Quad> : <" + qn + ">");
 			
 			String CID = orders.get(OrderID).getCheckInDate(), COD = orders.get(OrderID).getCheckOutDate();
 			System.out.println("<" + CID + ">-<" + COD + ">");

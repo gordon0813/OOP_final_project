@@ -19,34 +19,20 @@ public class Hotel {
 	
 	private ArrayList<Order> Orders;
 	
-	public Hotel() {
-		ID = 0;
-		Star = 0;
-		Locality = "";
-		Address = "";
-		RoomTypes = new RoomType[3];
-		SingleRoomPrice = DoubleRoomPrice = QuadRoomPrice = 0;
-	}
-	public Hotel(int _ID, int _Star, String _Locality, String _Address, RoomType[] _RoomTypes) {
-		ID = _ID;
-		Star = _Star;
-		Locality = _Locality;
-		Address = _Address;
-		RoomTypes = new RoomType[3];
-		for (int i = 0; i < 3; i++) 
-			RoomTypes[i] = new RoomType(_RoomTypes[i]);
-		Room[] SingleRooms = new Room[RoomTypes[0].getNumber()];
-		Room[] DoubleRooms = new Room[RoomTypes[1].getNumber()];
-		Room[] QuadRooms = new Room[RoomTypes[2].getNumber()];
-		SingleRoomPrice = RoomTypes[0].getPrice();
-		DoubleRoomPrice = RoomTypes[1].getPrice();
-		QuadRoomPrice = RoomTypes[2].getPrice();
+	public void init() {
+		SingleRooms = new Room[RoomTypes[0].getNumber()];
+		DoubleRooms = new Room[RoomTypes[1].getNumber()];
+		QuadRooms = new Room[RoomTypes[2].getNumber()];
 		for (int i = 0; i < SingleRooms.length; i++) 
 			SingleRooms[i] = new Room();
 		for (int i = 0; i < DoubleRooms.length; i++) 
 			DoubleRooms[i] = new Room();
 		for (int i = 0; i < QuadRooms.length; i++) 
 			QuadRooms[i] = new Room();
+		SingleRoomPrice = RoomTypes[0].getPrice();
+		DoubleRoomPrice = RoomTypes[1].getPrice();
+		QuadRoomPrice = RoomTypes[2].getPrice();
+		Orders = new ArrayList<Order>();
 	}
 	public int getID() {
 		return ID;

@@ -4,16 +4,15 @@ public class User {
 	private String UserID;
 	private String Password;
 	private ArrayList<Order> Orders;
-	private int Num;
 	public User() {
 		UserID = "";
 		Password = "";
-		Num = 0;
+		Orders = new ArrayList<Order>();
 	}
 	public User(String _UserID, String _Password) {
 		UserID = _UserID;
 		Password = _Password;
-		Num = 0;
+		Orders = new ArrayList<Order>();
 	}
 	public String getUserID() {
 		return UserID;
@@ -23,9 +22,6 @@ public class User {
 	}
 	public ArrayList<Order> getOrders() {
 		return Orders;
-	}
-	public int getNum() {
-		return Num;
 	}
 	public boolean equals(String _UserID) {
 		return UserID == _UserID;

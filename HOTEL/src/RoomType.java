@@ -1,5 +1,9 @@
+import com.google.gson.annotations.SerializedName;
+
 public class RoomType {
+	@SerializedName("RoomType")
 	private String Type;
+	@SerializedName("RoomPrice")
 	private int Price;
 	private int Number;
 	RoomType() {

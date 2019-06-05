@@ -1,7 +1,9 @@
-public class Room extends RoomType {
+public class Room {
 	private boolean[] DateIsOccupied;
 	Room() {
 		DateIsOccupied = new boolean[190];
+		for (int i = 0; i < DateIsOccupied.length; i++)
+			DateIsOccupied[i] = false;
 	}
 	Room(Room _Room) {
 		DateIsOccupied = new boolean[190];
