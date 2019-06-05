@@ -14,11 +14,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class main {
+	
 	public static Hotel HotelList[];
 	public static ArrayList<User> UserList;
 	public static User user;
 	
 	public static void main(String[] args) throws IOException {
+		databaseUtil.buildConnection();
+		databaseUtil.initDatabase();
+
 		ReadHotelList();
 		HotelPreference program = new HotelPreference();
 		program.setVisible(true);
@@ -334,7 +338,6 @@ public class main {
 				System.out.println("<Double> : <" + dn + ">");
 			if (qn > 0) 
 				System.out.println("<Quad> : <" + qn + ">");
-			
 			String CID = orders.get(OrderID).getCheckInDate(), COD = orders.get(OrderID).getCheckOutDate();
 			System.out.println("<" + CID + ">-<" + COD + ">");
 			System.out.println("共入住<" + CountDaysBetween(CID, COD) + ">晚   總價：<" + orders.get(OrderID).getSumPrice()+ ">");
