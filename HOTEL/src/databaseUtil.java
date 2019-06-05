@@ -100,16 +100,15 @@ public class databaseUtil {
 	}
 	// insert a Order to table 'Orders' by given Order object
 	public static boolean insertOrder(Order newOrder) {
-		int[] RoomNums = newOrder.getDemand();
 		String cmd = "INSERT INTO Orders"
 						+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
 						+ "VALUES("
 						+ newOrder.getID() + ", " 
 						+ "\"" + newOrder.getUserID() + "\"" + ", "
 						+ newOrder.getHotelID() + ", "
-						+ RoomNums[0] + ", "
-						+ RoomNums[1] + ", "
-						+ RoomNums[2] + ", "
+						+ newOrder.getsn() + ", "
+						+ newOrder.getdn() + ", "
+						+ newOrder.getqn() + ", "
 						+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
 						+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
 		try {
@@ -128,13 +127,14 @@ public class databaseUtil {
 			results = stmt.executeQuery(cmd);
 			
 			if (results.next()) {
-				int[] Demand = {results.getInt("SingleRoom"), results.getInt("DoubleRoom"), results.getInt("QuadRoom")};
 				return new Order(results.getInt("OrderID"), 
 								 results.getString("UID"), 
 								 results.getInt("HotelID"), 
 								 results.getDate("CheckIn").toString().replace('-', '/'),
 								 results.getDate("CheckOut").toString().replace('-', '/'),
-								 Demand);
+								 results.getInt("SingleRoom"), 
+								 results.getInt("DoubleRoom"), 
+								 results.getInt("QuadRoom"));
 			} else {
 				System.out.println("No such Order!!");
 				return new Order();
@@ -165,13 +165,14 @@ public class databaseUtil {
 			Order[] retList = new Order[len];
 			int index = 0;
 			do {
-				int[] Demand = {results.getInt("SingleRoom"), results.getInt("DoubleRoom"), results.getInt("QuadRoom")};
 				retList[index++] = new Order(results.getInt("OrderID"), 
 										 results.getString("UID"), 
 										 results.getInt("HotelID"), 
 										 results.getDate("CheckIn").toString().replace('-', '/'),
 										 results.getDate("CheckOut").toString().replace('-', '/'),
-										 Demand);
+										 results.getInt("SingleRoom"), 
+										 results.getInt("DoubleRoom"), 
+										 results.getInt("QuadRoom"));
 			} while(results.next());
 
 			return retList;
@@ -199,13 +200,14 @@ public class databaseUtil {
 			Order[] retList = new Order[len];
 			int index = 0;
 			do {
-				int[] Demand = {results.getInt("SingleRoom"), results.getInt("DoubleRoom"), results.getInt("QuadRoom")};
 				retList[index++] = new Order(results.getInt("OrderID"), 
 										 results.getString("UID"), 
 										 results.getInt("HotelID"), 
 										 results.getDate("CheckIn").toString().replace('-', '/'),
 										 results.getDate("CheckOut").toString().replace('-', '/'),
-										 Demand);
+										 results.getInt("SingleRoom"), 
+										 results.getInt("DoubleRoom"), 
+										 results.getInt("QuadRoom"));
 			} while(results.next());
 			return retList;
 		} catch (SQLException e) {
