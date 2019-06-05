@@ -48,15 +48,15 @@ public class DatePopup extends JDialog implements java.awt.event.ActionListener 
 		JComboBox comboMonth = new JComboBox();
         comboMonth.setActionCommand("MonthSelect");
         for(i = 1; i <= 12; i++) {
-            comboMonth.addItem(i + "月");
+            comboMonth.addItem(i + " ");
             if (i == (this.mMonth + 1)) {
-                comboMonth.setSelectedItem(i + "月");
+                comboMonth.setSelectedItem(i + " ");
             }
         }
         comboMonth.addActionListener(this);
         JComboBox comboYear = new JComboBox();
         comboYear.setActionCommand("YearSelect");
-        for (i = 1900; i <= 2200; i++) {
+        for (i = 2019; i <= 2200; i++) {
             comboYear.addItem(i);
             if (i == this.mYear) {
                 comboYear.setSelectedItem(i);
