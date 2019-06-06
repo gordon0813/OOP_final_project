@@ -3,15 +3,19 @@ public class AvailableHotelRooms {
 	private int HotelID;
 	private int HotelStar;
 	private int Single, Double, Quad;
+	
+	private String Locality, Address;
 
 	public AvailableHotelRooms() {
 		HotelID = 0;
 		HotelStar = 0;
 		Single = Double = Quad = 0;
 	}
-	public AvailableHotelRooms(int _HotelID, int _HotelStar, int _Single, int _Double, int _Quad) {
+	public AvailableHotelRooms(int _HotelID, int _HotelStar, String _Locality, String _Address,int _Single, int _Double, int _Quad) {
 		HotelID = _HotelID;
 		HotelStar = _HotelStar;
+		Locality = _Locality;
+		Address = _Address;
 		Single = _Single;
 		Double = _Double;
 		Quad = _Quad;
@@ -21,6 +25,12 @@ public class AvailableHotelRooms {
 	}
 	public int getHotelStar() {
 		return HotelStar;
+	}
+	public String getLocality() {
+		return Locality;
+	}
+	public String getAddress() {
+		return Address;
 	}
 	public int getSingle() {
 		return Single;

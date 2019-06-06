@@ -12,7 +12,14 @@ import javax.swing.table.*;
  * 3. 訂房成功＆失敗的output
  * 4. 輸入訂單編號不存在的錯誤訊息
  * 5. Inquiry的Modify跟Cancel
+ * 
+ * 
+ * 1  完成80% （建好Table了 差總價沒顯示出來）
+ * 2  還沒用出來 同時用出兩個日期框 還是有些bug
+ * 3~5 週末做
  */
+
+
 
 public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
@@ -194,7 +201,8 @@ public class Menu extends JPanel {
 	private JPanel Hotellist = new JPanel();
 	final private int hotellistWidth = 850, hotellistHeight = 500;
 	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-	private JTable HotellistTable = new JTable();
+	String[] heading;
+	JTable HotellistTable = new JTable();
 	private JLabel backhotellist = new JLabel("BACK", JLabel.CENTER);
 
 	// Menu(Panel) settings
@@ -203,6 +211,7 @@ public class Menu extends JPanel {
 		setOpaque(false);
 	}
 
+	// title
 	private void initTitle() {
 		titleText.setFont(new Font("Arial Black", Font.BOLD, 60));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
@@ -987,7 +996,6 @@ public class Menu extends JPanel {
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
 		reservecheckoutdateField.setText("SELECT DATE");
-//		reservehotelIDField.setText(null);
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
@@ -998,34 +1006,60 @@ public class Menu extends JPanel {
 		reservehotelid = new JComboBox<Object>(option);
 	}
 
-	// HotelList 旅館列表
+	// HotelList
 	private void initHotellist() {
 		Hotellist.setLayout(new BorderLayout());
 		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Hotellist.setOpaque(true);
-		Hotellist.setBackground(new Color(245,255,250));
+		Hotellist.setBackground(new Color(245, 255, 250));
 		backhotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
-		backhotellist.setBackground(new Color(245,255,250));
+		backhotellist.setBackground(new Color(245, 255, 250));
 
 		// 設定標題文字
-		String[] heading = new String[] { "ID", "Star", "City", "Address", "Single room", "Double room", "Quad room" };
-		// 暫時建立空列表
-		String[] s1 = { "", "", "", "", "", "", "" }; 
-		Object[][] data = new Object[][] { s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1 };
-		HotellistTable = new JTable(data, heading);
+		heading = new String[] { "ID", "Star", "Locality", "Address", "Single", "Double", "Quad" };
+//		HotellistTable.setEnabled(false);
+//		JTable HotellistTable = new JTable();
+		// 建立捲軸Table
+//		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
+//				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
+//		Hotellist.add(backhotellist, BorderLayout.SOUTH);
+	}
 
-		JTableHeader head = HotellistTable.getTableHeader(); // 設定標題字型
+	// make  and show hotel list
+	// 這裡用得差不多了 但還差總價
+	public DefaultTableModel makeHotellist(ArrayList<AvailableHotelRooms> _AHR) {
+		DefaultTableModel tablemodel = new DefaultTableModel(heading, 0);
+		for (int i = 0; i < _AHR.size(); i++) {
+			int id = _AHR.get(i).getHotelID();
+			int star = _AHR.get(i).getHotelStar();
+			String locality = _AHR.get(i).getLocality();
+			String address = _AHR.get(i).getAddress();
+			int sroom = _AHR.get(i).getSingle();
+			int droom = _AHR.get(i).getDouble();
+			int qroom = _AHR.get(i).getQuad();
+			Object[] data = { id, star, locality, address, sroom, droom, qroom };
+			tablemodel.addRow(data);
+		}
+		return tablemodel;
+	}
+	public void showHotellist(DefaultTableModel tablemodel) {
+		HotellistTable = new JTable(tablemodel);
+		// 設定標題顏色
+		JTableHeader head = HotellistTable.getTableHeader();
 		head.setFont(new Font("Arial", Font.PLAIN, 20));
 		HotellistTable.setRowHeight(30); // 設定列高
-		HotellistTable.getColumnModel().getColumn(0).setMaxWidth(60); // 設定欄寬
-		HotellistTable.getColumnModel().getColumn(1).setMaxWidth(60);
-		HotellistTable.getColumnModel().getColumn(2).setMaxWidth(60);
-		HotellistTable.getColumnModel().getColumn(3).setMaxWidth(300);
-		HotellistTable.getColumnModel().getColumn(4).setMaxWidth(120);
-		HotellistTable.getColumnModel().getColumn(5).setMaxWidth(120);
-		HotellistTable.getColumnModel().getColumn(6).setMaxWidth(120);
-
-		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() // 設定表格間隔顏色
+		// 設定欄寬
+		HotellistTable.getColumnModel().getColumn(0).setMaxWidth(60); // id
+		HotellistTable.getColumnModel().getColumn(1).setMaxWidth(50); // star
+		HotellistTable.getColumnModel().getColumn(2).setMaxWidth(60); // locality
+		HotellistTable.getColumnModel().getColumn(3).setMaxWidth(400); // address
+		HotellistTable.getColumnModel().getColumn(4).setMaxWidth(70); // single room
+		HotellistTable.getColumnModel().getColumn(5).setMaxWidth(70); // double room
+		HotellistTable.getColumnModel().getColumn(6).setMaxWidth(70); // quad room
+//		HotellistTable.getColumnModel().getColumn(7).setMaxWidth(70); // price
+		// 設定顏色
+		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() 
 		{
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
@@ -1036,17 +1070,19 @@ public class Menu extends JPanel {
 				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			}
 		};
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i <= 6; i++) {
 			HotellistTable.getColumn(heading[i]).setCellRenderer(ter);
 		}
-
-		// 建立捲軸Table
+		// 建立Table
 		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		Hotellist.removeAll();
 		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
 		Hotellist.add(backhotellist, BorderLayout.SOUTH);
 	}
 
+
+	
 	// sub menu
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
@@ -1184,7 +1220,7 @@ public class Menu extends JPanel {
 		backenterinvaliddateerror.addMouseListener(ml);
 		// buttons in no matched hotel error
 		backnomatchedhotelerror.addMouseListener(ml);
-		// buttons in hotel list
+		// buttons in search
 		star5.addMouseListener(ml);
 		star4.addMouseListener(ml);
 		star3.addMouseListener(ml);
@@ -1192,6 +1228,8 @@ public class Menu extends JPanel {
 		pricehighText.addMouseListener(ml);
 		pricelowText.addMouseListener(ml);
 		backsearch.addMouseListener(ml);
+		// buttons in hotel list
+		backhotellist.addMouseListener(ml);
 		// buttons in reserve
 		backreserve.addMouseListener(ml);
 		nextreserve.addMouseListener(ml);
@@ -1274,7 +1312,6 @@ public class Menu extends JPanel {
 					signuplogin.setForeground(Color.black);
 					validate();
 					repaint();
-
 				}
 			} else if (e.getSource() == signinText) {
 				layeredPane.remove(subMenu);
@@ -1393,12 +1430,68 @@ public class Menu extends JPanel {
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
-			} else if (e.getSource() == star5) {
+			} else if (e.getSource() == star5) { // show star 5 hotel
+				String CID = entercheckindateField.getText();
+				String COD = entercheckoutdateField.getText();
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
+				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 5);
+				DefaultTableModel dtm = makeHotellist(nAHR);
+				showHotellist(dtm);
 				layeredPane.remove(Search);
 				layeredPane.add(Hotellist, new Integer(3));
 				validate();
 				repaint();
 				star5.setForeground(Color.black);
+			} else if (e.getSource() == star4) { // show star 4 hotel
+				String CID = entercheckindateField.getText();
+				String COD = entercheckoutdateField.getText();
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
+				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 4);
+				DefaultTableModel dtm = makeHotellist(nAHR);
+				showHotellist(dtm);
+				layeredPane.remove(Search);
+				layeredPane.add(Hotellist, new Integer(3));
+				validate();
+				repaint();
+				star4.setForeground(Color.black);
+			} else if (e.getSource() == star3) { // show star 3 hotel
+				String CID = entercheckindateField.getText();
+				String COD = entercheckoutdateField.getText();
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
+				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 3);
+				DefaultTableModel dtm = makeHotellist(nAHR);
+				showHotellist(dtm);
+				layeredPane.remove(Search);
+				layeredPane.add(Hotellist, new Integer(3));
+				validate();
+				repaint();
+				star3.setForeground(Color.black);
+			} else if (e.getSource() == star2) { // show star 2 hotel
+				String CID = entercheckindateField.getText();
+				String COD = entercheckoutdateField.getText();
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
+				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 3);
+				DefaultTableModel dtm = makeHotellist(nAHR);
+				showHotellist(dtm);
+				layeredPane.remove(Search);
+				layeredPane.add(Hotellist, new Integer(2));
+				validate();
+				repaint();
+				star2.setForeground(Color.black);
+			} else if (e.getSource() == backhotellist) {
+				layeredPane.remove(Hotellist);
+				layeredPane.add(Search);
+				validate();
+				repaint();
+				backhotellist.setForeground(Color.black);
 			} else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
 				layeredPane.add(EnterSearch, new Integer(3));
