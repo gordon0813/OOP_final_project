@@ -19,8 +19,6 @@ import javax.swing.table.*;
  * 3~5 週末做
  */
 
-
-
 public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
 	private JLabel background = new JLabel();
@@ -125,6 +123,7 @@ public class Menu extends JPanel {
 	private JPanel Search = new JPanel();
 	final private int searchWidth = 570, searchHeight = 250;
 	final private Dimension searchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	JPanel star = new JPanel();
 	private JLabel star5 = new JLabel("5-star", JLabel.CENTER);
 	private JLabel star4 = new JLabel("4-star", JLabel.CENTER);
 	private JLabel star3 = new JLabel("3-star", JLabel.CENTER);
@@ -137,6 +136,8 @@ public class Menu extends JPanel {
 	private JPanel Reserve = new JPanel();
 	final private int reserveWidth = 620, reserveHeight = 300;
 	final private Dimension reserveCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JPanel reservebuttons = new JPanel();
+	private JLabel cancelreserve = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField reservecheckindateField = new JTextField(10);
@@ -201,9 +202,10 @@ public class Menu extends JPanel {
 	private JPanel Hotellist = new JPanel();
 	final private int hotellistWidth = 850, hotellistHeight = 500;
 	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-	String[] heading;
 	JTable HotellistTable = new JTable();
+	String[] heading = new String[] { "ID", "Star", "City", "Address", "Single", "Double", "Quad", "Price" };
 	private JLabel backhotellist = new JLabel("BACK", JLabel.CENTER);
+	private JLabel reservehotellist = new JLabel("RESERVE", JLabel.CENTER);
 
 	// Menu(Panel) settings
 	private void initPanel() {
@@ -549,7 +551,6 @@ public class Menu extends JPanel {
 		Search.setLayout(new GridLayout(4, 1, 0, 0));
 		Search.setOpaque(false);
 		Search.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		JPanel star = new JPanel();
 		star.setLayout(new GridLayout(1, 4, 0, 0));
 		star.setOpaque(false);
 		star.add(star5);
@@ -704,20 +705,21 @@ public class Menu extends JPanel {
 		roomPanel.add(reservequadroomField);
 
 		// setting 'back' and 'next' buttons
-		JPanel buttons = new JPanel();
-		buttons.setLayout(new GridLayout(1, 2));
-		buttons.setOpaque(false);
+		reservebuttons.setLayout(new GridLayout(1, 3));
+		reservebuttons.setOpaque(false);
+		cancelreserve.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		backreserve.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		nextreserve.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		buttons.add(backreserve);
-		buttons.add(nextreserve);
+		reservebuttons.add(cancelreserve);
+//		reservebuttons.add(backreserve);
+		reservebuttons.add(nextreserve);
 
 		// Reserve adding Panel
 		Reserve.add(checkinPanel);
 		Reserve.add(checkoutPanel);
 		Reserve.add(hotelIDPanel);
 		Reserve.add(roomPanel);
-		Reserve.add(buttons);
+		Reserve.add(reservebuttons);
 	}
 
 	// Reserve success
@@ -1009,47 +1011,41 @@ public class Menu extends JPanel {
 	// HotelList
 	private void initHotellist() {
 		Hotellist.setLayout(new BorderLayout());
-		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		Hotellist.setOpaque(true);
-		Hotellist.setBackground(new Color(245, 255, 250));
+//		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+		Hotellist.setOpaque(false);
 		backhotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
 		backhotellist.setBackground(new Color(245, 255, 250));
-
-		// 設定標題文字
-		heading = new String[] { "ID", "Star", "Locality", "Address", "Single", "Double", "Quad" };
-//		HotellistTable.setEnabled(false);
-//		JTable HotellistTable = new JTable();
-		// 建立捲軸Table
-//		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
-//				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
-//		Hotellist.add(backhotellist, BorderLayout.SOUTH);
+		reservehotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
+		reservehotellist.setBackground(new Color(245, 255, 250));
 	}
 
-	// make  and show hotel list
-	// 這裡用得差不多了 但還差總價
+	// make and show hotel list
+	// 這裡用得差不多了 但價錢似乎怪怪的
 	public DefaultTableModel makeHotellist(ArrayList<AvailableHotelRooms> _AHR) {
 		DefaultTableModel tablemodel = new DefaultTableModel(heading, 0);
 		for (int i = 0; i < _AHR.size(); i++) {
-			int id = _AHR.get(i).getHotelID();
-			int star = _AHR.get(i).getHotelStar();
-			String locality = _AHR.get(i).getLocality();
-			String address = _AHR.get(i).getAddress();
-			int sroom = _AHR.get(i).getSingle();
-			int droom = _AHR.get(i).getDouble();
-			int qroom = _AHR.get(i).getQuad();
-			Object[] data = { id, star, locality, address, sroom, droom, qroom };
+			int id = _AHR.get(i).getHotelID(); // id
+			int star = _AHR.get(i).getHotelStar(); // star
+			String locality = _AHR.get(i).getLocality(); // locality
+			String address = _AHR.get(i).getAddress(); // address
+			int sroom = _AHR.get(i).getSingle(); // single room
+			int droom = _AHR.get(i).getDouble(); // double room
+			int qroom = _AHR.get(i).getQuad(); // quad room
+			int price = main.CountSumPrice(_AHR.get(i)); // price
+			Object[] data = { id, star, locality, address, sroom, droom, qroom, price };
 			tablemodel.addRow(data);
 		}
 		return tablemodel;
 	}
+
 	public void showHotellist(DefaultTableModel tablemodel) {
 		HotellistTable = new JTable(tablemodel);
-		// 設定標題顏色
+
+		HotellistTable.setEnabled(false);
 		JTableHeader head = HotellistTable.getTableHeader();
 		head.setFont(new Font("Arial", Font.PLAIN, 20));
-		HotellistTable.setRowHeight(30); // 設定列高
-		// 設定欄寬
+		HotellistTable.setRowHeight(30); // row height
+		// column width
 		HotellistTable.getColumnModel().getColumn(0).setMaxWidth(60); // id
 		HotellistTable.getColumnModel().getColumn(1).setMaxWidth(50); // star
 		HotellistTable.getColumnModel().getColumn(2).setMaxWidth(60); // locality
@@ -1057,10 +1053,9 @@ public class Menu extends JPanel {
 		HotellistTable.getColumnModel().getColumn(4).setMaxWidth(70); // single room
 		HotellistTable.getColumnModel().getColumn(5).setMaxWidth(70); // double room
 		HotellistTable.getColumnModel().getColumn(6).setMaxWidth(70); // quad room
-//		HotellistTable.getColumnModel().getColumn(7).setMaxWidth(70); // price
-		// 設定顏色
-		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() 
-		{
+		HotellistTable.getColumnModel().getColumn(7).setMaxWidth(70); // price
+		// column color
+		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() {
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
 				if (row % 2 == 0)
@@ -1070,19 +1065,29 @@ public class Menu extends JPanel {
 				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			}
 		};
-		for (int i = 0; i <= 6; i++) {
+		for (int i = 0; i <= 7; i++) {
 			HotellistTable.getColumn(heading[i]).setCellRenderer(ter);
 		}
-		// 建立Table
+		// build up Table
 		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+		// set 'back' and 'next' button
+		JPanel buttons = new JPanel();
+		buttons.setLayout(new GridLayout(1, 2));
+		buttons.setOpaque(false);
+		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
+		backhotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reservehotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		buttons.add(backhotellist);
+		buttons.add(reservehotellist);
+
 		Hotellist.removeAll();
+		Hotellist.add(star,BorderLayout.NORTH);
 		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
-		Hotellist.add(backhotellist, BorderLayout.SOUTH);
+		Hotellist.add(buttons, BorderLayout.SOUTH);
 	}
 
-
-	
 	// sub menu
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
@@ -1230,7 +1235,9 @@ public class Menu extends JPanel {
 		backsearch.addMouseListener(ml);
 		// buttons in hotel list
 		backhotellist.addMouseListener(ml);
+		reservehotellist.addMouseListener(ml);
 		// buttons in reserve
+		cancelreserve.addMouseListener(ml);
 		backreserve.addMouseListener(ml);
 		nextreserve.addMouseListener(ml);
 		// buttons in sold out
@@ -1408,6 +1415,12 @@ public class Menu extends JPanel {
 						layeredPane.remove(EnterSearch);
 						layeredPane.remove(Enter_invalid_date_error);
 						layeredPane.add(Search, new Integer(3));
+						reservecheckindateField.setText(CID);
+						reservecheckoutdateField.setText(COD);
+						reservebuttons.removeAll();
+						reservebuttons.add(cancelreserve);
+						reservebuttons.add(backreserve);
+						reservebuttons.add(nextreserve);
 						validate();
 						repaint();
 						nextentersearch.setForeground(Color.black);
@@ -1431,6 +1444,9 @@ public class Menu extends JPanel {
 					nextentersearch.setForeground(Color.black);
 				}
 			} else if (e.getSource() == star5) { // show star 5 hotel
+				layeredPane.remove(Hotellist);
+				initSearch();
+				initHotellist();
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -1445,6 +1461,9 @@ public class Menu extends JPanel {
 				repaint();
 				star5.setForeground(Color.black);
 			} else if (e.getSource() == star4) { // show star 4 hotel
+				layeredPane.remove(Hotellist);
+				initSearch();
+				initHotellist();
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -1459,6 +1478,9 @@ public class Menu extends JPanel {
 				repaint();
 				star4.setForeground(Color.black);
 			} else if (e.getSource() == star3) { // show star 3 hotel
+				layeredPane.remove(Hotellist);
+				initSearch();
+				initHotellist();
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -1473,12 +1495,15 @@ public class Menu extends JPanel {
 				repaint();
 				star3.setForeground(Color.black);
 			} else if (e.getSource() == star2) { // show star 2 hotel
+				layeredPane.remove(Hotellist);
+				initSearch();
+				initHotellist();
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
 				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 3);
+				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 2);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 				layeredPane.remove(Search);
@@ -1487,12 +1512,20 @@ public class Menu extends JPanel {
 				repaint();
 				star2.setForeground(Color.black);
 			} else if (e.getSource() == backhotellist) {
+				initSearch();
 				layeredPane.remove(Hotellist);
 				layeredPane.add(Search);
 				validate();
 				repaint();
 				backhotellist.setForeground(Color.black);
-			} else if (e.getSource() == backsearch) {
+			} else if(e.getSource() == reservehotellist) {
+				layeredPane.remove(Hotellist);
+				layeredPane.add(Reserve, new Integer(3));
+				validate();
+				repaint();
+				reservehotellist.setForeground(Color.black);
+			}
+			else if (e.getSource() == backsearch) {
 				layeredPane.remove(Search);
 				layeredPane.add(EnterSearch, new Integer(3));
 				validate();
@@ -1508,8 +1541,8 @@ public class Menu extends JPanel {
 				validate();
 				repaint();
 				backnomatchedhotelerror.setForeground(Color.black);
-			} else if (e.getSource() == backentersearch || e.getSource() == backreserve || e.getSource() == backinquiry
-					|| e.getSource() == backmcr) {
+			} else if (e.getSource() == backentersearch || e.getSource() == cancelreserve
+					|| e.getSource() == backinquiry || e.getSource() == backmcr) {
 				layeredPane.remove(EnterSearch);
 				layeredPane.remove(Inquiry);
 				layeredPane.remove(MCR);
@@ -1517,19 +1550,28 @@ public class Menu extends JPanel {
 				layeredPane.remove(Reserve_success);
 				layeredPane.remove(Enter_invalid_date_error);
 				layeredPane.remove(Reserve_invalid_date_error);
+				reservebuttons.removeAll();
+				reservebuttons.add(cancelreserve);
+				reservebuttons.add(nextreserve);
 				layeredPane.add(Hotelfunction);
 				validate();
 				repaint();
 				backentersearch.setForeground(Color.black);
 				backinquiry.setForeground(Color.black);
 				backmcr.setForeground(Color.black);
-				backreserve.setForeground(Color.black);
+				cancelreserve.setForeground(Color.black);
 			} else if (e.getSource() == reserveText) {
 				layeredPane.remove(Hotelfunction);
 				layeredPane.add(Reserve, new Integer(3));
 				validate();
 				repaint();
 				reserveText.setForeground(Color.black);
+			} else if (e.getSource() == backreserve) {
+				layeredPane.remove(Reserve);
+				layeredPane.add(Hotellist);
+				validate();
+				repaint();
+				backreserve.setForeground(Color.black);
 			} else if (e.getSource() == nextreserve) {
 				String s1 = reservecheckindateField.getText();
 				String s2 = reservecheckoutdateField.getText();
@@ -1548,6 +1590,11 @@ public class Menu extends JPanel {
 								order.getqn(), order.getCheckInDate(), order.getCheckOutDate(),
 								(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 								order.getSumPrice());
+						reservecheckindateField.setText(null);
+						reservecheckoutdateField.setText(null);
+						reservebuttons.removeAll();
+						reservebuttons.add(cancelreserve);
+						reservebuttons.add(nextreserve);
 						validate();
 						repaint();
 						nextreserve.setForeground(Color.black);
