@@ -57,7 +57,7 @@ public class Menu extends JPanel {
 	private JPanel Signuperror = new JPanel();
 	final private int signuperrorWidth = 500, signuperrorHeight = 110;
 	final private Dimension signuperrorCenter = new Dimension(frameWidth / 2, 500);
-	private JLabel signuperrorText = new JLabel("USERID ALREADY EXISTS.", JLabel.CENTER);
+	private JLabel signuperrorText = new JLabel("USER ID ALREADY EXISTS.", JLabel.CENTER);
 	private JLabel backsignuperror = new JLabel("BACK", JLabel.CENTER);
 
 	// attribute of sign up error - WRONG VERIFY CODE.
@@ -181,8 +181,8 @@ public class Menu extends JPanel {
 	private JPanel Reserveorder = new JPanel();
 	final private int reserveorderWidth = 650, reserveorderHeight = 300;
 	final private Dimension reserveorderCenter = new Dimension(frameWidth / 2, frameHeight / 2);
+	private JLabel cancelText = new JLabel("CANCEL ORDER", JLabel.CENTER);
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
-	private JLabel cancelText = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel confirmText = new JLabel("CONFIRM", JLabel.CENTER);
 	protected TextField reserveorderhotelIDField = new TextField(15);
 	protected TextField reserveordersingleroomField = new TextField(2);
@@ -284,49 +284,49 @@ public class Menu extends JPanel {
 
 	// sign in error
 	private void initSigninerror() {
-		signinerrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		signinerrorText.setFont(new Font("Dialog", Font.BOLD, 28));
 		signinerrorText.setForeground(new Color(255, 0, 0));
 		backsigninerror.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signinerror.setLayout(new GridLayout(2, 1, 0, 0));
 		Signinerror.setOpaque(false);
-		Signinerror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signinerror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signinerror.add(signinerrorText);
 		Signinerror.add(backsigninerror);
 	}
 
 	// sign in error1
 	private void initSigninerror1() {
-		signinerror1Text.setFont(new Font("Arial", Font.BOLD, 28));
+		signinerror1Text.setFont(new Font("Dialog", Font.BOLD, 28));
 		signinerror1Text.setForeground(new Color(255, 0, 0));
 		backsigninerror1.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signinerror1.setLayout(new GridLayout(2, 1, 0, 0));
 		Signinerror1.setOpaque(false);
-		Signinerror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signinerror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signinerror1.add(signinerror1Text);
 		Signinerror1.add(backsigninerror1);
 	}
 
 	// sign up error
 	private void initSignuperror() {
-		signuperrorText.setFont(new Font("Arial", Font.BOLD, 28));
+		signuperrorText.setFont(new Font("Dialog", Font.BOLD, 28));
 		signuperrorText.setForeground(new Color(255, 0, 0));
 		backsignuperror.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signuperror.setLayout(new GridLayout(2, 1, 0, 0));
 		Signuperror.setOpaque(false);
-		Signuperror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signuperror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signuperror.add(signuperrorText);
 		Signuperror.add(backsignuperror);
 	}
 
 	private void initSignuperror1() {
-		signuperror1Text.setFont(new Font("Arial", Font.BOLD, 28));
+		signuperror1Text.setFont(new Font("Dialog", Font.BOLD, 28));
 		signuperror1Text.setForeground(new Color(255, 0, 0));
 		backsignuperror1.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signuperror1.setLayout(new GridLayout(2, 1, 0, 0));
 		Signuperror1.setOpaque(false);
-		Signuperror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signuperror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signuperror1.add(signuperror1Text);
-		Signuperror1.add(backsignuperror);
+		Signuperror1.add(backsignuperror1);
 	}
 
 	// sign in
@@ -587,13 +587,13 @@ public class Menu extends JPanel {
 	// search hotel
 	private void initSearch() {
 		// set font
-		star5.setFont(new Font("Arial Black", Font.BOLD, 28));
-		star4.setFont(new Font("Arial Black", Font.BOLD, 28));
-		star3.setFont(new Font("Arial Black", Font.BOLD, 28));
-		star2.setFont(new Font("Arial Black", Font.BOLD, 28));
-		pricehighText.setFont(new Font("Arial Black", Font.BOLD, 28));
-		pricelowText.setFont(new Font("Arial Black", Font.BOLD, 28));
-		backsearch.setFont(new Font("Arial Black", Font.BOLD, 28));
+		star5.setFont(new Font("Dialog", Font.BOLD, 28));
+		star4.setFont(new Font("Dialog", Font.BOLD, 28));
+		star3.setFont(new Font("Dialog", Font.BOLD, 28));
+		star2.setFont(new Font("Dialog", Font.BOLD, 28));
+		pricehighText.setFont(new Font("Dialog", Font.BOLD, 28));
+		pricelowText.setFont(new Font("Dialog", Font.BOLD, 28));
+		backsearch.setFont(new Font("Dialog", Font.BOLD, 28));
 		Search.setLayout(new GridLayout(4, 1, 0, 0));
 		Search.setOpaque(false);
 		Search.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -790,7 +790,7 @@ public class Menu extends JPanel {
 		reservenumberPanel.setOpaque(false);
 		reservenumberPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 		JLabel reservenumber = new JLabel("SUCCEED! RESERVATION NUMBER : ");
-		reservenumber.setFont(new Font("Dialog", Font.PLAIN, 18));
+		reservenumber.setFont(new Font("Dialog", Font.BOLD, 18));
 		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 18));
 		reservenumberPanel.add(reservenumber);
 		reservenumberPanel.add(successreservenumberField);
@@ -855,7 +855,7 @@ public class Menu extends JPanel {
 
 	// wrong reservation number
 	private void initWrongreservationnumber() {
-		wrongreservationnumberText.setFont(new Font("Arial", Font.BOLD, 28));
+		wrongreservationnumberText.setFont(new Font("Dialog", Font.BOLD, 28));
 		wrongreservationnumberText.setForeground(new Color(255, 0, 0));
 		wrongreservationnumberText.setBorder(new EmptyBorder(20, 40, 20, 40));
 		backwrongreservationnumber.setFont(new Font("Arial Black", Font.BOLD, 28));
@@ -1190,7 +1190,7 @@ public class Menu extends JPanel {
 	private void initChangeRevisesuccess() {
 		ChangeRevise_success.setLayout(new GridLayout(1, 1, 0, 0));
 		ChangeRevise_success.setOpaque(false);
-		changerevisesuccessText.setFont(new Font("Dialog", Font.PLAIN, 28));
+		changerevisesuccessText.setFont(new Font("Dialog", Font.BOLD, 28));
 		changerevisesuccessText.setForeground(new Color(70, 130, 180));
 		ChangeRevise_success.add(changerevisesuccessText);
 	}
@@ -1200,7 +1200,7 @@ public class Menu extends JPanel {
 		Changeroom_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Changeroom_error.setOpaque(false);
 //		Changeroom_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		changeroomerrorText.setFont(new Font("Arial", Font.BOLD, 30));
+		changeroomerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		changeroomerrorText.setForeground(new Color(255, 0, 0));
 		Changeroom_error.add(changeroomerrorText);
 	}
@@ -1210,7 +1210,7 @@ public class Menu extends JPanel {
 		Revisedate_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Revisedate_error.setOpaque(false);
 //		Revisedate_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-		revisedateerrorText.setFont(new Font("Arial", Font.BOLD, 30));
+		revisedateerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		revisedateerrorText.setForeground(new Color(255, 0, 0));
 		Revisedate_error.add(revisedateerrorText);
 	}
@@ -1342,15 +1342,15 @@ public class Menu extends JPanel {
 		}
 		// build up Table
 		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-		// set 'back' and 'next' button
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
+		
+		// set 'back' and 'reserve' button
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
 		buttons.setOpaque(false);
 		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
-		backhotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		reservehotellist.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		backhotellist.setFont(new Font("Dialog", Font.BOLD, 25));
+		reservehotellist.setFont(new Font("Dialog", Font.BOLD, 25));
 		buttons.add(backhotellist);
 		buttons.add(reservehotellist);
 
@@ -1977,7 +1977,7 @@ public class Menu extends JPanel {
 				if (main.CountDaysBetween(s1, s2) > 0) {
 					String CID = reservecheckindateField.getText();// yyyy/mm/dd
 					String COD = reservecheckoutdateField.getText();
-					int HotelID = reservehotelid.getSelectedIndex();
+					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
 					int sn = Integer.parseInt(reservesingleroomField.getText());
 					int dn = Integer.parseInt(reservedoubleroomField.getText());
 					int qn = Integer.parseInt(reservequadroomField.getText());
@@ -1996,6 +1996,9 @@ public class Menu extends JPanel {
 						reservebuttons.removeAll();
 						reservebuttons.add(cancelreserve);
 						reservebuttons.add(nextreserve);
+						reserveorderbuttons.removeAll();
+						reserveorderbuttons.add(modifyText);
+						reserveorderbuttons.add(confirmText);
 						validate();
 						repaint();
 						nextreserve.setForeground(Color.black);
@@ -2048,6 +2051,10 @@ public class Menu extends JPanel {
 							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
 					layeredPane.add(Reserveorder, new Integer(3));
+					reserveorderbuttons.removeAll();
+					reserveorderbuttons.add(cancelText);
+					reserveorderbuttons.add(modifyText);
+					reserveorderbuttons.add(confirmText);
 					validate();
 					repaint();
 					nextinquiry.setForeground(Color.black);
