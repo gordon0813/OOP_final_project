@@ -1,5 +1,3 @@
-//package Player;
-
 public class Player {
 	private String name; // player's name
 	private int cash; //the money the player hold
@@ -7,7 +5,7 @@ public class Player {
 	private int estateValue; //the total value of the estate the player hold
 	private int account; //cash+estateValue
 	private int locat; //the location the player is at
-	private boolean stop; //if the player is stop in the turn: true = go to jail (library)
+	public boolean stop; //if the player is stop in the turn: true = go to jail (library)
 	
 	public Player(String Name) {
 		name = Name;
@@ -39,6 +37,41 @@ public class Player {
 		return this.name;
 	}
 	
+	public int getLocat() {
+		return locat;
+	}
+	
+	public void setLocat(int dice) {
+		//decided by dice;
+		int pre_loc = locat;
+		locat = (pre_loc + dice)%20;
+		if(pre_loc > locat && locat != 0)//the player plays a round, get 1500,but if the player stops at 0 get nothing
+			cash += 1500;
+		if(locat == 13)//if the player stops at library(estate[13]), stop for a round
+			stop = true;
+		
+	}
+	public int getAccount() {
+		return this.account;
+	}
+	public void setAccount() {
+		this.account = this.cash + this.estateValue;
+	}
+	public int getEstateValue() {
+		return this.estateValue;
+	}
+	public void setEstateValue() {
+
+	}
+	public void setCash(int money) {
+		cash+=money;
+	}
+	public int getCash() {
+		return cash;
+	}
+	
+	
+}
 	public int getLocat() {
 		return locat;
 	}
