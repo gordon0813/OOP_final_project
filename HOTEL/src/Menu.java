@@ -1,10 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
-
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 /*
  * to do:
  * 1. Search的output 5~2 Star & Price(highest/lowest first)
@@ -30,7 +34,7 @@ public class Menu extends JPanel {
 	private JPanel title = new JPanel();
 	final private int titleWidth = 930, titleHeight = 80;
 	final private Dimension titleCenter = new Dimension(frameWidth / 2, frameHeight / 4);
-	private JLabel titleText = new JLabel("== HOTEL ==", JLabel.CENTER);
+	private JLabel titleText = new JLabel("     HOTEL     ", JLabel.CENTER);
 
 	// attribute of sub menu
 	private JPanel subMenu = new JPanel();
@@ -69,22 +73,22 @@ public class Menu extends JPanel {
 
 	// attribute of sign in
 	private JPanel Signin = new JPanel();
-	final private int signinSetWidth = 500, signinSetHeight = 180;
-	final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 500);
+	final private int signinSetWidth = 600, signinSetHeight = 210;
+	final private Dimension signinSetCenter = new Dimension(frameWidth / 2, 450);
 	private JLabel signinlogin = new JLabel("LOGIN", JLabel.CENTER);
 	private JLabel signinback = new JLabel("BACK", JLabel.CENTER);
-	protected TextField signinidField = new TextField(15);
-	protected TextField signinpasswordField = new TextField(15);
+	protected JTextField signinidField = new JTextField();
+	protected JPasswordField signinpasswordField = new JPasswordField();
 
 	// attribute of sign up
 	private JPanel Signup = new JPanel();
-	final private int signupSetWidth = 500, signupSetHeight = 240;
-	final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 500);
+	final private int signupSetWidth = 600, signupSetHeight = 270;
+	final private Dimension signupSetCenter = new Dimension(frameWidth / 2, 450);
 	private JLabel signuplogin = new JLabel("SIGN UP and LOGIN", JLabel.CENTER);
 	private JLabel signupcancel = new JLabel("CANCEL", JLabel.CENTER);
-	protected TextField signupidField = new TextField(13);
-	protected TextField signuppasswordField = new TextField(13);
-	protected TextField usercodeField = new TextField(8);
+	protected JTextField signupidField = new JTextField(13);
+	protected JPasswordField signuppasswordField = new JPasswordField(13);
+	protected JTextField usercodeField = new JTextField(5);
 	protected JLabel verifycodeField = new JLabel("");
 
 	// attribute of Hotel function Search/Reserve/Inquiry
@@ -122,7 +126,7 @@ public class Menu extends JPanel {
 
 	// attribute of Search
 	private JPanel Search = new JPanel();
-	final private int searchWidth = 570, searchHeight = 250;
+	final private int searchWidth = 570, searchHeight = 240;
 	final private Dimension searchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	JPanel star = new JPanel();
 	private JLabel star5 = new JLabel("5-star", JLabel.CENTER);
@@ -141,12 +145,12 @@ public class Menu extends JPanel {
 	private JLabel cancelreserve = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
+	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
 	protected JTextField reservecheckindateField = new JTextField(10);
 	protected JTextField reservecheckoutdateField = new JTextField(10);
 	protected TextField reservesingleroomField = new TextField(2);
 	protected TextField reservedoubleroomField = new TextField(2);
 	protected TextField reservequadroomField = new TextField(2);
-	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
 
 	// attribute of reserve error (sold out)
 	private JPanel Soldout = new JPanel();
@@ -159,7 +163,7 @@ public class Menu extends JPanel {
 	private JPanel Reserve_success = new JPanel();
 	final private int reservesuccessWidth = 600, reservesuccessHeight = 75;
 	final private Dimension reservesuccessCenter = new Dimension(frameWidth / 2, frameHeight / 5);
-	protected TextField successreservenumberField = new TextField(20);
+	protected JLabel successreservenumberField = new JLabel("");
 
 	// attribute of inquiry
 	private JPanel Inquiry = new JPanel();
@@ -179,7 +183,7 @@ public class Menu extends JPanel {
 	// attribute of reserve order (reservation record and modify and cancel
 	// reservation)
 	private JPanel Reserveorder = new JPanel();
-	final private int reserveorderWidth = 650, reserveorderHeight = 300;
+	final private int reserveorderWidth = 650, reserveorderHeight = 320;
 	final private Dimension reserveorderCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel cancelText = new JLabel("CANCEL ORDER", JLabel.CENTER);
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
@@ -253,7 +257,7 @@ public class Menu extends JPanel {
 	private JPanel Changeroom_error = new JPanel();
 	final private int changeroomerrorWidth = 800, changeroomerrorHeight = 75;
 	final private Dimension changeroomerrorCenter = new Dimension(frameWidth / 2, frameHeight / 4);
-	private JLabel changeroomerrorText = new JLabel("SORRY, BOOKING MORE ROOMS IS UNAVAILABLE!", JLabel.CENTER);
+	private JLabel changeroomerrorText = new JLabel("SORRY, THERE IS NO MORE VACANT SUITES!", JLabel.CENTER);
 
 	// reduce room error
 	private JPanel Revisedate_error = new JPanel();
@@ -269,7 +273,7 @@ public class Menu extends JPanel {
 
 	// title
 	private void initTitle() {
-		titleText.setFont(new Font("Arial", Font.BOLD, 60));
+		titleText.setFont(new Font("Brush Script MT", Font.BOLD, 96));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
 
@@ -331,7 +335,7 @@ public class Menu extends JPanel {
 
 	// sign in
 	private void initSignIn() {
-		Signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signin.setLayout(new GridLayout(3, 1));
 		Signin.setOpaque(false);
 
@@ -339,9 +343,29 @@ public class Menu extends JPanel {
 		JPanel IDPanel = new JPanel();
 		IDPanel.setOpaque(false);
 		IDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		IDPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		// enter ID
 		JLabel ID = new JLabel("       ID       : ");
 		ID.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		signinidField = new JTextField(10) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			@Override
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
 		signinidField.setEditable(true);
 		signinidField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		// ID Panel adding
@@ -352,22 +376,70 @@ public class Menu extends JPanel {
 		JPanel passwordPanel = new JPanel();
 		passwordPanel.setOpaque(false);
 		passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		passwordPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		// enter password
 		JLabel password = new JLabel("PASSWORD : ");
 		password.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		signinpasswordField.setEchoChar('●');
+		signinpasswordField = new JPasswordField(10) {
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
 		signinpasswordField.setEditable(true);
 		signinpasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		// whether to show the password or not
+		signinpasswordField.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		AbstractDocument doc = (AbstractDocument) signinpasswordField.getDocument();
+		doc.setDocumentFilter(new DocumentFilter());
+		AbstractButton b = new JToggleButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				AbstractButton c = (AbstractButton) e.getSource();
+				Character ec = c.isSelected() ? 0 : (Character) UIManager.get("PasswordField.echoChar");
+				signinpasswordField.setEchoChar(ec);
+			}
+		});
+		b.setFocusable(false);
+		b.setOpaque(false);
+		b.setContentAreaFilled(false);
+		b.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 4));
+		b.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		b.setAlignmentY(Component.CENTER_ALIGNMENT);
+		b.setIcon(new ColorIcon(Color.GREEN));
+		b.setRolloverIcon(new ColorIcon(Color.GRAY));
+		b.setSelectedIcon(new ColorIcon(Color.RED));
+		b.setRolloverSelectedIcon(new ColorIcon(Color.GRAY));
+		JPanel panel = new JPanel() {
+			public boolean isOptimizedDrawingEnabled() {
+				return false;
+			}
+		};
+		panel.setLayout(new OverlayLayout(panel));
+		panel.setOpaque(false);
+		panel.add(b);
+		panel.add(signinpasswordField);
 		// password Panel adding
 		passwordPanel.add(password);
-		passwordPanel.add(signinpasswordField);
+		passwordPanel.add(panel);
 
 		// set 'back' and 'login' button
 		JPanel buttons = new JPanel();
 		buttons.setOpaque(false);
-		signinlogin.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		signinback.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		buttons.setLayout(new GridLayout(1, 2));
+		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
+		signinlogin.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		signinback.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		buttons.add(signinback);
 		buttons.add(signinlogin);
 
@@ -379,39 +451,109 @@ public class Menu extends JPanel {
 
 	// sign up
 	private void initSignUp() {
-		Signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signup.setLayout(new GridLayout(4, 1));
 		Signup.setOpaque(false);
 
-		// set ID
+		// ID Panel
 		JPanel IDPanel = new JPanel();
 		IDPanel.setOpaque(false);
 		IDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel ID = new JLabel("         ID         : ");
+		IDPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+		JLabel ID = new JLabel("         ID          ");
 		ID.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		signupidField = new JTextField(10) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			@Override
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
 		signupidField.setEditable(true);
 		signupidField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		IDPanel.add(ID);
 		IDPanel.add(signupidField);
 
-		// set password
+		// password panel
 		JPanel passwordPanel = new JPanel();
 		passwordPanel.setOpaque(false);
 		passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel password = new JLabel("PASSWORD   : ");
+		passwordPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+		JLabel password = new JLabel("PASSWORD    ");
 		password.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		signuppasswordField.setEchoChar('●');
+		signuppasswordField = new JPasswordField(10) {
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
 		signuppasswordField.setEditable(true);
 		signuppasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		// whether to show the password or not
+		signuppasswordField.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		AbstractDocument doc = (AbstractDocument) signuppasswordField.getDocument();
+		doc.setDocumentFilter(new DocumentFilter());
+		AbstractButton b = new JToggleButton(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbstractButton c = (AbstractButton) e.getSource();
+				Character ec = c.isSelected() ? 0 : (Character) UIManager.get("PasswordField.echoChar");
+				signuppasswordField.setEchoChar(ec);
+			}
+		});
+		b.setFocusable(false);
+		b.setOpaque(false);
+		b.setContentAreaFilled(false);
+		b.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 4));
+		b.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		b.setAlignmentY(Component.CENTER_ALIGNMENT);
+		b.setIcon(new ColorIcon(Color.GREEN));
+		b.setRolloverIcon(new ColorIcon(Color.GRAY));
+		b.setSelectedIcon(new ColorIcon(Color.RED));
+		b.setRolloverSelectedIcon(new ColorIcon(Color.GRAY));
+		JPanel panel = new JPanel() {
+			public boolean isOptimizedDrawingEnabled() {
+				return false;
+			}
+		};
+		panel.setLayout(new OverlayLayout(panel));
+		panel.setOpaque(false);
+		panel.add(b);
+		panel.add(signuppasswordField);
+		// password panel adding
 		passwordPanel.add(password);
-		passwordPanel.add(signuppasswordField);
+		passwordPanel.add(panel);
 
 		// verify code Panel
 		JPanel verifycodePanel = new JPanel();
 		verifycodePanel.setOpaque(false);
 		verifycodePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		verifycodePanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		// enter verify code
-		JLabel verifycode = new JLabel("VERIFY CODE : ");
+		JLabel verifycode = new JLabel("VERIFY CODE        ");
 		verifycode.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		usercodeField.setEditable(true);
 		usercodeField.setFont(new Font("Times New Roman", Font.BOLD, 23));
@@ -432,8 +574,9 @@ public class Menu extends JPanel {
 		JPanel buttons = new JPanel();
 		buttons.setOpaque(false);
 		buttons.setLayout(new GridLayout(1, 2));
-		signuplogin.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		signupcancel.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
+		signuplogin.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		signupcancel.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		buttons.add(signupcancel);
 		buttons.add(signuplogin);
 
@@ -447,10 +590,10 @@ public class Menu extends JPanel {
 
 	// hotel function hotel list/reserve/inquiry
 	private void initHotelfunction() {
-		searchText.setFont(new Font("Arial Black", Font.BOLD, 30));
-		reserveText.setFont(new Font("Arial Black", Font.BOLD, 30));
-		inquiryText.setFont(new Font("Arial Black", Font.BOLD, 30));
-		logout.setFont(new Font("Arial Black", Font.BOLD, 30));
+		searchText.setFont(new Font("Dialog", Font.BOLD, 36));
+		reserveText.setFont(new Font("Dialog", Font.BOLD, 36));
+		inquiryText.setFont(new Font("Dialog", Font.BOLD, 36));
+		logout.setFont(new Font("Dialog", Font.BOLD, 36));
 		Hotelfunction.setLayout(new GridLayout(2, 2, 0, 0));
 		Hotelfunction.setOpaque(false);
 		Hotelfunction.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -578,7 +721,7 @@ public class Menu extends JPanel {
 	private void initEnterinvaliddateerror() {
 		Invalid_date_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Invalid_date_error.setOpaque(false);
-//		Enter_invalid_date_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//		Invalid_date_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		invaliddateerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		invaliddateerrorText.setForeground(new Color(255, 0, 0));
 		Invalid_date_error.add(invaliddateerrorText);
@@ -615,9 +758,7 @@ public class Menu extends JPanel {
 //		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Hotellist.setOpaque(false);
 		backhotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
-		backhotellist.setBackground(new Color(245, 255, 250));
 		reservehotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
-		reservehotellist.setBackground(new Color(245, 255, 250));
 	}
 
 	// search hotel error (No matched Hotel)
@@ -788,10 +929,11 @@ public class Menu extends JPanel {
 		JPanel reservenumberPanel = new JPanel();
 		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		reservenumberPanel.setOpaque(false);
-		reservenumberPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
+		reservenumberPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		JLabel reservenumber = new JLabel("SUCCEED! RESERVATION NUMBER : ");
-		reservenumber.setFont(new Font("Dialog", Font.BOLD, 18));
-		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 18));
+		reservenumber.setFont(new Font("Dialog", Font.BOLD, 25));
+		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 25));
+//		successreservenumberField.setEditable(false);
 		reservenumberPanel.add(reservenumber);
 		reservenumberPanel.add(successreservenumberField);
 
@@ -1205,7 +1347,7 @@ public class Menu extends JPanel {
 		Changeroom_error.add(changeroomerrorText);
 	}
 
-    // revise date error
+	// revise date error
 	private void initRevisedateerror() {
 		Revisedate_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Revisedate_error.setOpaque(false);
@@ -1241,7 +1383,7 @@ public class Menu extends JPanel {
 	}
 
 	// show reserve success
-	public void showreservesuccess(int OrderID, int hid, int sroom, int droom, int qroom, String chkindate,
+	public void showReservesuccess(int OrderID, int hid, int sroom, int droom, int qroom, String chkindate,
 			String chkoutdate, int night, int p) {
 		successreservenumberField.setText(Integer.toString(OrderID));
 		layeredPane.add(Reserve_success, new Integer(3));
@@ -1280,6 +1422,16 @@ public class Menu extends JPanel {
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
+		origincheckindateField.setText(null);
+		origincheckoutdateField.setText(null);
+		newcheckindateField.setText(null);
+		newcheckoutdateField.setText(null);
+		originsingleroomField.setText(null);
+		origindoubleroomField.setText(null);
+		originquadroomField.setText(null);
+		newsingleroomField.setText(null);
+		newdoubleroomField.setText(null);
+		newquadroomField.setText(null);
 		String[] option = new String[1500];
 		for (Integer i = 0; i < 1500; i++) {
 			option[i] = i.toString();
@@ -1308,11 +1460,10 @@ public class Menu extends JPanel {
 		return tablemodel;
 	}
 
-	
 	// show hotel list 設定外觀
-	public void showHotellist(DefaultTableModel tablemodel) {
+public void showHotellist(DefaultTableModel tablemodel) {
 		HotellistTable = new JTable(tablemodel);
-
+		HotellistTable.setOpaque(false);
 		HotellistTable.setEnabled(false);
 		JTableHeader head = HotellistTable.getTableHeader();
 		head.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -1340,10 +1491,11 @@ public class Menu extends JPanel {
 		for (int i = 0; i <= 7; i++) {
 			HotellistTable.getColumn(heading[i]).setCellRenderer(ter);
 		}
+
 		// build up Table
 		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
-		
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		// set 'back' and 'reserve' button
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
@@ -1387,7 +1539,7 @@ public class Menu extends JPanel {
 		this.background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
 		this.background.setBounds(0, 0, frameWidth, frameHeight);
 		layeredPane.add(background, new Integer(0));
-		
+
 		this.title.setBounds(titleCenter.width - (titleWidth / 2), titleCenter.height - (titleHeight / 2), titleWidth,
 				titleHeight);
 		layeredPane.add(title, new Integer(1));
@@ -1471,7 +1623,7 @@ public class Menu extends JPanel {
 		this.Revisedate_error.setBounds(revisedateerrorCenter.width - (revisedateerrorWidth / 2),
 				revisedateerrorCenter.height - (revisedateerrorHeight / 2), revisedateerrorWidth,
 				revisedateerrorHeight);
-		
+
 		this.ChangeRevise_success.setBounds(changerevisesuccessCenter.width - (changerevisesuccessWidth / 2),
 				changerevisesuccessCenter.height - (changerevisesuccessHeight / 2), changerevisesuccessWidth,
 				changerevisesuccessHeight);
@@ -1523,6 +1675,7 @@ public class Menu extends JPanel {
 		backsigninerror.addMouseListener(ml);
 		backsigninerror1.addMouseListener(ml);
 		backsignuperror.addMouseListener(ml);
+		backsignuperror1.addMouseListener(ml);
 		// buttons in hotel function
 		searchText.addMouseListener(ml);
 		reserveText.addMouseListener(ml);
@@ -1602,7 +1755,8 @@ public class Menu extends JPanel {
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
 				String UserID = signupidField.getText();
-				String Password = signuppasswordField.getText();
+//				String Password = signuppasswordFiel?d.getText();
+				String Password = new String(signuppasswordField.getPassword());
 				String UserCode = usercodeField.getText(); // user enter verify code
 				String VerifyCode = verifycodeField.getText(); // random verify code
 				if (main.SignUpCheck(UserID, Password, UserCode)) {
@@ -1653,7 +1807,8 @@ public class Menu extends JPanel {
 				signinback.setForeground(Color.black);
 			} else if (e.getSource() == signinlogin) {
 				String UserID = signinidField.getText();
-				String Password = signinpasswordField.getText();
+//				String Password = signinpasswordField.getText();
+				String Password = new String(signinpasswordField.getPassword());
 				int re = main.SignInCheck(UserID, Password);
 				if (re == 1) {
 					layeredPane.remove(Signin);
@@ -1763,11 +1918,11 @@ public class Menu extends JPanel {
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
-			} else if(e.getSource() == pricehighText) { // show price high first
+			} else if (e.getSource() == pricehighText) { // show price high first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
-				
+
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -1776,16 +1931,16 @@ public class Menu extends JPanel {
 				ArrayList<AvailableHotelRooms> nAHR = main.SortByPrice(AHR, 0);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
-				
+
 				layeredPane.add(Hotellist, new Integer(3));
 				validate();
 				repaint();
-				pricehighText.setForeground(Color.black);	
-			} else if(e.getSource() == pricelowText) { // show price low first
+				pricehighText.setForeground(Color.black);
+			} else if (e.getSource() == pricelowText) { // show price low first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
-				
+
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -1794,7 +1949,7 @@ public class Menu extends JPanel {
 				ArrayList<AvailableHotelRooms> nAHR = main.SortByPrice(AHR, 1);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
-				
+
 				layeredPane.add(Hotellist, new Integer(3));
 				validate();
 				repaint();
@@ -1830,7 +1985,7 @@ public class Menu extends JPanel {
 				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 4);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
-				
+
 				layeredPane.remove(Search);
 				layeredPane.add(Hotellist, new Integer(3));
 				validate();
@@ -1932,7 +2087,7 @@ public class Menu extends JPanel {
 				layeredPane.remove(Reserve_success);
 				layeredPane.remove(ChangeRevise_success);
 				layeredPane.remove(Cancelorder_success);
-				
+
 				entercheckindateField.setText("SELECT DATE");
 				entercheckoutdateField.setText("SELECT DATE");
 				enterpeopleField.setText(null);
@@ -1949,7 +2104,7 @@ public class Menu extends JPanel {
 				reserveorderbuttons.add(cancelText);
 				reserveorderbuttons.add(modifyText);
 				reserveorderbuttons.add(confirmText);
-				
+
 				layeredPane.add(Hotelfunction);
 				validate();
 				repaint();
@@ -1986,7 +2141,7 @@ public class Menu extends JPanel {
 						// 訂房成功
 						layeredPane.remove(Reserve);
 						layeredPane.remove(Invalid_date_error);
-						showreservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(),
+						showReservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(),
 								order.getqn(), order.getCheckInDate(), order.getCheckOutDate(),
 								(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 								order.getSumPrice());
@@ -2022,7 +2177,7 @@ public class Menu extends JPanel {
 					repaint();
 					nextreserve.setForeground(Color.black);
 				}
-				
+
 			} else if (e.getSource() == backsoldout) {
 				layeredPane.remove(Soldout);
 				layeredPane.remove(Invalid_date_error);
@@ -2119,12 +2274,12 @@ public class Menu extends JPanel {
 				reserveorderbuttons.remove(modifyText); // if change room success
 				layeredPane.add(Reserveorder, new Integer(3));// if change room success
 
-				// if change room error  修改房間數失敗 (不可增加房間數量)
+				// if change room error 修改房間數失敗 房間數量不足
 //				layeredPane.add(Changeroom_error, new Integer(3)); // if change room error
 //				newsingleroomField.setText(null); // if change room error
 //				newdoubleroomField.setText(null); // if change room error
 //				newquadroomField.setText(null); // if change room error
-				
+
 				validate();
 				repaint();
 				nextchangeroom.setForeground(Color.black);
@@ -2146,29 +2301,28 @@ public class Menu extends JPanel {
 				String s1 = newcheckindateField.getText();
 				String s2 = newcheckoutdateField.getText();
 				if (main.CountDaysBetween(s1, s2) > 0) { // 檢查入住日期是否比退房日期之前
-				
-				// if revise date success 修改日期成功
+
+					// if revise date success 修改日期成功
 //				showReserveorder(int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
 //				int p)
-				layeredPane.remove(Invalid_date_error); // if revise date success
-				layeredPane.remove(Revisedate_error); // if revise date success
-				layeredPane.remove(Revisedate); // if revise date success
-				layeredPane.add(ChangeRevise_success, new Integer(3)); // if revise date success
-				reserveorderbuttons.remove(cancelText); // if revise date success
-				reserveorderbuttons.remove(modifyText); // if revise date success
-				layeredPane.add(Reserveorder, new Integer(3)); // if revise date success
+					layeredPane.remove(Invalid_date_error); // if revise date success
+					layeredPane.remove(Revisedate_error); // if revise date success
+					layeredPane.remove(Revisedate); // if revise date success
+					layeredPane.add(ChangeRevise_success, new Integer(3)); // if revise date success
+					reserveorderbuttons.remove(cancelText); // if revise date success
+					reserveorderbuttons.remove(modifyText); // if revise date success
+					layeredPane.add(Reserveorder, new Integer(3)); // if revise date success
 
-				// if revise date error  修改日期失敗(不可延長住宿日期)
+					// if revise date error 修改日期失敗
 //				layeredPane.remove(Invalid_date_error); // if revise date error
 //				layeredPane.add(Revisedate_error, new Integer(3)); // if revise date error
 //				newcheckindateField.setText(null); // if revise date error
 //				newcheckoutdateField.setText(null); // if revise date error
-				
-				validate();
-				repaint();
-				nextrevisedate.setForeground(Color.black);
-				}
-				else { // invalid date
+
+					validate();
+					repaint();
+					nextrevisedate.setForeground(Color.black);
+				} else { // invalid date
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					newcheckindateField.setText(null);
 					newcheckoutdateField.setText(null);
@@ -2183,8 +2337,70 @@ public class Menu extends JPanel {
 				validate();
 				repaint();
 				cancelText.setForeground(Color.black);
-			} 
+			}
 
 		}
 	};
+
+}
+
+class RoundedCornerBorder extends AbstractBorder {
+	private static final Color ALPHA_ZERO = new Color(0x0, true);
+
+	@Override
+	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Shape border = getBorderShape(x, y, width - 1, height - 1);
+		g2.setPaint(ALPHA_ZERO);
+		Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		corner.subtract(new Area(border));
+		g2.fill(corner);
+		g2.setPaint(Color.GRAY);
+		g2.draw(border);
+		g2.dispose();
+	}
+
+	public Shape getBorderShape(int x, int y, int w, int h) {
+		int r = h; // h / 2;
+		return new RoundRectangle2D.Double(x, y, w, h, r, r);
+	}
+
+	@Override
+	public Insets getBorderInsets(Component c) {
+		return new Insets(4, 8, 4, 8);
+	}
+
+	@Override
+	public Insets getBorderInsets(Component c, Insets insets) {
+		insets.set(4, 8, 4, 8);
+		return insets;
+	}
+}
+
+class ColorIcon implements Icon {
+	private final Color color;
+
+	protected ColorIcon(Color color) {
+		this.color = color;
+	}
+
+	@Override
+	public void paintIcon(Component c, Graphics g, int x, int y) {
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.translate(x, y);
+		g2.setPaint(color);
+		g2.fillRect(1, 1, getIconWidth() - 2, getIconHeight() - 2);
+		g2.dispose();
+	}
+
+	@Override
+	public int getIconWidth() {
+		return 12;
+	}
+
+	@Override
+	public int getIconHeight() {
+		return 12;
+	}
 }
