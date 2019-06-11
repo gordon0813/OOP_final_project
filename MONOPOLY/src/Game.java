@@ -543,7 +543,7 @@ public class Game extends JPanel {
 
 	class Message extends JLabel {	
 		//private JLabel text =new JLabel("NTU Monopoly",JLabel.CENTER);
-		public Message() {
+		public Message() {}
 			
 		public void chanceNFate(int player){
 			//Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
