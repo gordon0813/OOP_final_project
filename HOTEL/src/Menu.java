@@ -9,6 +9,18 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 /*
  * to do:
  * 1. Search的output 5~2 Star & Price(highest/lowest first)
@@ -23,6 +35,8 @@ import javax.swing.text.DocumentFilter;
  * 3. 完成
  * 4. 完成
  * 5. 完成：修改住宿日期，修改房間數，顯示修改成功訊息(同時顯示出修改後的訂單)，顯示失敗訊息，顯示取消訂單訊息
+ * 
+ * 新功能：另外做了可以直接hotel list table 選擇飯店的功能
  */
 
 public class Menu extends JPanel {
@@ -145,12 +159,13 @@ public class Menu extends JPanel {
 	private JLabel cancelreserve = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
-	protected JComboBox<Object> reservehotelid = new JComboBox<Object>();
+//	protected static JComboBox<Object> reservehotelid = new JComboBox<Object>();
+	protected static JTextField reservehotelidField = new JTextField(4);
 	protected JTextField reservecheckindateField = new JTextField(10);
 	protected JTextField reservecheckoutdateField = new JTextField(10);
-	protected TextField reservesingleroomField = new TextField(2);
-	protected TextField reservedoubleroomField = new TextField(2);
-	protected TextField reservequadroomField = new TextField(2);
+	protected static TextField reservesingleroomField = new TextField(2);
+	protected static TextField reservedoubleroomField = new TextField(2);
+	protected static TextField reservequadroomField = new TextField(2);
 
 	// attribute of reserve error (sold out)
 	private JPanel Soldout = new JPanel();
@@ -200,10 +215,11 @@ public class Menu extends JPanel {
 
 	// attribute of hotel list
 	private JPanel Hotellist = new JPanel();
-	final private int hotellistWidth = 750, hotellistHeight = 500;
+//	final private int hotellistWidth = 750, hotellistHeight = 500;
+	final private int hotellistWidth = 820, hotellistHeight = 500;
 	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	JTable HotellistTable = new JTable();
-	String[] heading = new String[] { "ID", "Star", "City", "Address", "Single", "Double", "Quad", "Price" };
+	String[] heading = new String[] { "ID", "Star", "City", "Address", "Single", "Double", "Quad", "Price", "Select" };
 	private JLabel backhotellist = new JLabel("BACK", JLabel.CENTER);
 	private JLabel reservehotellist = new JLabel("RESERVE", JLabel.CENTER);
 
@@ -368,6 +384,7 @@ public class Menu extends JPanel {
 		};
 		signinidField.setEditable(true);
 		signinidField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		signinidField.setBackground(new Color(232, 232, 232, 120));
 		// ID Panel adding
 		IDPanel.add(ID);
 		IDPanel.add(signinidField);
@@ -399,6 +416,7 @@ public class Menu extends JPanel {
 		};
 		signinpasswordField.setEditable(true);
 		signinpasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		signinpasswordField.setBackground(new Color(232, 232, 232, 120));
 		// whether to show the password or not
 		signinpasswordField.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		AbstractDocument doc = (AbstractDocument) signinpasswordField.getDocument();
@@ -440,6 +458,8 @@ public class Menu extends JPanel {
 		buttons.setBorder(new EmptyBorder(20, 40, 20, 40));
 		signinlogin.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		signinback.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		signinlogin.setOpaque(false);
+		signinback.setOpaque(false);
 		buttons.add(signinback);
 		buttons.add(signinlogin);
 
@@ -483,6 +503,7 @@ public class Menu extends JPanel {
 		};
 		signupidField.setEditable(true);
 		signupidField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		signupidField.setBackground(new Color(232, 232, 232, 120));
 		IDPanel.add(ID);
 		IDPanel.add(signupidField);
 
@@ -512,6 +533,7 @@ public class Menu extends JPanel {
 		};
 		signuppasswordField.setEditable(true);
 		signuppasswordField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		signuppasswordField.setBackground(new Color(232, 232, 232, 120));
 		// whether to show the password or not
 		signuppasswordField.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		AbstractDocument doc = (AbstractDocument) signuppasswordField.getDocument();
@@ -564,6 +586,7 @@ public class Menu extends JPanel {
 					e.consume();
 			}
 		});
+		usercodeField.setBackground(new Color(232, 232, 232, 120));
 		verifycodeField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		// verify code panel adding
 		verifycodePanel.add(verifycode);
@@ -841,13 +864,26 @@ public class Menu extends JPanel {
 		// select hotel ID
 		JLabel hotelID = new JLabel("    HotelID     : ");
 		hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		String[] option = new String[1500];
-		for (Integer i = 0; i < 1500; i++) {
-			option[i] = i.toString();
-		}
-		reservehotelid = new JComboBox<Object>(option);
+//		String[] option = new String[1500];
+//		for (Integer i = 0; i < 1500; i++) {
+//			option[i] = i.toString();
+//		}
+//		reservehotelid = new JComboBox<Object>(option);
+		reservehotelidField.setEditable(true);
+		reservehotelidField.setFont(new Font("Serif", Font.BOLD, 23));
+		reservehotelidField.addKeyListener(new KeyAdapter() {// can only enter number!
+			public void keyTyped(KeyEvent e) {
+				char keyChar = e.getKeyChar();
+				if (!(keyChar >= '0' && keyChar <= '9')) {
+					e.consume();
+				}
+				String s = reservehotelidField.getText();
+				if (s.length() >= 4)
+					e.consume();
+			}
+		});
 		hotelIDPanel.add(hotelID);
-		hotelIDPanel.add(reservehotelid);
+		hotelIDPanel.add(reservehotelidField);
 
 		// number of room panel
 		JPanel roomPanel = new JPanel();
@@ -1419,6 +1455,7 @@ public class Menu extends JPanel {
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
 		reservecheckoutdateField.setText("SELECT DATE");
+		reservehotelidField.setText(null);
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
@@ -1432,11 +1469,6 @@ public class Menu extends JPanel {
 		newsingleroomField.setText(null);
 		newdoubleroomField.setText(null);
 		newquadroomField.setText(null);
-		String[] option = new String[1500];
-		for (Integer i = 0; i < 1500; i++) {
-			option[i] = i.toString();
-		}
-		reservehotelid = new JComboBox<Object>(option);
 	}
 
 	// make hotel list 建立Table
@@ -1453,21 +1485,31 @@ public class Menu extends JPanel {
 			int droom = _AHR.get(i).getDouble(); // double room
 			int qroom = _AHR.get(i).getQuad(); // quad room
 			int price = main.CountSumPrice(_AHR.get(i)); // price
-			Object[] data = { id, star, locality, address, sroom, droom, qroom, price };
+			String go = "Select"; // select
+			Object[] data = { id, star, locality, address, sroom, droom, qroom, price, go };
 			tablemodel.addRow(data);
 		}
-
 		return tablemodel;
 	}
 
 	// show hotel list 設定外觀
-public void showHotellist(DefaultTableModel tablemodel) {
-		HotellistTable = new JTable(tablemodel);
+	public void showHotellist(DefaultTableModel tablemodel) {
+		HotellistTable = new JTable(tablemodel) {
+			public boolean isCellEditable(int row, int column) {
+				if (column == 8) {
+					return true;
+				}
+				return false;
+			}
+
+		};
 		HotellistTable.setOpaque(false);
-		HotellistTable.setEnabled(false);
+//		HotellistTable.setEnabled(false);
 		JTableHeader head = HotellistTable.getTableHeader();
 		head.setFont(new Font("Arial", Font.PLAIN, 20));
-		HotellistTable.setRowHeight(40); // row height
+
+		// row height
+		HotellistTable.setRowHeight(40);
 		// column width
 		HotellistTable.getColumnModel().getColumn(0).setMaxWidth(60); // id
 		HotellistTable.getColumnModel().getColumn(1).setMaxWidth(50); // star
@@ -1477,24 +1519,27 @@ public void showHotellist(DefaultTableModel tablemodel) {
 		HotellistTable.getColumnModel().getColumn(5).setMaxWidth(70); // double room
 		HotellistTable.getColumnModel().getColumn(6).setMaxWidth(70); // quad room
 		HotellistTable.getColumnModel().getColumn(7).setMaxWidth(70); // price
+		HotellistTable.getColumnModel().getColumn(8).setMaxWidth(70); // select
 		// row color
 		DefaultTableCellRenderer ter = new DefaultTableCellRenderer() {
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
 				if (row % 2 == 0)
-					setBackground(new Color(248, 248, 255));
+					setBackground(new Color(248, 248, 255, 100));
 				else if (row % 2 == 1)
 					setBackground(Color.white);
 				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			}
 		};
-		for (int i = 0; i <= 7; i++) {
+		for (int i = 0; i <= 8; i++) {
 			HotellistTable.getColumn(heading[i]).setCellRenderer(ter);
 		}
 
 		// build up Table
 		JScrollPane HotellistJScrollPane = new JScrollPane(HotellistTable,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+		ButtonColumn buttonsColumn = new ButtonColumn(HotellistTable, 8);
 
 		// set 'back' and 'reserve' button
 		JPanel buttons = new JPanel();
@@ -1506,18 +1551,18 @@ public void showHotellist(DefaultTableModel tablemodel) {
 		buttons.add(backhotellist);
 		buttons.add(reservehotellist);
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2, 1));
-		panel.setOpaque(false);
-		JPanel panel_ = new JPanel();
-		panel_.setOpaque(false);
-		panel_.add(pricehighText);
-		panel_.add(pricelowText);
-		panel.add(star);
-		panel.add(panel_);
+		JPanel choicepanel = new JPanel();
+		choicepanel.setLayout(new GridLayout(2, 1));
+		choicepanel.setOpaque(false);
+		JPanel pricepanel = new JPanel();
+		pricepanel.setOpaque(false);
+		pricepanel.add(pricehighText);
+		pricepanel.add(pricelowText);
+		choicepanel.add(star);
+		choicepanel.add(pricepanel);
 
 		Hotellist.removeAll();
-		Hotellist.add(panel, BorderLayout.NORTH);
+		Hotellist.add(choicepanel, BorderLayout.NORTH);
 		Hotellist.add(HotellistJScrollPane, BorderLayout.CENTER);
 		Hotellist.add(buttons, BorderLayout.SOUTH);
 	}
@@ -1757,7 +1802,9 @@ public void showHotellist(DefaultTableModel tablemodel) {
 				String UserID = signupidField.getText();
 //				String Password = signuppasswordFiel?d.getText();
 				String Password = new String(signuppasswordField.getPassword());
-				String UserCode = usercodeField.getText(); // user enter verify code
+				String UserCode = usercodeField.getText(); // user enter
+															// verify
+															// code
 				String VerifyCode = verifycodeField.getText(); // random verify code
 				if (main.SignUpCheck(UserID, Password, UserCode)) {
 
@@ -1772,7 +1819,9 @@ public void showHotellist(DefaultTableModel tablemodel) {
 						validate();
 						repaint();
 						signuplogin.setForeground(Color.black);
-					} else {// Wrong verify code.
+					} else {// Wrong
+							// verify
+							// code.
 						System.out.println("hihi");
 						layeredPane.remove(Signup);
 						layeredPane.add(Signuperror1, new Integer(3));
@@ -1783,7 +1832,9 @@ public void showHotellist(DefaultTableModel tablemodel) {
 						repaint();
 						signuplogin.setForeground(Color.black);
 					}
-				} else {// UserID already existed.
+				} else {// UserID
+						// already
+						// existed.
 					layeredPane.remove(Signup);
 					layeredPane.add(Signuperror, new Integer(3));
 					signupidField.setText("");
@@ -1908,7 +1959,8 @@ public void showHotellist(DefaultTableModel tablemodel) {
 						repaint();
 						nextentersearch.setForeground(Color.black);
 					}
-				} else {// Invaid Date
+				} else {// Invaid
+						// Date
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					entercheckindateField.setText("SELECT DATE");
 					entercheckoutdateField.setText("SELECT DATE");
@@ -1918,7 +1970,10 @@ public void showHotellist(DefaultTableModel tablemodel) {
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
-			} else if (e.getSource() == pricehighText) { // show price high first
+			} else if (e.getSource() == pricehighText) { // show
+															// price
+															// high
+															// first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
@@ -2112,6 +2167,7 @@ public void showHotellist(DefaultTableModel tablemodel) {
 			} else if (e.getSource() == reserveText) {
 				reservecheckindateField.setText("SELECT DATE");
 				reservecheckoutdateField.setText("SELECT DATE");
+				reservehotelidField.setText(null);
 				reservesingleroomField.setText(null);
 				reservedoubleroomField.setText(null);
 				reservequadroomField.setText(null);
@@ -2132,7 +2188,8 @@ public void showHotellist(DefaultTableModel tablemodel) {
 				if (main.CountDaysBetween(s1, s2) > 0) {
 					String CID = reservecheckindateField.getText();// yyyy/mm/dd
 					String COD = reservecheckoutdateField.getText();
-					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
+//					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
+					int HotelID = Integer.parseInt(reservehotelidField.getText());
 					int sn = Integer.parseInt(reservesingleroomField.getText());
 					int dn = Integer.parseInt(reservedoubleroomField.getText());
 					int qn = Integer.parseInt(reservequadroomField.getText());
@@ -2166,10 +2223,13 @@ public void showHotellist(DefaultTableModel tablemodel) {
 						repaint();
 						nextreserve.setForeground(Color.black);
 					}
-				} else { // reserve invalid date
+				} else { // reserve
+							// invalid
+							// date
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					reservecheckindateField.setText("SELECT DATE");
 					reservecheckoutdateField.setText("SELECT DATE");
+					reservehotelidField.setText(null);
 					reservesingleroomField.setText(null);
 					reservedoubleroomField.setText(null);
 					reservequadroomField.setText(null);
@@ -2347,7 +2407,6 @@ public void showHotellist(DefaultTableModel tablemodel) {
 class RoundedCornerBorder extends AbstractBorder {
 	private static final Color ALPHA_ZERO = new Color(0x0, true);
 
-	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -2366,12 +2425,10 @@ class RoundedCornerBorder extends AbstractBorder {
 		return new RoundRectangle2D.Double(x, y, w, h, r, r);
 	}
 
-	@Override
 	public Insets getBorderInsets(Component c) {
 		return new Insets(4, 8, 4, 8);
 	}
 
-	@Override
 	public Insets getBorderInsets(Component c, Insets insets) {
 		insets.set(4, 8, 4, 8);
 		return insets;
@@ -2385,7 +2442,6 @@ class ColorIcon implements Icon {
 		this.color = color;
 	}
 
-	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.translate(x, y);
@@ -2394,13 +2450,71 @@ class ColorIcon implements Icon {
 		g2.dispose();
 	}
 
-	@Override
 	public int getIconWidth() {
 		return 12;
 	}
 
-	@Override
 	public int getIconHeight() {
 		return 12;
+	}
+
+}
+
+class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
+	JTable table;
+	JButton renderButton;
+	JButton editButton;
+	String text;
+
+	public ButtonColumn(JTable table, int column) {
+		super();
+		this.table = table;
+		renderButton = new JButton();
+		editButton = new JButton();
+		editButton.setFocusPainted(false);
+		editButton.addActionListener(this);
+
+		TableColumnModel columnModel = table.getColumnModel();
+		columnModel.getColumn(column).setCellRenderer(this);
+		columnModel.getColumn(column).setCellEditor(this);
+	}
+
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		if (hasFocus) {
+			renderButton.setForeground(table.getForeground());
+			renderButton.setBackground(UIManager.getColor("Button.background"));
+		} else if (isSelected) {
+			renderButton.setForeground(table.getSelectionForeground());
+			renderButton.setBackground(table.getSelectionBackground());
+		} else {
+			renderButton.setForeground(table.getForeground());
+			renderButton.setBackground(UIManager.getColor("Button.background"));
+		}
+		renderButton.setText((value == null) ? " " : value.toString());
+		return renderButton;
+	}
+
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		text = (value == null) ? " " : value.toString();
+		editButton.setText(text);
+		return editButton;
+	}
+
+	public Object getCellEditorValue() {
+		return text;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		fireEditingStopped();
+//		System.out.println(e.getActionCommand() + " " + table.getSelectedRow());
+		Object hid = table.getModel().getValueAt(table.getSelectedRow(), 0);
+		Object sroom = table.getModel().getValueAt(table.getSelectedRow(), 4);
+		Object droom = table.getModel().getValueAt(table.getSelectedRow(), 5);
+		Object qroom = table.getModel().getValueAt(table.getSelectedRow(), 6);
+		Menu.reservehotelidField.setText(hid.toString());
+		Menu.reservesingleroomField.setText(sroom.toString());
+		Menu.reservedoubleroomField.setText(droom.toString());
+		Menu.reservequadroomField.setText(qroom.toString());
 	}
 }
