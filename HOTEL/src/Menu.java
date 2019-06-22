@@ -116,14 +116,14 @@ public class Menu extends JPanel {
 
 	// attribute of entering Search Date, People, Rooms
 	private JPanel EnterSearch = new JPanel();
-	final private int entersearchWidth = 700, entersearchlistHeight = 300;
+	final private int entersearchWidth = 600, entersearchlistHeight = 300;
 	final private Dimension entersearchCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel backentersearch = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextentersearch = new JLabel("NEXT", JLabel.CENTER);
 	protected JTextField entercheckindateField = new JTextField(10);
 	protected JTextField entercheckoutdateField = new JTextField(10);
-	protected TextField enterpeopleField = new TextField(15);
-	protected TextField enterroomField = new TextField(15);
+	protected JTextField enterpeopleField = new JTextField(10);
+	protected JTextField enterroomField = new JTextField(10);
 
 	// attribute of invalid date error
 	private JPanel Invalid_date_error = new JPanel();
@@ -159,13 +159,13 @@ public class Menu extends JPanel {
 	private JLabel cancelreserve = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
-//	protected static JComboBox<Object> reservehotelid = new JComboBox<Object>();
-	protected static JTextField reservehotelidField = new JTextField(4);
+	protected static JComboBox<Object> reservehotelid = new JComboBox<Object>();
+//	protected static JTextField reservehotelidField = new JTextField(4);
 	protected JTextField reservecheckindateField = new JTextField(10);
 	protected JTextField reservecheckoutdateField = new JTextField(10);
-	protected static TextField reservesingleroomField = new TextField(2);
-	protected static TextField reservedoubleroomField = new TextField(2);
-	protected static TextField reservequadroomField = new TextField(2);
+	protected static JTextField reservesingleroomField = new JTextField(2);
+	protected static JTextField reservedoubleroomField = new JTextField(2);
+	protected static JTextField reservequadroomField = new JTextField(2);
 
 	// attribute of reserve error (sold out)
 	private JPanel Soldout = new JPanel();
@@ -178,7 +178,7 @@ public class Menu extends JPanel {
 	private JPanel Reserve_success = new JPanel();
 	final private int reservesuccessWidth = 600, reservesuccessHeight = 75;
 	final private Dimension reservesuccessCenter = new Dimension(frameWidth / 2, frameHeight / 5);
-	protected JLabel successreservenumberField = new JLabel("");
+	protected JTextField successreservenumberField = new JTextField(10);
 
 	// attribute of inquiry
 	private JPanel Inquiry = new JPanel();
@@ -198,19 +198,19 @@ public class Menu extends JPanel {
 	// attribute of reserve order (reservation record and modify and cancel
 	// reservation)
 	private JPanel Reserveorder = new JPanel();
-	final private int reserveorderWidth = 650, reserveorderHeight = 320;
+	final private int reserveorderWidth = 650, reserveorderHeight = 360;
 	final private Dimension reserveorderCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	private JLabel cancelText = new JLabel("CANCEL ORDER", JLabel.CENTER);
 	private JLabel modifyText = new JLabel("MODIFY", JLabel.CENTER);
 	private JLabel confirmText = new JLabel("CONFIRM", JLabel.CENTER);
-	protected TextField reserveorderhotelIDField = new TextField(15);
-	protected TextField reserveordersingleroomField = new TextField(2);
-	protected TextField reserveorderdoubleroomField = new TextField(2);
-	protected TextField reserveorderquadroomField = new TextField(2);
+	protected JTextField reserveorderhotelIDField = new JTextField(15);
+	protected JTextField reserveordersingleroomField = new JTextField(2);
+	protected JTextField reserveorderdoubleroomField = new JTextField(2);
+	protected JTextField reserveorderquadroomField = new JTextField(2);
 	protected JTextField reserveordercheckindateField = new JTextField(10);
 	protected JTextField reserveordercheckoutdateField = new JTextField(10);
-	protected TextField reserveorderstaynightField = new TextField(2);
-	protected TextField reserveorderpriceField = new TextField(5);
+	protected JTextField reserveorderstaynightField = new JTextField(2);
+	protected JTextField reserveorderpriceField = new JTextField(5);
 	JPanel reserveorderbuttons = new JPanel();
 
 	// attribute of hotel list
@@ -640,6 +640,7 @@ public class Menu extends JPanel {
 		JLabel checkin = new JLabel("  CHECK IN DATE: ");
 		checkin.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		// setting check in yyyy/mm/dd
+		entercheckindateField.setHorizontalAlignment(SwingConstants.CENTER);
 		entercheckindateField.setEditable(false);
 		entercheckindateField.setFont(new Font("Serif", Font.BOLD, 23));
 		entercheckindateField.setBackground(new Color(255, 255, 255));
@@ -665,6 +666,7 @@ public class Menu extends JPanel {
 		JLabel checkout = new JLabel("  CHECK OUT DATE: ");
 		checkout.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		// setting check in yyyy/mm/dd
+		entercheckoutdateField.setHorizontalAlignment(SwingConstants.CENTER);
 		entercheckoutdateField.setEditable(false);
 		entercheckoutdateField.setFont(new Font("Serif", Font.BOLD, 23));
 		entercheckoutdateField.setBackground(new Color(255, 255, 255));
@@ -689,6 +691,7 @@ public class Menu extends JPanel {
 		peoplePanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		JLabel people = new JLabel("NUMBER OF PEOPLE: ");
 		people.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		enterpeopleField.setHorizontalAlignment(SwingConstants.CENTER);
 		enterpeopleField.setEditable(true);
 		enterpeopleField.setFont(new Font("Serif", Font.BOLD, 23));
 		enterpeopleField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -710,6 +713,7 @@ public class Menu extends JPanel {
 		roomPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		JLabel room = new JLabel("NUMBER OF ROOMS: ");
 		room.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		enterroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		enterroomField.setEditable(true);
 		enterroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		enterroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -813,6 +817,7 @@ public class Menu extends JPanel {
 		JLabel checkin = new JLabel("  CHECK IN DATE: ");
 		checkin.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		// setting check in yyyy/mm/dd
+		reservecheckindateField.setHorizontalAlignment(SwingConstants.CENTER);
 		reservecheckindateField.setEditable(false);
 		reservecheckindateField.setFont(new Font("Serif", Font.BOLD, 23));
 		reservecheckindateField.setBackground(new Color(255, 255, 255));
@@ -839,6 +844,7 @@ public class Menu extends JPanel {
 		JLabel checkout = new JLabel("  CHECK OUT DATE: ");
 		checkout.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		// setting check in yyyy/mm/dd
+		reservecheckoutdateField.setHorizontalAlignment(SwingConstants.CENTER);
 		reservecheckoutdateField.setEditable(false);
 		reservecheckoutdateField.setFont(new Font("Serif", Font.BOLD, 23));
 		reservecheckoutdateField.setBackground(new Color(255, 255, 255));
@@ -864,26 +870,27 @@ public class Menu extends JPanel {
 		// select hotel ID
 		JLabel hotelID = new JLabel("    HotelID     : ");
 		hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
-//		String[] option = new String[1500];
-//		for (Integer i = 0; i < 1500; i++) {
-//			option[i] = i.toString();
-//		}
-//		reservehotelid = new JComboBox<Object>(option);
-		reservehotelidField.setEditable(true);
-		reservehotelidField.setFont(new Font("Serif", Font.BOLD, 23));
-		reservehotelidField.addKeyListener(new KeyAdapter() {// can only enter number!
-			public void keyTyped(KeyEvent e) {
-				char keyChar = e.getKeyChar();
-				if (!(keyChar >= '0' && keyChar <= '9')) {
-					e.consume();
-				}
-				String s = reservehotelidField.getText();
-				if (s.length() >= 4)
-					e.consume();
-			}
-		});
+		String[] option = new String[1500];
+		for (Integer i = 0; i < 1500; i++) {
+			option[i] = i.toString();
+		}
+		reservehotelid = new JComboBox<Object>(option);
+//		reservehotelidField.setEditable(true);
+//		reservehotelidField.setFont(new Font("Serif", Font.BOLD, 23));
+//		reservehotelidField.addKeyListener(new KeyAdapter() {// can only enter number!
+//			public void keyTyped(KeyEvent e) {
+//				char keyChar = e.getKeyChar();
+//				if (!(keyChar >= '0' && keyChar <= '9')) {
+//					e.consume();
+//				}
+//				String s = reservehotelidField.getText();
+//				if (s.length() >= 4)
+//					e.consume();
+//			}
+//		});
 		hotelIDPanel.add(hotelID);
-		hotelIDPanel.add(reservehotelidField);
+		hotelIDPanel.add(reservehotelid);
+//		hotelIDPanel.add(reservehotelidField);
 
 		// number of room panel
 		JPanel roomPanel = new JPanel();
@@ -894,6 +901,7 @@ public class Menu extends JPanel {
 		// single room
 		JLabel singleroom = new JLabel("Single: ");
 		singleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reservesingleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reservesingleroomField.setEditable(true);
 		reservesingleroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reservesingleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -907,6 +915,7 @@ public class Menu extends JPanel {
 		// double room
 		JLabel doubleroom = new JLabel("Double: ");
 		doubleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reservedoubleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reservedoubleroomField.setEditable(true);
 		reservedoubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reservedoubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -920,6 +929,7 @@ public class Menu extends JPanel {
 		// quad room
 		JLabel quadroom = new JLabel("Quad: ");
 		quadroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reservequadroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reservequadroomField.setEditable(true);
 		reservequadroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reservequadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -961,18 +971,13 @@ public class Menu extends JPanel {
 		Reserve_success.setLayout(new GridLayout(1, 1, 0, 0));
 		Reserve_success.setOpaque(false);
 //		Reserve_success.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
-
 		JPanel reservenumberPanel = new JPanel();
 		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		reservenumberPanel.setOpaque(false);
 		reservenumberPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		JLabel reservenumber = new JLabel("SUCCEED! RESERVATION NUMBER : ");
-		reservenumber.setFont(new Font("Dialog", Font.BOLD, 25));
-		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 25));
-//		successreservenumberField.setEditable(false);
-		reservenumberPanel.add(reservenumber);
-		reservenumberPanel.add(successreservenumberField);
-
+		JLabel reservesuccessText = new JLabel("SUCCEED! THANKS FOR YOUR BOOKING!");
+		reservesuccessText.setFont(new Font("Dialog", Font.BOLD, 25));
+		reservenumberPanel.add(reservesuccessText);
 		Reserve_success.add(reservenumberPanel);
 	}
 
@@ -1047,10 +1052,24 @@ public class Menu extends JPanel {
 
 	// reserve order
 	private void initReserveorder() {
-		Reserveorder.setLayout(new GridLayout(5, 1, 0, 0));
+		Reserveorder.setLayout(new GridLayout(6, 1, 0, 0));
 		Reserveorder.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Reserveorder.setOpaque(false);
 
+		// success reserve hotel ID
+		JPanel reservenumberPanel = new JPanel();
+		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		reservenumberPanel.setOpaque(false);
+		reservenumberPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+		JLabel reservenumber = new JLabel("RESERVATION NUMBER: ");
+		reservenumber.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		successreservenumberField.setHorizontalAlignment(SwingConstants.CENTER);
+		successreservenumberField.setFont(new Font("Serif", Font.BOLD, 23));
+		successreservenumberField.setEditable(false);
+		successreservenumberField.setOpaque(false);
+		reservenumberPanel.add(reservenumber);
+		reservenumberPanel.add(successreservenumberField);		
+		
 		// hotelID Panel
 		JPanel hotelIDPanel = new JPanel();
 		hotelIDPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -1059,6 +1078,7 @@ public class Menu extends JPanel {
 		// enter hotel ID
 		JLabel hotelID = new JLabel("    HotelID     : ");
 		hotelID.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveorderhotelIDField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveorderhotelIDField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveorderhotelIDField.setEditable(false);
 		// hotel ID Panel adding
@@ -1074,6 +1094,7 @@ public class Menu extends JPanel {
 		// single room
 		JLabel singleroom = new JLabel("Single: ");
 		singleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveordersingleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveordersingleroomField.setEditable(false);
 		reserveordersingleroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveordersingleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1087,6 +1108,7 @@ public class Menu extends JPanel {
 		// double room
 		JLabel doubleroom = new JLabel("Double: ");
 		doubleroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveorderdoubleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveorderdoubleroomField.setEditable(false);
 		reserveorderdoubleroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveorderdoubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1100,6 +1122,7 @@ public class Menu extends JPanel {
 		// quad room
 		JLabel quadroom = new JLabel("Quad: ");
 		quadroom.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveorderquadroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveorderquadroomField.setEditable(false);
 		reserveorderquadroomField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveorderquadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1123,10 +1146,12 @@ public class Menu extends JPanel {
 		lodgingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		lodgingPanel.setOpaque(false);
 		lodgingPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+		reserveordercheckindateField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveordercheckindateField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveordercheckindateField.setEditable(false);
 		JLabel mark = new JLabel("~");
 		mark.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveordercheckoutdateField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveordercheckoutdateField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveordercheckoutdateField.setEditable(false);
 		// lodgingPanel adding
@@ -1141,10 +1166,12 @@ public class Menu extends JPanel {
 		staypricePanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		JLabel stay = new JLabel("Total Nights of Stay:");
 		stay.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveorderstaynightField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveorderstaynightField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveorderstaynightField.setEditable(false);
 		JLabel price = new JLabel("Total Price:");
 		price.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		reserveorderpriceField.setHorizontalAlignment(SwingConstants.CENTER);
 		reserveorderpriceField.setFont(new Font("Serif", Font.BOLD, 23));
 		reserveorderpriceField.setEditable(false);
 		// stay price Panel adding
@@ -1165,9 +1192,10 @@ public class Menu extends JPanel {
 		reserveorderbuttons.add(confirmText);
 
 		// MCR adding
+		Reserveorder.add(reservenumberPanel);
 		Reserveorder.add(hotelIDPanel);
-		Reserveorder.add(roomPanel);
 		Reserveorder.add(lodgingPanel);
+		Reserveorder.add(roomPanel);
 		Reserveorder.add(staypricePanel);
 		Reserveorder.add(reserveorderbuttons);
 	}
@@ -1406,8 +1434,9 @@ public class Menu extends JPanel {
 	}
 
 	// show the reserve information
-	public void showReserveorder(int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate,
+	public void showReserveorder(int oid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate,
 			int night, int p) {
+		successreservenumberField.setText(Integer.toString(oid));
 		reserveorderhotelIDField.setText(Integer.toString(hid));
 		reserveordersingleroomField.setText(Integer.toString(sroom));
 		reserveorderdoubleroomField.setText(Integer.toString(droom));
@@ -1421,9 +1450,8 @@ public class Menu extends JPanel {
 	// show reserve success
 	public void showReservesuccess(int OrderID, int hid, int sroom, int droom, int qroom, String chkindate,
 			String chkoutdate, int night, int p) {
-		successreservenumberField.setText(Integer.toString(OrderID));
+		showReserveorder(OrderID, hid, sroom, droom, qroom, chkindate, chkoutdate, night, p);
 		layeredPane.add(Reserve_success, new Integer(3));
-		showReserveorder(hid, sroom, droom, qroom, chkindate, chkoutdate, night, p);
 		layeredPane.add(Reserveorder, new Integer(3));
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
@@ -1455,7 +1483,8 @@ public class Menu extends JPanel {
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
 		reservecheckoutdateField.setText("SELECT DATE");
-		reservehotelidField.setText(null);
+//		reservehotelidField.setText(null);
+		reservehotelid.setSelectedIndex(0);
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
 		reservequadroomField.setText(null);
@@ -1800,11 +1829,9 @@ public class Menu extends JPanel {
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
 				String UserID = signupidField.getText();
-//				String Password = signuppasswordFiel?d.getText();
+//				String Password = signuppasswordField.getText();
 				String Password = new String(signuppasswordField.getPassword());
-				String UserCode = usercodeField.getText(); // user enter
-															// verify
-															// code
+				String UserCode = usercodeField.getText(); // user enter verify code
 				String VerifyCode = verifycodeField.getText(); // random verify code
 				if (main.SignUpCheck(UserID, Password, UserCode)) {
 
@@ -1819,9 +1846,7 @@ public class Menu extends JPanel {
 						validate();
 						repaint();
 						signuplogin.setForeground(Color.black);
-					} else {// Wrong
-							// verify
-							// code.
+					} else {// Wrong verify code.
 						System.out.println("hihi");
 						layeredPane.remove(Signup);
 						layeredPane.add(Signuperror1, new Integer(3));
@@ -1832,9 +1857,7 @@ public class Menu extends JPanel {
 						repaint();
 						signuplogin.setForeground(Color.black);
 					}
-				} else {// UserID
-						// already
-						// existed.
+				} else {// UserID already existed.
 					layeredPane.remove(Signup);
 					layeredPane.add(Signuperror, new Integer(3));
 					signupidField.setText("");
@@ -1959,8 +1982,7 @@ public class Menu extends JPanel {
 						repaint();
 						nextentersearch.setForeground(Color.black);
 					}
-				} else {// Invaid
-						// Date
+				} else {// Invaid date
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					entercheckindateField.setText("SELECT DATE");
 					entercheckoutdateField.setText("SELECT DATE");
@@ -1970,10 +1992,7 @@ public class Menu extends JPanel {
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
-			} else if (e.getSource() == pricehighText) { // show
-															// price
-															// high
-															// first
+			} else if (e.getSource() == pricehighText) { // show price high first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
@@ -2041,7 +2060,6 @@ public class Menu extends JPanel {
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
-				layeredPane.remove(Search);
 				layeredPane.add(Hotellist, new Integer(3));
 				validate();
 				repaint();
@@ -2068,6 +2086,7 @@ public class Menu extends JPanel {
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
+				
 				String CID = entercheckindateField.getText();
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
@@ -2076,7 +2095,7 @@ public class Menu extends JPanel {
 				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 2);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
-
+				
 				layeredPane.add(Hotellist, new Integer(2));
 				validate();
 				repaint();
@@ -2167,7 +2186,8 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == reserveText) {
 				reservecheckindateField.setText("SELECT DATE");
 				reservecheckoutdateField.setText("SELECT DATE");
-				reservehotelidField.setText(null);
+				reservehotelid.setSelectedIndex(0);
+//				reservehotelidField.setText(null);
 				reservesingleroomField.setText(null);
 				reservedoubleroomField.setText(null);
 				reservequadroomField.setText(null);
@@ -2188,8 +2208,8 @@ public class Menu extends JPanel {
 				if (main.CountDaysBetween(s1, s2) > 0) {
 					String CID = reservecheckindateField.getText();// yyyy/mm/dd
 					String COD = reservecheckoutdateField.getText();
-//					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
-					int HotelID = Integer.parseInt(reservehotelidField.getText());
+					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
+//					int HotelID = Integer.parseInt(reservehotelidField.getText());
 					int sn = Integer.parseInt(reservesingleroomField.getText());
 					int dn = Integer.parseInt(reservedoubleroomField.getText());
 					int qn = Integer.parseInt(reservequadroomField.getText());
@@ -2223,13 +2243,12 @@ public class Menu extends JPanel {
 						repaint();
 						nextreserve.setForeground(Color.black);
 					}
-				} else { // reserve
-							// invalid
-							// date
+				} else { // reserve invalid date
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					reservecheckindateField.setText("SELECT DATE");
 					reservecheckoutdateField.setText("SELECT DATE");
-					reservehotelidField.setText(null);
+//					reservehotelidField.setText(null);
+					reservehotelid.setSelectedIndex(0);
 					reservesingleroomField.setText(null);
 					reservedoubleroomField.setText(null);
 					reservequadroomField.setText(null);
@@ -2261,7 +2280,7 @@ public class Menu extends JPanel {
 					Order order = main.CheckOrder(OrderID);
 					System.out.println("here" + order != null);
 					layeredPane.remove(Inquiry);
-					showReserveorder(order.getHotelID(), order.getsn(), order.getdn(), order.getqn(),
+					showReserveorder(order.getID(), order.getHotelID(), order.getsn(), order.getdn(), order.getqn(),
 							order.getCheckInDate(), order.getCheckOutDate(),
 							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
@@ -2363,7 +2382,7 @@ public class Menu extends JPanel {
 				if (main.CountDaysBetween(s1, s2) > 0) { // 檢查入住日期是否比退房日期之前
 
 					// if revise date success 修改日期成功
-//				showReserveorder(int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
+//				showReserveorder(int oid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
 //				int p)
 					layeredPane.remove(Invalid_date_error); // if revise date success
 					layeredPane.remove(Revisedate_error); // if revise date success
@@ -2512,7 +2531,8 @@ class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, Tabl
 		Object sroom = table.getModel().getValueAt(table.getSelectedRow(), 4);
 		Object droom = table.getModel().getValueAt(table.getSelectedRow(), 5);
 		Object qroom = table.getModel().getValueAt(table.getSelectedRow(), 6);
-		Menu.reservehotelidField.setText(hid.toString());
+		Menu.reservehotelid.setSelectedIndex((int) hid);
+//		Menu.reservehotelidField.setText(hid.toString());
 		Menu.reservesingleroomField.setText(sroom.toString());
 		Menu.reservedoubleroomField.setText(droom.toString());
 		Menu.reservequadroomField.setText(qroom.toString());
