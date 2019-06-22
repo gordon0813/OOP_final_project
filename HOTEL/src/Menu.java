@@ -234,12 +234,12 @@ public class Menu extends JPanel {
 	private JPanel Changeroom = new JPanel();
 	final private int changeroomWidth = 600, changeroomHeight = 240;
 	final private Dimension changeroomCenter = new Dimension(frameWidth / 2, frameHeight / 2);
-	protected TextField originsingleroomField = new TextField(2); // 原房間數
-	protected TextField origindoubleroomField = new TextField(2);
-	protected TextField originquadroomField = new TextField(2);
-	protected TextField newsingleroomField = new TextField(2); // 新房間數
-	protected TextField newdoubleroomField = new TextField(2);
-	protected TextField newquadroomField = new TextField(2);
+	protected JTextField originsingleroomField = new JTextField(2); // 原房間數
+	protected JTextField origindoubleroomField = new JTextField(2);
+	protected JTextField originquadroomField = new JTextField(2);
+	protected JTextField newsingleroomField = new JTextField(2); // 新房間數
+	protected JTextField newdoubleroomField = new JTextField(2);
+	protected JTextField newquadroomField = new JTextField(2);
 	private JLabel cancelchangeroom = new JLabel("CANCEL", JLabel.CENTER);
 	private JLabel backchangeroom = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextchangeroom = new JLabel("NEXT", JLabel.CENTER);
@@ -1225,8 +1225,10 @@ public class Menu extends JPanel {
 		change1.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		JLabel to = new JLabel("to");
 		to.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		originsingleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		originsingleroomField.setEditable(false);
 		originsingleroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		newsingleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		newsingleroomField.setEditable(true);
 		newsingleroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		newsingleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1250,8 +1252,10 @@ public class Menu extends JPanel {
 		change2.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		JLabel to2 = new JLabel("to");
 		to2.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		origindoubleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		origindoubleroomField.setEditable(false);
 		origindoubleroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		newdoubleroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		newdoubleroomField.setEditable(true);
 		newdoubleroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		newdoubleroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1275,8 +1279,10 @@ public class Menu extends JPanel {
 		change3.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		JLabel to3 = new JLabel("to");
 		to3.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		originquadroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		originquadroomField.setEditable(false);
 		originquadroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
+		newquadroomField.setHorizontalAlignment(SwingConstants.CENTER);
 		newquadroomField.setEditable(true);
 		newquadroomField.setFont(new Font("Arial Black", Font.BOLD, 23));
 		newquadroomField.addKeyListener(new KeyAdapter() {// can only enter number!
@@ -1323,8 +1329,10 @@ public class Menu extends JPanel {
 		change1.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		JLabel to = new JLabel("~");
 		to.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		origincheckindateField.setHorizontalAlignment(SwingConstants.CENTER);
 		origincheckindateField.setEditable(false);
 		origincheckindateField.setFont(new Font("Serif", Font.PLAIN, 23));
+		origincheckoutdateField.setHorizontalAlignment(SwingConstants.CENTER);
 		origincheckoutdateField.setEditable(false);
 		origincheckoutdateField.setFont(new Font("Serif", Font.PLAIN, 23));
 		// panel1 adding
@@ -1332,7 +1340,6 @@ public class Menu extends JPanel {
 		panel1.add(origincheckindateField);
 		panel1.add(to);
 		panel1.add(origincheckoutdateField);
-
 		// new date
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -1343,11 +1350,10 @@ public class Menu extends JPanel {
 		JLabel to2 = new JLabel("~");
 		to2.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		// setting check in yyyy/mm/dd
+		newcheckindateField.setHorizontalAlignment(SwingConstants.CENTER);
 		newcheckindateField.setEditable(true);
 		newcheckindateField.setFont(new Font("Serif", Font.BOLD, 23));
-		newcheckindateField.setBackground(new Color(255, 255, 255));
 		newcheckindateField.setText("SELECT DATE");
-		newcheckindateField.setOpaque(true);
 		newcheckindateField.setBounds(267, 15, 105, 40);
 		newcheckindateField.setColumns(10);
 		newcheckindateField.addMouseListener(new MouseAdapter() {
@@ -1357,11 +1363,10 @@ public class Menu extends JPanel {
 			}
 		});
 		// setting check out yyyy/mm/dd
+		newcheckoutdateField.setHorizontalAlignment(SwingConstants.CENTER);
 		newcheckoutdateField.setEditable(true);
 		newcheckoutdateField.setFont(new Font("Serif", Font.BOLD, 23));
-		newcheckoutdateField.setBackground(new Color(255, 255, 255));
 		newcheckoutdateField.setText("SELECT DATE");
-		newcheckoutdateField.setOpaque(true);
 		newcheckoutdateField.setBounds(267, 15, 105, 40);
 		newcheckoutdateField.setColumns(10);
 		newcheckoutdateField.addMouseListener(new MouseAdapter() {
@@ -1610,13 +1615,13 @@ public class Menu extends JPanel {
 		layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
 
-		this.background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
+		this.background.setIcon(new ImageIcon("images/Menu/background.png"));
 		this.background.setBounds(0, 0, frameWidth, frameHeight);
 		layeredPane.add(background, new Integer(0));
 
 		this.title.setBounds(titleCenter.width - (titleWidth / 2), titleCenter.height - (titleHeight / 2), titleWidth,
 				titleHeight);
-		layeredPane.add(title, new Integer(1));
+//		layeredPane.add(title, new Integer(1));
 
 		this.subMenu.setBounds(subMenuCenter.width - (subMenuWidth / 2), subMenuCenter.height - (subMenuHeight / 2),
 				subMenuWidth, subMenuHeight);
@@ -1842,6 +1847,7 @@ public class Menu extends JPanel {
 
 						layeredPane.remove(Signup);
 						layeredPane.remove(title);
+						background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
 						layeredPane.add(Hotelfunction, new Integer(3));
 						validate();
 						repaint();
@@ -1888,6 +1894,7 @@ public class Menu extends JPanel {
 					layeredPane.remove(Signin);
 					layeredPane.remove(title);
 					layeredPane.add(Hotelfunction, new Integer(2));
+					background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
 					validate();
 					repaint();
 					signinlogin.setForeground(Color.black);
@@ -1934,10 +1941,10 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == logout) {
 //這裡怪怪的 signin/signup error應該不用跑到最首頁吧？
 // 修好了！ 
+				background.setIcon(new ImageIcon("images/Menu/background.png"));
 				layeredPane.remove(Hotelfunction);
 				layeredPane.remove(Signin);
 				layeredPane.remove(Signup);
-				layeredPane.add(title, new Integer(1));
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
 				repaint();
@@ -2382,7 +2389,7 @@ public class Menu extends JPanel {
 				if (main.CountDaysBetween(s1, s2) > 0) { // 檢查入住日期是否比退房日期之前
 
 					// if revise date success 修改日期成功
-//				showReserveorder(int oid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
+//				showReserveorder(int orderid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
 //				int p)
 					layeredPane.remove(Invalid_date_error); // if revise date success
 					layeredPane.remove(Revisedate_error); // if revise date success
@@ -2503,6 +2510,7 @@ class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, Tabl
 		if (hasFocus) {
 			renderButton.setForeground(table.getForeground());
 			renderButton.setBackground(UIManager.getColor("Button.background"));
+
 		} else if (isSelected) {
 			renderButton.setForeground(table.getSelectionForeground());
 			renderButton.setBackground(table.getSelectionBackground());
