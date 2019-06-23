@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
@@ -101,17 +102,20 @@ public class databaseUtil {
 	// insert a Order to table 'Orders' by given Order object
 	public static boolean insertOrder(Order newOrder) {
 		String cmd = "INSERT INTO Orders"
-						+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
-						+ "VALUES("
-						+ newOrder.getID() + ", " 
-						+ "\"" + newOrder.getUserID() + "\"" + ", "
-						+ newOrder.getHotelID() + ", "
-						+ newOrder.getsn() + ", "
-						+ newOrder.getdn() + ", "
-						+ newOrder.getqn() + ", "
-						+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
-						+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
+					+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
+					+ "VALUES("
+					+ newOrder.getID() + ", " 
+					+ "\"" + newOrder.getUserID() + "\"" + ", "
+					+ newOrder.getHotelID() + ", "
+					+ newOrder.getsn() + ", "
+					+ newOrder.getdn() + ", "
+					+ newOrder.getqn() + ", "
+					+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
+					+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
 		try {
+			if (getOrderByOrderID(newOrder.getID()).getID() != -1) {
+				stmt.execute("DELETE FROM Orders WHERE OrderID=" + newOrder.getID());
+			}
 			stmt.execute(cmd);
 		} catch (SQLException e) {
 			e.getStackTrace();

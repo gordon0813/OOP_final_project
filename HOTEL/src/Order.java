@@ -7,7 +7,7 @@ public class Order {
 	private int sn, dn, qn;
 	private int SumPrice;
 	Order() {
-		ID = 0;
+		ID = -1;
 		UserID = "";
 		HotelID = 0;
 		CheckInDate = "";
