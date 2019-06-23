@@ -1,30 +1,34 @@
+import java.util.ArrayList;
+
 public class Order {
 	private int ID;
 	private int HotelID;
 	private String UserID;
 	private String CheckInDate;
 	private String CheckOutDate;
-	private int sn, dn, qn;
+	private ArrayList<Integer> Snum, Dnum, Qnum;
 	private int SumPrice;
 	Order() {
-		ID = 0;
+		ID = -1;
 		UserID = "";
 		HotelID = 0;
 		CheckInDate = "";
 		CheckOutDate = "";
-		sn = dn = qn = 0;
 		SumPrice = 0;
+		Snum = Dnum = Qnum = null;
 	}
-	Order(int _ID, String _UserID, int _HotelID, String _CheckInDate, String _CheckOutDate, int _sn, int _dn, int _qn) {
+	Order(int _ID, String _UserID, int _HotelID, String _CheckInDate, String _CheckOutDate, ArrayList<Integer> _Snum, ArrayList<Integer> _Dnum, ArrayList<Integer> _Qnum) {
 		ID = _ID;
 		UserID = _UserID;
 		HotelID = _HotelID;
 		CheckInDate = _CheckInDate;
 		CheckOutDate = _CheckOutDate;
-		sn = _sn; dn = _dn; qn = _qn;
-		SumPrice = Hotel.getSingleRoomPrice() * sn 
-				+ Hotel.getDoubleRoomPrice() * dn 
-				+ Hotel.getQuadRoomPrice() * qn;
+		Snum = new ArrayList<Integer> (); Snum.addAll(_Snum);
+		Dnum = new ArrayList<Integer> (); Dnum.addAll(_Dnum);
+		Qnum = new ArrayList<Integer> (); Qnum.addAll(_Qnum);
+		SumPrice = Hotel.getSingleRoomPrice() * Snum.size()
+				+ Hotel.getDoubleRoomPrice() * Dnum.size() 
+				+ Hotel.getQuadRoomPrice() * Qnum.size();
 	}
 	Order(Order _Order) {
 		ID = _Order.ID;
@@ -32,10 +36,12 @@ public class Order {
 		HotelID = _Order.HotelID;
 		CheckInDate = _Order.CheckInDate;
 		CheckOutDate = _Order.CheckOutDate;
-		sn = _Order.sn; dn = _Order.dn; qn = _Order.qn;
-		SumPrice = Hotel.getSingleRoomPrice() * sn 
-				+ Hotel.getDoubleRoomPrice() * dn 
-				+ Hotel.getQuadRoomPrice() * qn;
+		Snum = new ArrayList<Integer> (); Snum.addAll(_Order.Snum);
+		Dnum = new ArrayList<Integer> (); Dnum.addAll(_Order.Dnum);
+		Qnum = new ArrayList<Integer> (); Qnum.addAll(_Order.Qnum);
+		SumPrice = Hotel.getSingleRoomPrice() * Snum.size()
+				+ Hotel.getDoubleRoomPrice() * Dnum.size() 
+				+ Hotel.getQuadRoomPrice() * Qnum.size();
 	}
 	int getID() {
 		return ID;
@@ -53,24 +59,16 @@ public class Order {
 		return CheckOutDate;
 	}
 	int getsn() {
-		return sn;
+		return Snum.size();
 	}
 	int getdn() {
-		return dn;
+		return Dnum.size();
 	}
 	int getqn() {
-		return qn;
+		return Qnum.size();
 	}
 	int getSumPrice() {
 		return SumPrice;
 	}
-	void setsn(int x) {
-		sn -= x;
-	}
-	void setdn(int x) {
-		dn -= x;
-	}
-	void setqn(int x) {
-		qn -= x;
-	}
+	
 }

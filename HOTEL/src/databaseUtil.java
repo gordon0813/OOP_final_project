@@ -85,7 +85,7 @@ public class databaseUtil {
 				return new User(results.getString("UID"), results.getString("password"));
 			} else {
 				System.out.println("No such User!!");
-				return new User();
+				return null;//return new User();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

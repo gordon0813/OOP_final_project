@@ -1955,8 +1955,6 @@ public class Menu extends JPanel {
 				backsignuperror.setForeground(Color.black);
 				backsignuperror1.setForeground(Color.black);
 			} else if (e.getSource() == logout) {
-//這裡怪怪的 signin/signup error應該不用跑到最首頁吧？
-// 修好了！ 
 				background.setIcon(new ImageIcon("images/Menu/background.png"));
 				layeredPane.remove(Hotelfunction);
 				layeredPane.remove(Signin);
