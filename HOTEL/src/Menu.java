@@ -220,6 +220,7 @@ public class Menu extends JPanel {
 	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	JTable HotellistTable = new JTable();
 	String[] heading = new String[] { "ID", "Star", "City", "Address", "Single", "Double", "Quad", "Price", "Select" };
+	private JLabel showallText = new JLabel("SHOW   ALL", JLabel.CENTER);
 	private JLabel backhotellist = new JLabel("BACK", JLabel.CENTER);
 	private JLabel reservehotellist = new JLabel("RESERVE", JLabel.CENTER);
 
@@ -1585,13 +1586,23 @@ public class Menu extends JPanel {
 		buttons.add(backhotellist);
 		buttons.add(reservehotellist);
 
+		star5.setFont(new Font("Dialog", Font.BOLD, 23));
+		star4.setFont(new Font("Dialog", Font.BOLD, 23));
+		star3.setFont(new Font("Dialog", Font.BOLD, 23));
+		star2.setFont(new Font("Dialog", Font.BOLD, 23));
+		pricehighText.setFont(new Font("Dialog", Font.BOLD, 23));
+		pricelowText.setFont(new Font("Dialog", Font.BOLD, 23));
+		showallText.setFont(new Font("Dialog", Font.BOLD, 23));
+		
 		JPanel choicepanel = new JPanel();
 		choicepanel.setLayout(new GridLayout(2, 1));
 		choicepanel.setOpaque(false);
 		JPanel pricepanel = new JPanel();
+		pricepanel.setLayout(new GridLayout(1, 3, 0, 0));
 		pricepanel.setOpaque(false);
 		pricepanel.add(pricehighText);
 		pricepanel.add(pricelowText);
+		pricepanel.add(showallText);
 		choicepanel.add(star);
 		choicepanel.add(pricepanel);
 
@@ -1774,6 +1785,7 @@ public class Menu extends JPanel {
 		pricelowText.addMouseListener(ml);
 		backsearch.addMouseListener(ml);
 		// buttons in hotel list
+		showallText.addMouseListener(ml);
 		backhotellist.addMouseListener(ml);
 		reservehotellist.addMouseListener(ml);
 		// buttons in reserve
@@ -1829,6 +1841,9 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == signupcancel) {
 				layeredPane.remove(Signup);
 				layeredPane.add(subMenu, new Integer(2));
+				signupidField.setText(null);
+				signuppasswordField.setText(null);
+				usercodeField.setText(null);
 				validate();
 				repaint();
 				signupcancel.setForeground(Color.black);
@@ -1880,6 +1895,8 @@ public class Menu extends JPanel {
 				repaint();
 				signinText.setForeground(Color.black);
 			} else if (e.getSource() == signinback) {
+				signinidField.setText(null);
+				signinpasswordField.setText(null);
 				layeredPane.remove(Signin);
 				layeredPane.add(subMenu, new Integer(2));
 				validate();
@@ -1887,7 +1904,6 @@ public class Menu extends JPanel {
 				signinback.setForeground(Color.black);
 			} else if (e.getSource() == signinlogin) {
 				String UserID = signinidField.getText();
-//				String Password = signinpasswordField.getText();
 				String Password = new String(signinpasswordField.getPassword());
 				int re = main.SignInCheck(UserID, Password);
 				if (re == 1) {
@@ -1999,7 +2015,25 @@ public class Menu extends JPanel {
 					repaint();
 					nextentersearch.setForeground(Color.black);
 				}
-			} else if (e.getSource() == pricehighText) { // show price high first
+			} else if(e.getSource() == showallText) {
+				layeredPane.remove(Search);
+				layeredPane.remove(Hotellist);
+				initSearch();
+				
+				String CID = entercheckindateField.getText();
+				String COD = entercheckoutdateField.getText();
+				int People = Integer.parseInt(enterpeopleField.getText());
+				int Rooms = Integer.parseInt(enterroomField.getText());
+				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				DefaultTableModel dtm = makeHotellist(AHR);
+				showHotellist(dtm);
+
+				layeredPane.add(Hotellist, new Integer(3));
+				validate();
+				repaint();
+				showallText.setForeground(Color.black);
+			}
+			else if (e.getSource() == pricehighText) { // show price high first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
@@ -2133,8 +2167,8 @@ public class Menu extends JPanel {
 				layeredPane.add(EnterSearch, new Integer(3));
 				entercheckindateField.setText("SELECT DATE");
 				entercheckoutdateField.setText("SELECT DATE");
-				enterpeopleField.setText(null);
-				enterroomField.setText(null);
+				enterpeopleField.setText("0");
+				enterroomField.setText("0");
 				validate();
 				repaint();
 				backnomatchedhotelerror.setForeground(Color.black);
@@ -2171,8 +2205,8 @@ public class Menu extends JPanel {
 
 				entercheckindateField.setText("SELECT DATE");
 				entercheckoutdateField.setText("SELECT DATE");
-				enterpeopleField.setText(null);
-				enterroomField.setText(null);
+				enterpeopleField.setText("0");
+				enterroomField.setText("0");
 
 				reservenumberField.setText(null);
 				successreservenumberField.setText(null);
@@ -2195,9 +2229,9 @@ public class Menu extends JPanel {
 				reservecheckoutdateField.setText("SELECT DATE");
 				reservehotelid.setSelectedIndex(0);
 //				reservehotelidField.setText(null);
-				reservesingleroomField.setText(null);
-				reservedoubleroomField.setText(null);
-				reservequadroomField.setText(null);
+				reservesingleroomField.setText("0");
+				reservedoubleroomField.setText("0");
+				reservequadroomField.setText("0");
 				layeredPane.remove(Hotelfunction);
 				layeredPane.add(Reserve, new Integer(3));
 				validate();
