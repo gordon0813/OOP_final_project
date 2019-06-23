@@ -130,6 +130,14 @@ public class databaseUtil {
 		return true;
 	}
 	
+	public static boolean isInt(String s) {
+	    try {
+	        Integer.parseInt(s);
+	        return true;
+	    } catch (NumberFormatException ex) {
+	        return false;
+	    }
+	}
 	// get the certain OrderID by given OrderID
 	public static Order getOrderByOrderID(int OrderID) {
 		String cmd = "SELECT * FROM Orders WHERE OrderID=" + OrderID;
@@ -142,15 +150,15 @@ public class databaseUtil {
 				ArrayList<Integer> QRoom = new ArrayList<Integer>();
 				String SR = results.getString("SingleRoom"), DR = results.getString("DoubleRoom"), QR = results.getString("QuadRoom");
 				for (String num : SR.split(":")) {
-					if (num == "") break;
+					if (!isInt(num)) break;
 					SRoom.add(Integer.valueOf(num));
 				}
 				for (String num : DR.split(":")) {
-					if (num == "") break;
+					if (!isInt(num)) break;
 					DRoom.add(Integer.valueOf(num));
 				}
 				for (String num : QR.split(":")) {
-					if (num == "") break;
+					if (!isInt(num)) break;
 					QRoom.add(Integer.valueOf(num));
 				}
 				return new Order(results.getInt("OrderID"), 
@@ -283,13 +291,13 @@ public class databaseUtil {
 	}
 	public static int getNewOrderID() {	
 		try {
-			stmt.executeQuery("SELECT OrderID from Orders;");
-			results.last();
+			results = stmt.executeQuery("SELECT * FROM Orders ORDER BY OrderID DESC;");
+			if (!results.next())	return 0;
 			int lastID = results.getInt("OrderID");
 			return lastID + 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return 0;
+			return -1;
 		}
 		
 	}

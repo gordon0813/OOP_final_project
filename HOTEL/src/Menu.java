@@ -2029,8 +2029,7 @@ public class Menu extends JPanel {
 				validate();
 				repaint();
 				showallText.setForeground(Color.black);
-			}
-			else if (e.getSource() == pricehighText) { // show price high first
+			} else if (e.getSource() == pricehighText) { // show price high first
 				layeredPane.remove(Search);
 				layeredPane.remove(Hotellist);
 				initSearch();
@@ -2321,8 +2320,8 @@ public class Menu extends JPanel {
 							order.getQnum().size(), order.getCheckInDate(), order.getCheckOutDate(),
 							(int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
-					layeredPane.remove(Reserve_success);
-					layeredPane.add(Reserveorder, new Integer(4));
+//					layeredPane.remove(Reserve_success);
+//					layeredPane.add(Reserveorder, new Integer(4));
 					reserveorderbuttons.removeAll();
 					reserveorderbuttons.add(cancelText);
 					reserveorderbuttons.add(modifyText);
@@ -2360,7 +2359,7 @@ public class Menu extends JPanel {
 				backchangeroom.setForeground(Color.black);
 				backrevisedate.setForeground(Color.black);
 			} else if (e.getSource() == changeroomText) {
-				Order originorder = main.CheckOrder(Integer.parseInt(reservenumberField.getText()));
+				Order originorder = main.CheckOrder(Integer.parseInt(successreservenumberField.getText()));
 				Integer x = originorder.getSnum().size();
 				Integer y = originorder.getDnum().size();
 				Integer z = originorder.getQnum().size();
@@ -2376,14 +2375,13 @@ public class Menu extends JPanel {
 				repaint();
 				changeroomText.setForeground(Color.black);
 			} else if (e.getSource() == nextchangeroom) {
-				int OrderID = Integer.parseInt(reservenumberField.getText());
+				int OrderID = Integer.parseInt(successreservenumberField.getText());
 				// 取得修改後的房間數
 				int nsn = Integer.parseInt(newsingleroomField.getText());
 				int ndn = Integer.parseInt(newdoubleroomField.getText());
 				int nqn = Integer.parseInt(newquadroomField.getText());
-
 				Order newOrder = main.ChangeRooms(OrderID, nsn, ndn, nqn);
-
+				System.out.println(newOrder.getDnum().size());
 				showReserveorder(OrderID, newOrder.getHotelID(), newOrder.getSnum().size(), newOrder.getDnum().size(), newOrder.getQnum().size(),
 						newOrder.getCheckInDate(), newOrder.getCheckOutDate(), 
 						(int)main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()), newOrder.getSumPrice());
@@ -2404,7 +2402,7 @@ public class Menu extends JPanel {
 				repaint();
 				nextchangeroom.setForeground(Color.black);
 			} else if (e.getSource() == revisedateText) {
-				Order originorder = main.CheckOrder(Integer.parseInt(reservenumberField.getText()));
+				Order originorder = main.CheckOrder(Integer.parseInt(successreservenumberField.getText()));
 				String x = originorder.getCheckInDate();
 				String y = originorder.getCheckOutDate();
 				origincheckindateField.setText(x);
@@ -2418,14 +2416,15 @@ public class Menu extends JPanel {
 				revisedateText.setForeground(Color.black);
 			} else if (e.getSource() == nextrevisedate) {
 				// 取得修改後的訂房日期
-				int OrderID = Integer.parseInt(reservenumberField.getText());
+				int OrderID = Integer.parseInt(successreservenumberField.getText());
 				String nCID = newcheckindateField.getText();
 				String nCOD = newcheckoutdateField.getText();
 				if (main.CheckDateforReviseDate(OrderID, nCID, nCOD)) { 
 
 					Order newOrder = main.ModifyDate(OrderID, nCID, nCOD);
+					System.out.println(newOrder.getCheckInDate() + ", " + newOrder.getCheckOutDate());
 					// if revise date success 修改日期成功
-				showReserveorder(OrderID, newOrder.getHotelID(), newOrder.getSnum().size(), newOrder.getDnum().size(), newOrder.getQnum().size(),
+					showReserveorder(OrderID, newOrder.getHotelID(), newOrder.getSnum().size(), newOrder.getDnum().size(), newOrder.getQnum().size(),
 						newOrder.getCheckInDate(), newOrder.getCheckOutDate(), 
 						(int)main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()), newOrder.getSumPrice());
 					layeredPane.remove(Invalid_date_error); // if revise date success
@@ -2455,7 +2454,7 @@ public class Menu extends JPanel {
 				}
 			} else if (e.getSource() == cancelText) { // 取消訂單
 				
-				int OrderID = Integer.parseInt(reservenumberField.getText());
+				int OrderID = Integer.parseInt(successreservenumberField.getText());
 				main.CancelOrder(OrderID);
 				
 				layeredPane.remove(Reserveorder);

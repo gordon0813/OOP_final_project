@@ -277,9 +277,9 @@ public class main {
 	}
 
 	public static int CountSumPrice(AvailableHotelRooms x) {
-		return Hotel.getSingleRoomPrice() * x.getSingle() 
-			 + Hotel.getDoubleRoomPrice() * x.getDouble()
-		     + Hotel.getQuadRoomPrice() * x.getQuad();
+		return HotelList[x.getHotelID()].getSingleRoomPrice() * x.getSingle() 
+			 + HotelList[x.getHotelID()].getDoubleRoomPrice() * x.getDouble()
+		     + HotelList[x.getHotelID()].getQuadRoomPrice() * x.getQuad();
 	}
 
 	public static ArrayList<AvailableHotelRooms> SortByPrice(ArrayList<AvailableHotelRooms> AHR, int op) {
@@ -310,23 +310,32 @@ public class main {
 		int sn = order.getSnum().size();
 		ArrayList<Integer> Snum = order.getSnum();
 		if (nsn < sn) {
-			for (int i = 0; i < sn; i++) 
-				for (int t = (int)start; t < end; t++) 
+			for (int i = sn-1; i >= nsn; i--) {
+				for (int t = (int)start; t < end; t++)
 					singleroom[Snum.get(i)].setDateIsNotOccupied(t);
+				Snum.remove(i);
+				Snum.trimToSize();
+			}
 		} 
 		int dn = order.getDnum().size();
 		ArrayList<Integer> Dnum = order.getDnum();
 		if (ndn < dn) {
-			for (int i = 0; i < dn; i++) 
+			for (int i = dn-1; i >= ndn; i--) {
 				for (int t = (int)start; t < end; t++) 
 					doubleroom[Dnum.get(i)].setDateIsNotOccupied(t);
+				Dnum.remove(i);
+				Dnum.trimToSize();
+			}
 		} 
 		int qn = order.getQnum().size();
 		ArrayList<Integer> Qnum = order.getQnum();
 		if (nqn < qn) {
-			for (int i = 0; i < sn; i++) 
+			for (int i = qn-1; i >= nqn; i--) {
 				for (int t = (int)start; t < end; t++) 
 					quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
+				Qnum.remove(i);
+				Qnum.trimToSize();
+			}
 		}
 		Order newOrder = new Order(OrderID, order.getUserID(), order.getHotelID(), order.getCheckInDate(), order.getCheckOutDate(), 
 				Snum, Dnum, Qnum);
@@ -342,7 +351,7 @@ public class main {
 		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), nCID) >= 0;
 	}
 
-	public static Order ModifyDate(int OrderID, String nCID, String nCOD) {// to do
+	public static Order ModifyDate(int OrderID, String nCID, String nCOD) { // to do
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -378,7 +387,7 @@ public class main {
 					if (nstart <= t && t < nend) 
 						quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
 		}
-		Order newOrder = new Order(OrderID, order.getUserID(), order.getHotelID(), order.getCheckInDate(), order.getCheckOutDate(), 
+		Order newOrder = new Order(OrderID, order.getUserID(), order.getHotelID(), nCID, nCOD, 
 				Snum, Dnum, Qnum);
 		databaseUtil.insertOrder(newOrder);
 		return newOrder;
