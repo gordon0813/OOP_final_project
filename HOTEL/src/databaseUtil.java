@@ -102,6 +102,18 @@ public class databaseUtil {
 	// insert a Order to table 'Orders' by given Order object
 	public static boolean insertOrder(Order newOrder) {
 		String cmd = "INSERT INTO Orders"
+<<<<<<< HEAD
+						+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
+						+ "VALUES("
+						+ newOrder.getID() + ", " 
+						+ "\"" + newOrder.getUserID() + "\"" + ", "
+						+ newOrder.getHotelID() + ", "
+						+ newOrder.getSnum().size() + ", "
+						+ newOrder.getDnum().size() + ", "
+						+ newOrder.getQnum().size() + ", "
+						+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
+						+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
+=======
 					+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
 					+ "VALUES("
 					+ newOrder.getID() + ", " 
@@ -112,6 +124,7 @@ public class databaseUtil {
 					+ newOrder.getqn() + ", "
 					+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
 					+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
+>>>>>>> 36a4136b4c5f01fbb813b3e8b33a0ed9b1f63dc2
 		try {
 			if (getOrderByOrderID(newOrder.getID()).getID() != -1) {
 				stmt.execute("DELETE FROM Orders WHERE OrderID=" + newOrder.getID());
@@ -141,13 +154,13 @@ public class databaseUtil {
 								 results.getInt("QuadRoom"));
 			} else {
 				System.out.println("No such Order!!");
-				return new Order();
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return new Order();
+		return null;
 	}
 	// get the certain OrderID by given UserID
 	public static Order[] getOrderByUserID(String UID) {
