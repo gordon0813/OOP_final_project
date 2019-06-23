@@ -28,12 +28,9 @@ CREATE TABLE `Orders` (
   `OrderID` int(11) NOT NULL,
   `UID` varchar(45) NOT NULL,
   `HotelID` int(11) NOT NULL,
-  `SingleRoom` int(11) NOT NULL,
-  `DoubleRoom` int(11) NOT NULL,
-  `QuadRoom` int(11) NOT NULL,
-  `S_RoomNum` varchar(100) NOT NULL,
-  `D_RoomNum` varchar(100) NOT NULL,
-  `Q_RoomNum` varchar(100) NOT NULL,
+  `SingleRoom` varchar(100) NOT NULL,
+  `DoubleRoom` varchar(100) NOT NULL,
+  `QuadRoom` varchar(100) NOT NULL,
   `CheckIn` date NOT NULL,
   `CheckOut` date NOT NULL,
   PRIMARY KEY (`OrderID`),
@@ -83,4 +80,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-23 17:00:25
+-- Dump completed on 2019-06-23 18:50:09
