@@ -20,4 +20,7 @@ public class Room {
 	void setDateIsOccupied(int i) {
 		DateIsOccupied[i] = true;
 	}
+	void setDateIsNotOccupied(int i) {
+		DateIsOccupied[i] = false;
+	}
 }

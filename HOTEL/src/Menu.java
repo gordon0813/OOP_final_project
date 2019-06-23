@@ -2314,9 +2314,9 @@ public class Menu extends JPanel {
 				layeredPane.remove(Inquiry);
 				// get reserve number
 				int OrderID = Integer.parseInt(reservenumberField.getText());
-
-				if (main.CheckOrder(OrderID) != null) {// unsolved bug : NPE
-					Order order = main.CheckOrder(OrderID);
+				
+				Order order = main.CheckOrder(OrderID);
+				if (order != null) {// unsolved bug : NPE
 					System.out.println("here" + order != null);
 					layeredPane.remove(Inquiry);
 					showReserveorder(order.getID(), order.getHotelID(), order.getsn(), order.getdn(), order.getqn(),
@@ -2416,10 +2416,12 @@ public class Menu extends JPanel {
 				revisedateText.setForeground(Color.black);
 			} else if (e.getSource() == nextrevisedate) {
 				// 取得修改後的訂房日期
-				String s1 = newcheckindateField.getText();
-				String s2 = newcheckoutdateField.getText();
-				if (main.CountDaysBetween(s1, s2) > 0) { // 檢查入住日期是否比退房日期之前
+				int OrderID = Integer.parseInt(reservenumberField.getText());
+				String nCID = newcheckindateField.getText();
+				String nCOD = newcheckoutdateField.getText();
+				if (main.CheckDateforReviseDate(OrderID, nCID, nCOD)) { 
 
+					main.ModifyDate(OrderID, nCID, nCOD);
 					// if revise date success 修改日期成功
 //				showReserveorder(int orderid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
 //				int p)
@@ -2449,6 +2451,10 @@ public class Menu extends JPanel {
 					nextrevisedate.setForeground(Color.black);
 				}
 			} else if (e.getSource() == cancelText) { // 取消訂單
+				
+				int OrderID = Integer.parseInt(reservenumberField.getText());
+				main.CancelOrder(OrderID);
+				
 				layeredPane.remove(Reserveorder);
 				layeredPane.remove(Reserve_success);
 				layeredPane.add(Cancelorder_success, new Integer(3));

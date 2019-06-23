@@ -58,15 +58,16 @@ public class Order {
 	String getCheckOutDate() {
 		return CheckOutDate;
 	}
-	int getsn() {
-		return Snum.size();
+	ArrayList<Integer> getSnum() {
+		return Snum;
 	}
-	int getdn() {
-		return Dnum.size();
+	ArrayList<Integer> getDnum() {
+		return Dnum;
 	}
-	int getqn() {
-		return Qnum.size();
+	ArrayList<Integer> getQnum() {
+		return Qnum;
 	}
+	
 	int getSumPrice() {
 		return SumPrice;
 	}

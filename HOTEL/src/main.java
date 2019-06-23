@@ -55,7 +55,7 @@ public class main {
 	}
 
 	public static int SignInCheck(String UserID, String Password) { // 0->can't find user -1->wrong password
-		if (UserList == null)
+		/*if (UserList == null)
 			return 0;
 		for (int i = 0; i < UserList.size(); i++)
 			if (UserList.get(i) != null) {
@@ -65,7 +65,11 @@ public class main {
 				} else if (UserList.get(i).getUserID().equals(UserID))
 					return -1; // wrong password
 			}
-		return 0;
+		*/
+		user = databaseUtil.getUser(UserID);
+		if (user == null) return 0;
+		else if (Password != user.getPassword()) return -1;
+		return 1;
 	}
 
 	public static boolean SignUpCheck(String UserID, String Password, String UserCode) {
@@ -261,7 +265,8 @@ public class main {
 	}
 
 	public static Order CheckOrder(int OrderID) {
-		return user.getOrders().get(OrderID);
+		//return user.getOrders().get(OrderID);
+		return databaseUtil.getOrderByOrderID(OrderID);
 	}
 
 	public static ArrayList<AvailableHotelRooms> SearchByStar(ArrayList<AvailableHotelRooms> AHR, int Star) {
@@ -273,8 +278,9 @@ public class main {
 	}
 
 	public static int CountSumPrice(AvailableHotelRooms x) {
-		return Hotel.getSingleRoomPrice() * x.getSingle() + Hotel.getDoubleRoomPrice() * x.getDouble()
-				+ Hotel.getQuadRoomPrice() * x.getQuad();
+		return Hotel.getSingleRoomPrice() * x.getSingle() 
+			 + Hotel.getDoubleRoomPrice() * x.getDouble()
+		     + Hotel.getQuadRoomPrice() * x.getQuad();
 	}
 
 	public static ArrayList<AvailableHotelRooms> SortByPrice(ArrayList<AvailableHotelRooms> AHR, int op) {
@@ -286,20 +292,12 @@ public class main {
 		return AHR;
 	}
 
-	public static void ModifyRooms(int OrderID, int type, int number) {// to do
-		
+	public static void CancelOrder(int OrderID) {
+		databaseUtil.deleteOrder(OrderID);
 	}
 	
-	public static boolean CheckDateforReviseDate(int OrderID, String CID, String COD) {
-		Order order = user.getOrders().get(OrderID);
-		long Days = CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate());
-		long D = CountDaysBetween(CID, COD);
-		
-		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), CID) >= 0;
-	}
-
-	public static void ModifyDate(int OrderID, String CID, String COD) {// to do
-		Order order = user.getOrders().get(OrderID);
+	public static void ChangeRooms(int OrderID, int nsn, int ndn, int nqn) { 
+		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
 		Room[] singleroom = hotel.getSingleRooms();
 		Room[] doubleroom = hotel.getDoubleRooms();
@@ -307,84 +305,75 @@ public class main {
 		
 		Date Now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		long start = CountDaysBetween(sdf.format(Now), CID);
-		long end = CountDaysBetween(sdf.format(Now), COD);
+		long start = CountDaysBetween(sdf.format(Now), order.getCheckInDate());
+		long end = CountDaysBetween(sdf.format(Now), order.getCheckOutDate());
 		
-		for (int i = (int)start; i < end; i++) {
-			
+		int sn = order.getSnum().size();
+		if (nsn < sn) {
+			ArrayList<Integer> Snum = order.getSnum();
+			for (int i = 0; i < sn; i++) 
+				for (int t = (int)start; t < end; t++) 
+					singleroom[Snum.get(i)].setDateIsNotOccupied(t);
+		} 
+		int dn = order.getDnum().size();
+		if (ndn < dn) {
+			ArrayList<Integer> Dnum = order.getDnum();
+			for (int i = 0; i < dn; i++) 
+				for (int t = (int)start; t < end; t++) 
+					doubleroom[Dnum.get(i)].setDateIsNotOccupied(t);
+		} 
+		int qn = order.getQnum().size();
+		if (nqn < qn) {
+			ArrayList<Integer> Qnum = order.getQnum();
+			for (int i = 0; i < sn; i++) 
+				for (int t = (int)start; t < end; t++) 
+					quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
 		}
 	}
-
-	public static void ModifyOrder() { // to do
-		Scanner scanner = new Scanner(System.in);
-		// 使用者ID, 訂位代號, 取消訂單 / 減少<房型><數量>, … / 變更住宿日期：<入住日期>-<退房日期>
-		int OrderID = scanner.nextInt();
-		int op = scanner.nextInt();
-
-		ArrayList<Order> orders = user.getOrders();
-
-		if (op == 1) {
-			if (orders.size() <= OrderID) {
-				System.out.println("退訂/修改失敗，此訂位代號不存在");
-			} else {
-				System.out.println("退訂成功，已取消您的訂房紀錄"); // 假設任何時間都可以退訂
-			}
-		} else if (op == 2) {// reduce
-			if (orders.size() <= OrderID) {
-				System.out.println("退訂/修改失敗，此訂位代號不存在");
-			} else {
-				String type = scanner.next();
-				int number = scanner.nextInt();
-				Hotel hotel = HotelList[orders.get(OrderID).getHotelID()];
-				int sn = orders.get(OrderID).getsn();
-				int dn = orders.get(OrderID).getdn();
-				int qn = orders.get(OrderID).getqn();
-				/*
-				 * int t = type == "Single"? 0 : (type == "Double"? 1 : 2); if (number <
-				 * demand[t]) { ModifyRooms(OrderID, t, number);
-				 * System.out.println("修改成功，已將您的訂房數量變更為");
-				 * 
-				 * } else { System.out.println("修改失敗，修改數量超過訂房數量"); }
-				 */
-			}
-		} else if (op == 3) {// change date
-			if (orders.size() <= OrderID) {
-				System.out.println("退訂/修改失敗，此訂位代號不存在");
-			} else {
-				String CID = scanner.next();
-				String COD = scanner.next();
-
-			}
-		} else {
-			System.out.println("您輸入的身分識別碼/訂位代號有誤，請重新輸入");
-		}
+	
+	public static boolean CheckDateforReviseDate(int OrderID, String nCID, String nCOD) {
+		Order order = user.getOrders().get(OrderID);
+		long Days = CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate());
+		long D = CountDaysBetween(nCID, nCOD);
+		
+		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), nCID) >= 0;
 	}
 
-	public static void SearchOrder() {// don't use
-		Scanner scanner = new Scanner(System.in);
-		// 使用者ID, 訂位代號
-		String UserID = scanner.next();
-		int OrderID = scanner.nextInt();
-
-		ArrayList<Order> orders = user.getOrders();
-		if (user.equals(UserID) && orders.size() > OrderID) {
-			System.out.println("<" + OrderID + "> :");
-			int sn = orders.get(OrderID).getsn();
-			int dn = orders.get(OrderID).getdn();
-			int qn = orders.get(OrderID).getqn();
-			if (sn > 0)
-				System.out.println("<Single> : <" + sn + ">");
-			if (dn > 0)
-				System.out.println("<Double> : <" + dn + ">");
-			if (qn > 0)
-				System.out.println("<Quad> : <" + qn + ">");
-			String CID = orders.get(OrderID).getCheckInDate(), COD = orders.get(OrderID).getCheckOutDate();
-			System.out.println("<" + CID + ">-<" + COD + ">");
-			System.out.println(
-					"共入住<" + CountDaysBetween(CID, COD) + ">晚   總價：<" + orders.get(OrderID).getSumPrice() + ">");
-		} else {
-			System.out.println("您輸入的身分識別碼/訂位代號有誤，請重新輸入");
+	public static void ModifyDate(int OrderID, String nCID, String nCOD) {// to do
+		Order order = databaseUtil.getOrderByOrderID(OrderID);
+		Hotel hotel = HotelList[order.getHotelID()];
+		Room[] singleroom = hotel.getSingleRooms();
+		Room[] doubleroom = hotel.getDoubleRooms();
+		Room[] quadroom = hotel.getQuadRooms();
+		
+		Date Now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		long start = CountDaysBetween(sdf.format(Now), order.getCheckInDate());
+		long end = CountDaysBetween(sdf.format(Now), order.getCheckOutDate());
+		
+		long nstart = CountDaysBetween(sdf.format(Now), nCID);
+		long nend = CountDaysBetween(sdf.format(Now), nCOD);
+		
+		ArrayList<Integer> Snum = order.getSnum();
+		if (Snum.size() > 0) {
+			for (int i = 0; i < Snum.size(); i++) 
+				for (int t = (int)start; t < end; t++) 
+					if (nstart <= t && t < nend) 
+						singleroom[Snum.get(i)].setDateIsNotOccupied(t);
+		}
+		ArrayList<Integer> Dnum = order.getDnum();
+		if (Dnum.size() > 0) {
+			for (int i = 0; i < Dnum.size(); i++) 
+				for (int t = (int)start; t < end; t++) 
+					if (nstart <= t && t < nend) 
+						doubleroom[Dnum.get(i)].setDateIsNotOccupied(t);
+		}
+		ArrayList<Integer> Qnum = order.getQnum();
+		if (Qnum.size() > 0) {
+			for (int i = 0; i < Qnum.size(); i++) 
+				for (int t = (int)start; t < end; t++) 
+					if (nstart <= t && t < nend) 
+						quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
 		}
 	}
-
 }

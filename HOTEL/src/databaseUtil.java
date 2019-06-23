@@ -106,9 +106,9 @@ public class databaseUtil {
 						+ newOrder.getID() + ", " 
 						+ "\"" + newOrder.getUserID() + "\"" + ", "
 						+ newOrder.getHotelID() + ", "
-						+ newOrder.getsn() + ", "
-						+ newOrder.getdn() + ", "
-						+ newOrder.getqn() + ", "
+						+ newOrder.getSnum().size() + ", "
+						+ newOrder.getDnum().size() + ", "
+						+ newOrder.getQnum().size() + ", "
 						+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
 						+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
 		try {
@@ -137,13 +137,13 @@ public class databaseUtil {
 								 results.getInt("QuadRoom"));
 			} else {
 				System.out.println("No such Order!!");
-				return new Order();
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return new Order();
+		return null;
 	}
 	// get the certain OrderID by given UserID
 	public static Order[] getOrderByUserID(String UID) {
