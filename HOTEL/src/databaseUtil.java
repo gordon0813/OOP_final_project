@@ -2,6 +2,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.json.simple.*;
@@ -95,38 +96,30 @@ public class databaseUtil {
 		return new User();
 	}
 	
-	// change the format from yyyy/mm/dd to yyyy-mm-dd
-	private static String DateFormat(String origin) {
-		return origin.replace('/', '-');
-	}
+
 	// insert a Order to table 'Orders' by given Order object
 	public static boolean insertOrder(Order newOrder) {
+		String SR = "", DR = "", QR = "";
+		for (Integer num : newOrder.getSnum())
+			SR = SR + num.toString() + ":";
+		for (Integer num : newOrder.getDnum())
+			DR = DR + num.toString() + ":";
+		for (Integer num : newOrder.getQnum())
+			QR = QR + num.toString() + ":";
+		
 		String cmd = "INSERT INTO Orders"
-<<<<<<< HEAD
 						+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
 						+ "VALUES("
 						+ newOrder.getID() + ", " 
 						+ "\"" + newOrder.getUserID() + "\"" + ", "
 						+ newOrder.getHotelID() + ", "
-						+ newOrder.getSnum().size() + ", "
-						+ newOrder.getDnum().size() + ", "
-						+ newOrder.getQnum().size() + ", "
-						+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
-						+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
-=======
-					+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
-					+ "VALUES("
-					+ newOrder.getID() + ", " 
-					+ "\"" + newOrder.getUserID() + "\"" + ", "
-					+ newOrder.getHotelID() + ", "
-					+ newOrder.getsn() + ", "
-					+ newOrder.getdn() + ", "
-					+ newOrder.getqn() + ", "
-					+ "\'" + DateFormat(newOrder.getCheckInDate()) + "\'" + ", "
-					+ "\'" + DateFormat(newOrder.getCheckOutDate()) + "\'" + ");";
->>>>>>> 36a4136b4c5f01fbb813b3e8b33a0ed9b1f63dc2
+						+ "\"" + SR + "\"" + ", "
+						+ "\"" + DR + "\"" + ", "
+						+ "\"" + QR + "\"" + ", "
+						+ "\'" + newOrder.getCheckInDate().replace('/', '-') + "\'" + ", "
+						+ "\'" + newOrder.getCheckOutDate().replace('/', '-') + "\'" + ");";
 		try {
-			if (getOrderByOrderID(newOrder.getID()).getID() != -1) {
+			if (getOrderByOrderID(newOrder.getID()) != null) {
 				stmt.execute("DELETE FROM Orders WHERE OrderID=" + newOrder.getID());
 			}
 			stmt.execute(cmd);
@@ -144,14 +137,30 @@ public class databaseUtil {
 			results = stmt.executeQuery(cmd);
 			
 			if (results.next()) {
+				ArrayList<Integer> SRoom = new ArrayList<Integer>();
+				ArrayList<Integer> DRoom = new ArrayList<Integer>();
+				ArrayList<Integer> QRoom = new ArrayList<Integer>();
+				String SR = results.getString("SingleRoom"), DR = results.getString("DoubleRoom"), QR = results.getString("QuadRoom");
+				for (String num : SR.split(":")) {
+					if (num == "") break;
+					SRoom.add(Integer.valueOf(num));
+				}
+				for (String num : DR.split(":")) {
+					if (num == "") break;
+					DRoom.add(Integer.valueOf(num));
+				}
+				for (String num : QR.split(":")) {
+					if (num == "") break;
+					QRoom.add(Integer.valueOf(num));
+				}
 				return new Order(results.getInt("OrderID"), 
 								 results.getString("UID"), 
 								 results.getInt("HotelID"), 
 								 results.getDate("CheckIn").toString().replace('-', '/'),
 								 results.getDate("CheckOut").toString().replace('-', '/'),
-								 results.getInt("SingleRoom"), 
-								 results.getInt("DoubleRoom"), 
-								 results.getInt("QuadRoom"));
+								 SRoom, 
+								 DRoom, 
+								 QRoom);
 			} else {
 				System.out.println("No such Order!!");
 				return null;
@@ -182,14 +191,30 @@ public class databaseUtil {
 			Order[] retList = new Order[len];
 			int index = 0;
 			do {
+				ArrayList<Integer> SRoom = new ArrayList<Integer>();
+				ArrayList<Integer> DRoom = new ArrayList<Integer>();
+				ArrayList<Integer> QRoom = new ArrayList<Integer>();
+				String SR = results.getString("SingleRoom"), DR = results.getString("DoubleRoom"), QR = results.getString("QuadRoom");
+				for (String num : SR.split(":")) {
+					if (num == "") break;
+					SRoom.add(Integer.valueOf(num));
+				}
+				for (String num : DR.split(":")) {
+					if (num == "") break;
+					DRoom.add(Integer.valueOf(num));
+				}
+				for (String num : QR.split(":")) {
+					if (num == "") break;
+					QRoom.add(Integer.valueOf(num));
+				}
 				retList[index++] = new Order(results.getInt("OrderID"), 
-										 results.getString("UID"), 
-										 results.getInt("HotelID"), 
-										 results.getDate("CheckIn").toString().replace('-', '/'),
-										 results.getDate("CheckOut").toString().replace('-', '/'),
-										 results.getInt("SingleRoom"), 
-										 results.getInt("DoubleRoom"), 
-										 results.getInt("QuadRoom"));
+											 results.getString("UID"), 
+											 results.getInt("HotelID"), 
+											 results.getDate("CheckIn").toString().replace('-', '/'),
+											 results.getDate("CheckOut").toString().replace('-', '/'),
+											 SRoom, 
+											 DRoom, 
+											 QRoom);
 			} while(results.next());
 
 			return retList;
@@ -217,14 +242,30 @@ public class databaseUtil {
 			Order[] retList = new Order[len];
 			int index = 0;
 			do {
+				ArrayList<Integer> SRoom = new ArrayList<Integer>();
+				ArrayList<Integer> DRoom = new ArrayList<Integer>();
+				ArrayList<Integer> QRoom = new ArrayList<Integer>();
+				String SR = results.getString("SingleRoom"), DR = results.getString("DoubleRoom"), QR = results.getString("QuadRoom");
+				for (String num : SR.split(":")) {
+					if (num == "") break;
+					SRoom.add(Integer.valueOf(num));
+				}
+				for (String num : DR.split(":")) {
+					if (num == "") break;
+					DRoom.add(Integer.valueOf(num));
+				}
+				for (String num : QR.split(":")) {
+					if (num == "") break;
+					QRoom.add(Integer.valueOf(num));
+				}
 				retList[index++] = new Order(results.getInt("OrderID"), 
-										 results.getString("UID"), 
-										 results.getInt("HotelID"), 
-										 results.getDate("CheckIn").toString().replace('-', '/'),
-										 results.getDate("CheckOut").toString().replace('-', '/'),
-										 results.getInt("SingleRoom"), 
-										 results.getInt("DoubleRoom"), 
-										 results.getInt("QuadRoom"));
+											 results.getString("UID"), 
+											 results.getInt("HotelID"), 
+											 results.getDate("CheckIn").toString().replace('-', '/'),
+											 results.getDate("CheckOut").toString().replace('-', '/'),
+											 SRoom, 
+											 DRoom, 
+											 QRoom);
 			} while(results.next());
 			return retList;
 		} catch (SQLException e) {
@@ -233,11 +274,47 @@ public class databaseUtil {
 		
 		return null;
 	}	
+	public static int getNewOrderID() {	
+		try {
+			stmt.executeQuery("SELECT OrderID from Orders;");
+			results.last();
+			int lastID = results.getInt("OrderID");
+			return lastID + 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
 		
+	}
 	public static void main(String[] args) {
 		buildConnection();
 		initDatabase();
+		String test = "";
+		System.out.println(test == "");
 		
+		ArrayList<Integer> s, d, q;
+		s = new ArrayList<Integer>();
+		s.add(1);
+		s.add(2);
+		
+		d = new ArrayList<Integer>();
+		d.add(2);
+		d.add(3);
+		
+		q = new ArrayList<Integer>();
+		q.add(3);
+		q.add(4);
+		
+		Order testO = new Order(0, "0", 0, "2019/06/01", "2019/06/01", s, d, q);
+		Order test1 = new Order(1, "1", 2, "2019/06/02", "2019/06/02", s, d, q);
+		Order test2 = new Order(2, "1", 2, "2019/06/03", "2019/06/03", s, d, q);
+		insertOrder(testO);
+		insertOrder(test1);
+		insertOrder(test2);
+		
+		Order[] ret = getOrderByHotelID(2);
+		System.out.println(ret[0].getCheckInDate());
+		System.out.println(ret[1].getCheckInDate());
 		try {
 			if (connect != null)
 				connect.close();
