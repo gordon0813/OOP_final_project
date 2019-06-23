@@ -2246,7 +2246,6 @@ public class Menu extends JPanel {
 					String CID = reservecheckindateField.getText();// yyyy/mm/dd
 					String COD = reservecheckoutdateField.getText();
 					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
-//					int HotelID = Integer.parseInt(reservehotelidField.getText());
 					int sn = Integer.parseInt(reservesingleroomField.getText());
 					int dn = Integer.parseInt(reservedoubleroomField.getText());
 					int qn = Integer.parseInt(reservequadroomField.getText());
@@ -2285,7 +2284,6 @@ public class Menu extends JPanel {
 					layeredPane.add(Invalid_date_error, new Integer(3));
 					reservecheckindateField.setText("SELECT DATE");
 					reservecheckoutdateField.setText("SELECT DATE");
-//					reservehotelidField.setText(null);
 					reservehotelid.setSelectedIndex(0);
 					reservesingleroomField.setText(null);
 					reservedoubleroomField.setText(null);
@@ -2317,13 +2315,12 @@ public class Menu extends JPanel {
 				Order order = main.CheckOrder(OrderID);
 				if (order != null) {// unsolved bug : NPE
 					layeredPane.remove(Inquiry);
-					showReservesuccess(order.getID(), order.getHotelID(), order.getSnum().size(),
+					showReserveorder(order.getID(), order.getHotelID(), order.getSnum().size(),
 							order.getDnum().size(), order.getQnum().size(), order.getCheckInDate(),
 							order.getCheckOutDate(),
 							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
-//					layeredPane.remove(Reserve_success);
-//					layeredPane.add(Reserveorder, new Integer(4));
+					layeredPane.add(Reserveorder, new Integer(3));
 					reserveorderbuttons.removeAll();
 					reserveorderbuttons.add(cancelText);
 					reserveorderbuttons.add(modifyText);
