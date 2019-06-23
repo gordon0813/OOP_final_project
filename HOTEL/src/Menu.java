@@ -1868,7 +1868,6 @@ public class Menu extends JPanel {
 						repaint();
 						signuplogin.setForeground(Color.black);
 					} else {// Wrong verify code.
-						System.out.println("hihi");
 						layeredPane.remove(Signup);
 						layeredPane.add(Signuperror1, new Integer(3));
 						signinidField.setText("");
@@ -2257,9 +2256,9 @@ public class Menu extends JPanel {
 						// 訂房成功
 						layeredPane.remove(Reserve);
 						layeredPane.remove(Invalid_date_error);
-						showReservesuccess(order.getID(), order.getHotelID(), order.getsn(), order.getdn(),
-								order.getqn(), order.getCheckInDate(), order.getCheckOutDate(),
-								(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
+						showReservesuccess(order.getID(), order.getHotelID(), order.getSnum().size(), order.getDnum().size(),
+								order.getQnum().size(), order.getCheckInDate(), order.getCheckOutDate(),
+								(int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 								order.getSumPrice());
 						reservenumberField.setText(successreservenumberField.getText());
 						reservecheckindateField.setText(null);
@@ -2317,11 +2316,10 @@ public class Menu extends JPanel {
 				
 				Order order = main.CheckOrder(OrderID);
 				if (order != null) {// unsolved bug : NPE
-					System.out.println("here" + order != null);
 					layeredPane.remove(Inquiry);
-					showReserveorder(order.getID(), order.getHotelID(), order.getsn(), order.getdn(), order.getqn(),
-							order.getCheckInDate(), order.getCheckOutDate(),
-							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
+					showReservesuccess(order.getID(), order.getHotelID(), order.getSnum().size(), order.getDnum().size(),
+							order.getQnum().size(), order.getCheckInDate(), order.getCheckOutDate(),
+							(int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
 					layeredPane.add(Reserveorder, new Integer(3));
 					reserveorderbuttons.removeAll();
@@ -2362,9 +2360,9 @@ public class Menu extends JPanel {
 				backrevisedate.setForeground(Color.black);
 			} else if (e.getSource() == changeroomText) {
 				Order originorder = main.CheckOrder(Integer.parseInt(reservenumberField.getText()));
-				Integer x = originorder.getsn();
-				Integer y = originorder.getdn();
-				Integer z = originorder.getqn();
+				Integer x = originorder.getSnum().size();
+				Integer y = originorder.getDnum().size();
+				Integer z = originorder.getQnum().size();
 				originsingleroomField.setText(x.toString());
 				origindoubleroomField.setText(y.toString());
 				originquadroomField.setText(z.toString());
@@ -2377,14 +2375,17 @@ public class Menu extends JPanel {
 				repaint();
 				changeroomText.setForeground(Color.black);
 			} else if (e.getSource() == nextchangeroom) {
+				int OrderID = Integer.parseInt(reservenumberField.getText());
 				// 取得修改後的房間數
-				int x = Integer.parseInt(newsingleroomField.getText());
-				int y = Integer.parseInt(newdoubleroomField.getText());
-				int z = Integer.parseInt(newquadroomField.getText());
+				int nsn = Integer.parseInt(newsingleroomField.getText());
+				int ndn = Integer.parseInt(newdoubleroomField.getText());
+				int nqn = Integer.parseInt(newquadroomField.getText());
 
-//				// if change room success 修改房間數成功
-//				showReserveorder(int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
-//						int p)
+				Order newOrder = main.ChangeRooms(OrderID, nsn, ndn, nqn);
+
+				showReserveorder(OrderID, newOrder.getHotelID(), newOrder.getSnum().size(), newOrder.getDnum().size(), newOrder.getQnum().size(),
+						newOrder.getCheckInDate(), newOrder.getCheckOutDate(), 
+						(int)main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()), newOrder.getSumPrice());
 				layeredPane.remove(Changeroom); // if change room success
 				layeredPane.remove(Changeroom_error); // if change room success
 				layeredPane.add(ChangeRevise_success, new Integer(3));// if change room success
@@ -2421,10 +2422,11 @@ public class Menu extends JPanel {
 				String nCOD = newcheckoutdateField.getText();
 				if (main.CheckDateforReviseDate(OrderID, nCID, nCOD)) { 
 
-					main.ModifyDate(OrderID, nCID, nCOD);
+					Order newOrder = main.ModifyDate(OrderID, nCID, nCOD);
 					// if revise date success 修改日期成功
-//				showReserveorder(int orderid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate, int night,
-//				int p)
+				showReserveorder(OrderID, newOrder.getHotelID(), newOrder.getSnum().size(), newOrder.getDnum().size(), newOrder.getQnum().size(),
+						newOrder.getCheckInDate(), newOrder.getCheckOutDate(), 
+						(int)main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()), newOrder.getSumPrice());
 					layeredPane.remove(Invalid_date_error); // if revise date success
 					layeredPane.remove(Revisedate_error); // if revise date success
 					layeredPane.remove(Revisedate); // if revise date success
@@ -2465,7 +2467,6 @@ public class Menu extends JPanel {
 
 		}
 	};
-
 }
 
 class RoundedCornerBorder extends AbstractBorder {

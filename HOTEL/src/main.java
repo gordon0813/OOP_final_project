@@ -39,7 +39,7 @@ public class main {
 			for (Hotel h : HotelList)
 				System.out.println(h);
 		} catch (Exception e) {
-			System.out.println("cannot find the file");
+			System.out.println("cannot find the file.");
 		}
 	}
 
@@ -90,7 +90,7 @@ public class main {
 		sdf.setLenient(false);
 		try {
 			Date d = sdf.parse(Year + "/" + Month + "/" + Day);
-			System.out.println(d);
+			//System.out.println(d);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -120,7 +120,6 @@ public class main {
 		Room[] doubleroom = hotel.getDoubleRooms();
 		Room[] quadroom = hotel.getQuadRooms();
 
-		System.out.println(singleroom);
 		if (sn > 0) {
 			if (singleroom == null)
 				return false;
@@ -255,7 +254,7 @@ public class main {
 
 		if (CheckAllRooms(HotelID, start, end, sn, dn, qn)) {
 			ArrayList<ArrayList<Integer>> re = Reserve(HotelID, user.getUserID(), start, end, sn, dn, qn);
-			Order nOrder = new Order(user.getnextOrderID(), user.getUserID(), HotelID, CID, COD, re.get(0), re.get(1), re.get(2));
+			Order nOrder = new Order(databaseUtil.getNewOrderID(), user.getUserID(), HotelID, CID, COD, re.get(0), re.get(1), re.get(2));
 			databaseUtil.insertOrder(nOrder);
 			//hotel.newOrder(nOrder);
 			//user.newOrder(nOrder);
@@ -296,7 +295,7 @@ public class main {
 		databaseUtil.deleteOrder(OrderID);
 	}
 	
-	public static void ChangeRooms(int OrderID, int nsn, int ndn, int nqn) { 
+	public static Order ChangeRooms(int OrderID, int nsn, int ndn, int nqn) { 
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -309,37 +308,41 @@ public class main {
 		long end = CountDaysBetween(sdf.format(Now), order.getCheckOutDate());
 		
 		int sn = order.getSnum().size();
+		ArrayList<Integer> Snum = order.getSnum();
 		if (nsn < sn) {
-			ArrayList<Integer> Snum = order.getSnum();
 			for (int i = 0; i < sn; i++) 
 				for (int t = (int)start; t < end; t++) 
 					singleroom[Snum.get(i)].setDateIsNotOccupied(t);
 		} 
 		int dn = order.getDnum().size();
+		ArrayList<Integer> Dnum = order.getDnum();
 		if (ndn < dn) {
-			ArrayList<Integer> Dnum = order.getDnum();
 			for (int i = 0; i < dn; i++) 
 				for (int t = (int)start; t < end; t++) 
 					doubleroom[Dnum.get(i)].setDateIsNotOccupied(t);
 		} 
 		int qn = order.getQnum().size();
+		ArrayList<Integer> Qnum = order.getQnum();
 		if (nqn < qn) {
-			ArrayList<Integer> Qnum = order.getQnum();
 			for (int i = 0; i < sn; i++) 
 				for (int t = (int)start; t < end; t++) 
 					quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
 		}
+		Order newOrder = new Order(OrderID, order.getUserID(), order.getHotelID(), order.getCheckInDate(), order.getCheckOutDate(), 
+				Snum, Dnum, Qnum);
+		databaseUtil.insertOrder(newOrder);
+		return newOrder;
 	}
 	
 	public static boolean CheckDateforReviseDate(int OrderID, String nCID, String nCOD) {
-		Order order = user.getOrders().get(OrderID);
+		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		long Days = CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate());
 		long D = CountDaysBetween(nCID, nCOD);
 		
 		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), nCID) >= 0;
 	}
 
-	public static void ModifyDate(int OrderID, String nCID, String nCOD) {// to do
+	public static Order ModifyDate(int OrderID, String nCID, String nCOD) {// to do
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -375,5 +378,9 @@ public class main {
 					if (nstart <= t && t < nend) 
 						quadroom[Qnum.get(i)].setDateIsNotOccupied(t);
 		}
+		Order newOrder = new Order(OrderID, order.getUserID(), order.getHotelID(), order.getCheckInDate(), order.getCheckOutDate(), 
+				Snum, Dnum, Qnum);
+		databaseUtil.insertOrder(newOrder);
+		return newOrder;
 	}
 }
