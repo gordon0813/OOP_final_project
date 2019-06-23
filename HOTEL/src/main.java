@@ -69,14 +69,16 @@ public class main {
 	}
 
 	public static boolean SignUpCheck(String UserID, String Password, String UserCode) {
-		if (UserList == null) {
+		/*if (UserList == null) {
 			UserList = new ArrayList<User>();
 			return true;
-		}
+		} 
 		for (int i = 0; i < UserList.size(); i++)
 			if (UserList.get(i) != null && UserList.get(i).getUserID().equals(UserID))
 				return false;
-		return true;
+		*/
+		
+		return databaseUtil.getUser(UserID) == null;
 	}
 
 	public static boolean CheckDate(int Year, int Month, int Day) {
@@ -103,10 +105,8 @@ public class main {
 	public static boolean CheckRoomIsAvailable(Room room, long Start, long end) {
 		boolean[] DIO = room.getDateIsOccupied();
 		for (int i = (int) Start; i < end; i++)
-			if (DIO[i] == true) {
-				// System.out.println("akljdlsjfl");
+			if (DIO[i] == true) 
 				return false;
-			}
 		return true;
 	}
 
@@ -146,18 +146,23 @@ public class main {
 		return true;
 	}
 
-	public static void BookRooms(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
+	public static ArrayList<ArrayList<Integer>> Reserve(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
 		Room[] doubleroom = hotel.getDoubleRooms();
 		Room[] quadroom = hotel.getQuadRooms();
-
+		
+		ArrayList<ArrayList<Integer>> RoomNumbers = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < 3; i++)
+			RoomNumbers.add(new ArrayList<Integer> ());
+		
 		if (sn > 0) { // single room
 			int booked = 0;
-			for (Room sr : singleroom) {
-				if (CheckRoomIsAvailable(sr, start, end)) {
-					for (int i = (int) start; i < end; i++)
-						sr.setDateIsOccupied(i);
+			for (int i = 0; i < singleroom.length; i++) {
+				if (CheckRoomIsAvailable(singleroom[i], start, end)) {
+					for (int t = (int)start; t < end; t++)
+						singleroom[i].setDateIsOccupied(t);
+					RoomNumbers.get(0).add(i);
 					booked++;
 				}
 				if (booked == sn)
@@ -166,10 +171,11 @@ public class main {
 		}
 		if (dn > 0) { // double room
 			int booked = 0;
-			for (Room dr : doubleroom) {
-				if (CheckRoomIsAvailable(dr, start, end)) {
-					for (int i = (int) start; i < end; i++)
-						dr.setDateIsOccupied(i);
+			for (int i = 0; i < doubleroom.length; i++) {
+				if (CheckRoomIsAvailable(doubleroom[i], start, end)) {
+					for (int t = (int)start; t < end; t++)
+						doubleroom[i].setDateIsOccupied(t);
+					RoomNumbers.get(1).add(i);
 					booked++;
 				}
 				if (booked == dn)
@@ -178,16 +184,18 @@ public class main {
 		}
 		if (qn > 0) { // quad room
 			int booked = 0;
-			for (Room qr : quadroom) {
-				if (CheckRoomIsAvailable(qr, start, end)) {
-					for (int i = (int) start; i < end; i++)
-						qr.setDateIsOccupied(i);
+			for (int i = 0; i < quadroom.length; i++) {
+				if (CheckRoomIsAvailable(quadroom[i], start, end)) {
+					for (int t = (int) start; t < end; t++)
+						quadroom[i].setDateIsOccupied(t);
+					RoomNumbers.get(2).add(i);
 					booked++;
 				}
 				if (booked == qn)
 					break;
 			}
 		}
+		return RoomNumbers;
 	}
 
 	public static ArrayList<AvailableHotelRooms> SearchAvailableHotels(String CID, String COD, int p, int n) {
@@ -241,13 +249,12 @@ public class main {
 		long start = CountDaysBetween(sdf.format(Now), CID);
 		long end = CountDaysBetween(sdf.format(Now), COD);
 
-		Hotel hotel = HotelList[HotelID];
-
 		if (CheckAllRooms(HotelID, start, end, sn, dn, qn)) {
-			Order nOrder = new Order(user.getnextOrderID(), user.getUserID(), HotelID, CID, COD, sn, dn, qn);
-			hotel.newOrder(nOrder);
-			user.newOrder(nOrder);
-			BookRooms(HotelID, user.getUserID(), start, end, sn, dn, qn);
+			ArrayList<ArrayList<Integer>> re = Reserve(HotelID, user.getUserID(), start, end, sn, dn, qn);
+			Order nOrder = new Order(user.getnextOrderID(), user.getUserID(), HotelID, CID, COD, re.get(0), re.get(1), re.get(2));
+			databaseUtil.insertOrder(nOrder);
+			//hotel.newOrder(nOrder);
+			//user.newOrder(nOrder);
 			return nOrder;
 		}
 		return null;
@@ -280,16 +287,32 @@ public class main {
 	}
 
 	public static void ModifyRooms(int OrderID, int type, int number) {// to do
-
+		
+	}
+	
+	public static boolean CheckDateforReviseDate(int OrderID, String CID, String COD) {
+		Order order = user.getOrders().get(OrderID);
+		long Days = CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate());
+		long D = CountDaysBetween(CID, COD);
+		
+		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), CID) >= 0;
 	}
 
 	public static void ModifyDate(int OrderID, String CID, String COD) {// to do
-		long nDays = CountDaysBetween(CID, COD);
+		Order order = user.getOrders().get(OrderID);
+		Hotel hotel = HotelList[order.getHotelID()];
+		Room[] singleroom = hotel.getSingleRooms();
+		Room[] doubleroom = hotel.getDoubleRooms();
+		Room[] quadroom = hotel.getQuadRooms();
+		
 		Date Now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		long nstart = CountDaysBetween(sdf.format(Now), CID);
-		long nend = CountDaysBetween(sdf.format(Now), COD);
-
+		long start = CountDaysBetween(sdf.format(Now), CID);
+		long end = CountDaysBetween(sdf.format(Now), COD);
+		
+		for (int i = (int)start; i < end; i++) {
+			
+		}
 	}
 
 	public static void ModifyOrder() { // to do
