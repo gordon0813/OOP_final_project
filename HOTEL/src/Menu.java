@@ -1858,8 +1858,8 @@ public class Menu extends JPanel {
 					if (UserCode.equals(VerifyCode)) {
 						// Create a new User
 						main.user = new User(UserID, Password);
-						main.UserList.add(main.user);
-
+						databaseUtil.insertUser(main.user);
+						
 						layeredPane.remove(Signup);
 						layeredPane.remove(title);
 						background.setIcon(new ImageIcon("images/Menu/hotelbackground.jpg"));
@@ -2321,7 +2321,8 @@ public class Menu extends JPanel {
 							order.getQnum().size(), order.getCheckInDate(), order.getCheckOutDate(),
 							(int)main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
-					layeredPane.add(Reserveorder, new Integer(3));
+					layeredPane.remove(Reserve_success);
+					layeredPane.add(Reserveorder, new Integer(4));
 					reserveorderbuttons.removeAll();
 					reserveorderbuttons.add(cancelText);
 					reserveorderbuttons.add(modifyText);

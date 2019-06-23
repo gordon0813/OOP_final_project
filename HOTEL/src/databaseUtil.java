@@ -27,7 +27,7 @@ public class databaseUtil {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=root");
 			stmt = connect.createStatement();
-
+			stmt.execute("USE `hotelList`;");
 			System.out.println("finish!");
 		} catch (Exception e) {
 			e.getStackTrace();
@@ -274,6 +274,13 @@ public class databaseUtil {
 		
 		return null;
 	}	
+	public static void deleteOrder(int OrderID) {
+		try {
+			stmt.execute("DELETE FROM Orders WHERE OrderID=" + OrderID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public static int getNewOrderID() {	
 		try {
 			stmt.executeQuery("SELECT OrderID from Orders;");
@@ -282,7 +289,7 @@ public class databaseUtil {
 			return lastID + 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1;
+			return 0;
 		}
 		
 	}
@@ -290,7 +297,6 @@ public class databaseUtil {
 		buildConnection();
 		initDatabase();
 		String test = "";
-		System.out.println(test == "");
 		
 		ArrayList<Integer> s, d, q;
 		s = new ArrayList<Integer>();

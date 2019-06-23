@@ -21,7 +21,7 @@ public class main {
 
 	public static void main(String[] args) throws IOException {
 		databaseUtil.buildConnection();
-		databaseUtil.initDatabase();
+//		databaseUtil.initDatabase();
 
 		ReadHotelList();
 		HotelPreference program = new HotelPreference();
@@ -68,7 +68,7 @@ public class main {
 		*/
 		user = databaseUtil.getUser(UserID);
 		if (user == null) return 0;
-		else if (Password != user.getPassword()) return -1;
+		else if (!Password.equals(user.getPassword())) return -1;
 		return 1;
 	}
 
