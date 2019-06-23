@@ -2,14 +2,20 @@ import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 import java.awt.event.*;
 public class Game extends JPanel {
-	final int frameWidth = 1152, frameHeight = 780;
+	final int frameWidth = 1152, frameHeight = 740;
+	private boolean transcation=false;
 	private JLayeredPane layeredPane=new JLayeredPane();;
 	private int turn=1;
 	private boolean next=false;// change to the turn of next player
@@ -21,25 +27,26 @@ public class Game extends JPanel {
 	final private int mapWidth = frameWidth, mapHeight = 450;
 	private JLabel MAP = new JLabel();
 	private Landmark[] landmarkList = new Landmark[20];
-	
 	// dice
 	private JLabel ROWDICE = new JLabel();
 	private JButton diceButton = new JButton();
+	private JLabel rowing = new JLabel();
+	private Dice d=new Dice();
 	//user frame
 	private PlayerInfo[] playerInfoList = new PlayerInfo[4];
 	private JLabel msg = new Message();
 	private JLabel moneytext =new JLabel();
-	
+	//user icon
 	private JLabel u1 = new JLabel();
 	private JLabel u2 = new JLabel();
 	private JLabel u3 = new JLabel();
 	private JLabel u4 = new JLabel();
-	
+	//space for user frame
 	private JLabel user1 = new JLabel();
 	private JLabel user2 = new JLabel();
 	private JLabel user3 = new JLabel();
 	private JLabel user4 = new JLabel();
-	
+	//user name
 	private JLabel user1n = new JLabel();
 	private JLabel user2n = new JLabel();
 	private JLabel user3n = new JLabel();
@@ -49,12 +56,20 @@ public class Game extends JPanel {
 	private JLabel F2 = new JLabel();//Figure 2
 	private JLabel F3 = new JLabel();//Figure 3
 	private JLabel F4 = new JLabel();//Figure 4
-	
+	//button words
 	private JLabel yes = new JLabel("Yes",JLabel.CENTER);
 	private JLabel no = new JLabel("No",JLabel.CENTER);
-	
+	private JLabel ok = new JLabel("OK",JLabel.CENTER);
+	//user's money text
 	private JLabel money1,money2,money3,money4;
+	//info message
 	private JLabel Msg = new JLabel();
+	//Lake's info
+	private JLabel toLake = new JLabel();
+	//payfee's Icon
+	private JLabel payfeeIcon = new JLabel();
+	
+	private String[] Icons= {"images/playerIcon/1.png","images/playerIcon/2.png","images/playerIcon/3.png","images/playerIcon/4.png"};
 	private int[][] F1pos=new int[20][2];
 	private int[][] F2pos=new int[20][2];
 	private int[][] F3pos=new int[20][2];
@@ -87,23 +102,42 @@ public class Game extends JPanel {
 	private void initLandmarkList() {
 		//					 0		  1		  2		  3		   4		5		6		7		 8		  9		   10		11		 12			13		 14			15		 16		 17		  18	   19
 		String[] nameList = {"START", "操 場", "新 體", "舊 體", "醉月湖", "新 生", "計 中", "心理系", "應力所", "資工系", "電機系", "獸醫系", "我大工海", "圖書館", "健康中心", "森林系", "園藝系", "傅 鐘", "物理系", "戲劇系"};
+		String[] LinkList = {"https://www.ntu.edu.tw/",
+				"https://pe.ntu.edu.tw/",
+				"https://pe.ntu.edu.tw/",
+				"https://ntusportscenter.ntu.edu.tw/",
+				"https://www.ntu.edu.tw/12scence/02.html",
+				"https://zh.wikipedia.org/wiki/%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E5%A4%A7%E5%AD%B8%E6%96%B0%E7%94%9F%E6%95%99%E5%AD%B8%E9%A4%A8",
+				"https://www.cc.ntu.edu.tw/",
+				"https://www.psy.ntu.edu.tw/",
+				"https://www.iam.ntu.edu.tw/zh/",
+				"https://www.csie.ntu.edu.tw/",
+				"https://www.ee.ntu.edu.tw/",
+				"https://www.vm.ntu.edu.tw/DVM/",
+				"http://www.esoe.ntu.edu.tw/",
+				"https://www.lib.ntu.edu.tw/",
+				"http://shmc.osa.ntu.edu.tw/",
+				"https://www.fo.ntu.edu.tw/",
+				"http://www.hort.ntu.edu.tw/web/index/index.jsp",
+				"https://zh.wikipedia.org/wiki/%E5%82%85%E9%90%98_(%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E5%A4%A7%E5%AD%B8)",
+				"https://www.phys.ntu.edu.tw/",
+				"http://homepage.ntu.edu.tw/~theatre/admission-02.htm"};
 		int[][] posList = {{180, 250}, {180, 150}, {180, 30}, {375, 30}, {500, 30}, {600, 30}, {700, 30}, {800, 30}, {900, 30}, {1000, 30}, {1000, 120}, {1000, 210}, {1000, 340}, {900, 340}, {750, 340}, {660, 340}, {505, 340}, {405, 340}, {300, 340}, {180, 340}};
 		
 		for (int i = 0; i < 20; i++) {
 			if (i == 0) { // START
-				landmarkList[i] = new Landmark(nameList[i], new Color(16 ,78 ,139), new Color(244, 255 ,255), new Color(16 ,78, 139), posList[i][0], posList[i][1]);
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(16 ,78 ,139), new Color(244, 255 ,255), new Color(16 ,78, 139), posList[i][0], posList[i][1]);
 			} else if (i == 4 || i == 11) { // CHANCE
-				landmarkList[i] = new Landmark(nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "CHANCE", posList[i][0], posList[i][1]);
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "CHANCE", posList[i][0], posList[i][1]);
 			} else if (i == 8 || i == 14) { // FATE
-				landmarkList[i] = new Landmark(nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "FATE", posList[i][0], posList[i][1]);				
-			} else if (i == 13) { // JAIL
-				landmarkList[i] = new Landmark(nameList[i], new Color(70, 64, 64), new Color(244, 255 ,255), new Color(70, 64, 64), "JAIL", posList[i][0], posList[i][1]);								
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "FATE", posList[i][0], posList[i][1]);				
+			} else if (i == 13) { // JAI
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(70, 64, 64), new Color(244, 255 ,255), new Color(70, 64, 64), "JAIL", posList[i][0], posList[i][1]);								
 			} else if (i == 17) { // FUBELL
-				landmarkList[i] = new Landmark(nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "21 rings", posList[i][0], posList[i][1]);								
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(115, 74, 18), new Color(244, 255 ,255), new Color(115, 74, 18), "Rings", posList[i][0], posList[i][1]);								
 			} else {
-				landmarkList[i] = new Landmark(nameList[i], new Color(115, 74, 18), new Color(250, 235, 215), new Color(115, 74, 18), moneyList[i], posList[i][0], posList[i][1]);
+				landmarkList[i] = new Landmark(LinkList[i],nameList[i], new Color(115, 74, 18), new Color(250, 235, 215), new Color(115, 74, 18), moneyList[i], posList[i][0], posList[i][1]);
 			}
-			
 			F1pos[i][0]=posList[i][0]-10;
 			F1pos[i][1]=posList[i][1]-5;
 			
@@ -130,7 +164,8 @@ public class Game extends JPanel {
 	private void initLayerPane() {
 		//layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
-
+		
+		payfeeIcon.setBounds(1020, 495, 100, 100);
 		// Map
 		MAP.setIcon(new ImageIcon("images/Map/mapbackground.png"));// TODO map icon path
 		//MAP.setBorder(new MatteBorder(5, 5, 5, 5, Color.WHITE));
@@ -145,16 +180,19 @@ public class Game extends JPanel {
         msg = new Message();
         layeredPane.add(msg, new Integer(0));
         
+        ok.setFont(new Font("Arial Black", Font.BOLD, 35));
+		ok.setBounds(875, 620, 100, 45);
       //dice
-		this.ROWDICE.setBounds(570, 200, 64, 64);
+		
 		  try {
-			  ROWDICE.add(diceButton);
+			  diceButton.setOpaque(true);
 			  diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
 			  diceButton.setBounds(570, 200, 64, 64);
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  }
 		layeredPane.add(diceButton, new Integer(1));
+		
 		//users' info
 		user1.setOpaque(true);
 		this.user1.setLayout(new GridLayout(2, 2, 0, 0));
@@ -168,7 +206,7 @@ public class Game extends JPanel {
 		this.user1.setBounds(0, mapHeight, 350-1, 135-2);//442
 		this.user1.setBorder(new MatteBorder(5, 5, 5, 5, new Color(205, 51, 51)));
 		user1n=new JLabel(playerList[0].getName(),JLabel.CENTER);
-		user1n.setFont(new Font("Arial Black", Font.BOLD, 28));
+		user1n.setFont(new Font("Dialog", Font.BOLD, 28));
 		user1.add(new JLabel("",JLabel.CENTER));
 		user1.add(user1n);
 		user1.add(new JLabel("",JLabel.CENTER));
@@ -202,7 +240,7 @@ public class Game extends JPanel {
 		user3.add(new JLabel("",JLabel.CENTER));
 		user3.add(user3n);
 		user3.add(new JLabel("",JLabel.CENTER));
-		user3n.setFont(new Font("Arial Black", Font.BOLD, 28));
+		user3n.setFont(new Font("Dialog", Font.BOLD, 28));
 		user3.setForeground(new Color(115, 74, 18));
 		money3=new JLabel("Money : "+playerList[0].getCash(),JLabel.CENTER);
 		money3.setFont(new Font("Arial Black", Font.BOLD, 17));
@@ -222,7 +260,7 @@ public class Game extends JPanel {
 		user2.add(new JLabel("",JLabel.CENTER));
 		user2.add(user2n);
 		user2.add(new JLabel("",JLabel.CENTER));
-		user2n.setFont(new Font("Arial Black", Font.BOLD, 28));
+		user2n.setFont(new Font("Dialog", Font.BOLD, 28));
 		user2.setForeground(new Color(115, 74, 18));
 		money2=new JLabel("Money : "+playerList[0].getCash(),JLabel.CENTER);
 		money2.setFont(new Font("Arial Black", Font.BOLD, 17));
@@ -242,7 +280,7 @@ public class Game extends JPanel {
 		user4.add(new JLabel("",JLabel.CENTER));
 		user4.add(user4n);
 		user4.add(new JLabel("",JLabel.CENTER));
-		user4n.setFont(new Font("Arial Black", Font.BOLD, 28));
+		user4n.setFont(new Font("Dialog", Font.BOLD, 28));
 		user4.setForeground(new Color(115, 74, 18));
 		money4=new JLabel("Money : "+playerList[0].getCash(),JLabel.CENTER);
 		money4.setFont(new Font("Arial Black", Font.BOLD, 17));
@@ -252,7 +290,8 @@ public class Game extends JPanel {
         //Message's info
         
        //this.Msg.setIcon(new ImageIcon("images/Menu/menuBackground.png"));// TODO map icon path
-        Msg=new JLabel("NTU Monopoly",JLabel.CENTER);
+        Msg=new JLabel();
+        Msg.setIcon(new ImageIcon("music/1000.png"));
         Msg.setFont(new Font("Arial Black", Font.BOLD, 40));
         Msg.setForeground(new Color(115, 74, 18));
         this.Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
@@ -294,10 +333,10 @@ public class Game extends JPanel {
 		initPlayerInfoList();
 		initLayerPane();
 		myEvent();
-		yes.addMouseListener(ml);
-		no.addMouseListener(ml);
-		Msg.addMouseListener(ml);
-		
+		 yes.addMouseListener(ml);
+  		 no.addMouseListener(ml); 
+  		 ok.addMouseListener(ml);
+
 	}
 	
 	class Landmark extends JLabel {
@@ -307,33 +346,36 @@ public class Game extends JPanel {
 		private int x = 0, y = 0;
 		
 		// for START
-		public Landmark(String name, Color textColor, Color bgColor, Color boardColor, int x, int y) {
+		public Landmark(String link,String name, Color textColor, Color bgColor, Color boardColor, int x, int y) {
 			this.name = new String(name);
 			this.money = 0;
 			this.x = x;
 			this.y = y;
 			
 			JLabel nameText = new JLabel(this.name, JLabel.CENTER);
-			nameText.setFont(new Font("Arial Black", Font.BOLD, 14));
+			nameText=new LinkLabel(name,link);
+			nameText.setHorizontalAlignment(SwingConstants.CENTER);
+			nameText.setFont(new Font("Arial Black", Font.BOLD, 17));
 			nameText.setForeground(textColor);
-			
 			this.setLayout(new GridLayout(1, 1, 0, 0));
 			this.setOpaque(true);
 	        this.setBackground(bgColor);
 			this.setBorder(new MatteBorder(5, 5, 5, 5, boardColor));
 			this.add(nameText);
-			
 			this.setBounds(this.x, this.y, width, height);
+			
 		}
 		
 		// for special landmark
-		public Landmark(String name, Color textColor, Color bgColor, Color boardColor, String text, int x, int y) {
+		public Landmark(String link,String name, Color textColor, Color bgColor, Color boardColor, String text, int x, int y) {
 			this.name = new String(name);
 			this.money = 0;
 			this.x = x;
 			this.y = y;
 			
 			JLabel nameText = new JLabel(this.name, JLabel.CENTER);
+			nameText=new LinkLabel(name,link);
+			nameText.setHorizontalAlignment(SwingConstants.CENTER);
 			nameText.setFont(new Font("Arial Black", Font.BOLD, 17));
 			nameText.setForeground(textColor);
 			
@@ -344,22 +386,23 @@ public class Game extends JPanel {
 	        this.setBackground(bgColor);
 			this.setBorder(new MatteBorder(5, 5, 5, 5, boardColor));
 			this.add(nameText);
+
 			this.add(descriptText);
-			
 			this.setBounds(this.x, this.y, width, height);
 		}
 		
 		// for departments
-		public Landmark(String name, Color textColor, Color bgColor, Color boardColor, int money, int x, int y) {
+		public Landmark(String link,String name, Color textColor, Color bgColor, Color boardColor, int money, int x, int y) {
 			this.name = new String(name);
 			this.money = money;
 			this.x = x;
 			this.y = y;
 			
 			JLabel nameText = new JLabel(this.name, JLabel.CENTER);
+			nameText=new LinkLabel(name,link);
+			nameText.setHorizontalAlignment(SwingConstants.CENTER);
 			nameText.setFont(new Font("Arial Black", Font.BOLD, 17));
 			nameText.setForeground(textColor);
-			
 			JLabel descriptText;
 			if (this.money >= 0) 
 				descriptText = new JLabel("$" + this.money, JLabel.CENTER);
@@ -372,7 +415,6 @@ public class Game extends JPanel {
 			this.setBorder(new MatteBorder(5, 5, 5, 5, boardColor));
 			this.add(nameText);
 			this.add(descriptText);
-			
 			this.setBounds(this.x, this.y, width, height);
 		}
 		
@@ -388,7 +430,6 @@ public class Game extends JPanel {
 			
 			JLabel descriptText = new JLabel("nothing", JLabel.CENTER);
 
-			
 			this.setLayout(new GridLayout(2, 1, 0, 0));
 			this.setOpaque(true);
 	        this.setBackground(Color.BLACK);
@@ -397,6 +438,16 @@ public class Game extends JPanel {
 			this.add(descriptText);
 			
 			this.setBounds(this.x, this.y, width, height);
+		}
+
+		public void setBorder(int i, int j, int k) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setBorder(Color color) {
+			// TODO Auto-generated method stub
+			this.setBorder(color);
 		}
 	}
 	
@@ -431,40 +482,63 @@ public class Game extends JPanel {
 	      public void actionPerformed(ActionEvent e)
 	      {
 	        //  when the button is pressed
-	    	  //JLabel rowing=new JLabel();
-	    	 
-	    	 Msg.setText("");
 	    	  //layeredPane.remove(Msg);
-	    	  Dice d=new Dice();
 	    	  d.setDice();
-	    	  
-				diceButton.setIcon(new ImageIcon(d.getDiceIcon()));
-				if(playerList[turn-1].stop) {
+	    	  try {
+				     FileInputStream fileau = new FileInputStream("music/rolldice.wav" );
+				     AudioStream as = new AudioStream(fileau);
+				     AudioPlayer.player.start(as);
+				    }catch (Exception a){
+				     a.printStackTrace();
+				    }
+	    	  /*
+	    	  switch(turn) {
+				case 1:
+					moneytext.setBounds(210,495,100,50);//u1
+					break;
+				case 2:
+					moneytext.setBounds(570,495,100,50);//u2
+					break;
+				case 3:
+					moneytext.setBounds(210,630,100,50);//u3
+					break;
+				case 4:
+					moneytext.setBounds(570,630,100,50);//u4
+					break;
+				}
+				*/
+	    	  	layeredPane.remove(diceButton);
+	    	  	rowing.setOpaque(true);
+	    	  	rowing.setBounds(570, 200, 64, 64);
+				layeredPane.add(rowing, new Integer(1));
+	    	    rowing.setIcon(new ImageIcon(d.getDiceIcon()));
+	    	    
+				if(playerList[turn-1].stop) {//studying
 					playerList[turn-1].stop=false;
-					Msg.setText("Studying!!!");
+					Msg.setIcon(new ImageIcon("images/messege/study.jpeg"));
+					layeredPane.add(ok,new Integer(2));
 				}else {
 					playerList[turn-1].setLocat(d.getDice());
 					setFpos(turn,playerList[turn-1].getLocat());
 					if(playerList[turn-1].getLocat()==2) {//new gym
-						Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
+						Msg.setIcon(new ImageIcon("images/messege/newgym.jpeg"));
 						playerList[turn-1].setCash(moneyList[playerList[turn-1].getLocat()]);
-						
+						layeredPane.add(ok,new Integer(2));
+					}else if(playerList[turn-1].getLocat()==0) {
+						Msg.setIcon(new ImageIcon("music/1000.png"));
+						layeredPane.add(ok,new Integer(2));
 					}
 					else if(playerList[turn-1].getLocat()==19) {
-						Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
+						Msg.setIcon(new ImageIcon("images/messege/drama.jpeg"));
 						playerList[turn-1].setCash(moneyList[playerList[turn-1].getLocat()]);
+						layeredPane.add(ok,new Integer(2));
 					}
 					//chance and fate
-					else if(playerList[turn-1].getLocat()==4||playerList[turn-1].getLocat()==11||playerList[turn-1].getLocat()==8||playerList[turn-1].getLocat()==14) {
+					else if(playerList[turn-1].getLocat()==4||playerList[turn-1].getLocat()==8||playerList[turn-1].getLocat()==14) {
 						if(playerList[turn-1].getLocat()==4) {
-							Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							playerList[turn-1].setCash(-200);
+							toLake.setBounds(380,150,447,200);
+							toLake.setIcon(new ImageIcon("images/messege/lake.jpeg"));
+							layeredPane.add(toLake,new Integer(4));
 						}
 						if(count==0) {
 							Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
@@ -476,7 +550,7 @@ public class Game extends JPanel {
 						}
 						else if(count==2) {
 							Msg.setIcon(new ImageIcon("images/chancefate/3.jpeg"));
-							moneytext.setText("-800");
+							//moneytext.setText("-800");
 							playerList[turn-1].setCash(-800);
 						}
 						else if(count==3) {
@@ -502,28 +576,39 @@ public class Game extends JPanel {
 						if(++count==8){
 							count=0;
 						}
+						layeredPane.add(ok,new Integer(2));
 
 					}else if(playerList[turn-1].getLocat()==13) {//Jail
-						Msg.setText("");
-						Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
+						Msg.setIcon(new ImageIcon("images/messege/lib.jpeg"));
 						playerList[turn-1].stop=true;
-						//TODO
+						layeredPane.add(ok,new Integer(2));
 					}else if(playerList[turn-1].getLocat()==17) {//Fu-bell
-						Msg.setText("");
-						Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
+						Msg.setIcon(new ImageIcon("images/messege/fubell.jpeg"));
+						layeredPane.add(ok,new Integer(2));
+					}else if(playerList[turn-1].getLocat()==11) {
+						Msg.setIcon(new ImageIcon("images/messege/vm.jpeg"));
+						moneytext.setText("+800");
+						playerList[turn-1].setCash(800);
+						layeredPane.add(ok,new Integer(2));
 					}
 					else {
 						if(lacbelong[playerList[turn-1].getLocat()]==-1) {
-							buyLand(moneyList[playerList[turn-1].getLocat()]);
+							buyLand(turn,playerList[turn-1].getLocat());
+							lacbelong[playerList[turn-1].getLocat()]=turn-1;
 						}else {
 							if(lacbelong[playerList[turn-1].getLocat()]==turn-1){
-								Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));//on your land
+								Msg.setIcon(new ImageIcon("images/messege/welcomehome.jpg"));//on your land
 							}else {
-								Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));//on play*'s land give the pass by fee 
+								Msg.setIcon(new ImageIcon("images/messege/payfee.jpg"));//on play*'s land give the pass by fee 
+								payfeeIcon.setIcon(new ImageIcon(Icons[lacbelong[playerList[turn-1].getLocat()]]));
+								layeredPane.add(payfeeIcon,new Integer(2));
 								playerList[lacbelong[playerList[turn-1].getLocat()]].setCash(moneyList[playerList[turn-1].getLocat()]/2);
 								playerList[turn-1].setCash(-moneyList[playerList[turn-1].getLocat()]/2);
+								transcation=true;
 							}
-							
+							ok.setFont(new Font("Arial Black", Font.BOLD, 35));
+							ok.setBounds(875, 620, 100, 45);
+							layeredPane.add(ok,new Integer(2));
 						}
 					}
 				}
@@ -531,8 +616,42 @@ public class Game extends JPanel {
 	      }
 	    });
 		}
-	public void buyLand(int n) {
-		Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
+	public void buyLand(int player,int locate) {
+		switch(locate) {
+		case 1:
+			Msg.setIcon(new ImageIcon("images/messege/playground.jpeg"));
+			break;
+		case 3:
+			Msg.setIcon(new ImageIcon("images/messege/oldgym.jpeg"));
+			break;
+		case 5:
+			Msg.setIcon(new ImageIcon("images/messege/fmbuilding.jpeg"));
+			break;
+		case 6:
+			Msg.setIcon(new ImageIcon("images/messege/computercenter.jpeg"));
+			break;
+		case 7:
+			Msg.setIcon(new ImageIcon("images/messege/psy.jpeg"));
+			break;
+		case 9:
+			Msg.setIcon(new ImageIcon("images/messege/csie.jpeg"));
+			break;
+		case 10:
+			Msg.setIcon(new ImageIcon("images/messege/ee.jpeg"));
+			break;
+		case 12:
+			Msg.setIcon(new ImageIcon("images/messege/esoe.jpeg"));
+			break;
+		case 15:
+			Msg.setIcon(new ImageIcon("images/messege/forest.jpeg"));
+			break;
+		case 16:
+			Msg.setIcon(new ImageIcon("images/messege/horticulture.jpeg"));
+			break;
+		case 18:
+			Msg.setIcon(new ImageIcon("images/messege/physics.jpeg"));
+			break;
+		}
 		yes.setFont(new Font("Arial Black", Font.BOLD, 35));
 		no.setFont(new Font("Arial Black", Font.BOLD, 35));
 		yes.setBounds(770, 620, 100, 45);
@@ -543,54 +662,78 @@ public class Game extends JPanel {
 
 	class Message extends JLabel {	
 		//private JLabel text =new JLabel("NTU Monopoly",JLabel.CENTER);
-		public Message() {}
-			
+		public Message() {
+			/*
+			Msg.setText("NTU Monopoly");
+	        Msg.setFont(new Font("Arial Black", Font.BOLD, 40));
+	        Msg.setForeground(new Color(115, 74, 18));
+	        Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
+	        Msg.setOpaque(true);
+	        Msg.setBackground(new Color(253, 245, 230));
+	        Msg.setBorder(new MatteBorder(5, 5, 5, 5, new Color(115, 74, 18)));
+	        */
+	        //layeredPane.add(Msg, new Integer(0));
+		}
+		/*
+		public void buyLand(int n) {
+			Msg.setLayout(new GridLayout(2, 1, 0, 0));
+			Msg.setText("");
+			text.setText("Cost "+n+" to buy this land?");
+			text.setFont(new Font("Arial Black", Font.BOLD, 25));
+			text.setForeground(new Color(115, 74, 18));
+			yes.setFont(new Font("Arial Black", Font.BOLD, 30));
+			no.setFont(new Font("Arial Black", Font.BOLD, 30));
+			Msg.add(text);
+			Msg.add(yes);
+			Msg.add(no);
+		}
+		*/
 		public void chanceNFate(int player){
 			//Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
-			if(count==0) {
-				layeredPane.remove(Msg);
-				Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
-				playerList[player].setCash(-500);
-				layeredPane.add(Msg, new Integer(0));
-			}
-			else if(count==1) {
-				Msg.setIcon(new ImageIcon("images/chancefate/2.jpeg"));
-				playerList[player].stop=true;
-			}
-			else if(count==2) {
-				Msg.setIcon(new ImageIcon("images/chancefate/3.jpeg"));
-				playerList[player].setCash(-800);
-			}
-			else if(count==3) {
-				Msg.setIcon(new ImageIcon("images/chancefate/4.jpeg"));
-				playerList[player].setCash(-400);
-			}
-			else if(count==4) {
-				Msg.setIcon(new ImageIcon("images/chancefate/5.jpeg"));
-				playerList[player].setCash(300);
-			}
-			else if(count==5) {
-				Msg.setIcon(new ImageIcon("images/chancefate/6.jpeg"));
-				playerList[player].setCash(-500);
-			}
-			else if(count==6) {
-				Msg.setIcon(new ImageIcon("images/chancefate/7.jpeg"));
-				playerList[player].setCash(200);
-			}
-			else if(count==7) {
-				Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
-				playerList[player].setCash(300);
-			}
-			if(++count==8){
-				count=0;
-			}
-	        Msg.setOpaque(true);
-	        
+//			if(count==0) {
+//				layeredPane.remove(Msg);
+//				Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
+//				playerList[player].setCash(-500);
+//				layeredPane.add(Msg, new Integer(0));
+//			}
+//			else if(count==1) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/2.jpeg"));
+//				playerList[player].stop=true;
+//			}
+//			else if(count==2) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/3.jpeg"));
+//				playerList[player].setCash(-800);
+//			}
+//			else if(count==3) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/4.jpeg"));
+//				playerList[player].setCash(-400);
+//			}
+//			else if(count==4) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/5.jpeg"));
+//				playerList[player].setCash(300);
+//			}
+//			else if(count==5) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/6.jpeg"));
+//				playerList[player].setCash(-500);
+//			}
+//			else if(count==6) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/7.jpeg"));
+//				playerList[player].setCash(200);
+//			}
+//			else if(count==7) {
+//				Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
+//				playerList[player].setCash(300);
+//			}
+//			if(++count==8){
+//				count=0;
+//			}
+//	        Msg.setOpaque(true);
+//	        
 		}
 		public void jail(int player){
-			playerList[player].stop=true;
-			Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
-			Msg.add(yes);
+//			playerList[player].stop=true;
+//			Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
+//			Msg.add(yes);
 		}
 		public void fubell() {
 			
@@ -602,14 +745,32 @@ public class Game extends JPanel {
 	}
 	MouseListener ml = new MouseAdapter() {
 		public void mouseEntered(MouseEvent e) {
-				JLabel l = (JLabel)e.getSource();
-				l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				l.setForeground(Color.red);
+				if(e.getSource() == yes) {
+					JLabel l = (JLabel)e.getSource();
+					l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					l.setForeground(Color.red);
+				} else if(e.getSource() == no){
+					JLabel l = (JLabel)e.getSource();
+					l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					l.setForeground(Color.red);
+				}  else if(e.getSource() == ok){
+					JLabel l = (JLabel)e.getSource();
+					l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					l.setForeground(Color.red);
+				} 
 		}
 	
 		public void mouseExited(MouseEvent e) {
-			JLabel l = (JLabel)e.getSource();
-			l.setForeground(Color.black);
+			if(e.getSource() == yes) {
+				JLabel l = (JLabel)e.getSource();
+				l.setForeground(Color.black);
+			} else if(e.getSource() == no){
+				JLabel l = (JLabel)e.getSource();
+				l.setForeground(Color.black);
+			} else if(e.getSource() == ok){
+				JLabel l = (JLabel)e.getSource();
+				l.setForeground(Color.black);
+			} 
 		}
 		public void mouseClicked(MouseEvent e) {
 			if(e.getSource() == yes) {
@@ -620,38 +781,78 @@ public class Game extends JPanel {
 				repaint();
 				layeredPane.remove(yes);
 				layeredPane.remove(no);
+				yes.setForeground(Color.black);
+				switch(turn) {
+				case 1:
+					landmarkList[playerList[turn-1].getLocat()].setBorder(new MatteBorder(5, 5, 5, 5,new Color(205,38,38)));
+					break;
+				case 2:
+					landmarkList[playerList[turn-1].getLocat()].setBorder(new MatteBorder(5, 5, 5, 5,new Color(0,100,80)));
+					break;
+				case 3:
+					landmarkList[playerList[turn-1].getLocat()].setBorder(new MatteBorder(5, 5, 5, 5,new Color(24,116,205)));
+					break;
+				case 4:
+					landmarkList[playerList[turn-1].getLocat()].setBorder(new MatteBorder(5, 5, 5, 5,new Color(255,185,15)));
+					break;
+				}
+				//validate();
+				repaint();
+				try {
+				     FileInputStream fileau = new FileInputStream("music/casher.wav" );
+				     AudioStream as = new AudioStream(fileau);
+				     AudioPlayer.player.start(as);
+				    }catch (Exception a){
+				     a.printStackTrace();
+				    }
 			} else if(e.getSource() == no){
+				try {
+				     FileInputStream fileau = new FileInputStream("music/click3.wav" );
+				     AudioStream as = new AudioStream(fileau);
+				     AudioPlayer.player.start(as);
+				    }catch (Exception a){
+				     a.printStackTrace();
+				    }
 				moneytext.setText("");
 				validate();
 				repaint();
+				no.setForeground(Color.black);
 				layeredPane.remove(yes);
 				layeredPane.remove(no);
-				
-			} else if(e.getSource() == Msg) {
+			} else if(e.getSource() == ok) {
 				validate();
 				repaint();
+				if(playerList[turn-1].getLocat()==4) {
+					layeredPane.remove(toLake);
+				}
+				layeredPane.remove(ok);
+				layeredPane.remove(payfeeIcon);
+				if(transcation) {
+					try {
+					     FileInputStream fileau = new FileInputStream("music/casher.wav" );
+					     AudioStream as = new AudioStream(fileau);
+					     AudioPlayer.player.start(as);
+					    }catch (Exception a){
+					     a.printStackTrace();
+					    }
+					transcation=false;
+				}else {
+					try {
+					     FileInputStream fileau = new FileInputStream("music/click3.wav" );
+					     AudioStream as = new AudioStream(fileau);
+					     AudioPlayer.player.start(as);
+					    }catch (Exception a){
+					     a.printStackTrace();
+					    }
+					ok.setForeground(Color.black);
+				}
 			}
-			switch(turn) {
-			case 1:
-				money1.setText("Money : "+playerList[0].getCash());
-			case 2:
-				money2.setText("Money : "+playerList[1].getCash());
-			case 3:
-				money3.setText("Money : "+playerList[2].getCash());
-			case 4:
-				money4.setText("Money : "+playerList[3].getCash());
-			}	
-			switch(lacbelong[playerList[turn-1].getLocat()]+1) {
-			case 1:
-				money1.setText("Money : "+playerList[0].getCash());
-			case 2:
-				money2.setText("Money : "+playerList[1].getCash());
-			case 3:
-				money3.setText("Money : "+playerList[2].getCash());
-			case 4:
-				money4.setText("Money : "+playerList[3].getCash());
-			}	
-			
+			System.out.println(turn+"/");
+			money1.setText("Money : "+playerList[0].getCash());
+			money2.setText("Money : "+playerList[1].getCash());		
+			money3.setText("Money : "+playerList[2].getCash());	
+			money4.setText("Money : "+playerList[3].getCash());
+
 			if(++turn==5) turn=1;
 			switch(turn) {
 			case 1:
@@ -671,8 +872,11 @@ public class Game extends JPanel {
 				user4.setBorder(new MatteBorder(5, 5, 5, 5, new Color(205, 51, 51)));
 				break;
 			}
-			Msg.setText("");
-			
+			System.out.println(turn);
+			Msg.setIcon(new ImageIcon("music/1000.png"));
+			layeredPane.remove(rowing);
+			layeredPane.add(diceButton,new Integer(2));
+    	    diceButton.setIcon(new ImageIcon(d.getDiceIcon()));
 		}					
 	};
 	
@@ -698,3 +902,25 @@ public class Game extends JPanel {
 	}
 
 }
+//rowing.setOpaque(true);
+//rowing.setBounds(570, 200, 64, 64);
+//layeredPane.add(rowing, new Integer(2));
+//layeredPane.remove(diceButton);
+/*
+for(int i=1;i<10;i++) {
+	//diceButton.setIcon(new ImageIcon(d.diceIcon[i%6]));
+	 try {
+		rowing.setIcon(new ImageIcon(d.diceIcon[i%6]));
+		Thread.sleep(70);
+		//TimeUnit.MICROSECONDS.sleep(500);
+		System.out.println(i);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	 //diceButton.setIcon(new ImageIcon(d.diceIcon[i%6]));
+	
+}
+layeredPane.remove(rowing);
+layeredPane.add(diceButton, new Integer(1));
+*/

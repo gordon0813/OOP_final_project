@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MonopolyMain extends JFrame {
-	final public int frameWidth = 1152, frameHeight = 740;
+	final public int frameWidth = 1151, frameHeight = 742;
 	
 	// Program constructor
     public MonopolyMain() {
@@ -22,7 +22,8 @@ public class MonopolyMain extends JFrame {
  		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
  	}
-	
+ 	
+ 	
 
 	public static void main(String[] args) {
 		new MonopolyMain();

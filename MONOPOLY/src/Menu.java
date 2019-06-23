@@ -9,14 +9,21 @@ import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 import javax.swing.JFrame;
 
 //the Menu class
@@ -28,13 +35,12 @@ public class Menu extends JPanel {
 		
 		// title
 		private JPanel title = new JPanel();
-		final private int titleWidth = 930, titleHeight = 80;
+		final private int titleWidth = 1000, titleHeight = 120;
 		final private Dimension titleCenter = new Dimension(frameWidth/2, frameHeight/4);
 		private JLabel titleText = new JLabel("== NTU MONOPOLY ==", JLabel.CENTER);
-		
 		// sub menu		
 		private JPanel subMenu = new JPanel();
-		final private int subMenuWidth = 384, subMenuHeight = 300;
+		final private int subMenuWidth = 384, subMenuHeight = 150;
 		final private Dimension subMenuCenter = new Dimension(frameWidth/2, 524);
 		private JLabel startText = new JLabel("START", JLabel.CENTER);
 		private JLabel credits = new JLabel("View Credits", JLabel.CENTER);
@@ -46,7 +52,7 @@ public class Menu extends JPanel {
 		
 		// game setting
 		private JPanel gameSet = new JPanel();
-		private TextField[] textList = new TextField[4];
+		private JTextField[] textList = new JTextField[4];
 		final private int gameSetWidth = 500, gameSetHeight = 250;
 		final private Dimension gameSetCenter = new Dimension(frameWidth/2, 524);
 		private JLabel start = new JLabel("START GAME", JLabel.CENTER);
@@ -67,13 +73,13 @@ public class Menu extends JPanel {
 		private void initTitle() {
 			title.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 			title.setLayout(new GridLayout(1, 1, 0, 0));
-			title.setOpaque(true);
+			title.setOpaque(false);
+			//title.setIcon(new ImageIcon(""))
 
-			titleText.setForeground(new Color(115, 74, 18));
-			titleText.setOpaque(true);
-			titleText.setBackground(new Color(250, 235, 215));
-			titleText.setBorder(new MatteBorder(5, 5, 5, 5, new Color(61, 89, 171)));
-			
+			titleText.setForeground(Color.black);
+			titleText.setOpaque(false);
+			//titleText.setBackground(new Color(250, 235, 215));
+			titleText.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 			title.add(titleText);
 		}
 		
@@ -93,27 +99,30 @@ public class Menu extends JPanel {
 		// game setting 
 		private void initGameSet() {
 			gameSet.setLayout(new GridLayout(5, 1));
+			gameSet.setOpaque(false);
+			gameSet.setBorder(new MatteBorder(7, 7, 7, 7, Color.white));
 			for (int i = 0; i < 4; i++) {
 				JPanel inputPanel = new JPanel();
 				int playerNumber = i + 1;
 				JLabel player = new JLabel("Player " + playerNumber + " : ");
 				player.setFont(new Font("Arial Black", Font.PLAIN, 18));
-				textList[i] = new TextField(15);
+				textList[i] = new JTextField(15);
 				textList[i].setFont(new Font("Serif", Font.BOLD, 23));
+				textList[i].setBackground(new Color(232,232,232,100));
 				inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-				inputPanel.setBorder(new MatteBorder(20, 40, 20, 40, new Color(245, 222, 179)));
+				inputPanel.setBorder(new EmptyBorder(10, 40, 10, 40));
 				inputPanel.add(player);
 				inputPanel.add(textList[i]);
-				inputPanel.setBackground(new Color(245, 222, 179));
+//				inputPanel.setBackground(new Color(245, 222, 179));
+				inputPanel.setOpaque(false);
 				gameSet.add(inputPanel);
 			}
 			
 			// set 'back' and 'start' button
 			JPanel buttons = new JPanel();
-			JPanel blank = new JPanel();
 			buttons.setLayout(new GridLayout(1, 2));
-			buttons.setBackground(new Color(245, 222, 179));
-			blank.setBackground(new Color(245, 222, 179));
+//			buttons.setBackground(new Color(245, 222, 179));
+			buttons.setOpaque(false);
 			back.setFont(new Font("Arial Black", Font.PLAIN, 16));
 			start.setFont(new Font("Arial Black", Font.PLAIN, 16));
 			buttons.add(back);
@@ -123,28 +132,24 @@ public class Menu extends JPanel {
 		
 		private void initSubMenu() {
 			initCredit();
-			subMenu.setLayout(new GridLayout(2, 1, 0, 0));
-			subMenu.setOpaque(true);
-			subMenu.setBackground(new Color(245, 222, 179));
+			subMenu.setLayout(new GridLayout(1, 1, 0, 0));
+			subMenu.setOpaque(false);
+			//subMenu.setBackground(new Color(245, 222, 179));
 			subMenu.add(startText);
-			subMenu.add(credits);
-			subMenu.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
+//			subMenu.add(credits);
+			subMenu.setBorder(new MatteBorder(10, 10, 10, 10, Color.white));
 		}
 		
 		private void initLayerPane() {
 			layeredPane = new JLayeredPane();
-			layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
-	        
+			layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));        
 			this.background.setIcon(new ImageIcon("images/Menu/menuBackground.png"));
 			this.background.setBounds(0, 0, frameWidth, frameHeight);
-	        layeredPane.add(background, new Integer(0));
-	        
+	        layeredPane.add(background, new Integer(0));    
 	        this.title.setBounds(titleCenter.width-(titleWidth/2), titleCenter.height-(titleHeight/2), titleWidth, titleHeight);
-	        layeredPane.add(title, new Integer(1));
-	        
+	        layeredPane.add(title, new Integer(1));       
 	        this.subMenu.setBounds(subMenuCenter.width-(subMenuWidth/2), subMenuCenter.height-(subMenuHeight/2), subMenuWidth, subMenuHeight);
 	        layeredPane.add(subMenu, new Integer(2));
-	        
 	        this.gameSet.setBounds(gameSetCenter.width-(gameSetWidth/2), gameSetCenter.height-(gameSetHeight/2), gameSetWidth, gameSetHeight);
 	        
 	        
@@ -196,6 +201,13 @@ public class Menu extends JPanel {
 					validate();
 					repaint();
 					startText.setForeground(Color.black);
+					try {
+					     FileInputStream fileau = new FileInputStream("music/enterplayer.wav" );
+					     AudioStream as = new AudioStream(fileau);
+					     AudioPlayer.player.start(as);
+					    }catch (Exception a){
+					     a.printStackTrace();
+					    }
 				} else if(e.getSource() == back) {
 					layeredPane.remove(gameSet);
 					layeredPane.add(subMenu, new Integer(2));
@@ -203,13 +215,16 @@ public class Menu extends JPanel {
 					repaint();
 					back.setForeground(Color.black);
 				} else if(e.getSource() == start) {
+			
 					Player[] playerList = new Player[4];
-					for (int i = 0; i < 4; i++)
+					for (int i = 0; i < 4; i++) {
 						playerList[i] = new Player(Menu.this.textList[i].getText());
-					
+						//System.out.println(playerList[i].getName());
+					}
 					Menu.this.setVisible(false);
 					JFrame root = (JFrame)SwingUtilities.getRoot(Menu.this);
 					root.setContentPane(new Game(playerList));
+
 				}
 			}					
 		};

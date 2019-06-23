@@ -9,7 +9,7 @@ public class Player {
 	
 	public Player(String Name) {
 		name = Name;
-		cash = 20000;
+		cash = 5000;
 		this.estate = new Integer[20];
 		for(int i = 0; i < 20; i++) estate[i] = -1;
 		estateValue = 0;
@@ -20,7 +20,7 @@ public class Player {
 	
 	public Player() {
 		name = "no name";
-		cash = 20000;
+		cash = 5000;
 		this.estate = new Integer[20];
 		for(int i = 0; i < 20; i++) estate[i] = -1;
 		estateValue = 0;
@@ -46,7 +46,7 @@ public class Player {
 		int pre_loc = locat;
 		locat = (pre_loc + dice)%20;
 		if(pre_loc > locat && locat != 0)//the player plays a round, get 1500,but if the player stops at 0 get nothing
-			cash += 1500;
+			cash += 500;
 		if(locat == 13)//if the player stops at library(estate[13]), stop for a round
 			stop = true;
 		
@@ -68,39 +68,6 @@ public class Player {
 	}
 	public int getCash() {
 		return cash;
-	}
-	
-	
-}
-	public int getLocat() {
-		return locat;
-	}
-	
-	public void setLocat() {
-		//decided by dice;
-		if(stop) {
-			stop = false;
-		}
-		else{
-			int pre_loc = locat;
-			locat = (pre_loc + (int)Math.random()*6 + 1)%20;
-			if(pre_loc > locat && locat != 0)//the player plays a round, get 1500,but if the player stops at 0 get nothing
-				cash += 1500;
-			if(locat == 13)//if the player stops at library(estate[13]), stop for a round
-				stop = true;
-		}
-	}
-	public int getAccount() {
-		return this.account;
-	}
-	public void setAccount() {
-		this.account = this.cash + this.estateValue;
-	}
-	public int getEstateValue() {
-		return this.estateValue;
-	}
-	public void setEstateValue() {
-
 	}
 	
 	
