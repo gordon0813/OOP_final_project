@@ -235,7 +235,6 @@ public class main {
 			/*
 			 * solve 1*x + 2*y + 4*z >= p x >= 0, y >= 0, z >= 0, x + y + z = n
 			 */
-			boolean first = true;
 			for (int x = 0; x <= Math.min(n, available_sr); x++)
 				for (int y = 0; y <= Math.min(n, available_dr); y++)
 					for (int z = 0; z <= Math.min(n, available_qr); z++)

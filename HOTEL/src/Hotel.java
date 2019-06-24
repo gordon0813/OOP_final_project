@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 public class Hotel {
@@ -17,8 +16,6 @@ public class Hotel {
 	private static int QuadRoomPrice;
 	private Room[] SingleRooms, DoubleRooms, QuadRooms;
 	
-	private ArrayList<Order> Orders;
-	
 	public void init() {
 		SingleRooms = new Room[RoomTypes[0].getNumber()];
 		DoubleRooms = new Room[RoomTypes[1].getNumber()];
@@ -32,7 +29,6 @@ public class Hotel {
 		SingleRoomPrice = RoomTypes[0].getPrice();
 		DoubleRoomPrice = RoomTypes[1].getPrice();
 		QuadRoomPrice = RoomTypes[2].getPrice();
-		Orders = new ArrayList<Order>();
 	}
 	public int getID() {
 		return ID;
@@ -67,23 +63,17 @@ public class Hotel {
 		return nQuadRooms;*/
 		return QuadRooms;
 	}
-	public static int getSingleRoomPrice() {
+	public int getSingleRoomPrice() {
 		return SingleRoomPrice;
 	}
-	public static int getDoubleRoomPrice() {
+	public int getDoubleRoomPrice() {
 		return DoubleRoomPrice;
 	}
-	public static int getQuadRoomPrice() {
+	public int getQuadRoomPrice() {
 		return QuadRoomPrice;
-	}
-	public ArrayList<Order> getOrders() {
-		return Orders;
 	}
 	public String toString() {
 		return ID + " " + Star + " " + Locality + " " + Address + " " 
 				+ RoomTypes[0] + " " + RoomTypes[1] + " " + RoomTypes[2];
-	}
-	public void newOrder(Order _Order) {
-		Orders.add(_Order);
 	}
 }

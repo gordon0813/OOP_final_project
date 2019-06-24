@@ -26,9 +26,9 @@ public class Order {
 		Snum = new ArrayList<Integer> (); Snum.addAll(_Snum);
 		Dnum = new ArrayList<Integer> (); Dnum.addAll(_Dnum);
 		Qnum = new ArrayList<Integer> (); Qnum.addAll(_Qnum);
-		SumPrice = Hotel.getSingleRoomPrice() * Snum.size()
-				+ Hotel.getDoubleRoomPrice() * Dnum.size() 
-				+ Hotel.getQuadRoomPrice() * Qnum.size();
+		SumPrice = main.HotelList[HotelID].getSingleRoomPrice() * Snum.size()
+				+ main.HotelList[HotelID].getDoubleRoomPrice() * Dnum.size() 
+				+ main.HotelList[HotelID].getQuadRoomPrice() * Qnum.size();
 	}
 	Order(Order _Order) {
 		ID = _Order.ID;
@@ -39,9 +39,9 @@ public class Order {
 		Snum = new ArrayList<Integer> (); Snum.addAll(_Order.Snum);
 		Dnum = new ArrayList<Integer> (); Dnum.addAll(_Order.Dnum);
 		Qnum = new ArrayList<Integer> (); Qnum.addAll(_Order.Qnum);
-		SumPrice = Hotel.getSingleRoomPrice() * Snum.size()
-				+ Hotel.getDoubleRoomPrice() * Dnum.size() 
-				+ Hotel.getQuadRoomPrice() * Qnum.size();
+		SumPrice = main.HotelList[HotelID].getSingleRoomPrice() * Snum.size()
+				+ main.HotelList[HotelID].getDoubleRoomPrice() * Dnum.size() 
+				+ main.HotelList[HotelID].getQuadRoomPrice() * Qnum.size();
 	}
 	int getID() {
 		return ID;
