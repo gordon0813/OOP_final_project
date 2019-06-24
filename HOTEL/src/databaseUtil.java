@@ -67,7 +67,8 @@ public class databaseUtil {
 		String cmd = "INSERT INTO Users"
 						+ "(UID, password)" 
 						+ "VALUES"
-						+ "(\'" + newUser.getUserID() + "\', \'" + newUser.getPassword() + "\')";
+						+ "(\'" + newUser.getUserID() + "\', \'" + newUser.getPassword() + "\');";
+
 		
 		try {
 			stmt.execute(cmd);
@@ -80,14 +81,14 @@ public class databaseUtil {
 	
 	// get the certain User by given UserID
 	public static User getUser(String UID) {
-		String cmd = "SELECT * FROM Users WHERE UID=\'" + UID + "\'";
+		String cmd = "SELECT * FROM Users WHERE UID=\'" + UID + "\';";
 		try {
 			results = stmt.executeQuery(cmd);
 			if (results.next()) {
 				return new User(results.getString("UID"), results.getString("password"));
 			} else {
 				System.out.println("No such User!!");
-				return null;//return new User();
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,16 +112,16 @@ public class databaseUtil {
 						+ "(OrderID, UID, HotelID, SingleRoom, DoubleRoom, QuadRoom, CheckIn, CheckOut)" 
 						+ "VALUES("
 						+ newOrder.getID() + ", " 
-						+ "\"" + newOrder.getUserID() + "\"" + ", "
+						+ "\'" + newOrder.getUserID() + "\'" + ", "
 						+ newOrder.getHotelID() + ", "
-						+ "\"" + SR + "\"" + ", "
-						+ "\"" + DR + "\"" + ", "
-						+ "\"" + QR + "\"" + ", "
+						+ "\'" + SR + "\'" + ", "
+						+ "\'" + DR + "\'" + ", "
+						+ "\'" + QR + "\'" + ", "
 						+ "\'" + newOrder.getCheckInDate().replace('/', '-') + "\'" + ", "
 						+ "\'" + newOrder.getCheckOutDate().replace('/', '-') + "\'" + ");";
 		try {
 			if (getOrderByOrderID(newOrder.getID()) != null) {
-				stmt.execute("DELETE FROM Orders WHERE OrderID=" + newOrder.getID());
+				stmt.execute("DELETE FROM Orders WHERE OrderID=" + newOrder.getID() + ";");
 			}
 			stmt.execute(cmd);
 		} catch (SQLException e) {
@@ -140,7 +141,7 @@ public class databaseUtil {
 	}
 	// get the certain OrderID by given OrderID
 	public static Order getOrderByOrderID(int OrderID) {
-		String cmd = "SELECT * FROM Orders WHERE OrderID=" + OrderID;
+		String cmd = "SELECT * FROM Orders WHERE OrderID=" + OrderID + ";";
 		try {
 			results = stmt.executeQuery(cmd);
 			
@@ -181,7 +182,7 @@ public class databaseUtil {
 	}
 	// get the certain OrderID by given UserID
 	public static Order[] getOrderByUserID(String UID) {
-		String cmd = "SELECT * FROM Orders WHERE UID=" + UID;
+		String cmd = "SELECT * FROM Orders WHERE UID=\'" + UID + "\';";
 		System.out.println(cmd);
 
 		try {
@@ -234,7 +235,7 @@ public class databaseUtil {
 	}
 	// get the certain OrderID by given HotelID
 	public static Order[] getOrderByHotelID(int HotelID) {
-		String cmd = "SELECT * FROM Orders WHERE HotelID=" + HotelID;
+		String cmd = "SELECT * FROM Orders WHERE HotelID=" + HotelID + ";";
 		try {
 			int len;
 			results = stmt.executeQuery(cmd);
@@ -284,7 +285,7 @@ public class databaseUtil {
 	}	
 	public static void deleteOrder(int OrderID) {
 		try {
-			stmt.execute("DELETE FROM Orders WHERE OrderID=" + OrderID);
+			stmt.execute("DELETE FROM Orders WHERE OrderID=" + OrderID + ";");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
