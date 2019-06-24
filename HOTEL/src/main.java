@@ -7,29 +7,48 @@ import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOExceptionWithCause;
+
 import com.google.gson.*;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * <h1>This is the class of the main class for running a Hotel Booking Webpage.<\h1>
+ * 
+ * @author momo, tin, catherine, sopia
+ * @version 1.0
+ * @since 2017-05-31
+ */
 public class main {
 
 	public static Hotel HotelList[];
 	public static ArrayList<User> UserList;
 	public static User user;
 
+	/**
+	 * This is the main method to builds the connection with database, reads the hotel list, and sets the intitialized GUI.
+	 * 
+	 * @param args Unused.
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		databaseUtil.buildConnection();
 //		databaseUtil.initDatabase();
-
 		ReadHotelList();
 		HotelPreference program = new HotelPreference();
 		program.setVisible(true);
 	}
 
+	/**
+	 * This method reads the hotel list.
+	 * 
+	 * @throws IOExceptionWithCause
+	 */
+	
 	public static void ReadHotelList() throws IOException {
-		File file = new File("HotelList");
 		try (Reader reader = new InputStreamReader(main.class.getResourceAsStream("HotelList.json"), "big5")) {
 			// try (BufferedReader reader = new BufferedReader(new FileReader(file)) {
 			Gson gson = new GsonBuilder().create();
@@ -42,7 +61,13 @@ public class main {
 			System.out.println("cannot find the file.");
 		}
 	}
-
+	
+	/**
+	 * This method produce randomly return a String with assigned length.
+	 * 
+	 * @param length the assigned length.
+	 * @return String the random String.
+	 */
 	public static String getRandomString(int length) {
 		String str = "abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
@@ -54,49 +79,52 @@ public class main {
 		return sf.toString();
 	}
 
-	public static int SignInCheck(String UserID, String Password) { // 0->can't find user -1->wrong password
-		/*if (UserList == null)
-			return 0;
-		for (int i = 0; i < UserList.size(); i++)
-			if (UserList.get(i) != null) {
-				if (UserList.get(i).getUserID().equals(UserID) && UserList.get(i).getPassword().equals(Password)) {
-					user = UserList.get(i); // Logged in
-					return 1;
-				} else if (UserList.get(i).getUserID().equals(UserID))
-					return -1; // wrong password
-			}
-		*/
+	/**
+	 * This method Check whether the User can be signed in.
+	 * 
+	 * @param UserID the current user's ID
+	 * @param Password the current user's password
+	 * @return int 0 if user's ID is unknown, -1 if the password is wrong
+	 */
+	public static int SignInCheck(String UserID, String Password) { 
 		user = databaseUtil.getUser(UserID);
 		if (user == null) return 0;
 		else if (!Password.equals(user.getPassword())) return -1;
 		return 1;
 	}
 
-	public static boolean SignUpCheck(String UserID, String Password, String UserCode) {
-		/*if (UserList == null) {
-			UserList = new ArrayList<User>();
-			return true;
-		} 
-		for (int i = 0; i < UserList.size(); i++)
-			if (UserList.get(i) != null && UserList.get(i).getUserID().equals(UserID))
-				return false;
-		*/
-		
+	/**
+	 * This method check whether the current user's ID doesn't exist.
+	 * 
+	 * @param UserID the current user's ID
+	 * @return boolean true if user's ID doesn't exist.
+	 */
+	public static boolean SignUpCheck(String UserID) {
 		return databaseUtil.getUser(UserID) == null;
 	}
-
+	
+/*
 	public static boolean CheckDate(int Year, int Month, int Day) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		sdf.setLenient(false);
 		try {
 			Date d = sdf.parse(Year + "/" + Month + "/" + Day);
+			return true;
 			//System.out.println(d);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
+*/
 
+	/**
+	 * This is the method 
+	 * 
+	 * @param D1
+	 * @param D2
+	 * @return
+	 */
 	public static long CountDaysBetween(String D1, String D2) {
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		final LocalDate firstDate = LocalDate.parse(D1, formatter);

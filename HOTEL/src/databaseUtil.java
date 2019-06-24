@@ -67,7 +67,7 @@ public class databaseUtil {
 		String cmd = "INSERT INTO Users"
 						+ "(UID, password)" 
 						+ "VALUES"
-						+ "(" + newUser.getUserID() + ", " + newUser.getPassword() + ")";
+						+ "(\'" + newUser.getUserID() + "\', \'" + newUser.getPassword() + "\')";
 		
 		try {
 			stmt.execute(cmd);
@@ -80,7 +80,7 @@ public class databaseUtil {
 	
 	// get the certain User by given UserID
 	public static User getUser(String UID) {
-		String cmd = "SELECT * FROM Users WHERE UID=" + UID;
+		String cmd = "SELECT * FROM Users WHERE UID=\'" + UID + "\'";
 		try {
 			results = stmt.executeQuery(cmd);
 			if (results.next()) {

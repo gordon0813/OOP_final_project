@@ -1853,7 +1853,7 @@ public class Menu extends JPanel {
 				String Password = new String(signuppasswordField.getPassword());
 				String UserCode = usercodeField.getText(); // user enter verify code
 				String VerifyCode = verifycodeField.getText(); // random verify code
-				if (main.SignUpCheck(UserID, Password, UserCode)) {
+				if (main.SignUpCheck(UserID)) {
 
 					if (UserCode.equals(VerifyCode)) {
 						// Create a new User
