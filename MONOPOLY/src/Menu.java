@@ -29,9 +29,9 @@ import javax.swing.JFrame;
 /**
  * This is the class of Menu in Monopoly game.
  * 
- * @author momo, tim, catherine, sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class Menu extends JPanel {
 	// menu
@@ -277,7 +277,7 @@ public class Menu extends JPanel {
 	/**
 	 * main method to test menu.java
 	 *
-	 * @param args
+	 * @param args not used.
 	 */
 	public static void main(String[] args) {
 		final int frameWidth = 1152, frameHeight = 720;

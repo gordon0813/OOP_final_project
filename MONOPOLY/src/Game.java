@@ -17,9 +17,9 @@ import java.awt.event.*;
 /**
  * This is the class of the Game class for running Monopoly game.
  * 
- * @author momo, tin, catherine, sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class Game extends JPanel {
 	final int frameWidth = 1152, frameHeight = 740;
@@ -945,7 +945,8 @@ public class Game extends JPanel {
 	};
 	
 	/**
-	 * This the main function
+	 * this is main method to test Game.java
+	 * @param args not used.
 	 */
 	public static void main(String[] args) {
 		final int frameWidth = 1152, frameHeight = 740;

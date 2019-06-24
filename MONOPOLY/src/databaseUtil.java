@@ -6,7 +6,7 @@ import java.sql.*;
 /**
  * This is the class of the main class for running a Hotel Booking Webpage.
  * 
- * @author momo, tim, catherine, sopia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
  * @since 2019-05-31
  */

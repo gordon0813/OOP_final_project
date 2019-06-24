@@ -1,10 +1,10 @@
 import java.util.concurrent.TimeUnit;
 /**
- * <h1>This is the class of the Dice class for setting Dice and icon of the dice.<\h1>
+ * This is the class of the Dice class for setting Dice and icon of the dice.
  * 
- * @author momo, tin, Catherine, Sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class Dice {
 	private int diceNum;

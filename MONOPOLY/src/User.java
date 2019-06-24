@@ -1,9 +1,9 @@
 /**
  * This is the class of User in Monopoly game.
  * 
- * @author momo, tin, catherine, sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 
 public class User {
@@ -38,7 +38,7 @@ public class User {
 	
 	/**
 	 * get User's name
-	 * 
+	 * @return return the user's name
 	 */
 	public String getName() {
 		return this.name;
@@ -54,7 +54,7 @@ public class User {
 	
 	/**
 	 * set User's Assets
-	 * @param newAssets
+	 * @param newAssets new Assets
 	 */
 	public void setAssets(long newAssets) {
 		this.assets = newAssets;

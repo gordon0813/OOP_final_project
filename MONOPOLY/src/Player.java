@@ -1,9 +1,9 @@
 /**
  * This is the class of the Player class for setting and getting Player info and position.
  * 
- * @author momo, tin, catherine, sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class Player {
 	private String name; // player's name
@@ -57,12 +57,12 @@ public class Player {
 	/**
 	 * This method is set player's name
 	 *
-	 * @param  Name the name of the player
 	 * @return name player's name
 	 */
 	public String getName() {
 		return this.name;
 	}
+	
 	/**
 	 * This method is to get location
 	 *

@@ -4,9 +4,9 @@ import javax.swing.*;
 /**
  * This is the class of the main class for running Monopoly frame and initial monopoly.
  * 
- * @author momo, tin, catherine, sophia
+ * @author momo, enting, catherine, sophia
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class MonopolyMain extends JFrame {
 	final public int frameWidth = 1151, frameHeight = 742;
@@ -34,7 +34,8 @@ public class MonopolyMain extends JFrame {
  	
  	/**
 	 * This is the main function
-	 *
+	 * 
+	 * @param args not used.
 	 */
 	public static void main(String[] args) {
 		new MonopolyMain();
