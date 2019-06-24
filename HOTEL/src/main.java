@@ -16,7 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * This is the class of the main class for running a Hotel Booking Webpage.
+ * This is the class of the main class for running a Hotel Booking System.
  * 
  * @author B06505017, B06505032, B06505054, B06902023
  * @version 1.0
@@ -27,7 +27,7 @@ public class main {
 	public static User user;
 
 	/**
-	 * This is the main method to builds the connection with database, reads the hotel list, and sets the intitialized GUI.
+	 * This is the main method to build the connection with database, read the hotel list, and set the intitialized GUI.
 	 * 
 	 * @param args Unused.
 	 */
@@ -74,7 +74,7 @@ public class main {
 	}
 
 	/**
-	 * This method Check whether the User can be signed in.
+	 * This method checks whether the User can be signed in.
 	 * 
 	 * @param UserID the current user's ID
 	 * @param Password the current user's password
@@ -88,7 +88,7 @@ public class main {
 	}
 
 	/**
-	 * This method check whether the current user's ID doesn't exist.
+	 * This method checks whether the current user's ID doesn't exist.
 	 * 
 	 * @param UserID the current user's ID
 	 * @return boolean true if user's ID doesn't exist.
@@ -113,7 +113,7 @@ public class main {
 */
 
 	/**
-	 * This methods count the days between the given two dates. 
+	 * This methods counts the days between the given two dates. 
 	 * If the second date is ahead of the first date, it returns negative numbers.
 	 * 
 	 * @param D1 is the first date

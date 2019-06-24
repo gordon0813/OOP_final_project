@@ -3,6 +3,10 @@ import java.awt.event.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -2289,8 +2293,10 @@ public class Menu extends JPanel {
 			} else if (e.getSource() == nextreserve) {
 				String s1 = reservecheckindateField.getText();
 				String s2 = reservecheckoutdateField.getText();
-				if (main.CountDaysBetween(s1, s2) > 0) {
-					String CID = reservecheckindateField.getText();// yyyy/mm/dd
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				if (main.CountDaysBetween(s1, s2) > 0 
+						&& main.CountDaysBetween(sdf.format(new Date()), s2) < 365) {
+					String CID = reservecheckindateField.getText();// yyyy/MM/dd
 					String COD = reservecheckoutdateField.getText();
 					int HotelID = Integer.parseInt(reservehotelid.getSelectedItem().toString());
 					int sn = Integer.parseInt(reservesingleroomField.getText());
