@@ -21,24 +21,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-/*
- * to do:
- * 1. Search的output 5~2 Star & Price(highest/lowest first)
- * 2. CheckInDate/CheckOutDate 日期限制
- * 3. 訂房成功＆失敗的output
- * 4. 輸入訂單編號不存在的錯誤訊息
- * 5. Inquiry的Modify跟Cancel
- * 
- * 
- * 1. 完成star5~2 price high price low （但顯示出來的總價似乎怪怪的 要不要檢查一下算總價的function
- * 2. 一次用出兩個日期框 會有些bug 還沒找到解決方法。 還是先分成兩個不一樣的框吧
- * 3. 完成
- * 4. 完成
- * 5. 完成：修改住宿日期，修改房間數，顯示修改成功訊息(同時顯示出修改後的訂單)，顯示失敗訊息，顯示取消訂單訊息
- * 
- * 新功能：另外做了可以直接hotel list table 選擇飯店的功能
+/**
+ * @author b06505032, b06505017, b06505054, b06902023
+ *
  */
-
 public class Menu extends JPanel {
 	private JLayeredPane layeredPane;
 	private JLabel background = new JLabel();
@@ -160,7 +146,6 @@ public class Menu extends JPanel {
 	private JLabel backreserve = new JLabel("BACK", JLabel.CENTER);
 	private JLabel nextreserve = new JLabel("NEXT", JLabel.CENTER);
 	protected static JComboBox<Object> reservehotelid = new JComboBox<Object>();
-//	protected static JTextField reservehotelidField = new JTextField(4);
 	protected JTextField reservecheckindateField = new JTextField(10);
 	protected JTextField reservecheckoutdateField = new JTextField(10);
 	protected static JTextField reservesingleroomField = new JTextField(2);
@@ -215,7 +200,6 @@ public class Menu extends JPanel {
 
 	// attribute of hotel list
 	private JPanel Hotellist = new JPanel();
-//	final private int hotellistWidth = 750, hotellistHeight = 500;
 	final private int hotellistWidth = 820, hotellistHeight = 500;
 	final private Dimension hotellistCenter = new Dimension(frameWidth / 2, frameHeight / 2);
 	JTable HotellistTable = new JTable();
@@ -282,59 +266,64 @@ public class Menu extends JPanel {
 	final private Dimension revisedateerrorCenter = new Dimension(frameWidth / 2, frameHeight / 4);
 	private JLabel revisedateerrorText = new JLabel("SORRY, EXTENDING LODGE DAYS IS UNAVAILABLE!", JLabel.CENTER);
 
-	// Menu(Panel) settings
+	/**
+	 * Initialize Menu(Panel) settings
+	 */
 	private void initPanel() {
 		setLayout(new GridLayout(1, 1));
 		setOpaque(false);
 	}
 
-	// title
+	/**
+	 * Initialize the title Panel
+	 */
 	private void initTitle() {
 		titleText.setFont(new Font("Brush Script MT", Font.BOLD, 96));
 		signinText.setFont(new Font("Arial Black", Font.BOLD, 30));
 		signupText.setFont(new Font("Arial Black", Font.BOLD, 30));
-
 		title.setLayout(new GridLayout(1, 1, 0, 0));
 		title.setOpaque(false);
 		titleText.setForeground(new Color(65, 105, 225));
 		titleText.setOpaque(false);
-//		titleText.setBackground(new Color(176, 196, 222));
 		titleText.setBorder(new EmptyBorder(5, 5, 5, 5));
 		title.add(titleText);
 	}
 
-	// sign in error
+	/**
+	 * initialize Sign in error panel
+	 */
 	private void initSigninerror() {
 		signinerrorText.setFont(new Font("Dialog", Font.BOLD, 28));
 		signinerrorText.setForeground(new Color(255, 0, 0));
 		backsigninerror.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signinerror.setLayout(new GridLayout(2, 1, 0, 0));
 		Signinerror.setOpaque(false);
-//		Signinerror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signinerror.add(signinerrorText);
 		Signinerror.add(backsigninerror);
 	}
 
-	// sign in error1
+	/**
+	 * initialize Sign in error1 panel
+	 */
 	private void initSigninerror1() {
 		signinerror1Text.setFont(new Font("Dialog", Font.BOLD, 28));
 		signinerror1Text.setForeground(new Color(255, 0, 0));
 		backsigninerror1.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signinerror1.setLayout(new GridLayout(2, 1, 0, 0));
 		Signinerror1.setOpaque(false);
-//		Signinerror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signinerror1.add(signinerror1Text);
 		Signinerror1.add(backsigninerror1);
 	}
 
-	// sign up error
+	/**
+	 * Initialize sign up error panel
+	 */
 	private void initSignuperror() {
 		signuperrorText.setFont(new Font("Dialog", Font.BOLD, 28));
 		signuperrorText.setForeground(new Color(255, 0, 0));
 		backsignuperror.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signuperror.setLayout(new GridLayout(2, 1, 0, 0));
 		Signuperror.setOpaque(false);
-//		Signuperror.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signuperror.add(signuperrorText);
 		Signuperror.add(backsignuperror);
 	}
@@ -345,14 +334,14 @@ public class Menu extends JPanel {
 		backsignuperror1.setFont(new Font("Arial Black", Font.BOLD, 28));
 		Signuperror1.setLayout(new GridLayout(2, 1, 0, 0));
 		Signuperror1.setOpaque(false);
-//		Signuperror1.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signuperror1.add(signuperror1Text);
 		Signuperror1.add(backsignuperror1);
 	}
 
-	// sign in
+	/**
+	 * Initialize the Sign in Panel
+	 */
 	private void initSignIn() {
-//		Signin.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signin.setLayout(new GridLayout(3, 1));
 		Signin.setOpaque(false);
 
@@ -470,9 +459,10 @@ public class Menu extends JPanel {
 		Signin.add(buttons);
 	}
 
-	// sign up
+	/**
+	 * Initialize Sign up Panel
+	 */
 	private void initSignUp() {
-//		Signup.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Signup.setLayout(new GridLayout(4, 1));
 		Signup.setOpaque(false);
 
@@ -612,7 +602,9 @@ public class Menu extends JPanel {
 
 	}
 
-	// hotel function hotel list/reserve/inquiry
+	/**
+	 * Initialize hotel function Panel SEARCH/RESERCE/INQUIRY/LOGOUT
+	 */
 	private void initHotelfunction() {
 		searchText.setFont(new Font("Dialog", Font.BOLD, 36));
 		reserveText.setFont(new Font("Dialog", Font.BOLD, 36));
@@ -627,7 +619,9 @@ public class Menu extends JPanel {
 		Hotelfunction.add(logout);
 	}
 
-	// enter hotel list date/people/rooms
+	/**
+	 * Initialize enter hotel list date/people/rooms Panel
+	 */
 	private void initEnterSearch() {
 		EnterSearch.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		EnterSearch.setLayout(new GridLayout(5, 1));
@@ -745,17 +739,20 @@ public class Menu extends JPanel {
 		EnterSearch.add(buttons);
 	}
 
-	// enter hotel list error (select wrong date)
+	/**
+	 * Initialize invalid date Panel
+	 */
 	private void initEnterinvaliddateerror() {
 		Invalid_date_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Invalid_date_error.setOpaque(false);
-//		Invalid_date_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		invaliddateerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		invaliddateerrorText.setForeground(new Color(255, 0, 0));
 		Invalid_date_error.add(invaliddateerrorText);
 	}
 
-	// search hotel
+	/**
+	 * Initialize Search Panel
+	 */
 	private void initSearch() {
 		// set font
 		star5.setFont(new Font("Dialog", Font.BOLD, 28));
@@ -780,16 +777,19 @@ public class Menu extends JPanel {
 		Search.add(backsearch);
 	}
 
-	// hotel list
+	/**
+	 * Initialize hotellist Panel
+	 */
 	private void initHotellist() {
 		Hotellist.setLayout(new BorderLayout());
-//		Hotellist.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Hotellist.setOpaque(false);
 		backhotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
 		reservehotellist.setFont(new Font("Arial Black", Font.BOLD, 30));
 	}
 
-	// search hotel error (No matched Hotel)
+	/**
+	 * Initialize search hotel error (No matched Hotel) Panel
+	 */
 	private void initNomatchedhotelerror() {
 		nomatchedhotelerrorText.setFont(new Font("Dialog", Font.BOLD, 28));
 		nomatchedhotelerrorText.setForeground(new Color(255, 0, 0));
@@ -803,7 +803,9 @@ public class Menu extends JPanel {
 		No_matched_hotel_error.add(backnomatchedhotelerror);
 	}
 
-	// Reserve
+	/**
+	 * Initialize Reserve Panel
+	 */
 	private void initReserve() {
 		Reserve.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		Reserve.setLayout(new GridLayout(5, 1));
@@ -876,22 +878,8 @@ public class Menu extends JPanel {
 			option[i] = i.toString();
 		}
 		reservehotelid = new JComboBox<Object>(option);
-//		reservehotelidField.setEditable(true);
-//		reservehotelidField.setFont(new Font("Serif", Font.BOLD, 23));
-//		reservehotelidField.addKeyListener(new KeyAdapter() {// can only enter number!
-//			public void keyTyped(KeyEvent e) {
-//				char keyChar = e.getKeyChar();
-//				if (!(keyChar >= '0' && keyChar <= '9')) {
-//					e.consume();
-//				}
-//				String s = reservehotelidField.getText();
-//				if (s.length() >= 4)
-//					e.consume();
-//			}
-//		});
 		hotelIDPanel.add(hotelID);
 		hotelIDPanel.add(reservehotelid);
-//		hotelIDPanel.add(reservehotelidField);
 
 		// number of room panel
 		JPanel roomPanel = new JPanel();
@@ -967,11 +955,12 @@ public class Menu extends JPanel {
 		Reserve.add(reservebuttons);
 	}
 
-	// Reserve success
+	/**
+	 * initialize Reserve success Panel
+	 */
 	private void initReservesuccess() {
 		Reserve_success.setLayout(new GridLayout(1, 1, 0, 0));
 		Reserve_success.setOpaque(false);
-//		Reserve_success.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		JPanel reservenumberPanel = new JPanel();
 		reservenumberPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		reservenumberPanel.setOpaque(false);
@@ -982,7 +971,9 @@ public class Menu extends JPanel {
 		Reserve_success.add(reservenumberPanel);
 	}
 
-	// sold out
+	/**
+	 * Initialize sold out Panel
+	 */
 	private void initSoldout() {
 		soldoutText.setFont(new Font("Dialog", Font.BOLD, 28));
 		soldoutText.setForeground(new Color(255, 0, 0));
@@ -996,7 +987,9 @@ public class Menu extends JPanel {
 		Soldout.add(backsoldout);
 	}
 
-	// inquiry
+	/**
+	 * Initialize inquiry Panel
+	 */
 	private void initInquiry() {
 		Inquiry.setLayout(new GridLayout(2, 1, 0, 0));
 		Inquiry.setOpaque(false);
@@ -1037,7 +1030,9 @@ public class Menu extends JPanel {
 		Inquiry.add(buttons);
 	}
 
-	// wrong reservation number
+	/**
+	 * Initialize wrong reservation number panel
+	 */
 	private void initWrongreservationnumber() {
 		wrongreservationnumberText.setFont(new Font("Dialog", Font.BOLD, 28));
 		wrongreservationnumberText.setForeground(new Color(255, 0, 0));
@@ -1051,7 +1046,9 @@ public class Menu extends JPanel {
 		Wrong_reservation_number.add(backwrongreservationnumber);
 	}
 
-	// reserve order
+	/**
+	 * Initialize reserve order Panel
+	 */
 	private void initReserveorder() {
 		Reserveorder.setLayout(new GridLayout(6, 1, 0, 0));
 		Reserveorder.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
@@ -1201,7 +1198,9 @@ public class Menu extends JPanel {
 		Reserveorder.add(reserveorderbuttons);
 	}
 
-	// modify (reduce room or revise date)
+	/**
+	 * initialize modify (reduce room or revise date) panel
+	 */
 	private void initModify() {
 		changeroomText.setFont(new Font("Arial Black", Font.BOLD, 28));
 		revisedateText.setFont(new Font("Arial Black", Font.BOLD, 28));
@@ -1212,7 +1211,9 @@ public class Menu extends JPanel {
 		Modify.add(revisedateText);
 	}
 
-	// change room
+	/**
+	 * initialize change room panel
+	 */
 	private void initChangeroom() {
 		Changeroom.setLayout(new GridLayout(4, 1, 0, 0));
 		Changeroom.setOpaque(false);
@@ -1316,7 +1317,9 @@ public class Menu extends JPanel {
 		Changeroom.add(buttons);
 	}
 
-	// revise date
+	/**
+	 * Initialize revise date Panel
+	 */
 	private void initRevisedate() {
 		Revisedate.setLayout(new GridLayout(3, 1, 0, 0));
 		Revisedate.setOpaque(false);
@@ -1398,7 +1401,9 @@ public class Menu extends JPanel {
 		Revisedate.add(buttons);
 	}
 
-	// change room / revise date success
+	/**
+	 * initialize change room / revise date success panel
+	 */
 	private void initChangeRevisesuccess() {
 		ChangeRevise_success.setLayout(new GridLayout(1, 1, 0, 0));
 		ChangeRevise_success.setOpaque(false);
@@ -1407,27 +1412,31 @@ public class Menu extends JPanel {
 		ChangeRevise_success.add(changerevisesuccessText);
 	}
 
-	// change room error
+	/**
+	 * initialize change room error panel
+	 */
 	private void initChangeroomerror() {
 		Changeroom_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Changeroom_error.setOpaque(false);
-//		Changeroom_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		changeroomerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		changeroomerrorText.setForeground(new Color(255, 0, 0));
 		Changeroom_error.add(changeroomerrorText);
 	}
 
-	// revise date error
+	/**
+	 * Initialize revise date error
+	 */
 	private void initRevisedateerror() {
 		Revisedate_error.setLayout(new GridLayout(1, 1, 0, 0));
 		Revisedate_error.setOpaque(false);
-//		Revisedate_error.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 		revisedateerrorText.setFont(new Font("Dialog", Font.BOLD, 30));
 		revisedateerrorText.setForeground(new Color(255, 0, 0));
 		Revisedate_error.add(revisedateerrorText);
 	}
 
-	// cancel order success
+	/**
+	 * Initialize cancel order success Panel
+	 */
 	private void initcancelordersuccess() {
 		Cancelorder_success.setLayout(new GridLayout(2, 1, 0, 0));
 		Cancelorder_success.setOpaque(false);
@@ -1439,7 +1448,19 @@ public class Menu extends JPanel {
 		Cancelorder_success.add(confirmcancelordersuccess);
 	}
 
-	// show the reserve information
+	/**
+	 * to show the reserve order on the Panel
+	 * 
+	 * @param oid order id to be shown on the panel
+	 * @param hid hotel id to be shown on the panel
+	 * @param sroom single room to be shown on the panel
+	 * @param droom double room to be shown on the panel
+	 * @param qroom quad room to be shown on the panel
+	 * @param chkindate check in date to be shown on the panel
+	 * @param chkoutdate check out date to be shown on the panel
+	 * @param night staying night to be shown on the panel
+	 * @param p total price to be shown on the panel
+	 */
 	public void showReserveorder(int oid, int hid, int sroom, int droom, int qroom, String chkindate, String chkoutdate,
 			int night, int p) {
 		successreservenumberField.setText(Integer.toString(oid));
@@ -1453,7 +1474,19 @@ public class Menu extends JPanel {
 		reserveorderpriceField.setText(Integer.toString(p));
 	}
 
-	// show reserve success
+	/**
+	 * to show the reserve success message and the reserve order 
+	 * 
+	 * @param OrderID order id to be shown on the panel
+	 * @param hid hotel id to be shown on the panel
+	 * @param sroom single room to be shown on the panel
+	 * @param droom double room to be shown on the panel
+	 * @param qroom quad room to be shown on the panel
+	 * @param chkindate check in date to be shown on the panel
+	 * @param chkoutdate check out date to be shown on the panel
+	 * @param night staying night to be shown on the panel
+	 * @param p price to be shown on the panel
+	 */
 	public void showReservesuccess(int OrderID, int hid, int sroom, int droom, int qroom, String chkindate,
 			String chkoutdate, int night, int p) {
 		showReserveorder(OrderID, hid, sroom, droom, qroom, chkindate, chkoutdate, night, p);
@@ -1467,7 +1500,9 @@ public class Menu extends JPanel {
 		reservequadroomField.setText(null);
 	}
 
-	// clear all the Text when logout
+	/**
+	 * clear all the Text when logout
+	 */
 	public void clearalltext() {
 		signinidField.setText(null);
 		signinpasswordField.setText(null);
@@ -1489,7 +1524,6 @@ public class Menu extends JPanel {
 		reservenumberField.setText(null);
 		reservecheckindateField.setText("SELECT DATE");
 		reservecheckoutdateField.setText("SELECT DATE");
-//		reservehotelidField.setText(null);
 		reservehotelid.setSelectedIndex(0);
 		reservesingleroomField.setText(null);
 		reservedoubleroomField.setText(null);
@@ -1506,8 +1540,13 @@ public class Menu extends JPanel {
 		newquadroomField.setText(null);
 	}
 
-	// make hotel list 建立Table
-	// 但取到價錢似乎怪怪的
+	
+	/**
+	 * set up a default table model for the hotel list
+	 * 
+	 * @param _AHR an array list which store all the hotel list
+	 * @return returns a default table model 
+	 */
 	public DefaultTableModel makeHotellist(ArrayList<AvailableHotelRooms> _AHR) {
 		DefaultTableModel tablemodel = new DefaultTableModel(heading, 0);
 		// get data
@@ -1527,7 +1566,11 @@ public class Menu extends JPanel {
 		return tablemodel;
 	}
 
-	// show hotel list 設定外觀
+	/**
+	 * Setting the appearance of the default table model
+	 * 
+	 * @param tablemodel the default table model to be set the appearance
+	 */
 	public void showHotellist(DefaultTableModel tablemodel) {
 		HotellistTable = new JTable(tablemodel) {
 			public boolean isCellEditable(int row, int column) {
@@ -1539,7 +1582,6 @@ public class Menu extends JPanel {
 
 		};
 		HotellistTable.setOpaque(false);
-//		HotellistTable.setEnabled(false);
 		JTableHeader head = HotellistTable.getTableHeader();
 		head.setFont(new Font("Arial", Font.PLAIN, 20));
 
@@ -1612,16 +1654,20 @@ public class Menu extends JPanel {
 		Hotellist.add(buttons, BorderLayout.SOUTH);
 	}
 
-	// sub menu
+	/**
+	 * initialize the sub menu panel
+	 */
 	private void initSubMenu() {
 		subMenu.setLayout(new GridLayout(1, 2, 0, 0));
 		subMenu.setOpaque(false);
 		subMenu.setBackground(null);
 		subMenu.add(signinText);
 		subMenu.add(signupText);
-//		subMenu.setBorder(new MatteBorder(5, 5, 5, 5, Color.white));
 	}
 
+	/**
+	 * Initialize the LayeredPane, setting the bounds and dimension of all Panel
+	 */
 	private void initLayerPane() {
 		layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
@@ -1724,6 +1770,9 @@ public class Menu extends JPanel {
 
 	}
 
+	/**
+	 * default constructor of Menu
+	 */
 	public Menu() {
 		initPanel();
 		initTitle();
@@ -1818,6 +1867,9 @@ public class Menu extends JPanel {
 		confirmcancelordersuccess.addMouseListener(ml);
 	};
 
+	/**
+	 * control the mouse event
+	 */
 	MouseListener ml = new MouseAdapter() {
 		public void mouseEntered(MouseEvent e) {
 			JLabel l = (JLabel) e.getSource();
@@ -1849,7 +1901,6 @@ public class Menu extends JPanel {
 				signupcancel.setForeground(Color.black);
 			} else if (e.getSource() == signuplogin) {
 				String UserID = signupidField.getText();
-//				String Password = signuppasswordField.getText();
 				String Password = new String(signuppasswordField.getPassword());
 				String UserCode = usercodeField.getText(); // user enter verify code
 				String VerifyCode = verifycodeField.getText(); // random verify code
@@ -1974,8 +2025,6 @@ public class Menu extends JPanel {
 				initSearch();
 				String s1 = entercheckindateField.getText();
 				String s2 = entercheckoutdateField.getText();
-//這裡看看能不能直接在選日期的時候限定好
-// 我現在想到的方法是：不要一開始就傳給CID COD。先檢查 s1 s2，對的話再傳進去，不對就不要傳。
 				if (main.CountDaysBetween(s1, s2) > 0) {
 					String CID = entercheckindateField.getText();
 					String COD = entercheckoutdateField.getText();
@@ -2224,7 +2273,6 @@ public class Menu extends JPanel {
 				reservecheckindateField.setText("SELECT DATE");
 				reservecheckoutdateField.setText("SELECT DATE");
 				reservehotelid.setSelectedIndex(0);
-//				reservehotelidField.setText(null);
 				reservesingleroomField.setText("0");
 				reservedoubleroomField.setText("0");
 				reservequadroomField.setText("0");
@@ -2311,13 +2359,11 @@ public class Menu extends JPanel {
 				layeredPane.remove(Inquiry);
 				// get reserve number
 				int OrderID = Integer.parseInt(reservenumberField.getText());
-
 				Order order = main.CheckOrder(OrderID);
-				if (order != null) {// unsolved bug : NPE
+				if (order != null) {
 					layeredPane.remove(Inquiry);
-					showReserveorder(order.getID(), order.getHotelID(), order.getSnum().size(),
-							order.getDnum().size(), order.getQnum().size(), order.getCheckInDate(),
-							order.getCheckOutDate(),
+					showReserveorder(order.getID(), order.getHotelID(), order.getSnum().size(), order.getDnum().size(),
+							order.getQnum().size(), order.getCheckInDate(), order.getCheckOutDate(),
 							(int) main.CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate()),
 							order.getSumPrice());
 					layeredPane.add(Reserveorder, new Integer(3));
@@ -2384,10 +2430,10 @@ public class Menu extends JPanel {
 				int nqn = Integer.parseInt(newquadroomField.getText());
 				if (nsn > osn || ndn > odn || nqn > oqn) {
 //					 change room error 修改房間數失敗 不可增加房間
-					layeredPane.add(Changeroom_error, new Integer(3)); // if change room error
-					newsingleroomField.setText(null); // if change room error
-					newdoubleroomField.setText(null); // if change room error
-					newquadroomField.setText(null); // if change room error
+					layeredPane.add(Changeroom_error, new Integer(3));
+					newsingleroomField.setText(null);
+					newdoubleroomField.setText(null);
+					newquadroomField.setText(null);
 				} else {
 					Order newOrder = main.ChangeRooms(OrderID, nsn, ndn, nqn);
 					System.out.println(newOrder.getDnum().size());
@@ -2396,12 +2442,12 @@ public class Menu extends JPanel {
 							newOrder.getCheckOutDate(),
 							(int) main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()),
 							newOrder.getSumPrice());
-					layeredPane.remove(Changeroom); // if change room success
-					layeredPane.remove(Changeroom_error); // if change room success
-					layeredPane.add(ChangeRevise_success, new Integer(3));// if change room success
-					reserveorderbuttons.remove(cancelText); // if change room success
-					reserveorderbuttons.remove(modifyText); // if change room success
-					layeredPane.add(Reserveorder, new Integer(3));// if change room success
+					layeredPane.remove(Changeroom);
+					layeredPane.remove(Changeroom_error);
+					layeredPane.add(ChangeRevise_success, new Integer(3));
+					reserveorderbuttons.remove(cancelText);
+					reserveorderbuttons.remove(modifyText);
+					layeredPane.add(Reserveorder, new Integer(3));
 				}
 				validate();
 				repaint();
@@ -2435,22 +2481,22 @@ public class Menu extends JPanel {
 								newOrder.getCheckOutDate(),
 								(int) main.CountDaysBetween(newOrder.getCheckInDate(), newOrder.getCheckOutDate()),
 								newOrder.getSumPrice());
-						layeredPane.remove(Invalid_date_error); // if revise date success
-						layeredPane.remove(Revisedate_error); // if revise date success
-						layeredPane.remove(Revisedate); // if revise date success
-						layeredPane.add(ChangeRevise_success, new Integer(3)); // if revise date success
-						reserveorderbuttons.remove(cancelText); // if revise date success
-						reserveorderbuttons.remove(modifyText); // if revise date success
-						layeredPane.add(Reserveorder, new Integer(3)); // if revise date success
+						layeredPane.remove(Invalid_date_error);
+						layeredPane.remove(Revisedate_error);
+						layeredPane.remove(Revisedate);
+						layeredPane.add(ChangeRevise_success, new Integer(3));
+						reserveorderbuttons.remove(cancelText);
+						reserveorderbuttons.remove(modifyText);
+						layeredPane.add(Reserveorder, new Integer(3));
 						validate();
 						repaint();
 						nextrevisedate.setForeground(Color.black);
 					} else {
-						// if revise date error 修改日期失敗
-						layeredPane.remove(Invalid_date_error); // if revise date error
-						layeredPane.add(Revisedate_error, new Integer(3)); // if revise date error
-						newcheckindateField.setText(null); // if revise date error
-						newcheckoutdateField.setText(null); // if revise date error
+						// if revise date error 
+						layeredPane.remove(Invalid_date_error);
+						layeredPane.add(Revisedate_error, new Integer(3)); 
+						newcheckindateField.setText(null);
+						newcheckoutdateField.setText(null);
 						validate();
 						repaint();
 						nextrevisedate.setForeground(Color.black);
@@ -2463,7 +2509,7 @@ public class Menu extends JPanel {
 					repaint();
 					nextrevisedate.setForeground(Color.black);
 				}
-			} else if (e.getSource() == cancelText) { // 取消訂單
+			} else if (e.getSource() == cancelText) { // cancel the order
 				int OrderID = Integer.parseInt(successreservenumberField.getText());
 				main.CancelOrder(OrderID);
 				layeredPane.remove(Reserveorder);
@@ -2478,6 +2524,10 @@ public class Menu extends JPanel {
 	};
 }
 
+/**
+ * 
+ *
+ */
 class RoundedCornerBorder extends AbstractBorder {
 	private static final Color ALPHA_ZERO = new Color(0x0, true);
 
@@ -2509,6 +2559,9 @@ class RoundedCornerBorder extends AbstractBorder {
 	}
 }
 
+/**
+ * setting up the color icon 
+ */
 class ColorIcon implements Icon {
 	private final Color color;
 
@@ -2533,6 +2586,7 @@ class ColorIcon implements Icon {
 	}
 
 }
+
 
 class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
 	JTable table;
@@ -2582,13 +2636,11 @@ class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, Tabl
 
 	public void actionPerformed(ActionEvent e) {
 		fireEditingStopped();
-//		System.out.println(e.getActionCommand() + " " + table.getSelectedRow());
 		Object hid = table.getModel().getValueAt(table.getSelectedRow(), 0);
 		Object sroom = table.getModel().getValueAt(table.getSelectedRow(), 4);
 		Object droom = table.getModel().getValueAt(table.getSelectedRow(), 5);
 		Object qroom = table.getModel().getValueAt(table.getSelectedRow(), 6);
 		Menu.reservehotelid.setSelectedIndex((int) hid);
-//		Menu.reservehotelidField.setText(hid.toString());
 		Menu.reservesingleroomField.setText(sroom.toString());
 		Menu.reservedoubleroomField.setText(droom.toString());
 		Menu.reservequadroomField.setText(qroom.toString());
