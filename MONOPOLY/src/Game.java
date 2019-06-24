@@ -13,6 +13,14 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import java.awt.event.*;
+
+/**
+ * This is the class of the Game class for running Monopoly game.
+ * 
+ * @author momo, tin, catherine, sophia
+ * @version 1.0
+ * @since 2017-05-31
+ */
 public class Game extends JPanel {
 	final int frameWidth = 1152, frameHeight = 740;
 	private boolean transcation=false;
@@ -34,7 +42,6 @@ public class Game extends JPanel {
 	private Dice d=new Dice();
 	//user frame
 	private PlayerInfo[] playerInfoList = new PlayerInfo[4];
-	private JLabel msg = new Message();
 	private JLabel moneytext =new JLabel();
 	//user icon
 	private JLabel u1 = new JLabel();
@@ -69,16 +76,37 @@ public class Game extends JPanel {
 	//payfee's Icon
 	private JLabel payfeeIcon = new JLabel();
 	
+	private JPanel end=new JPanel();
+	private JButton endButton=new JButton();
+	
+	private JLabel firstText = new JLabel(" ", JLabel.CENTER);
+	 private JLabel secondText = new JLabel(" ", JLabel.CENTER);
+	 private JLabel thirdText = new JLabel(" ", JLabel.CENTER);
+	 private JLabel fourthText = new JLabel(" ", JLabel.CENTER);
+
+	
 	private String[] Icons= {"images/playerIcon/1.png","images/playerIcon/2.png","images/playerIcon/3.png","images/playerIcon/4.png"};
 	private int[][] F1pos=new int[20][2];
 	private int[][] F2pos=new int[20][2];
 	private int[][] F3pos=new int[20][2];
 	private int[][] F4pos=new int[20][2];
 	private int[] moneyList = {0, 500, -200, 300, -200, 800, 1000, 1200, 0, 2500, 2000, 800, 3000, 0, 0, 900, 1500, 0, 1200, -500};
+	
+	/**
+	 * This method is to initialize panel.
+	 *
+	 */
 	private void initPanel() {
 		setLayout(new GridLayout(1, 1));
 		setOpaque(false);
 	}
+	
+	/**
+	 * This method set Figure's position.
+	 * 
+	 * @param player player's number
+	 * @param player player's Figure's position
+	 */
 	private void setFpos(int player,int Fpos) {//TODO
 		int x,y;
 		if(player==1) {
@@ -99,6 +127,11 @@ public class Game extends JPanel {
 			F4.setBounds(x,y,30,30);
 		}
 	}
+	
+	/**
+	 * This method Check whether the User can be signed in.
+	 * 
+	 */
 	private void initLandmarkList() {
 		//					 0		  1		  2		  3		   4		5		6		7		 8		  9		   10		11		 12			13		 14			15		 16		 17		  18	   19
 		String[] nameList = {"START", "操 場", "新 體", "舊 體", "醉月湖", "新 生", "計 中", "心理系", "應力所", "資工系", "電機系", "獸醫系", "我大工海", "圖書館", "健康中心", "森林系", "園藝系", "傅 鐘", "物理系", "戲劇系"};
@@ -155,13 +188,21 @@ public class Game extends JPanel {
 		
 	}
 	
+	/**
+	 * This method initailize player's name.
+	 */
 	private void initPlayerInfoList() {
 		for (int i = 0; i < playerInfoList.length; i++) {
 			playerInfoList[i] = new PlayerInfo(playerList[i]);
 		}
 	}
 	
+	/**
+	 * This method initialize the layerPane.
+	 * 
+	 */
 	private void initLayerPane() {
+		
 		//layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		
@@ -175,22 +216,18 @@ public class Game extends JPanel {
         for (int i = 0; i < landmarkList.length; i++) {
         	layeredPane.add(landmarkList[i], new Integer(1));
         }
-        
-        // Massage's info
-        msg = new Message();
-        layeredPane.add(msg, new Integer(0));
-        
+                
         ok.setFont(new Font("Arial Black", Font.BOLD, 35));
 		ok.setBounds(875, 620, 100, 45);
-      //dice
+      	//dice
 		
-		  try {
-			  diceButton.setOpaque(true);
-			  diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
-			  diceButton.setBounds(570, 200, 64, 64);
-		  } catch (Exception ex) {
-		    System.out.println(ex);
-		  }
+		try {
+			diceButton.setOpaque(true);
+			diceButton.setIcon(new ImageIcon("images/Dice/dieRed1.png"));
+			diceButton.setBounds(570, 200, 64, 64);
+		} catch (Exception ex) {
+		  System.out.println(ex);
+		}
 		layeredPane.add(diceButton, new Integer(1));
 		
 		//users' info
@@ -221,10 +258,7 @@ public class Game extends JPanel {
         moneytext.setBounds(210,495,100,50);//u1
         //moneytext.setBounds(570,495,100,50);//u2
         //moneytext.setBounds(210,630,100,50);//u3
-        //moneytext.setBounds(570,630,100,50);//u4
-        //layeredPane.add(moneytext, new Integer(2));
-        
-        
+        //moneytext.setBounds(570,630,100,50);//u4        
         
         user3.setOpaque(true);
         this.user3.setLayout(new GridLayout(2, 2, 0, 0));
@@ -289,7 +323,6 @@ public class Game extends JPanel {
         
         //Message's info
         
-       //this.Msg.setIcon(new ImageIcon("images/Menu/menuBackground.png"));// TODO map icon path
         Msg=new JLabel();
         Msg.setIcon(new ImageIcon("music/1000.png"));
         Msg.setFont(new Font("Arial Black", Font.BOLD, 40));
@@ -298,13 +331,12 @@ public class Game extends JPanel {
         Msg.setOpaque(true);
         Msg.setBackground(new Color(253, 245, 230));
         Msg.setBorder(new MatteBorder(5, 5, 5, 5, new Color(115, 74, 18)));
-        layeredPane.add(Msg, new Integer(0));
+        layeredPane.add(Msg, new Integer(1));
         
         // initFigure
  		F1.setOpaque(true);
  		F1.setBackground(new Color(205, 38, 38));
  		this.F1.setBounds(170,245,30,30);
- 		//this.F1.setIcon(new ImageIcon("images/playerIcon/1.png"));
  		layeredPane.add(F1, new Integer(2));
  		
  		F2.setOpaque(true);
@@ -322,9 +354,40 @@ public class Game extends JPanel {
  		F4.setBackground(new Color(255, 185, 15));
  		layeredPane.add(F4, new Integer(2));
         
+ 		end.setBounds(380, 150, 550, 300);
+ 		end.setLayout(new GridLayout(4, 1, 0 ,0));
+ 		end.setBackground(new Color(232, 232, 232, 100));
+ 		firstText.setFont(new Font("Dialog", Font.BOLD, 40));
+ 		firstText.setForeground(new Color(125, 38, 205));
+ 		secondText.setFont(new Font("Dialog", Font.BOLD, 40));
+ 		secondText.setForeground(new Color(125, 38, 205));
+ 		thirdText.setFont(new Font("Dialog", Font.BOLD, 40));
+ 		thirdText.setForeground(new Color(125, 38, 205));
+ 		fourthText.setFont(new Font("Dialog", Font.BOLD, 40));
+ 		fourthText.setForeground(new Color(125, 38, 205));
+ 		end.add(firstText);
+ 		end.add(secondText);
+ 		end.add(thirdText);
+ 		end.add(fourthText);
+ 		  
+ 		try {
+ 			endButton.setOpaque(false);
+ 	 		endButton.setIcon(new ImageIcon("images/Map/red_spuare.png"));
+ 	 		endButton.setLayout(new GridLayout(1, 1, 0, 0));	
+ 	 		endButton.setBounds(frameWidth/30, 400, 30, 30);
+ 		} catch (Exception ex) {
+		    System.out.println(ex);
+		}
+ 		layeredPane.add(endButton, new Integer(2));
         this.add(layeredPane);
 	}
 	
+	/**
+	 * This method set Figure's position.
+	 * 
+	 * @param playerList player's list
+	 * 
+	 */
 	public Game(Player[] playerList) {
 		r = new Random();
 		this.playerList = playerList;
@@ -336,9 +399,17 @@ public class Game extends JPanel {
 		 yes.addMouseListener(ml);
   		 no.addMouseListener(ml); 
   		 ok.addMouseListener(ml);
-
+  		 endButton.addMouseListener(ml);
+  		 diceButton.addMouseListener(ml);
 	}
 	
+	/**
+	 * This is the class of the Landmark class for setting landmarks.
+	 * 
+	 * @author momo, tin, catherine, sophia
+	 * @version 1.0
+	 * @since 2017-05-31
+	 */
 	class Landmark extends JLabel {
 		final static int width = 85, height = 75;
 		private String name = null;
@@ -366,7 +437,16 @@ public class Game extends JPanel {
 			
 		}
 		
-		// for special landmark
+		/**
+		 * This method set special Landmark.
+		 * 
+		 * @param link the link of the land
+		 * @param name the name of the land
+		 * @param textColor the text color of the land
+		 * @param bgColor the background color of the land
+		 * @param boardColor the board color of the land
+		 * @param x,y the coordinate
+		 */
 		public Landmark(String link,String name, Color textColor, Color bgColor, Color boardColor, String text, int x, int y) {
 			this.name = new String(name);
 			this.money = 0;
@@ -391,7 +471,16 @@ public class Game extends JPanel {
 			this.setBounds(this.x, this.y, width, height);
 		}
 		
-		// for departments
+		/**
+		 * This method set department  Landmark.
+		 * 
+		 * @param link the link of the land
+		 * @param name the name of the land
+		 * @param textColor the text color of the land
+		 * @param bgColor the background color of the land
+		 * @param boardColor the board color of the land
+		 * @param x,y the coordinate
+		 */
 		public Landmark(String link,String name, Color textColor, Color bgColor, Color boardColor, int money, int x, int y) {
 			this.name = new String(name);
 			this.money = money;
@@ -418,7 +507,11 @@ public class Game extends JPanel {
 			this.setBounds(this.x, this.y, width, height);
 		}
 		
-		public Landmark() { // default, shouldn't be used
+		/**
+		 * This method default Landmark.
+		 *
+		 */
+		public Landmark() {
 			this.name = "No Name";
 			this.money = -1;
 			this.x = 0;
@@ -440,17 +533,18 @@ public class Game extends JPanel {
 			this.setBounds(this.x, this.y, width, height);
 		}
 
-		public void setBorder(int i, int j, int k) {
-			// TODO Auto-generated method stub
-			
-		}
-
 		public void setBorder(Color color) {
-			// TODO Auto-generated method stub
 			this.setBorder(color);
 		}
 	}
 	
+	/**
+	 * This is the class of the PlayerInfo class for initial player's basic info.
+	 * 
+	 * @author momo, tin, catherine, sophia
+	 * @version 1.0
+	 * @since 2017-05-31
+	 */
 	class PlayerInfo extends JPanel {
 		private Image background;
 		Player player; // share the reference with 'player' when the game is playing
@@ -475,14 +569,48 @@ public class Game extends JPanel {
 	    }
 	}
 	
+	private void updateDatabase() {
+		for (int i = 0; i < 4; i++) {
+			databaseUtil.insertUser(new User(playerList[i].getName(), playerList[i].getCash()));
+		}
+	}
+	
+	/**
+	 * This method to action when button pressed.
+	 *
+	 */
 	private void myEvent(){
+		endButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    System.out.println(playerList[0].getCash());
+			    System.out.println(playerList[1].getCash());
+			    System.out.println(playerList[2].getCash());
+			    System.out.println(playerList[3].getCash());
+			    updateDatabase();
+			    firstText.setText(playerList[0].getName()+"  "+playerList[0].getCash());
+			    secondText.setText(playerList[1].getName()+"  "+playerList[1].getCash());
+			    thirdText.setText(playerList[2].getName()+"  "+playerList[2].getCash());
+			    fourthText.setText(playerList[3].getName()+"  "+playerList[3].getCash());
+			    layeredPane.add(end, new Integer(3));
+			    validate();
+			    repaint();
+			    AudioPlayer.player.stop(Menu.themeAS);
+			    try {
+			    	FileInputStream fileau = new FileInputStream("music/endgame.wav");
+			    	AudioStream as = new AudioStream(fileau);
+			    	AudioPlayer.player.start(as);
+			    } catch (Exception a) {
+			    	a.printStackTrace();
+			    }
+			}
+			   
+		});
+		
+		
 		diceButton.addActionListener(
-				new ActionListener()
-	    {
-	      public void actionPerformed(ActionEvent e)
-	      {
+				new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
 	        //  when the button is pressed
-	    	  //layeredPane.remove(Msg);
 	    	  d.setDice();
 	    	  try {
 				     FileInputStream fileau = new FileInputStream("music/rolldice.wav" );
@@ -491,35 +619,22 @@ public class Game extends JPanel {
 				    }catch (Exception a){
 				     a.printStackTrace();
 				    }
-	    	  /*
-	    	  switch(turn) {
-				case 1:
-					moneytext.setBounds(210,495,100,50);//u1
-					break;
-				case 2:
-					moneytext.setBounds(570,495,100,50);//u2
-					break;
-				case 3:
-					moneytext.setBounds(210,630,100,50);//u3
-					break;
-				case 4:
-					moneytext.setBounds(570,630,100,50);//u4
-					break;
-				}
-				*/
 	    	  	layeredPane.remove(diceButton);
 	    	  	rowing.setOpaque(true);
 	    	  	rowing.setBounds(570, 200, 64, 64);
 				layeredPane.add(rowing, new Integer(1));
 	    	    rowing.setIcon(new ImageIcon(d.getDiceIcon()));
-	    	    
+	    	    System.out.println(playerList[turn-1].getLocat()+" befoe");
+	    	    System.out.println(turn);
+	    	    System.out.println("T or F : "+playerList[turn-1].stop);
 				if(playerList[turn-1].stop) {//studying
 					playerList[turn-1].stop=false;
-					Msg.setIcon(new ImageIcon("images/messege/study.jpeg"));
+					Msg.setIcon(new ImageIcon("images/messege/study.jpg"));
 					layeredPane.add(ok,new Integer(2));
 				}else {
 					playerList[turn-1].setLocat(d.getDice());
 					setFpos(turn,playerList[turn-1].getLocat());
+					System.out.println(playerList[turn-1].getLocat()+" after");
 					if(playerList[turn-1].getLocat()==2) {//new gym
 						Msg.setIcon(new ImageIcon("images/messege/newgym.jpeg"));
 						playerList[turn-1].setCash(moneyList[playerList[turn-1].getLocat()]);
@@ -538,8 +653,10 @@ public class Game extends JPanel {
 						if(playerList[turn-1].getLocat()==4) {
 							toLake.setBounds(380,150,447,200);
 							toLake.setIcon(new ImageIcon("images/messege/lake.jpeg"));
+							playerList[turn-1].setCash(-200);
 							layeredPane.add(toLake,new Integer(4));
 						}
+						System.out.println(count+" a");
 						if(count==0) {
 							Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
 							playerList[turn-1].setCash(-500);
@@ -594,7 +711,6 @@ public class Game extends JPanel {
 					else {
 						if(lacbelong[playerList[turn-1].getLocat()]==-1) {
 							buyLand(turn,playerList[turn-1].getLocat());
-							lacbelong[playerList[turn-1].getLocat()]=turn-1;
 						}else {
 							if(lacbelong[playerList[turn-1].getLocat()]==turn-1){
 								Msg.setIcon(new ImageIcon("images/messege/welcomehome.jpg"));//on your land
@@ -615,7 +731,14 @@ public class Game extends JPanel {
 			
 	      }
 	    });
-		}
+	}
+	
+	/**
+	 * This method is to process buying a landmark.
+	 * 
+	 * @param player the number of the player
+	 * @param locate the location of the player is at 
+	 */
 	public void buyLand(int player,int locate) {
 		switch(locate) {
 		case 1:
@@ -652,98 +775,22 @@ public class Game extends JPanel {
 			Msg.setIcon(new ImageIcon("images/messege/physics.jpeg"));
 			break;
 		}
-		yes.setFont(new Font("Arial Black", Font.BOLD, 35));
+		if(playerList[turn-1].getCash()-moneyList[locate]>0) {
+			yes.setFont(new Font("Arial Black", Font.BOLD, 35));
+			yes.setBounds(770, 620, 100, 45);
+			layeredPane.add(yes,new Integer(2));
+		}	
 		no.setFont(new Font("Arial Black", Font.BOLD, 35));
-		yes.setBounds(770, 620, 100, 45);
 		no.setBounds(980, 620, 100, 45);
-		layeredPane.add(yes,new Integer(2));
 		layeredPane.add(no,new Integer(2));
 	}
-
-	class Message extends JLabel {	
-		//private JLabel text =new JLabel("NTU Monopoly",JLabel.CENTER);
-		public Message() {
-			/*
-			Msg.setText("NTU Monopoly");
-	        Msg.setFont(new Font("Arial Black", Font.BOLD, 40));
-	        Msg.setForeground(new Color(115, 74, 18));
-	        Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
-	        Msg.setOpaque(true);
-	        Msg.setBackground(new Color(253, 245, 230));
-	        Msg.setBorder(new MatteBorder(5, 5, 5, 5, new Color(115, 74, 18)));
-	        */
-	        //layeredPane.add(Msg, new Integer(0));
-		}
-		/*
-		public void buyLand(int n) {
-			Msg.setLayout(new GridLayout(2, 1, 0, 0));
-			Msg.setText("");
-			text.setText("Cost "+n+" to buy this land?");
-			text.setFont(new Font("Arial Black", Font.BOLD, 25));
-			text.setForeground(new Color(115, 74, 18));
-			yes.setFont(new Font("Arial Black", Font.BOLD, 30));
-			no.setFont(new Font("Arial Black", Font.BOLD, 30));
-			Msg.add(text);
-			Msg.add(yes);
-			Msg.add(no);
-		}
-		*/
-		public void chanceNFate(int player){
-			//Msg.setBounds(702, mapHeight, 450-3, 270-2);//447 268
-//			if(count==0) {
-//				layeredPane.remove(Msg);
-//				Msg.setIcon(new ImageIcon("images/chancefate/1.jpeg"));
-//				playerList[player].setCash(-500);
-//				layeredPane.add(Msg, new Integer(0));
-//			}
-//			else if(count==1) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/2.jpeg"));
-//				playerList[player].stop=true;
-//			}
-//			else if(count==2) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/3.jpeg"));
-//				playerList[player].setCash(-800);
-//			}
-//			else if(count==3) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/4.jpeg"));
-//				playerList[player].setCash(-400);
-//			}
-//			else if(count==4) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/5.jpeg"));
-//				playerList[player].setCash(300);
-//			}
-//			else if(count==5) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/6.jpeg"));
-//				playerList[player].setCash(-500);
-//			}
-//			else if(count==6) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/7.jpeg"));
-//				playerList[player].setCash(200);
-//			}
-//			else if(count==7) {
-//				Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
-//				playerList[player].setCash(300);
-//			}
-//			if(++count==8){
-//				count=0;
-//			}
-//	        Msg.setOpaque(true);
-//	        
-		}
-		public void jail(int player){
-//			playerList[player].stop=true;
-//			Msg.setIcon(new ImageIcon("images/chancefate/8.jpeg"));
-//			Msg.add(yes);
-		}
-		public void fubell() {
-			
-			
-		}
-		public void others() {
-			
-		}
-	}
+	
 	MouseListener ml = new MouseAdapter() {
+		/**
+		 * This method is to show when mouse entered
+		 * 
+		 * @param e event
+		 */
 		public void mouseEntered(MouseEvent e) {
 				if(e.getSource() == yes) {
 					JLabel l = (JLabel)e.getSource();
@@ -757,9 +804,22 @@ public class Game extends JPanel {
 					JLabel l = (JLabel)e.getSource();
 					l.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					l.setForeground(Color.red);
-				} 
+				} else if(e.getSource() ==diceButton) {
+					try {
+					     FileInputStream fileau = new FileInputStream("music/click3.wav" );
+					     AudioStream as = new AudioStream(fileau);
+					     AudioPlayer.player.start(as);
+					    }catch (Exception a){
+					     a.printStackTrace();
+					    }
+				}
 		}
-	
+		
+		/**
+		 * This method is to show when mouse exited
+		 * 
+		 * @param e event
+		 */
 		public void mouseExited(MouseEvent e) {
 			if(e.getSource() == yes) {
 				JLabel l = (JLabel)e.getSource();
@@ -772,6 +832,12 @@ public class Game extends JPanel {
 				l.setForeground(Color.black);
 			} 
 		}
+		
+		/**
+		 * This method is to show when mouse clicked
+		 * 
+		 * @param e event
+		 */
 		public void mouseClicked(MouseEvent e) {
 			if(e.getSource() == yes) {
 				playerList[turn-1].setCash(-moneyList[playerList[turn-1].getLocat()]);
@@ -847,7 +913,6 @@ public class Game extends JPanel {
 					ok.setForeground(Color.black);
 				}
 			}
-			System.out.println(turn+"/");
 			money1.setText("Money : "+playerList[0].getCash());
 			money2.setText("Money : "+playerList[1].getCash());		
 			money3.setText("Money : "+playerList[2].getCash());	
@@ -872,7 +937,6 @@ public class Game extends JPanel {
 				user4.setBorder(new MatteBorder(5, 5, 5, 5, new Color(205, 51, 51)));
 				break;
 			}
-			System.out.println(turn);
 			Msg.setIcon(new ImageIcon("music/1000.png"));
 			layeredPane.remove(rowing);
 			layeredPane.add(diceButton,new Integer(2));
@@ -880,7 +944,9 @@ public class Game extends JPanel {
 		}					
 	};
 	
-	
+	/**
+	 * This the main function
+	 */
 	public static void main(String[] args) {
 		final int frameWidth = 1152, frameHeight = 740;
 		JFrame f = new JFrame();
@@ -902,25 +968,3 @@ public class Game extends JPanel {
 	}
 
 }
-//rowing.setOpaque(true);
-//rowing.setBounds(570, 200, 64, 64);
-//layeredPane.add(rowing, new Integer(2));
-//layeredPane.remove(diceButton);
-/*
-for(int i=1;i<10;i++) {
-	//diceButton.setIcon(new ImageIcon(d.diceIcon[i%6]));
-	 try {
-		rowing.setIcon(new ImageIcon(d.diceIcon[i%6]));
-		Thread.sleep(70);
-		//TimeUnit.MICROSECONDS.sleep(500);
-		System.out.println(i);
-	} catch (InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	 //diceButton.setIcon(new ImageIcon(d.diceIcon[i%6]));
-	
-}
-layeredPane.remove(rowing);
-layeredPane.add(diceButton, new Integer(1));
-*/
