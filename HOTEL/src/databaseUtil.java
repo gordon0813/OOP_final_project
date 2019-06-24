@@ -9,7 +9,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 /**
- * This is the class of the main class of the datatvbase.
+ * <h1>This is the class of database<\h1>
  * 
  * @author momo, tim, catherine, sopia
  * @version 1.0
@@ -169,7 +169,7 @@ public class databaseUtil {
 	
 	/**
 	 * get the certain OrderID by given OrderID
-	 * @param OrderID 
+	 * @param OrderID order ID
 	 * @return Order with OrderID
 	 */
 	public static Order getOrderByOrderID(int OrderID) {
@@ -214,7 +214,7 @@ public class databaseUtil {
 	}
 	/**
 	 * get the Order list by given UserID
-	 * @param UID
+	 * @param UID user ID
 	 * @return Order list with UID
 	 */
 	public static Order[] getOrderByUserID(String UID) {
@@ -271,7 +271,7 @@ public class databaseUtil {
 	}
 	/**
 	 * Get the certain Order list by given HotelID
-	 * @param HotelID
+	 * @param HotelID hotel ID
 	 * @return Order list with HotelID
 	 */
 	public static Order[] getOrderByHotelID(int HotelID) {
@@ -326,7 +326,7 @@ public class databaseUtil {
 	
 	/**
 	 * Delete the certain Order with OrderID
-	 * @param OrderID
+	 * @param OrderID order ID
 	 */
 	public static void deleteOrder(int OrderID) {
 		try {
@@ -354,7 +354,7 @@ public class databaseUtil {
 	}
 	/**
 	 * main method to test databaseUtil.java
-	 * @param args
+	 * @param args not use
 	 */
 	public static void main(String[] args) {
 		buildConnection();
