@@ -1,18 +1,27 @@
-import java.util.ArrayList;
 
+/**
+ * This is the class of User.
+ * 
+ * @author B06505017, B06505032, B06505054, B06902023
+ * @version 1.0
+ * @since 2019-05-31
+ */
 public class User {
 	private String UserID;
 	private String Password;
-	//private ArrayList<Order> Orders;
+	/**
+	 * Default constructor
+	 */
 	public User() {
 		UserID = "";
 		Password = "";
-		//Orders = new ArrayList<Order>();
 	}
+	/**
+	 * Copy constructor
+	 */
 	public User(String _UserID, String _Password) {
 		UserID = _UserID;
 		Password = _Password;
-		//Orders = new ArrayList<Order>();
 	}
 	public String getUserID() {
 		return UserID;
@@ -20,16 +29,7 @@ public class User {
 	public String getPassword() {
 		return Password;
 	}
-	/*public ArrayList<Order> getOrders() {
-		return Orders;
-	}*/
 	public boolean equals(String _UserID) {
 		return UserID == _UserID;
 	}
-	/*public int getnextOrderID() {
-		return Orders.size();
-	}
-	public void newOrder(Order _Order) {
-		Orders.add(_Order);
-	}*/
 }

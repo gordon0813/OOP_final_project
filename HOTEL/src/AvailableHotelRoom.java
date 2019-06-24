@@ -1,17 +1,30 @@
 
-public class AvailableHotelRooms {
+/**
+ * This is the class of the return type AvailableHotelRoom for GUI.
+ * 
+ * @author B06505017, B06505032, B06505054, B06902023
+ * @version 1.0
+ * @since 2019-05-31
+ */
+public class AvailableHotelRoom {
 	private int HotelID;
 	private int HotelStar;
 	private int Single, Double, Quad;
 	
 	private String Locality, Address;
 
-	public AvailableHotelRooms() {
+	/**
+	 * Default constructor.
+	 */
+	public AvailableHotelRoom() {
 		HotelID = 0;
 		HotelStar = 0;
 		Single = Double = Quad = 0;
 	}
-	public AvailableHotelRooms(int _HotelID, int _HotelStar, String _Locality, String _Address,int _Single, int _Double, int _Quad) {
+	/**
+	 * 	Copy constructor.
+	 */
+	public AvailableHotelRoom(int _HotelID, int _HotelStar, String _Locality, String _Address,int _Single, int _Double, int _Quad) {
 		HotelID = _HotelID;
 		HotelStar = _HotelStar;
 		Locality = _Locality;

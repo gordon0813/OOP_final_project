@@ -1508,7 +1508,7 @@ public class Menu extends JPanel {
 
 	// make hotel list 建立Table
 	// 但取到價錢似乎怪怪的
-	public DefaultTableModel makeHotellist(ArrayList<AvailableHotelRooms> _AHR) {
+	public DefaultTableModel makeHotellist(ArrayList<AvailableHotelRoom> _AHR) {
 		DefaultTableModel tablemodel = new DefaultTableModel(heading, 0);
 		// get data
 		for (int i = 0; i < _AHR.size(); i++) {
@@ -1981,7 +1981,7 @@ public class Menu extends JPanel {
 					String COD = entercheckoutdateField.getText();
 					int People = Integer.parseInt(enterpeopleField.getText());
 					int Rooms = Integer.parseInt(enterroomField.getText());
-					ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+					ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
 					if (AHR.size() > 0) {
 						layeredPane.remove(EnterSearch);
 						layeredPane.remove(Invalid_date_error);
@@ -2021,7 +2021,7 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
 				DefaultTableModel dtm = makeHotellist(AHR);
 				showHotellist(dtm);
 
@@ -2038,8 +2038,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SortByPrice(AHR, 0);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SortByPrice(AHR, 0);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
@@ -2056,8 +2056,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SortByPrice(AHR, 1);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SortByPrice(AHR, 1);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
@@ -2074,8 +2074,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 5);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SearchByStar(AHR, 5);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
@@ -2092,8 +2092,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 4);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SearchByStar(AHR, 4);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
@@ -2110,8 +2110,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 3);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SearchByStar(AHR, 3);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 
@@ -2128,8 +2128,8 @@ public class Menu extends JPanel {
 				String COD = entercheckoutdateField.getText();
 				int People = Integer.parseInt(enterpeopleField.getText());
 				int Rooms = Integer.parseInt(enterroomField.getText());
-				ArrayList<AvailableHotelRooms> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
-				ArrayList<AvailableHotelRooms> nAHR = main.SearchByStar(AHR, 2);
+				ArrayList<AvailableHotelRoom> AHR = main.SearchAvailableHotels(CID, COD, People, Rooms);
+				ArrayList<AvailableHotelRoom> nAHR = main.SearchByStar(AHR, 2);
 				DefaultTableModel dtm = makeHotellist(nAHR);
 				showHotellist(dtm);
 

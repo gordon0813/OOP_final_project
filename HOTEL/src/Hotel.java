@@ -1,5 +1,8 @@
 import com.google.gson.annotations.SerializedName;
 
+/*
+ * This is the class of the Hotel read from the HotelList.json.
+ */
 public class Hotel {
 	@SerializedName("HotelID")
 	private int ID;
@@ -8,14 +11,16 @@ public class Hotel {
 	private String Locality;
 	@SerializedName("Street-Address")
 	private String Address;
-	
 	@SerializedName("Rooms")
 	private RoomType[] RoomTypes;
-	private static int SingleRoomPrice;
-	private static int DoubleRoomPrice;
-	private static int QuadRoomPrice;
-	private Room[] SingleRooms, DoubleRooms, QuadRooms;
 	
+	private int SingleRoomPrice;
+	private int DoubleRoomPrice;
+	private int QuadRoomPrice;
+	private Room[] SingleRooms, DoubleRooms, QuadRooms;
+	/*
+	 * This method initialize the Hotel class.
+	 */
 	public void init() {
 		SingleRooms = new Room[RoomTypes[0].getNumber()];
 		DoubleRooms = new Room[RoomTypes[1].getNumber()];
@@ -26,7 +31,7 @@ public class Hotel {
 			DoubleRooms[i] = new Room();
 		for (int i = 0; i < QuadRooms.length; i++) 
 			QuadRooms[i] = new Room();
-		SingleRoomPrice = RoomTypes[0].getPrice();
+		SingleRoomPrice = RoomTypes[0].getPrice(); 
 		DoubleRoomPrice = RoomTypes[1].getPrice();
 		QuadRoomPrice = RoomTypes[2].getPrice();
 	}

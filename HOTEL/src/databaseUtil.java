@@ -9,7 +9,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 /**
- * <h1>This is the class of the main class for running a Hotel Booking Webpage.<\h1>
+ * <h2>This is the class of the main class of the datatvbase.<\h2>
  * 
  * @author momo, tim, catherine, sopia
  * @version 1.0

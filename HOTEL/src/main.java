@@ -18,14 +18,12 @@ import java.text.SimpleDateFormat;
 /**
  * <h1>This is the class of the main class for running a Hotel Booking Webpage.<\h1>
  * 
- * @author momo, tin, catherine, sopia
+ * @author B06505017, B06505032, B06505054, B06902023
  * @version 1.0
- * @since 2017-05-31
+ * @since 2019-05-31
  */
 public class main {
-
-	public static Hotel HotelList[];
-	public static ArrayList<User> UserList;
+	public static Hotel[] HotelList;
 	public static User user;
 
 	/**
@@ -47,7 +45,6 @@ public class main {
 	 * 
 	 * @throws IOExceptionWithCause
 	 */
-	
 	public static void ReadHotelList() throws IOException {
 		try (Reader reader = new InputStreamReader(main.class.getResourceAsStream("HotelList.json"), "big5")) {
 			// try (BufferedReader reader = new BufferedReader(new FileReader(file)) {
@@ -84,7 +81,7 @@ public class main {
 	 * 
 	 * @param UserID the current user's ID
 	 * @param Password the current user's password
-	 * @return int 0 if user's ID is unknown, -1 if the password is wrong
+	 * @return int 1 if the user can be signed, 0 if user's ID is unknown, -1 if the password is wrong
 	 */
 	public static int SignInCheck(String UserID, String Password) { 
 		user = databaseUtil.getUser(UserID);
@@ -119,11 +116,12 @@ public class main {
 */
 
 	/**
-	 * This is the method 
+	 * This methods count the days between the given two dates. 
+	 * If the second date is ahead of the first date, it returns negative numbers.
 	 * 
-	 * @param D1
-	 * @param D2
-	 * @return
+	 * @param D1 is the first date
+	 * @param D2 is the second date
+	 * @return long the days between the two dates
 	 */
 	public static long CountDaysBetween(String D1, String D2) {
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -134,6 +132,14 @@ public class main {
 		return days;
 	}
 
+	/**
+	 * This method checks if the given room is available in the given period.
+	 * 
+	 * @param room the given room
+	 * @param Start is the number of (start date - today)
+	 * @param end is the number of (end date - today)
+	 * @return boolean true if the room is available
+	 */
 	public static boolean CheckRoomIsAvailable(Room room, long Start, long end) {
 		boolean[] DIO = room.getDateIsOccupied();
 		for (int i = (int) Start; i < end; i++)
@@ -142,6 +148,18 @@ public class main {
 		return true;
 	}
 
+	/**
+	 * This method checks if all the rooms in the hotel of the current order are available for booking.
+	 * It calls the CheckRoomIsAvailable() to check the rooms one by one.
+	 * 
+	 * @param HotelID the current hotel
+	 * @param start is the number of (start date - today)
+	 * @param end is the number of (end date - today)
+	 * @param sn is the demand number of single room
+	 * @param dn is the demand number of double room
+	 * @param qn is the demand number of quad room
+	 * @return boolean true if all the rooms are available
+	 */
 	public static boolean CheckAllRooms(int HotelID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -177,6 +195,18 @@ public class main {
 		return true;
 	}
 
+	/**
+	 * This method runs the given reserve operation.
+	 * 
+	 * @param HotelID is the given Hotel
+	 * @param UserID is the current user's ID
+	 * @param start is the number of (start date - today)
+	 * @param end is the number of (end date - today)
+	 * @param sn is the demand number of single room
+	 * @param dn is the demand number of double room
+	 * @param qn is the demand number of quad room
+	 * @return ArrayList<ArrayList<Integer>> the list of the reserved room numbers
+	 */
 	public static ArrayList<ArrayList<Integer>> Reserve(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
 		Room[] singleroom = hotel.getSingleRooms();
@@ -229,8 +259,17 @@ public class main {
 		return RoomNumbers;
 	}
 
-	public static ArrayList<AvailableHotelRooms> SearchAvailableHotels(String CID, String COD, int p, int n) {
-		ArrayList<AvailableHotelRooms> AHR = new ArrayList<AvailableHotelRooms>();
+	/**
+	 * This method runs the given Search operation.
+	 * 
+	 * @param CID is the check-in date
+	 * @param COD is the check-out date
+	 * @param p is the demand number of people 
+	 * @param n is the demand number of rooms
+	 * @return ArrayList<AvailableHotelRoom> the list of the available hotel rooms
+	 */
+	public static ArrayList<AvailableHotelRoom> SearchAvailableHotels(String CID, String COD, int p, int n) {
+		ArrayList<AvailableHotelRoom> AHR = new ArrayList<AvailableHotelRoom>();
 
 		Date Now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -243,17 +282,17 @@ public class main {
 			Room[] quadroom = hotel.getQuadRooms();
 
 			int available_sr = 0;
-			if (singleroom != null) {
+			if (singleroom != null) 
 				for (Room sr : singleroom)
 					if (CheckRoomIsAvailable(sr, start, end))
 						available_sr++;
-			}
+	
 			int available_dr = 0;
-			if (doubleroom != null) {
+			if (doubleroom != null) 
 				for (Room dr : doubleroom)
 					if (CheckRoomIsAvailable(dr, start, end))
 						available_dr++;
-			}
+			
 			int available_qr = 0;
 			if (quadroom != null) {
 				for (Room qr : quadroom)
@@ -267,12 +306,24 @@ public class main {
 				for (int y = 0; y <= Math.min(n, available_dr); y++)
 					for (int z = 0; z <= Math.min(n, available_qr); z++)
 						if (x + y + z == n && 1 * x + 2 * y + 4 * z >= p)
-							AHR.add(new AvailableHotelRooms(hotel.getID(), hotel.getStar(), hotel.getLocality(),
+							AHR.add(new AvailableHotelRoom(hotel.getID(), hotel.getStar(), hotel.getLocality(),
 									hotel.getAddress(), x, y, z));
 		}
 		return AHR;
 	}
 
+	/**
+	 * This method runs the given Reserve operation. 
+	 * It first call the CheckAllRooms() and produce an Order of the given demand.
+	 * 
+	 * @param CID is the check-in date
+	 * @param COD is the check-out date
+	 * @param HotelID the current hotel's ID
+	 * @param sn is the demand number of single rooms
+	 * @param dn is the demand number of double rooms
+	 * @param qn is the demand number of quad rooms
+	 * @return Order based on the given demand
+	 */
 	public static Order BookHotel(String CID, String COD, int HotelID, int sn, int dn, int qn) {
 		Date Now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -283,45 +334,83 @@ public class main {
 			ArrayList<ArrayList<Integer>> re = Reserve(HotelID, user.getUserID(), start, end, sn, dn, qn);
 			Order nOrder = new Order(databaseUtil.getNewOrderID(), user.getUserID(), HotelID, CID, COD, re.get(0), re.get(1), re.get(2));
 			databaseUtil.insertOrder(nOrder);
-			//hotel.newOrder(nOrder);
-			//user.newOrder(nOrder);
 			return nOrder;
 		}
 		return null;
 	}
 
+	/**
+	 * This method checks if the given order's ID exists.
+	 * 
+	 * @param OrderID is the given order's ID
+	 * @return boolean true if the order's ID exists.
+	 */
 	public static Order CheckOrder(int OrderID) {
-		//return user.getOrders().get(OrderID);
 		return databaseUtil.getOrderByOrderID(OrderID);
 	}
-
-	public static ArrayList<AvailableHotelRooms> SearchByStar(ArrayList<AvailableHotelRooms> AHR, int Star) {
-		ArrayList<AvailableHotelRooms> nAHR = new ArrayList<AvailableHotelRooms>();
-		for (AvailableHotelRooms ahr : AHR)
+	
+	/**
+	 * This method selects the matched hotels and rooms from the list AvailableHotelRoom based on the given hotel's star.
+	 * 
+	 * @param AHR is the AvailableHotelRoom list
+	 * @param Star is the given hotel's star
+	 * @return ArrayList<AvailableHotelRoom> the new AvailableHotelRoom list
+	 */
+	public static ArrayList<AvailableHotelRoom> SearchByStar(ArrayList<AvailableHotelRoom> AHR, int Star) {
+		ArrayList<AvailableHotelRoom> nAHR = new ArrayList<AvailableHotelRoom>();
+		for (AvailableHotelRoom ahr : AHR)
 			if (ahr.getHotelStar() == Star)
 				nAHR.add(ahr);
 		return nAHR;
 	}
 
-	public static int CountSumPrice(AvailableHotelRooms x) {
+	/**
+	 * This method counts the cost of the given AvailableHotelRoom.
+	 * 
+	 * @param x 
+	 * @return int the summation price 
+	 */
+	public static int CountSumPrice(AvailableHotelRoom x) {
 		return HotelList[x.getHotelID()].getSingleRoomPrice() * x.getSingle() 
 			 + HotelList[x.getHotelID()].getDoubleRoomPrice() * x.getDouble()
 		     + HotelList[x.getHotelID()].getQuadRoomPrice() * x.getQuad();
 	}
 
-	public static ArrayList<AvailableHotelRooms> SortByPrice(ArrayList<AvailableHotelRooms> AHR, int op) {
-		Collections.sort(AHR, new Comparator<AvailableHotelRooms>() {
-			public int compare(AvailableHotelRooms a, AvailableHotelRooms b) {
+	/**
+	 * This method sorts the given list AvailableHotelRoom by price.
+	 * When option is 1, sort in descending order. When option is 2, sort in ascending order.
+	 * 
+	 * @param AHR is the given list
+	 * @param op is the option
+	 * @return ArrayList<AvailableHotelRoom> the sorted list
+	 */
+	public static ArrayList<AvailableHotelRoom> SortByPrice(ArrayList<AvailableHotelRoom> AHR, int op) {
+		Collections.sort(AHR, new Comparator<AvailableHotelRoom>() {
+			public int compare(AvailableHotelRoom a, AvailableHotelRoom b) {
 				return (op == 1 ? (CountSumPrice(a) - CountSumPrice(b)) : (CountSumPrice(b) - CountSumPrice(a)));
 			}
 		});
 		return AHR;
 	}
 
+	/**
+	 * This method runs the given Cancel Order operation.
+	 * 
+	 * @param OrderID is the given order's ID
+	 */
 	public static void CancelOrder(int OrderID) {
 		databaseUtil.deleteOrder(OrderID);
 	}
 	
+	/**
+	 * This method runs the Change Rooms operation.
+	 * 
+	 * @param OrderID is the given order's ID
+	 * @param nsn is the modified number of single rooms
+	 * @param ndn is the modified number of double rooms
+	 * @param nqn is the modified number of quad rooms
+	 * @return Order the modified order
+	 */
 	public static Order ChangeRooms(int OrderID, int nsn, int ndn, int nqn) { 
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
@@ -370,6 +459,15 @@ public class main {
 		return newOrder;
 	}
 	
+	/**
+	 * This method checks whether the revised date is valid.
+	 * Valid means that the revised date period must be lagrget thean 0, and smaller than the original date period.
+	 * 
+	 * @param OrderID is the given order's ID
+	 * @param nCID is the revised check-in date
+	 * @param nCOD is the revised check-out date
+	 * @return boolean true if the revised is valid
+	 */
 	public static boolean CheckDateforReviseDate(int OrderID, String nCID, String nCOD) {
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		long Days = CountDaysBetween(order.getCheckInDate(), order.getCheckOutDate());
@@ -378,7 +476,15 @@ public class main {
 		return D > 0 && D < Days && CountDaysBetween(order.getCheckInDate(), nCID) >= 0;
 	}
 
-	public static Order ModifyDate(int OrderID, String nCID, String nCOD) { // to do
+	/**
+	 * This method runs the Revise Date operation. 
+	 * 
+	 * @param OrderID is the given order's ID
+	 * @param nCID is the new check-in date
+	 * @param nCOD is the new check-out date
+	 * @return Order the modified order
+	 */
+	public static Order ModifyDate(int OrderID, String nCID, String nCOD) { 
 		Order order = databaseUtil.getOrderByOrderID(OrderID);
 		Hotel hotel = HotelList[order.getHotelID()];
 		Room[] singleroom = hotel.getSingleRooms();

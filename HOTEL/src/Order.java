@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * This is the class of Order.
+ * 
+ * @author B06505017, B06505032, B06505054, B06902023
+ * @version 1.0
+ * @since 2019-05-31
+ */
 public class Order {
 	private int ID;
 	private int HotelID;
@@ -8,6 +15,9 @@ public class Order {
 	private String CheckOutDate;
 	private ArrayList<Integer> Snum, Dnum, Qnum;
 	private int SumPrice;
+	/**
+	 * Default constructor.
+	 */
 	Order() {
 		ID = -1;
 		UserID = "";
@@ -17,6 +27,9 @@ public class Order {
 		SumPrice = 0;
 		Snum = Dnum = Qnum = null;
 	}
+	/**
+	 * Copy constructor.
+	 */
 	Order(int _ID, String _UserID, int _HotelID, String _CheckInDate, String _CheckOutDate, ArrayList<Integer> _Snum, ArrayList<Integer> _Dnum, ArrayList<Integer> _Qnum) {
 		ID = _ID;
 		UserID = _UserID;
@@ -30,6 +43,9 @@ public class Order {
 				+ main.HotelList[HotelID].getDoubleRoomPrice() * Dnum.size() 
 				+ main.HotelList[HotelID].getQuadRoomPrice() * Qnum.size();
 	}
+	/**
+	 * Another copy constructor.
+	 */
 	Order(Order _Order) {
 		ID = _Order.ID;
 		UserID = _Order.UserID;
@@ -67,9 +83,7 @@ public class Order {
 	ArrayList<Integer> getQnum() {
 		return Qnum;
 	}
-	
 	int getSumPrice() {
 		return SumPrice;
 	}
-	
 }
