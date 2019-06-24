@@ -30,9 +30,8 @@ public class main {
 	 * This is the main method to builds the connection with database, reads the hotel list, and sets the intitialized GUI.
 	 * 
 	 * @param args Unused.
-	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		databaseUtil.buildConnection();
 //		databaseUtil.initDatabase();
 		ReadHotelList();
@@ -42,10 +41,8 @@ public class main {
 
 	/**
 	 * This method reads the hotel list.
-	 * 
-	 * @throws IOExceptionWithCause
 	 */
-	public static void ReadHotelList() throws IOException {
+	public static void ReadHotelList()  {
 		try (Reader reader = new InputStreamReader(main.class.getResourceAsStream("HotelList.json"), "big5")) {
 			// try (BufferedReader reader = new BufferedReader(new FileReader(file)) {
 			Gson gson = new GsonBuilder().create();
@@ -205,7 +202,7 @@ public class main {
 	 * @param sn is the demand number of single room
 	 * @param dn is the demand number of double room
 	 * @param qn is the demand number of quad room
-	 * @return ArrayList<ArrayList<Integer>> the list of the reserved room numbers
+	 * @return ArrayList the list of the reserved room numbers
 	 */
 	public static ArrayList<ArrayList<Integer>> Reserve(int HotelID, String UserID, long start, long end, int sn, int dn, int qn) {
 		Hotel hotel = HotelList[HotelID];
@@ -266,7 +263,7 @@ public class main {
 	 * @param COD is the check-out date
 	 * @param p is the demand number of people 
 	 * @param n is the demand number of rooms
-	 * @return ArrayList<AvailableHotelRoom> the list of the available hotel rooms
+	 * @return ArrayList the list of the available hotel rooms
 	 */
 	public static ArrayList<AvailableHotelRoom> SearchAvailableHotels(String CID, String COD, int p, int n) {
 		ArrayList<AvailableHotelRoom> AHR = new ArrayList<AvailableHotelRoom>();
@@ -354,7 +351,7 @@ public class main {
 	 * 
 	 * @param AHR is the AvailableHotelRoom list
 	 * @param Star is the given hotel's star
-	 * @return ArrayList<AvailableHotelRoom> the new AvailableHotelRoom list
+	 * @return ArrayList the new AvailableHotelRoom list
 	 */
 	public static ArrayList<AvailableHotelRoom> SearchByStar(ArrayList<AvailableHotelRoom> AHR, int Star) {
 		ArrayList<AvailableHotelRoom> nAHR = new ArrayList<AvailableHotelRoom>();
@@ -367,7 +364,7 @@ public class main {
 	/**
 	 * This method counts the cost of the given AvailableHotelRoom.
 	 * 
-	 * @param x 
+	 * @param x is the given room
 	 * @return int the summation price 
 	 */
 	public static int CountSumPrice(AvailableHotelRoom x) {
@@ -382,7 +379,7 @@ public class main {
 	 * 
 	 * @param AHR is the given list
 	 * @param op is the option
-	 * @return ArrayList<AvailableHotelRoom> the sorted list
+	 * @return ArrayList the sorted list
 	 */
 	public static ArrayList<AvailableHotelRoom> SortByPrice(ArrayList<AvailableHotelRoom> AHR, int op) {
 		Collections.sort(AHR, new Comparator<AvailableHotelRoom>() {
