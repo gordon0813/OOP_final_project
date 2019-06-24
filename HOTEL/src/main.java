@@ -16,7 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * <h1>This is the class of the main class for running a Hotel Booking Webpage.<\h1>
+ * This is the class of the main class for running a Hotel Booking Webpage.
  * 
  * @author B06505017, B06505032, B06505054, B06902023
  * @version 1.0

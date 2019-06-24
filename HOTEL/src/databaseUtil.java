@@ -9,7 +9,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 /**
- * <h2>This is the class of the main class of the datatvbase.<\h2>
+ * This is the class of the main class of the datatvbase.
  * 
  * @author momo, tim, catherine, sopia
  * @version 1.0
