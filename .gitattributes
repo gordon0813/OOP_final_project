@@ -1,2 +1,2 @@
 *.class linguist-language=Java
-HOTEL/doc/* linguist-documentation
+*.html linguist-language=Java
