@@ -1,2 +1,3 @@
 *.class linguist-language=Java
-docs/* linguist-documentation
+HOTEL/doc/* linguist-documentation
+MONOPOLY/doc/* linguist-documentation
