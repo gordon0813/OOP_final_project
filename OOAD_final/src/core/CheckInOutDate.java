@@ -20,7 +20,13 @@ public class CheckInOutDate implements Cloneable{
 		assert days>0;
 		return days;
 	}
-	public CheckInOutDate clone()throws CloneNotSupportedException{
+	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return "checkin: "+checkin.format(formatter)+"\ncheckout: "+checkout.format(formatter)
+		+"\ndays between: "+howManyDays();
+		
+	}
+	public CheckInOutDate clone(){
 		return new CheckInOutDate(checkin,checkout);
 	}
 	

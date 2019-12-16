@@ -23,7 +23,13 @@ public class RoomNum {
 	public int totalPeople() {
 		return singleNum+2*doubleNum+4*quadNum;
 	}
-	public RoomNum clone()throws CloneNotSupportedException{
+	public String toString() {
+		return "size 1 num: "+singleNum
+				+"\nsize 2 num: "+doubleNum
+				+"\nsize 4 num: "+quadNum
+				+"\ntotal People: "+this.totalPeople();
+	}
+	public RoomNum clone(){
 		return new RoomNum(singleNum,doubleNum,quadNum);
 	}
 	public int getSingleNum() {

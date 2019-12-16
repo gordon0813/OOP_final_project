@@ -32,6 +32,17 @@ public class Plan {
 	public Plan clone()throws CloneNotSupportedException{
 		return new Plan(rn.clone(),ckio.clone(),ht);
 	}
+	public String toString() {
+		String re="=========Room num:\n"
+				+rn.toString()
+				+"\n=========Hotel info:\n"
+				+ht.toString()
+				+"\n========check in out info:\n"
+				+ckio.toString()
+				+"\n========total price:\n"
+				+ht.calPriceOneDay(rn)*ckio.howManyDays()+"\n";
+		return re;
+	}
 	public CheckInOutDate getCheckInOutDate() {
 		return ckio;
 	}

@@ -11,4 +11,5 @@ public class Order {
 		id=0;//db.getlastid()
 		user=null;//User.getuser()
 	}
+	
 }

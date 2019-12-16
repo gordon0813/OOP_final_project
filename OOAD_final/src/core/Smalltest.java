@@ -25,10 +25,26 @@ public class Smalltest {
 	        String outs=d1.format(formatter);
 	        System.out.println(outs);
 		}else if(task==1) {
-			Room r1=new Room(2,1387);
-			int []a=new int[100];
+			
+			System.out.println("===============check in out===========");
+			LocalDate d1= LocalDate.of(2019, 12, 13);
+			LocalDate d2= LocalDate.of(2019, 12, 17);
+			CheckInOutDate ck1=new CheckInOutDate(d1, d2);
+			System.out.println(ck1);
+			System.out.println("=============room num==============");
 			RoomNum rn=new RoomNum(1,3,1);
-			System.out.println(rn.totalPeople());
+			System.out.println(rn);
+			System.out.println("=============hotel============");
+			Hotel h1=new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
+			System.out.println(h1);
+			System.out.println("==============plan==============");
+			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
+			System.out.println(p1);
+			System.out.println("===============Order============");
+			Order order=new Order(p1, false);
+			
+			
+		
 			
 		}
 		

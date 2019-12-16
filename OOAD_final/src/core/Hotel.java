@@ -10,6 +10,14 @@ public class Hotel {
 	private int id;
 	private int star;
 	private String address;
+	/**
+	 * @param ID
+	 * @param STAR
+	 * @param ADDRESS
+	 * @param r1
+	 * @param r2
+	 * @param r4
+	 */
 	public Hotel(int ID,int STAR ,String ADDRESS,Room r1,Room r2,Room r4) {
 		assert r1.getRoomsize()==1;
 		assert r2.getRoomsize()==2;
@@ -49,6 +57,13 @@ public class Hotel {
 	public RoomNum maxExtendRoom(RoomNum rn,CheckInOutDate ck) {
 		//todo db
 		RoomNum re=null;//db.maxExtendRoom(ID,rn,ck)
+		return re;
+	}
+	public String toString() {
+		String re="ID: "+id+"\nStar: "+star+"\naddress: "+address+"\n"
+				+this.roomsingle.toString()+"\n"
+		        +this.roomdouble.toString()+"\n"
+		        +this.roomquad.toString();
 		return re;
 	}
 	public Room getRoomsingle() {
