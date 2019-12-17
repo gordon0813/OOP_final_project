@@ -1,6 +1,20 @@
 package core;
 
 public class Hotel {
+	private static Hotel[] hotelList;
+	static {
+		int hotelnum=0;//db.getHotelnum();
+		hotelList=new Hotel[hotelnum];
+		for (int i=0;i<hotelnum;i++) {
+			hotelList[i]=null;//db.getHotel(i)
+		}
+	}
+	public static Plan[] search(Search_input si) {
+		return null;
+	}
+	public static Hotel getHotel(int ID) {
+		return null;
+	}
 	private Room roomsingle;
 
 	private Room roomdouble;

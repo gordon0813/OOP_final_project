@@ -41,7 +41,9 @@ public class Smalltest {
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
 			System.out.println(p1);
 			System.out.println("===============Order============");
+			User.login(0, "gg");
 			Order order=new Order(p1, false);
+			System.out.println(order);
 			
 			
 		

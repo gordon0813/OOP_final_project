@@ -20,6 +20,10 @@ public class CheckInOutDate implements Cloneable{
 		assert days>0;
 		return days;
 	}
+	public boolean contain(CheckInOutDate ckio) {
+		
+		return (ckio.checkin.compareTo(checkin)>=0 &&  ckio.checkout.compareTo(checkout)<=0 ) ;
+	}
 	public String toString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return "checkin: "+checkin.format(formatter)+"\ncheckout: "+checkout.format(formatter)

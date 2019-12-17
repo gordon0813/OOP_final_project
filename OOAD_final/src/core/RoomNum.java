@@ -29,6 +29,9 @@ public class RoomNum {
 				+"\nsize 4 num: "+quadNum
 				+"\ntotal People: "+this.totalPeople();
 	}
+	public boolean contain(RoomNum rn) {
+		return (this.singleNum>=rn.singleNum && this.doubleNum>=rn.doubleNum&& this.quadNum>=rn.quadNum);
+	}
 	public RoomNum clone(){
 		return new RoomNum(singleNum,doubleNum,quadNum);
 	}

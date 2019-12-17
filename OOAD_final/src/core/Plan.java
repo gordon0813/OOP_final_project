@@ -16,6 +16,9 @@ public class Plan {
 	public CheckInOutDate maxExtendDate() {
 		return ht.maxExtendDate(rn, ckio);
 	}
+	public boolean check() {
+		return (this.maxExtendDate().contain(ckio)&& this.maxExtendRoom().contain(rn));
+	}
 	/**
 	 * @return max extend room number base on now check in out date
 	 */
@@ -29,7 +32,13 @@ public class Plan {
 		assert onedayPrice>0;
 		return days*onedayPrice;
 	}
-	public Plan clone()throws CloneNotSupportedException{
+	public Order toOrder() {
+		return new Order(clone(), false);
+	}
+	public void Mark() {
+		User.getUser().addpageMark(this.clone());
+	}
+	public Plan clone(){
 		return new Plan(rn.clone(),ckio.clone(),ht);
 	}
 	public String toString() {
