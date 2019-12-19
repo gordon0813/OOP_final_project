@@ -1,5 +1,4 @@
 package core;
-
 import java.util.ArrayList;
 
 public class User {
@@ -7,6 +6,9 @@ public class User {
 	static {
 		loginUser=new User();
 	}
+	/**
+	 * @return now user (may or may not login but won't be null) 
+	 */
 	public static User getUser() {
 		return loginUser;
 	}
@@ -14,6 +16,11 @@ public class User {
 		//db.newUser(id,passWord)
 		return false;
 	}
+	/**
+	 * @param name
+	 * @param PassWord
+	 * @throws UserException
+	 */
 	public static void login(String name,String PassWord) throws UserException {
 		//todo db
 		if( User.loginUser.valid==true) {
@@ -21,6 +28,9 @@ public class User {
 		}
 		User.loginUser=new User(name,PassWord);//db.getUser(id,password)
 	}
+	/**
+	 * make current user logout( not mean user=null is user.valid=false)
+	 */
 	public static void logout() {
 		assert User.loginUser.valid==true;
 		User.loginUser.valid=false;
@@ -74,12 +84,23 @@ public class User {
 		orderList.add(afterEdit);
 		
 	}
+	/**
+	 * auto trigger when Using Hotel.search()
+	 * will access db
+	 * @param si 
+	 */
 	public void addRecord(Search_input si) {
 		if(!valid) {
 			return ;
 		}
 		record.add(si);
+		//db.addRecord(this.id,si);
 	}
+	/**
+	 * use by GUI
+	 * @param pl plan that will become pageMark
+	 * @throws UserException 
+	 */
 	public void addpageMark(Plan pl) throws UserException {
 		if(!valid) {
 			throw new UserException("User has not login can't add pagemark");
@@ -96,6 +117,9 @@ public class User {
 			}
 		}
 		return false;
+	}
+	public boolean islogin() {
+		return valid;
 	}
 
 	public String toString() {
