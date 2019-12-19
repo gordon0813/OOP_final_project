@@ -35,18 +35,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 
-public class GUI_hotelpage {
+public class GUI_order_confirm {
 
 	private JFrame frame;
 	private JTable table;
-	private static Order ordr;
-    public static Order getOrdr() {
-		return ordr;
-	}
 
-	public static void setOrdr(Order ordr) {
-		GUI_hotelpage.ordr = ordr;
-	}
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +48,7 @@ public class GUI_hotelpage {
 	/**
 	 * Create the application.
 	 */
-	public GUI_hotelpage() {
+	public GUI_order_confirm() {
 		initialize();
 	}
 
@@ -103,36 +96,12 @@ public class GUI_hotelpage {
 		label_9.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_9.setBounds(879, 16, 54, 27);
 		frame.getContentPane().add(label_9);
-		/*
-		 * RoomNum RNtest = new RoomNum(0, 0, 0); CheckInOutDate CKtest = new
-		 * CheckInOutDate(selectedDateout, selectedDateout); Hotel HTtest = new Hotel(0,
-		 * 0, null, null, null, null); Plan[] plantest = {new Plan(RNtest, CKtest,
-		 * HTtest)};
-		 */
-		String[] head = { "評論" };
-		String[] place = GUI_search.getChosen_plan().getHotel().loadcomments();
-		String[][] ph = new String[1][place.length];
-		for(int i = 0;i<place.length;i++) {
-			ph[0][i] = place[i];
-		}
-//		String[][] test = { {"a","b","c"} ,{"d"}   };
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 348, 835, 315);
-		frame.getContentPane().add(scrollPane);
-		table = new JTable(new DefaultTableModel(ph, head));
-		scrollPane.setViewportView(table);
-		table.setPreferredScrollableViewportSize(new Dimension(450, 63));
-		table.setFillsViewportHeight(true);
-		table.getColumnModel().getColumn(1).setPreferredWidth(200);
-		table.setRowSelectionAllowed(true);
 		
 		JButton confirm = new JButton("\u78BA\u5B9A");
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RoomNum rn = new RoomNum((Integer) spinner_1.getValue(),
-						(Integer) spinner_2.getValue(), (Integer) spinner_4.getValue());
-				GUI_search.getChosen_plan().setRoomNum(rn);
+				GUI_hotelpage.getOrdr().confirm();
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -150,11 +119,6 @@ public class GUI_hotelpage {
 		button_user.setBounds(896, 572, 130, 29);
 		frame.getContentPane().add(button_user);
 		
-		JLabel hotel_info = new JLabel(GUI_search.getChosen_plan().getHotel().toString());
-		hotel_info.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		hotel_info.setBounds(10, 12, 538, 200);
-		frame.getContentPane().add(hotel_info);
-		
 		JLabel label = new JLabel("\u7E3D\u50F9:");
 		label.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label.setBounds(577, 92, 62, 27);
@@ -164,6 +128,11 @@ public class GUI_hotelpage {
 		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		lblNewLabel.setBounds(623, 92, 144, 27);
 		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel order_info = new JLabel(GUI_hotelpage.getOrdr().toString());
+		order_info.setFont(new Font("新細明體", Font.PLAIN, 20));
+		order_info.setBounds(10, 22, 542, 218);
+		frame.getContentPane().add(order_info);
 
 		// DefaultTableModel model = (DefaultTableModel) table.getModel();
 

@@ -43,7 +43,15 @@ public class GUI_search {
 	private JTextField lowprice;
 	private JTextField highprice;
 	private JTable table;
+	private static Plan chosen_plan;
 
+
+	public static Plan getChosen_plan() {
+		return chosen_plan;
+	}
+    private boolean chosen = true;
+
+	private Plan[] plan_input = new Plan[0];
 	/**
 	 * Launch the application.
 	 */
@@ -180,7 +188,7 @@ public class GUI_search {
 
 		JSpinner spinner_2 = new JSpinner();
 		spinner_2.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		spinner_2.setBounds(941, 10, 85, 33);
+		spinner_2.setBounds(785, 12, 85, 33);
 		frame.getContentPane().add(spinner_2);
 
 		JLabel label_7 = new JLabel("\u96D9\u4EBA\u623F");
@@ -189,7 +197,7 @@ public class GUI_search {
 		frame.getContentPane().add(label_7);
 
 		JSpinner spinner_4 = new JSpinner();
-		spinner_4.setBounds(782, 12, 85, 33);
+		spinner_4.setBounds(941, 13, 85, 33);
 		frame.getContentPane().add(spinner_4);
 
 		JLabel label_9 = new JLabel("\u56DB\u4EBA\u623F");
@@ -220,7 +228,8 @@ public class GUI_search {
 						new CheckInOutDate(selectedDatein, selectedDateout), new RoomNum((Integer) spinner_1.getValue(),
 								(Integer) spinner_2.getValue(), (Integer) spinner_4.getValue()),
 						region_box.getSelectedObjects().toString());
-				Plan[] plan_input = Hotel.search(input);
+				User.getUser().addRecord(input);
+				plan_input = Hotel.search(input);
 				String[][] test = {};
 				for (int i = 0; i < plan_input.length; i++) {
 					test[i][0] = plan_input[i].getHotel().toString();
@@ -259,7 +268,7 @@ public class GUI_search {
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
+			//	frame.dispose();
 				GUI_hotelpage fre = new GUI_hotelpage();
 			}
 		});
@@ -268,19 +277,38 @@ public class GUI_search {
 		frame.getContentPane().add(confirm);
 		
 		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GUI_user fre = new GUI_user();
+			}
+		});
 		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		button_user.setBounds(896, 572, 130, 29);
 		frame.getContentPane().add(button_user);
+		
+		JButton button_mark = new JButton("\u52A0\u5165\u66F8\u7C64");
+		button_mark.setEnabled(chosen);
+		button_mark.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosen_plan.Mark();
+			}
+		});
+		button_mark.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		button_mark.setBounds(896, 416, 130, 29);
+		frame.getContentPane().add(button_mark);
 
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable s = (JTable) e.getSource();
 				Integer row = s.getSelectedRow();
+				chosen_plan = plan_input[row];
+				chosen = true;
 			}
 		});
 
-		// DefaultTableModel model = (DefaultTableModel) table.getModel();
 
 	}
 }
