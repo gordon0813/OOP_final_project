@@ -13,27 +13,32 @@ public class Order {
 		id=0;//db.getlastid()
 		user=User.getUser();
 	}
-	public void confirm() {
-		if(valid==true)return;
-		if(!plan.check()) {
-			return ;//exception
-		}
+	/**
+	 * save this order to db
+	 * @throws UserException user own this order has logout
+	 */
+	public void confirm() throws UserException {
+		if(valid==true)return;//valid order should not be confirm again
+		user.addOrder(this);//may have exception
 		valid=true;
-		user.addOrder(this);
 	}
-	public void deleteSelf() {
+	public void deleteSelf() throws UserException {
+		if(valid==false)return;//invalid order should not be delete
 		valid=false;
 		user.deleteOrder(this);
 	}
-	public void editOrder( Plan newPlan ) {
-		if(valid==false)return;//exception
+	public void editOrder( Plan newPlan ) throws UserException {
+		if(valid==false)return;//can't edit invalid order in db (because it is not in db)
+		
+		user.editOrder(this);//may have exception
+		
 		plan=newPlan;
-		user.editOrder(this);
 	}
 	public String toString() {
-		String re ="===============plan:\n"
+		String re ="\n=======================order:\n"
+				+"===============plan:\n"
 				+plan.toString()
-				+"\n================User:\n"
+				+"\n=============User:\n"
 				+user.toString()
 				+"\norder id: "+id;
 		return re;
@@ -47,6 +52,9 @@ public class Order {
 	}
 	public Plan getPlan() {
 		return plan.clone();
+	}
+	public Hotel getHotel() {
+		return plan.getHotel();
 	}
 	
 }

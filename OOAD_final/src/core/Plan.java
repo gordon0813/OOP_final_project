@@ -2,12 +2,18 @@ package core;
 
 
 public class Plan {
+	private int id;
 	private RoomNum rn;
 
 	private CheckInOutDate ckio;
 	private Hotel ht;
 	public Plan(RoomNum RN,CheckInOutDate CK,Hotel HT) {
-		rn=RN;   ckio=CK  ;ht=HT;
+		rn=RN;   ckio=CK  ;ht=HT;  
+		id=0;
+	}
+	public Plan(RoomNum RN,CheckInOutDate CK,Hotel HT ,int ID) {
+		rn=RN;   ckio=CK  ;ht=HT;  
+		id=ID;
 	}
 
 	/**
@@ -32,11 +38,22 @@ public class Plan {
 		assert onedayPrice>0;
 		return days*onedayPrice;
 	}
+	/**
+	 * create an order by this plan
+	 * @return order
+	 */
 	public Order toOrder() {
 		return new Order(clone(), false);
 	}
-	public void Mark() {
-		User.getUser().addpageMark(this.clone());
+	/**
+	 * save this plan as a pagemark
+	 * @throws UserException user not login
+	 */
+	public void Mark() throws UserException {
+		Plan mark=this.clone();
+		if(mark.id!=0)return;
+		mark.id=0;//db.getPageMarkid();
+		User.getUser().addpageMark(mark);
 	}
 	public Plan clone(){
 		return new Plan(rn.clone(),ckio.clone(),ht);

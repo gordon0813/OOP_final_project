@@ -32,5 +32,13 @@ public class Search_input {
 		ck=ckio ;lowrn=Lr  ;address=ad;
 		
 	}
+	public String toString() {
+		String re="Lowstar: "+Lowstar
+				+" highstar"+highstar
+				+" highprice:"+highprice
+				+"  lowprice:"+lowprice
+				+" numofpeople"+numofpeople;
+		return re;
+	}
 	
 }

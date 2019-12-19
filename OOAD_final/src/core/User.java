@@ -1,5 +1,4 @@
 package core;
-
 import java.util.ArrayList;
 
 public class User {
@@ -7,17 +6,31 @@ public class User {
 	static {
 		loginUser=new User();
 	}
+	/**
+	 * @return now user (may or may not login but won't be null) 
+	 */
 	public static User getUser() {
 		return loginUser;
 	}
-	public static boolean signup(int ID,String PassWord) {
+	public static boolean signup(String name,String PassWord) {
+		//db.newUser(id,passWord)
 		return false;
 	}
-	public static void login(int ID,String PassWord) {
+	/**
+	 * @param name
+	 * @param PassWord
+	 * @throws UserException
+	 */
+	public static void login(String name,String PassWord) throws UserException {
 		//todo db
-		assert User.loginUser.valid==false;//expection
-		User.loginUser=new User();//db.getUser(id,password)
+		if( User.loginUser.valid==true) {
+			throw new UserException("current user has not logout");
+		}
+		User.loginUser=new User(name,PassWord);//db.getUser(id,password)
 	}
+	/**
+	 * make current user logout( not mean user=null is user.valid=false)
+	 */
 	public static void logout() {
 		assert User.loginUser.valid==true;
 		User.loginUser.valid=false;
@@ -25,6 +38,7 @@ public class User {
 	
 	
 	private int id;
+	private String name;
 	private String password;
 	private boolean valid;
 	private ArrayList<Order> orderList;
@@ -36,34 +50,94 @@ public class User {
 		password="default";
 		
 	}
-	public void addOrder(Order toadd) {
-		if(!valid)return;//exception
-		orderList.add(toadd);
+	public User(String name,String password) {
+		valid=true;
+		this.name=name;
+		this.password=password;
+		orderList=new ArrayList<Order>();
+		pageMark =new ArrayList<Plan> ();
+		record=new ArrayList<Search_input>();
+		
+	}
+	public void addOrder(Order toadd) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
 		//db.addOrder(this->id,toadd);
+		orderList.add(toadd);
+		
 	}
-	public void deleteOrder(Order todelete) {
-		if(!valid)return;
-		orderList.remove(todelete);
+	public void deleteOrder(Order todelete) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
 		//db.deleteOrder(this->id,todelete)
+		orderList.remove(todelete);
+		
 	}
-	public void editOrder(Order afterEdit) {
-		if(!valid)return;
+	public void editOrder(Order afterEdit) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
+		//db.editOrder(this->id,afterEdit);
 		orderList.remove(afterEdit);
 		orderList.add(afterEdit);
-		//db.editOrder(this->id,aftrEdit);
+		
 	}
+	/**
+	 * auto trigger when Using Hotel.search()
+	 * will access db
+	 * @param si 
+	 */
 	public void addRecord(Search_input si) {
-		if(!valid)return;
+		if(!valid) {
+			return ;
+		}
 		record.add(si);
+		//db.addRecord(this.id,si);
 	}
-	public void addpageMark(Plan pl) {
-		if(!valid)return;
+	/**
+	 * use by GUI
+	 * @param pl plan that will become pageMark
+	 * @throws UserException 
+	 */
+	public void addpageMark(Plan pl) throws UserException {
+		if(!valid) {
+			throw new UserException("User has not login can't add pagemark");
+		}
 		pageMark.add(pl);
+	}
+	public boolean exitOrder(Hotel ht) throws UserException {
+		if(!valid) {
+			throw new UserException("User has not login can't leave comment");
+		}
+		for(Order od:orderList) {
+			if(od.getHotel().equals(ht)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean islogin() {
+		return valid;
 	}
 
 	public String toString() {
 		String re="id: "+id+"\npassword: "+password
 				+"\nlogin: "+valid;
+		
+		return re;
+	}
+	public String toStringAll() {
+		String re="\nid: "+id+"\npassword: "+password
+				+"\nlogin: "+valid;
+		for(Order i:orderList){
+			re+=i.toString();
+		}
+		for(Search_input i:record) {
+			re+="\n"+i.toString();
+		}
+		re+="\n";
 		return re;
 	}
 	
