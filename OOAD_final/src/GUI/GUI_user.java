@@ -1,36 +1,10 @@
-package core;
+package GUI;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+import core.User;
 
-import org.jdatepicker.impl.DateComponentFormatter;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
-import java.time.LocalDate;
-import java.util.Properties;
-import java.util.Vector;
-
-import javax.swing.JSpinner;
 import javax.swing.JButton;
-import javax.swing.JTable;
 import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.ListSelectionModel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.UIManager;
-import javax.swing.JTextArea;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;

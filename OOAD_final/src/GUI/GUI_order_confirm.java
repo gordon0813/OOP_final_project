@@ -1,4 +1,4 @@
-package core;
+package GUI;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -9,6 +9,8 @@ import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
+import core.UserException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -101,7 +103,12 @@ public class GUI_order_confirm {
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				GUI_hotelpage.getOrdr().confirm();
+				try {
+					GUI_hotelpage.getOrdr().confirm();
+				} catch (UserException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));

@@ -1,4 +1,4 @@
-package core;
+package GUI;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -9,6 +9,9 @@ import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
+import core.User;
+import core.UserException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -71,7 +74,12 @@ public class GUI_login {
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				User.login(Integer.parseInt(username.getText()), password.getText());
+				try {
+					User.login(username.getText(), password.getText());
+				} catch (UserException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -104,7 +112,7 @@ public class GUI_login {
 		register.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				boolean register = User.signup(Integer.parseInt(username.getText()), password.getText());
+				boolean register = User.signup(username.getText(), password.getText());
 			}
 		});
 		register.setFont(new Font("SansSerif", Font.PLAIN, 16));

@@ -292,7 +292,12 @@ public class GUI_search {
 		button_mark.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chosen_plan.Mark();
+				try {
+					chosen_plan.Mark();
+				} catch (UserException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		button_mark.setFont(new Font("SansSerif", Font.PLAIN, 16));
