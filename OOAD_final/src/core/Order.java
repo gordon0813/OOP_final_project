@@ -53,5 +53,8 @@ public class Order {
 	public Plan getPlan() {
 		return plan.clone();
 	}
+	public Hotel getHotel() {
+		return plan.getHotel();
+	}
 	
 }

@@ -82,9 +82,20 @@ public class User {
 	}
 	public void addpageMark(Plan pl) throws UserException {
 		if(!valid) {
-			throw new UserException("User not login can't add pagemark");
+			throw new UserException("User has not login can't add pagemark");
 		}
 		pageMark.add(pl);
+	}
+	public boolean exitOrder(Hotel ht) throws UserException {
+		if(!valid) {
+			throw new UserException("User has not login can't leave comment");
+		}
+		for(Order od:orderList) {
+			if(od.getHotel().equals(ht)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String toString() {

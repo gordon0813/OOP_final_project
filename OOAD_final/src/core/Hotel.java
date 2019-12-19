@@ -41,8 +41,11 @@ public class Hotel {
 	private Room roomquad;
 
 	private int id;
+
 	private int star;
+	
 	private String address;
+
 	/**
 	 * @param ID
 	 * @param STAR
@@ -72,6 +75,14 @@ public class Hotel {
 		String[] re=null;//db.loadcomments(this->ID)  //static  
 		return re;
 	}
+	public void addcomments(String comment) throws UserException {
+		if(User.getUser().exitOrder(this)){
+			return ;//db.addComment(this,User.getUser,comment)
+		}else {
+			throw new UserException("User must book this hotel before leave a comment");
+		}
+		
+	}
 	/**
 	 * @param rn number of  rooms
 	 * @param ck now Check In Out Date
@@ -99,6 +110,9 @@ public class Hotel {
 		        +this.roomquad.toString();
 		return re;
 	}
+	public boolean equals(Hotel ht) {
+		return this.id==ht.id;
+	}
 	public Room getRoomsingle() {
 		return roomsingle;
 	}
@@ -108,4 +122,15 @@ public class Hotel {
 	public Room getRoomquad() {
 		return roomquad;
 	}
+	public int getId() {
+		return id;
+	}
+	public int getStar() {
+		return star;
+	}
+	public String getAddress() {
+		return address;
+	}
+
+	
 }
