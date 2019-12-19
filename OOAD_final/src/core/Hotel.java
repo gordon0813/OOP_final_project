@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 public class Hotel {
 	private static Hotel[] hotelList;
 	static {
@@ -15,6 +17,22 @@ public class Hotel {
 	public static Hotel getHotel(int ID) {
 		return null;
 	}
+	 static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
+		ArrayList<RoomNum> numarr=new ArrayList<RoomNum>();
+		RoomNum tmp;
+		int leftAfterq=0;
+		int leftAfterd=0;
+		for (int i=0;i<=numOfPeople/4;i++) {
+			leftAfterq=numOfPeople-4*i;
+			for(int j=0;j<=leftAfterq/4;j++) {
+				leftAfterd=leftAfterq-2*j;
+				tmp=new RoomNum(leftAfterd, j, i);
+				if(tmp.contain(minRoomNum))numarr.add(tmp);
+			}		
+		}
+		return numarr;
+	}
+	
 	private Room roomsingle;
 
 	private Room roomdouble;

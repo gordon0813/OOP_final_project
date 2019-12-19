@@ -13,7 +13,7 @@ public class Order {
 		id=0;//db.getlastid()
 		user=User.getUser();
 	}
-	public void confirm() {
+	public void confirm() throws UserException {
 		if(valid==true)return;
 		if(!plan.check()) {
 			return ;//exception
@@ -21,11 +21,11 @@ public class Order {
 		valid=true;
 		user.addOrder(this);
 	}
-	public void deleteSelf() {
+	public void deleteSelf() throws UserException {
 		valid=false;
 		user.deleteOrder(this);
 	}
-	public void editOrder( Plan newPlan ) {
+	public void editOrder( Plan newPlan ) throws UserException {
 		if(valid==false)return;//exception
 		plan=newPlan;
 		user.editOrder(this);

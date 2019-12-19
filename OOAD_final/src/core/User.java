@@ -11,11 +11,14 @@ public class User {
 		return loginUser;
 	}
 	public static boolean signup(int ID,String PassWord) {
+		//db.newUser(id,passWord)
 		return false;
 	}
-	public static void login(int ID,String PassWord) {
+	public static void login(int ID,String PassWord) throws UserException {
 		//todo db
-		assert User.loginUser.valid==false;//expection
+		if( User.loginUser.valid==false) {
+			throw new UserException("current user has not logout");
+		}
 		User.loginUser=new User();//db.getUser(id,password)
 	}
 	public static void logout() {
@@ -36,28 +39,38 @@ public class User {
 		password="default";
 		
 	}
-	public void addOrder(Order toadd) {
-		if(!valid)return;//exception
+	public void addOrder(Order toadd) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
 		orderList.add(toadd);
 		//db.addOrder(this->id,toadd);
 	}
-	public void deleteOrder(Order todelete) {
-		if(!valid)return;
+	public void deleteOrder(Order todelete) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
 		orderList.remove(todelete);
 		//db.deleteOrder(this->id,todelete)
 	}
-	public void editOrder(Order afterEdit) {
-		if(!valid)return;
+	public void editOrder(Order afterEdit) throws UserException {
+		if(!valid) {
+			throw new UserException("User who own this order not login");
+		}
 		orderList.remove(afterEdit);
 		orderList.add(afterEdit);
-		//db.editOrder(this->id,aftrEdit);
+		//db.editOrder(this->id,afterEdit);
 	}
 	public void addRecord(Search_input si) {
-		if(!valid)return;
+		if(!valid) {
+			return ;
+		}
 		record.add(si);
 	}
-	public void addpageMark(Plan pl) {
-		if(!valid)return;
+	public void addpageMark(Plan pl) throws UserException {
+		if(!valid) {
+			throw new UserException("User not login can't add pagemark");
+		}
 		pageMark.add(pl);
 	}
 

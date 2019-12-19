@@ -1,10 +1,11 @@
 package core;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 public class Smalltest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UserException {
 		int task=1;
 		if(task==0) {
 			// TODO Auto-generated method stub
@@ -46,6 +47,11 @@ public class Smalltest {
 			System.out.println(order);
 			
 			
+			
+			ArrayList<RoomNum> tmpnum=Hotel.roomset(10,new RoomNum(0,2,0));
+			for(RoomNum i:tmpnum ) {
+				System.out.println(i);
+			}
 		
 			
 		}

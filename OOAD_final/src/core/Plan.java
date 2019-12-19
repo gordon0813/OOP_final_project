@@ -35,7 +35,7 @@ public class Plan {
 	public Order toOrder() {
 		return new Order(clone(), false);
 	}
-	public void Mark() {
+	public void Mark() throws UserException {
 		User.getUser().addpageMark(this.clone());
 	}
 	public Plan clone(){
