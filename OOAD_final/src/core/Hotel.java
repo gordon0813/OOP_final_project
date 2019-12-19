@@ -12,6 +12,7 @@ public class Hotel {
 		}
 	}
 	public static Plan[] search(Search_input si) {
+		User.getUser().addRecord(si);
 		return null;
 	}
 	public static Hotel getHotel(int ID) {

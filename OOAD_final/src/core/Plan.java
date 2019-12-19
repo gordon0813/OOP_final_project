@@ -32,9 +32,17 @@ public class Plan {
 		assert onedayPrice>0;
 		return days*onedayPrice;
 	}
+	/**
+	 * create an order by this plan
+	 * @return order
+	 */
 	public Order toOrder() {
 		return new Order(clone(), false);
 	}
+	/**
+	 * save this plan as a pagemark
+	 * @throws UserException user not login
+	 */
 	public void Mark() throws UserException {
 		User.getUser().addpageMark(this.clone());
 	}

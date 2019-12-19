@@ -10,16 +10,16 @@ public class User {
 	public static User getUser() {
 		return loginUser;
 	}
-	public static boolean signup(int ID,String PassWord) {
+	public static boolean signup(String name,String PassWord) {
 		//db.newUser(id,passWord)
 		return false;
 	}
-	public static void login(int ID,String PassWord) throws UserException {
+	public static void login(String name,String PassWord) throws UserException {
 		//todo db
-		if( User.loginUser.valid==false) {
+		if( User.loginUser.valid==true) {
 			throw new UserException("current user has not logout");
 		}
-		User.loginUser=new User();//db.getUser(id,password)
+		User.loginUser=new User(name,PassWord);//db.getUser(id,password)
 	}
 	public static void logout() {
 		assert User.loginUser.valid==true;
@@ -28,6 +28,7 @@ public class User {
 	
 	
 	private int id;
+	private String name;
 	private String password;
 	private boolean valid;
 	private ArrayList<Order> orderList;
@@ -39,27 +40,39 @@ public class User {
 		password="default";
 		
 	}
+	public User(String name,String password) {
+		valid=true;
+		this.name=name;
+		this.password=password;
+		orderList=new ArrayList<Order>();
+		pageMark =new ArrayList<Plan> ();
+		record=new ArrayList<Search_input>();
+		
+	}
 	public void addOrder(Order toadd) throws UserException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
-		orderList.add(toadd);
 		//db.addOrder(this->id,toadd);
+		orderList.add(toadd);
+		
 	}
 	public void deleteOrder(Order todelete) throws UserException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
-		orderList.remove(todelete);
 		//db.deleteOrder(this->id,todelete)
+		orderList.remove(todelete);
+		
 	}
 	public void editOrder(Order afterEdit) throws UserException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
+		//db.editOrder(this->id,afterEdit);
 		orderList.remove(afterEdit);
 		orderList.add(afterEdit);
-		//db.editOrder(this->id,afterEdit);
+		
 	}
 	public void addRecord(Search_input si) {
 		if(!valid) {
@@ -77,6 +90,19 @@ public class User {
 	public String toString() {
 		String re="id: "+id+"\npassword: "+password
 				+"\nlogin: "+valid;
+		
+		return re;
+	}
+	public String toStringAll() {
+		String re="\nid: "+id+"\npassword: "+password
+				+"\nlogin: "+valid;
+		for(Order i:orderList){
+			re+=i.toString();
+		}
+		for(Search_input i:record) {
+			re+="\n"+i.toString();
+		}
+		re+="\n";
 		return re;
 	}
 	
