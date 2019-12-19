@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/commons-lang3-3.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/json-20180813.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/sqlite-jdbc-3.27.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
