@@ -2,6 +2,30 @@ package core;
 
 public class Search_input {
 	int Lowstar;
+	public int getLowstar() {
+		return Lowstar;
+	}
+	public int getHighstar() {
+		return highstar;
+	}
+	public int getHighprice() {
+		return highprice;
+	}
+	public int getLowprice() {
+		return lowprice;
+	}
+	public int getNumofpeople() {
+		return numofpeople;
+	}
+	public CheckInOutDate getCk() {
+		return ck;
+	}
+	public RoomNum getLowrn() {
+		return lowrn;
+	}
+	public String getAddress() {
+		return address;
+	}
 	int highstar;
 	int highprice;
 	int lowprice;

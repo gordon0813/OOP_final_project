@@ -65,9 +65,9 @@ public class mumiLite {
 		for(int i = 0; i < data.size(); i++) {			
 			sql = "INSERT INTO Hotel (id,star,addr,s_p,d_p,q_p,s_n,d_n,q_n) VALUES (?,?,?,?,?,?,?,?,?)";
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, data.get(i).getID());
+			pst.setInt(1, data.get(i).getId());
 			pst.setInt(2, data.get(i).getStar());
-			pst.setString(3, data.get(i).getAddr());
+			pst.setString(3, data.get(i).getAddress());
 			pst.setLong(4, data.get(i).getRoomsingle().getRoomprice());
 			pst.setLong(5, data.get(i).getRoomdouble().getRoomprice());
 			pst.setLong(6, data.get(i).getRoomquad().getRoomprice());
@@ -546,7 +546,7 @@ public class mumiLite {
 		int q_n = p.getRoomNum().getQuadNum();
 		long in = localToLong(p.getCheckInOutDate().getCheckin());
 		long out = localToLong(p.getCheckInOutDate().getCheckout());
-		int id = p.getHotel().getID();
+		int id = p.getHotel().getId();
 		
 		stmt = conn.createStatement();
 		sql = "INSERT INTO Plan (planid,s_n,d_n,q_n,checkin,checkout,hotelid,userid) VALUES (?,?,?,?,?,?,?,?)";
@@ -643,7 +643,7 @@ public class mumiLite {
 		int planid = addPlan(plan,userid);
 		
 		//
-		scheduler (plan.getHotel().getID(),
+		scheduler (plan.getHotel().getId(),
 				   plan.getRoomNum().getSingleNum(),plan.getRoomNum().getDoubleNum(),plan.getRoomNum().getQuadNum(),
 				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
 		//
@@ -691,7 +691,7 @@ public class mumiLite {
 		
 		Plan plan = getOrder(orderid).getPlan();
 		//
-		scheduler (plan.getHotel().getID(),
+		scheduler (plan.getHotel().getId(),
 				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
 				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
 		//
