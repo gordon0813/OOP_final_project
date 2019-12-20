@@ -11,7 +11,7 @@ public class Room {
 	 */
 	public Room(int s,long p) {
 		assert s>0;
-		assert p>=0;
+		assert p>=-1;
 		roomsize=s;
 		roomprice=p;
 		

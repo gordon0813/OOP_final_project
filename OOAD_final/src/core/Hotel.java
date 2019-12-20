@@ -1,14 +1,22 @@
 package core;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import databaseException.noSuchHotel;
 
 public class Hotel {
 	private static Hotel[] hotelList;
 	static {
-		int hotelnum=0;//db.getHotelnum();
+		int hotelnum=1499;
 		hotelList=new Hotel[hotelnum];
 		for (int i=0;i<hotelnum;i++) {
-			hotelList[i]=null;//db.getHotel(i)
+			try {
+				hotelList[i]=DB.getDB().getHotel(i);
+			} catch (noSuchHotel | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	public static Plan[] search(Search_input si) {
@@ -16,7 +24,7 @@ public class Hotel {
 		return null;
 	}
 	public static Hotel getHotel(int ID) {
-		return null;
+		return hotelList[ID];
 	}
 	 static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
 		ArrayList<RoomNum> numarr=new ArrayList<RoomNum>();

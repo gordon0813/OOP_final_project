@@ -25,7 +25,7 @@ public class test_database {
 			Lite.LoadFromJSON();
 		}
 		// show all hotel
-		//Lite.printAllHotel();
+		Lite.printAllHotel();
 //=================================================================
 		// initialize table:Schedule
 		boolean reset_Schedule = false;

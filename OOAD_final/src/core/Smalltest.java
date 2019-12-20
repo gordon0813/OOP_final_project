@@ -36,7 +36,7 @@ public class Smalltest {
 			RoomNum rn=new RoomNum(1,3,1);
 			System.out.println(rn);
 			System.out.println("=====================hotel======================");
-			Hotel h1=new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
+			Hotel h1=Hotel.getHotel(13);//new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
 			System.out.println(h1);
 			System.out.println("======================plan=======================");
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
