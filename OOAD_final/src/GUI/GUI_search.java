@@ -228,7 +228,7 @@ public class GUI_search {
 						new CheckInOutDate(selectedDatein, selectedDateout), new RoomNum((Integer) spinner_1.getValue(),
 								(Integer) spinner_2.getValue(), (Integer) spinner_4.getValue()),
 						region_box.getSelectedObjects().toString());
-				//User.getUser().addRecord(input);
+				User.getUser().addRecord(input);
 				plan_input = Hotel.search(input);
 				String[][] test = {};
 				for (int i = 0; i < plan_input.length; i++) {
