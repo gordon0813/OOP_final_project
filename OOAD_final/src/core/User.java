@@ -59,13 +59,14 @@ public class User {
 		record=new ArrayList<Search_input>();
 		
 	}
-	public void addOrder(Order toadd) throws UserException {
+	public void addOrder(Order toadd,boolean save) throws UserException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
-		//db.addOrder(this->id,toadd);
+		if(save) {
+			//DB.getDB().addOrder(this->id,toadd);
+			}
 		orderList.add(toadd);
-		
 	}
 	public void deleteOrder(Order todelete) throws UserException {
 		if(!valid) {
@@ -89,23 +90,29 @@ public class User {
 	 * will access db
 	 * @param si 
 	 */
-	public void addRecord(Search_input si) {
+	public void addRecord(Search_input si,boolean save) {
 		if(!valid) {
 			return ;
 		}
 		record.add(si);
-		//db.addRecord(this.id,si);
+		if(save) {
+			//db.addRecord(this.id,si);
+		}
+		
 	}
 	/**
 	 * use by GUI
 	 * @param pl plan that will become pageMark
 	 * @throws UserException 
 	 */
-	public void addpageMark(Plan pl) throws UserException {
+	public void addpageMark(Plan pl,boolean save) throws UserException {
 		if(!valid) {
 			throw new UserException("User has not login can't add pagemark");
 		}
 		pageMark.add(pl);
+		if(save) {
+		
+		}
 	}
 	public boolean exitOrder(Hotel ht) throws UserException {
 		if(!valid) {

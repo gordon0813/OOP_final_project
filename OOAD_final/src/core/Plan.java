@@ -53,7 +53,7 @@ public class Plan {
 		Plan mark=this.clone();
 		if(mark.id!=0)return;
 		mark.id=0;//db.getPageMarkid();
-		User.getUser().addpageMark(mark);
+		User.getUser().addpageMark(mark,true);
 	}
 	public Plan clone(){
 		return new Plan(rn.clone(),ckio.clone(),ht);

@@ -777,14 +777,14 @@ public class mumiLite {
 		}
 		while(rs.next()) {
 			Order order = getOrder(rs.getInt("orderid"));
-			user.addOrder(order);
+			user.addOrder(order,false);
 		}
 		// get all plan
 		sql = "SELECT * FROM Plan WHERE userid = " + userid;
 		rs = stmt.executeQuery(sql);
 		while(rs.next()) {
 			Plan plan = getPlan(rs.getInt("planid"));
-			user.addpageMark(plan);
+			user.addpageMark(plan,false);
 		}
 		// get all search_input
 		sql = "SELECT * FROM Search WHERE userid = " + userid;
@@ -800,7 +800,7 @@ public class mumiLite {
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
 			RoomNum rn = new RoomNum(rs.getInt("s_n"),rs.getInt("d_n"),rs.getInt("q_n"));
 			addr = rs.getString("addr");
-			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr));
+			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),false);
 		}
 		rs.close();
 		stmt.close();

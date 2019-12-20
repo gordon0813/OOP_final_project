@@ -37,14 +37,16 @@ public class Smalltest {
 			System.out.println(rn);
 			System.out.println("=====================hotel======================");
 			Hotel h1=Hotel.getHotel(13);//new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
+			Hotel h2=Hotel.getHotel(14);
 			System.out.println(h1);
+			System.out.println(h2);
 			System.out.println("======================plan=======================");
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
 			System.out.println(p1);
 			System.out.println("======================Order======================");
 			Order order=new Order(p1, false);
 			System.out.println(order);
-			User.login("dd", "gg");
+			User.login("gogoman", "gg");
 			Order order1= p1.toOrder();
 			order1.confirm();
 			System.out.println("==============================user===============================");

@@ -19,7 +19,7 @@ public class Order {
 	 */
 	public void confirm() throws UserException {
 		if(valid==true)return;//valid order should not be confirm again
-		user.addOrder(this);//may have exception
+		user.addOrder(this,true);//may have exception
 		valid=true;
 	}
 	public void deleteSelf() throws UserException {
