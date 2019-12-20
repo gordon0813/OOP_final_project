@@ -74,7 +74,7 @@ public class GUI_hotelpage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-
+//back
 		JLabel roomnum = new JLabel("\u55AE\u4EBA\u623F");
 		roomnum.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		roomnum.setBounds(577, 15, 62, 27);
