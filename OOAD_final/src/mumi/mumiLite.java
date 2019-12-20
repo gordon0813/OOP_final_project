@@ -487,7 +487,7 @@ public class mumiLite {
 		sql = "Drop table IF EXISTS 'Planid'";
 		stmt.executeUpdate(sql);
 		
-		sql = "create table Plan (planid int,s_n int, d_n int, q_n int, checkin long, checkout long, hotelid int, userid int)"; 
+		sql = "create table Plan (planid int,s_n int, d_n int, q_n int, checkin long, checkout long, hotelid int, userid string)"; 
         stmt.executeUpdate(sql);
         sql = "create table Planid (planid int)"; 
         stmt.executeUpdate(sql);
@@ -536,7 +536,7 @@ public class mumiLite {
 	 * @param p Plan
 	 * @throws SQLException
 	 */
-	public int addPlan(Plan p, int userid) throws SQLException {
+	public int addPlan(Plan p, String username) throws SQLException {
 		int newid = currentPlanid();
 		Statement stmt;
 		PreparedStatement pst;
@@ -554,7 +554,7 @@ public class mumiLite {
         pst.setInt(1,newid);
 		pst.setInt(2,s_n); pst.setInt(3,d_n); pst.setInt(4,q_n);
 		pst.setLong(5, in); pst.setLong(6, out);
-		pst.setInt(7, id);  pst.setInt(8, userid); 
+		pst.setInt(7, id);  pst.setString(8, username); 
         pst.executeUpdate();
         
         pst.close();
@@ -618,7 +618,7 @@ public class mumiLite {
 		sql = "Drop table IF EXISTS Orders";
 		stmt.executeUpdate(sql);
 		 
-		sql = "create table Orders (orderid long,userid int,planid int)"; 
+		sql = "create table Orders (orderid long,userid string,planid int)"; 
         stmt.executeUpdate(sql);
 
 		stmt.close();
@@ -633,14 +633,14 @@ public class mumiLite {
 	 * @throws noSuchHotel 
 	 * @throws nomoreRoom 
 	 */
-	public long addOrder(Order o, int userid) throws SQLException, noSuchHotel, exceedSchedule, nomoreRoom {
+	public long addOrder(Order o, String username) throws SQLException, noSuchHotel, exceedSchedule, nomoreRoom {
 		Statement stmt;
 		PreparedStatement pst;
 		String sql;
 		stmt = conn.createStatement();
 		long orderid = o.getId();
 		Plan plan = o.getPlan();
-		int planid = addPlan(plan,userid);
+		int planid = addPlan(plan,username);
 		
 		//
 		scheduler (plan.getHotel().getId(),
@@ -650,7 +650,7 @@ public class mumiLite {
 		sql = "INSERT INTO Orders (orderid,userid,planid) VALUES (?,?,?)";
         pst = conn.prepareStatement(sql);
         pst.setLong(1, orderid);
-        pst.setInt(2, userid);
+        pst.setString(2, username);
         pst.setInt(3, planid);
         pst.executeUpdate();
         pst.close();
@@ -708,12 +708,12 @@ public class mumiLite {
 	 * @param o new order
 	 * @throws Exception 
 	 */
-	public void editOrder(Order o, int userid) throws Exception {		
+	public void editOrder(Order o, String username) throws Exception {		
 		
 		
 		deleteOrder(o.getId());
 		
-		addOrder(o,userid);
+		addOrder(o,username);
 	}
 	
 	/**
@@ -728,7 +728,7 @@ public class mumiLite {
 		sql = "Drop table IF EXISTS User";
 		stmt.executeUpdate(sql);
 		 
-		sql = "create table User (userid long, password string)"; 
+		sql = "create table User (userid string, password string)"; 
         stmt.executeUpdate(sql);
 
 		stmt.close();
@@ -740,13 +740,13 @@ public class mumiLite {
 	 * @param user
 	 * @throws SQLException
 	 */
-	public void addUser (int userid, String password) throws SQLException {
+	public void addUser (String username, String password) throws SQLException {
 		PreparedStatement pst;
 		String sql;
 		
 		sql = "INSERT INTO User (userid,password) VALUES (?,?)";
 		pst = conn.prepareStatement(sql);
-		pst.setInt(1, userid);
+		pst.setString(1, username);
 		pst.setString(2,password);
 		pst.executeUpdate();
 		pst.close();
@@ -759,7 +759,7 @@ public class mumiLite {
 	 * @return User
 	 * @throws Exception 
 	 */
-	public User getUser(int userid,String password) throws Exception {
+	public User getUser(String username,String password) throws Exception {
 		Statement stmt;
 		ResultSet rs;
 		String sql;
@@ -767,27 +767,27 @@ public class mumiLite {
 		
 		stmt = conn.createStatement();
 		// get all order 
-		sql = "SELECT * FROM Orders WHERE (userid = " + userid + ") AND (password = '" + password + "')";
+		sql = "SELECT * FROM Orders WHERE (userid = '" + username + "') AND (password = '" + password + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
-		    throw new noSuchUser(userid);
+		    throw new noSuchUser(username);
 		}
 		if (!rs.getString("password").equals(password)) {
 			throw new passwordWrong();
 		}
 		while(rs.next()) {
 			Order order = getOrder(rs.getInt("orderid"));
-			user.addOrder(order,false);
+			user.addOrder(order,true);
 		}
 		// get all plan
-		sql = "SELECT * FROM Plan WHERE userid = " + userid;
+		sql = "SELECT * FROM Plan WHERE userid = '" + username + "'";
 		rs = stmt.executeQuery(sql);
 		while(rs.next()) {
 			Plan plan = getPlan(rs.getInt("planid"));
-			user.addpageMark(plan,false);
+			user.addpageMark(plan,true);
 		}
 		// get all search_input
-		sql = "SELECT * FROM Search WHERE userid = " + userid;
+		sql = "SELECT * FROM Search WHERE userid = '" + username + "'";
 		rs = stmt.executeQuery(sql);
 		int lowstar,highstar,lowprice,highprice,people;
 		long checkin,checkout;
@@ -800,7 +800,7 @@ public class mumiLite {
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
 			RoomNum rn = new RoomNum(rs.getInt("s_n"),rs.getInt("d_n"),rs.getInt("q_n"));
 			addr = rs.getString("addr");
-			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),false);
+			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),true);
 		}
 		rs.close();
 		stmt.close();
@@ -821,7 +821,7 @@ public class mumiLite {
 		 
 		sql = "create table Search (lowstar int,highstar int,lowprice int,"
 								 + "highprice int,people int,checkin long,checkout long"
-								 + "s_n int,d_n int,q_n int,addr string,userid int)"; 
+								 + "s_n int,d_n int,q_n int,addr string,userid string)"; 
         stmt.executeUpdate(sql);
 
 		stmt.close();
@@ -834,7 +834,7 @@ public class mumiLite {
 	 * @param userid
 	 * @throws SQLException
 	 */
-	public void addSearch(Search_input search,int userid) throws SQLException {
+	public void addSearch(Search_input search,String username) throws SQLException {
 		PreparedStatement pst;
 		String sql;
 		
@@ -851,7 +851,7 @@ public class mumiLite {
 		pst.setInt(9, search.getLowrn().getDoubleNum()); 
 		pst.setInt(10, search.getLowrn().getQuadNum()); 
 		pst.setString(11, search.getAddress());
-		pst.setInt(12, userid);
+		pst.setString(12, username);
 		pst.executeUpdate();
 		
 		pst.close();
@@ -862,11 +862,11 @@ public class mumiLite {
 	 * @param userid
 	 * @throws SQLException
 	 */
-	public void deleteSearch (int userid) throws SQLException {
+	public void deleteSearch (String username) throws SQLException {
 		Statement stmt;
 		stmt = conn.createStatement();
 		
-		stmt.executeUpdate("DELETE FROM Search WHRER userid = " + userid);
+		stmt.executeUpdate("DELETE FROM Search WHRER userid = '" + username + "'");
 		stmt.close();
 	}
 	
