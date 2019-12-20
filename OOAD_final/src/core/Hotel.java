@@ -8,7 +8,7 @@ import databaseException.noSuchHotel;
 public class Hotel {
 	private static Hotel[] hotelList;
 	static {
-		int hotelnum=1499;
+		int hotelnum=1500;
 		hotelList=new Hotel[hotelnum];
 		for (int i=0;i<hotelnum;i++) {
 			try {
@@ -21,10 +21,37 @@ public class Hotel {
 	}
 	public static Plan[] search(Search_input si) {
 		User.getUser().addRecord(si,true);
+		ArrayList<RoomNum> matchroomset=roomset(si.numofpeople,si.lowrn);
+		ArrayList<Hotel> matchHotel=matchHotel(si);
+		for(Hotel ht:matchHotel) {
+			boolean needacessdb=false;
+			for(RoomNum rn:matchroomset) {
+				
+			}
+		}
+		
 		return null;
 	}
 	public static Hotel getHotel(int ID) {
 		return hotelList[ID];
+	}
+	static ArrayList<Hotel> matchHotel(Search_input si){
+		ArrayList<Hotel> re=new ArrayList<Hotel>();
+		for(Hotel i:hotelList) {
+			if(i.star>=si.Lowstar && i.star>=si.highstar) {
+				re.add(i);
+			}
+		}
+		if(si.address!=null && !si.address.isEmpty()) {
+			for(int i=0;i<re.size();i++) {
+				if(re.get(i).address.contains(si.address)) {
+					re.set(i,re.get(i));
+					re.remove(re.size()-1);
+				}
+			}
+		}
+		return re;
+		
 	}
 	 static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
 		ArrayList<RoomNum> numarr=new ArrayList<RoomNum>();
