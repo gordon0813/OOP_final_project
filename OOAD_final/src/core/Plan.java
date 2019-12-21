@@ -1,5 +1,9 @@
 package core;
 
+import java.sql.SQLException;
+
+import databaseException.exceedSchedule;
+import databaseException.noSuchHotel;
 
 public class Plan {
 	private int id;
@@ -22,13 +26,16 @@ public class Plan {
 	public CheckInOutDate maxExtendDate() {
 		return ht.maxExtendDate(rn, ckio);
 	}
-	public boolean check() {
+	public boolean check() throws noSuchHotel, exceedSchedule, SQLException {
 		return (this.maxExtendDate().contain(ckio)&& this.maxExtendRoom().contain(rn));
 	}
 	/**
 	 * @return max extend room number base on now check in out date
+	 * @throws SQLException 
+	 * @throws exceedSchedule 
+	 * @throws noSuchHotel 
 	 */
-	public RoomNum maxExtendRoom() {
+	public RoomNum maxExtendRoom() throws noSuchHotel, exceedSchedule, SQLException {
 		return ht.maxExtendRoom(rn, ckio);
 	}
 	public long calTotalPrice() {

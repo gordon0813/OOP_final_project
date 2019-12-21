@@ -3,6 +3,7 @@ package core;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import databaseException.exceedSchedule;
 import databaseException.noSuchHotel;
 
 public class Hotel {
@@ -23,9 +24,13 @@ public class Hotel {
 		assert si!=null;
 		User.getUser().addRecord(si,true);
 		ArrayList<RoomNum> matchroomset=roomset(si.numofpeople,si.lowrn);
+		System.out.println(matchroomset.size());
 		ArrayList<Hotel> matchHotel=matchHotel(si);
+		System.out.println(matchHotel.size());
 		ArrayList<Plan> matchPlan=new ArrayList<Plan>();
 		RoomNum zerorn=new RoomNum(0,0,0);
+		//for(RoomNum r:matchroomset)System.out.println(r);
+		
  		for(Hotel ht:matchHotel) {
 			boolean needacessdb=false;
 			ArrayList<RoomNum> matchPriceRnset =new ArrayList<RoomNum>(10);
@@ -34,17 +39,31 @@ public class Hotel {
 				if(price>si.lowprice && price<si.highprice) {
 					matchPriceRnset.add(rn);
 				}
-				if(matchPriceRnset.size()!=0) {
-					RoomNum maxrn=ht.maxExtendRoom(zerorn, si.ck);
+			}
+			if(matchPriceRnset.size()!=0) {	
+				RoomNum maxrn;
+				try {
+					maxrn = ht.maxExtendRoom(zerorn, si.ck);
+					
 					for (RoomNum mrn:matchPriceRnset) {
 						if(maxrn.contain(mrn)) {
 							matchPlan.add(new Plan(mrn.clone(), si.ck.clone(), ht));
 						}
 					}
+				} catch (noSuchHotel e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (exceedSchedule e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
-		return (Plan[]) matchPlan.toArray();
+ 		Plan[] p = new Plan[0];
+		return  matchPlan.toArray(p);
 	}
 	public static Hotel getHotel(int ID) {
 		return hotelList[ID];
@@ -146,10 +165,13 @@ public class Hotel {
 	 * @param rn number of  rooms
 	 * @param ck now Check In Out Date
 	 * @return max extend room number
+	 * @throws SQLException 
+	 * @throws exceedSchedule 
+	 * @throws noSuchHotel 
 	 */
-	public RoomNum maxExtendRoom(RoomNum rn,CheckInOutDate ck) {
+	public RoomNum maxExtendRoom(RoomNum rn,CheckInOutDate ck) throws noSuchHotel, exceedSchedule, SQLException {
 		//todo db
-		RoomNum re=null;//db.maxExtendRoom(ID,rn,ck)
+		RoomNum re=DB.getDB().extendRoom(this.id,rn,ck);
 		return re;
 	}
 	public String toString() {

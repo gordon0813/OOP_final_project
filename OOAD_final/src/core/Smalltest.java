@@ -28,8 +28,8 @@ public class Smalltest {
 		}else if(task==1) {
 			
 			System.out.println("===============check in out===========");
-			LocalDate d1= LocalDate.of(2019, 12, 13);
-			LocalDate d2= LocalDate.of(2019, 12, 17);
+			LocalDate d1= LocalDate.of(2020, 3, 13);
+			LocalDate d2= LocalDate.of(2020, 3, 17);
 			CheckInOutDate ck1=new CheckInOutDate(d1, d2);
 			System.out.println(ck1);
 			System.out.println("======================room num=================");
@@ -52,15 +52,19 @@ public class Smalltest {
 			System.out.println("==============================user===============================");
 			System.out.println(User.getUser().toStringAll());
 			order1.deleteSelf();
-			System.out.println("==============================user after delete=============================");
-			Search_input si=new Search_input(3, 2, 200, 100, 5, ck1, rn, "ggooggoo");
-			Hotel.search(si);
-			si=new Search_input(5, 4, 600, 300, 5, ck1, rn, "ggooggoo");
+			System.out.println("==============================search=============================");
+			Search_input si=new Search_input(4, 3, 120000/4, 100, 20, ck1, rn, ""); //120000/4 price per days
+			Plan[] plarr=Hotel.search(si);
+			for(Plan p:plarr) {
+				System.out.println(p);
+			}
+			/*
 			User u1=User.getUser();
 			User.logout();
 			Hotel.search(si);
 			Hotel.search(si);
 			System.out.println(order1);
+			*/
 			System.out.println("==============================other===============================");
 			ArrayList<RoomNum> tmpnum=Hotel.roomset(10,new RoomNum(0,2,0));
 			for(RoomNum i:tmpnum ) {
