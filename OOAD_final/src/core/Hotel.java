@@ -20,17 +20,31 @@ public class Hotel {
 		}
 	}
 	public static Plan[] search(Search_input si) {
+		assert si!=null;
 		User.getUser().addRecord(si,true);
 		ArrayList<RoomNum> matchroomset=roomset(si.numofpeople,si.lowrn);
 		ArrayList<Hotel> matchHotel=matchHotel(si);
-		for(Hotel ht:matchHotel) {
+		ArrayList<Plan> matchPlan=new ArrayList<Plan>();
+		RoomNum zerorn=new RoomNum(0,0,0);
+ 		for(Hotel ht:matchHotel) {
 			boolean needacessdb=false;
+			ArrayList<RoomNum> matchPriceRnset =new ArrayList<RoomNum>(10);
 			for(RoomNum rn:matchroomset) {
-				
+				long price=ht.calPriceOneDay(rn);
+				if(price>si.lowprice && price<si.highprice) {
+					matchPriceRnset.add(rn);
+				}
+				if(matchPriceRnset.size()!=0) {
+					RoomNum maxrn=ht.maxExtendRoom(zerorn, si.ck);
+					for (RoomNum mrn:matchPriceRnset) {
+						if(maxrn.contain(mrn)) {
+							matchPlan.add(new Plan(mrn.clone(), si.ck.clone(), ht));
+						}
+					}
+				}
 			}
 		}
-		
-		return null;
+		return (Plan[]) matchPlan.toArray();
 	}
 	public static Hotel getHotel(int ID) {
 		return hotelList[ID];
