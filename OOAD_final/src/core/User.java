@@ -1,4 +1,5 @@
 package core;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -12,21 +13,21 @@ public class User {
 	public static User getUser() {
 		return loginUser;
 	}
-	public static boolean signup(String name,String PassWord) {
-		//db.newUser(id,passWord)
-		return false;
+	public static boolean signup(String name,String PassWord) throws SQLException {
+		DB.getDB().addUser(name,PassWord);
+		return true;
 	}
 	/**
 	 * @param name
 	 * @param PassWord
-	 * @throws UserException
+	 * @throws Exception 
 	 */
-	public static void login(String name,String PassWord) throws UserException {
+	public static void login(String name,String PassWord) throws Exception {
 		//todo db
 		if( User.loginUser.valid==true) {
 			throw new UserException("current user has not logout");
 		}
-		User.loginUser=new User(name,PassWord);//db.getUser(id,password)
+		User.loginUser=DB.getDB().getUser(name,PassWord);
 	}
 	/**
 	 * make current user logout( not mean user=null is user.valid=false)

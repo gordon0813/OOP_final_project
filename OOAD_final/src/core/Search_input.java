@@ -53,7 +53,7 @@ public class Search_input {
 		
 		
 		Lowstar=ls; highstar=hs;  highprice=hp; lowprice=lp; numofpeople=np;
-		ck=ckio ;lowrn=Lr  ;address=ad;
+		ck=ckio ;lowrn=Lr  ;address=ad.replace("ел", "");
 		
 	}
 	public String toString() {

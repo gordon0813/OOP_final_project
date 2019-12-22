@@ -75,15 +75,17 @@ public class Hotel {
 				re.add(i);
 			}
 		}
+		ArrayList<Hotel> renew=new ArrayList<Hotel>();
 		if(si.address!=null && !si.address.isEmpty()) {
+			
 			for(int i=0;i<re.size();i++) {
 				if(re.get(i).address.contains(si.address)) {
-					re.set(i,re.get(i));
-					re.remove(re.size()-1);
+					System.out.println(si.address+" "+re.get(i).address);
+					renew.add(re.get(i));
 				}
 			}
 		}
-		return re;
+		return renew;
 		
 	}
 	 static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
