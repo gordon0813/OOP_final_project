@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.time.format.DateTimeFormatter;
 public class Smalltest {
 
@@ -48,20 +50,21 @@ public class Smalltest {
 			Order order=new Order(p1, false);
 			System.out.println(order);
 	
-			User.signup("123", "gg");
+			//User.signup("123", "gg");
 
 			
 			
-			User.login("123", "gg");
+			//User.login("123", "gg");
 		
-			Order order1= p1.toOrder();
-			order1.confirm();
+			//Order order1= p1.toOrder();
+			//order1.confirm();
 			System.out.println("==============================user===============================");
-			System.out.println(User.getUser().toStringAll());
-			order1.deleteSelf();
+			//System.out.println(User.getUser().toStringAll());
+			//order1.deleteSelf();
 			System.out.println("==============================search=============================");
-			Search_input si=new Search_input(4, 3, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
+			Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
 			Plan[] plarr=Hotel.search(si);
+			Arrays.sort(plarr, new PlanComparatorStar());
 			for(Plan p:plarr) {
 				System.out.println(p);
 			}

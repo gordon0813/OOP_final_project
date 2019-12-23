@@ -71,7 +71,7 @@ public class Hotel {
 	static ArrayList<Hotel> matchHotel(Search_input si){
 		ArrayList<Hotel> re=new ArrayList<Hotel>();
 		for(Hotel i:hotelList) {
-			if(i.star>=si.Lowstar && i.star>=si.highstar) {
+			if(i.star>=si.Lowstar && i.star<=si.highstar) {
 				re.add(i);
 			}
 		}
