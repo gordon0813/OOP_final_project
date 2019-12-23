@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import databaseException.exceedSchedule;
 import databaseException.noSuchHotel;
 
+/**
+ * read only class
+ * @author gordon
+ *
+ */
 public class Hotel {
 	private static Hotel[] hotelList;
 	static {
@@ -88,7 +93,7 @@ public class Hotel {
 		return renew;
 		
 	}
-	 static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
+	static ArrayList<RoomNum> roomset(int numOfPeople,RoomNum minRoomNum){
 		ArrayList<RoomNum> numarr=new ArrayList<RoomNum>();
 		RoomNum tmp;
 		int leftAfterq=0;

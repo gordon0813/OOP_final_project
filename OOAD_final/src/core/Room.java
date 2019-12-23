@@ -1,5 +1,10 @@
 package core;
 
+/**
+ * read only class
+ * @author gordon
+ *
+ */
 public class Room {
 	private int roomsize;
 	private long roomprice;
