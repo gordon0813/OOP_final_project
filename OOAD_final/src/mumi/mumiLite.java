@@ -763,11 +763,11 @@ public class mumiLite {
 		Statement stmt;
 		ResultSet rs;
 		String sql;
-		User user = new User();
+		
 		
 		stmt = conn.createStatement();
-		// get all order 
-		sql = "SELECT * FROM Orders WHERE (userid = '" + username + "') AND (password = '" + password + "')";
+		// check whether the info if user is correct
+		sql = "SELECT * FROM User WHERE (userid = '" + username + "') AND (password = '" + password + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
 		    throw new noSuchUser(username);
@@ -775,6 +775,10 @@ public class mumiLite {
 		if (!rs.getString("password").equals(password)) {
 			throw new passwordWrong();
 		}
+		User user = new User(username,password);
+		// get all order 
+		sql = "SELECT * FROM Orders WHERE userid = '" + username + "'";
+		rs = stmt.executeQuery(sql);
 		while(rs.next()) {
 			Order order = getOrder(rs.getInt("orderid"));
 			user.addOrder(order,true);
@@ -805,6 +809,26 @@ public class mumiLite {
 		rs.close();
 		stmt.close();
 		return user;
+	}
+	
+	/**
+	 * print all user
+	 * @throws SQLException
+	 */
+	public void printAllUser () throws SQLException {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM User");
+
+		while(rs.next()){
+			System.out.println("=============================================");
+        	System.out.println("User : " + rs.getString("userid"));
+        	System.out.println("password: " + rs.getString("password"));
+        }
+		System.out.println("=============================================");
+		stmt.close();
+	    rs.close();
 	}
 	
 	/**

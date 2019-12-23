@@ -25,7 +25,7 @@ public class test_database {
 			Lite.LoadFromJSON();
 		}
 		// show all hotel
-		Lite.printAllHotel();
+		//Lite.printAllHotel();
 //=================================================================
 		// initialize table:Schedule
 		boolean reset_Schedule = false;
@@ -217,7 +217,19 @@ public class test_database {
 		boolean reset_search = false;
 		if (reset_search) {
 			Lite.searchInit();;
+		}	
+//=================================================================
+		
+		//Lite.printAllUser();
+		/*
+		try {
+			User mumi = Lite.getUser("ss", "234");
+			System.out.println(mumi);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		*/
 	}
-
+	
+	
 }

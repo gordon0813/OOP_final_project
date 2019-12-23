@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Font;
 
 public class GUI_login {
@@ -79,6 +80,9 @@ public class GUI_login {
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -112,7 +116,12 @@ public class GUI_login {
 		register.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				boolean register = User.signup(username.getText(), password.getText());
+				try {
+					boolean register = User.signup(username.getText(), password.getText());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		register.setFont(new Font("SansSerif", Font.PLAIN, 16));
