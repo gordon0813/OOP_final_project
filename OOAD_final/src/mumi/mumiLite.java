@@ -301,6 +301,27 @@ public class mumiLite {
 	    rs.close();
 	}
 	
+	public void printSchedule (int id,LocalDate start,LocalDate end) throws SQLException, noSuchHotel {
+		if (id > 1499 || id < 0)
+			throw new noSuchHotel(id);
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Schedule" + id + " WHERE (date >= " + localToLong(start) + ") AND "
+															 + "(date < " + localToLong(end) + ")");
+
+		while(rs.next()){
+			System.out.println("=============================================");
+        	System.out.println("date : " + new Date(rs.getLong("date")));
+        	System.out.println("s: " + rs.getInt("s_n"));
+        	System.out.println("d: " + rs.getInt("d_n"));
+        	System.out.println("q: " + rs.getInt("q_n"));
+        }
+		System.out.println("=============================================");
+		stmt.close();
+	    rs.close();
+	}
+	
 	/**
 	 * modify the schedule
 	 * @param hotelid
@@ -324,10 +345,10 @@ public class mumiLite {
 			throw new nomoreRoom(new RoomNum(s_n,d_n,q_n),have);
 		stmt = conn.createStatement();
 		for (long i = in; i < out;) {
-			rs = stmt.executeQuery("SELECT * FROM Schedule" + hotelid + " WHERE date = " + in);
+			rs = stmt.executeQuery("SELECT * FROM Schedule" + hotelid + " WHERE date = " + i);
 			os_n = rs.getInt("s_n"); od_n = rs.getInt("d_n"); oq_n = rs.getInt("q_n");
 			rs.close();
-			pst = conn.prepareStatement("UPDATE Schedule" + hotelid + " SET s_n = ? , d_n = ? , q_n = ? WHERE date = " + in);
+			pst = conn.prepareStatement("UPDATE Schedule" + hotelid + " SET s_n = ? , d_n = ? , q_n = ? WHERE date = " + i);
 			pst.setInt(1, os_n - s_n); pst.setInt(2, od_n - d_n); pst.setInt(3, oq_n - q_n);
 			pst.executeUpdate();
 			pst.close();
@@ -687,19 +708,22 @@ public class mumiLite {
 	public void deleteOrder(long orderid) throws Exception {
 		Statement stmt;
 		stmt = conn.createStatement();
-		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
 		
 		Plan plan = getOrder(orderid).getPlan();
+		
+		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
+		if(stmt.executeUpdate(sql) == 0) {
+			throw new noSuchOrder(orderid);
+		} 
+		
 		//
 		scheduler (plan.getHotel().getId(),
 				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
 				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
 		//
-		if(stmt.executeUpdate(sql) == 0) {
-			throw new noSuchOrder(orderid);
-		} else {
-			System.out.println("successfully delete!!");
-		}
+		
+		System.out.println("successfully delete!!");
+		
 		stmt.close();
 	}
 	

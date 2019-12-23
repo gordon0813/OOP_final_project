@@ -2,6 +2,8 @@ package core;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import databaseException.userExist;
+
 public class User {
 	private static User loginUser;
 	static {
@@ -13,7 +15,7 @@ public class User {
 	public static User getUser() {
 		return loginUser;
 	}
-	public static boolean signup(String name,String PassWord) throws SQLException {
+	public static boolean signup(String name,String PassWord) throws SQLException, userExist {
 		DB.getDB().addUser(name,PassWord);
 		return true;
 	}
