@@ -48,8 +48,9 @@ public class Plan {
 	/**
 	 * create an order by this plan
 	 * @return order
+	 * @throws SQLException 
 	 */
-	public Order toOrder() {
+	public Order toOrder() throws SQLException {
 		return new Order(clone(), false);
 	}
 	/**

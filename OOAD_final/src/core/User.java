@@ -131,13 +131,16 @@ public class User {
 	}
 
 	public String toString() {
-		String re="id: "+id+"\npassword: "+password
+		String re="\nname: "+name+"\npassword: "+password
 				+"\nlogin: "+valid;
 		
 		return re;
 	}
+	public String getname() {
+		return name;
+	}
 	public String toStringAll() {
-		String re="\nid: "+id+"\npassword: "+password
+		String re="\nname: "+name+"\npassword: "+password
 				+"\nlogin: "+valid;
 		for(Order i:orderList){
 			re+=i.toString();

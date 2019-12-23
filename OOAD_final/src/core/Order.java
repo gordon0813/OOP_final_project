@@ -1,5 +1,7 @@
 package core;
 
+import java.sql.SQLException;
+
 public class Order {
 	private boolean valid;
 	private long id;
@@ -7,10 +9,10 @@ public class Order {
 
 	private User user;
 	private Plan plan;
-	public Order(Plan p,boolean val) {
+	public Order(Plan p,boolean val) throws SQLException {
 		//todo db
 		plan=p;   valid=val; 
-		id=0;//db.getlastid()
+		id=DB.getDB().currentOrderid();
 		user=User.getUser();
 	}
 	/**

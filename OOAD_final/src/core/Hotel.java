@@ -145,13 +145,21 @@ public class Hotel {
 				+rn.getDoubleNum()*this.roomdouble.getRoomprice()
 				+rn.getQuadNum()*this.roomquad.getRoomprice();
 	}
-	public String[] loadcomments() {
+	public String[] loadcomments() throws noSuchHotel, SQLException {
 		//todo db
-		String[] re=null;//db.loadcomments(this->ID)  //static  
-		return re;
+		ArrayList<String> re=DB.getDB().loadComments(id);  //static  
+		String[] tmp=new String[0];
+		return re.toArray(tmp);
 	}
-	public void addcomments(String comment) throws UserException {
+	/**
+	 * @param comment
+	 * @throws UserException  be handle as error page
+	 * @throws noSuchHotel this is bug need to be fix
+	 * @throws SQLException this is bug need to be fix
+	 */
+	public void addcomments(String comment) throws UserException, noSuchHotel, SQLException {
 		if(User.getUser().exitOrder(this)){
+			DB.getDB().addComment(id, comment+" /"+User.getUser().getname());
 			return ;//db.addComment(this,User.getUser,comment)
 		}else {
 			throw new UserException("User must book this hotel before leave a comment");
@@ -172,9 +180,9 @@ public class Hotel {
 	 * @param rn number of  rooms
 	 * @param ck now Check In Out Date
 	 * @return max extend room number
-	 * @throws SQLException 
-	 * @throws exceedSchedule 
-	 * @throws noSuchHotel 
+	 * @throws SQLException
+	 * @throws exceedSchedule
+	 * @throws noSuchHotel
 	 */
 	public RoomNum maxExtendRoom(RoomNum rn,CheckInOutDate ck) throws noSuchHotel, exceedSchedule, SQLException {
 		//todo db
