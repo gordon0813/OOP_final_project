@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 import core.*;
 import databaseException.noSuchHotel;
+import databaseException.userExist;
 
 import org.json.simple.parser.ParseException;
 
@@ -221,6 +222,13 @@ public class test_database {
 //=================================================================
 		
 		//Lite.printAllUser();
+		/*
+		try {
+			Lite.addUser("123", "ggo");
+		} catch (userExist e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}*/
 		/*
 		try {
 			User mumi = Lite.getUser("ss", "234");

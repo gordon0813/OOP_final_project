@@ -739,10 +739,22 @@ public class mumiLite {
 	 * add 1 User into database
 	 * @param user
 	 * @throws SQLException
+	 * @throws userExist 
 	 */
-	public void addUser (String username, String password) throws SQLException {
+	public void addUser (String username, String password) throws SQLException, userExist {
 		PreparedStatement pst;
+		Statement stmt;
+		ResultSet rs;
 		String sql;
+		
+		stmt = conn.createStatement();
+		sql = "SELECT * FROM User WHERE userid = '" + username + "'";
+		rs = stmt.executeQuery(sql);
+		if (rs.isBeforeFirst()) {    
+		    throw new userExist(username);
+		}
+		stmt.close();
+		rs.close();
 		
 		sql = "INSERT INTO User (userid,password) VALUES (?,?)";
 		pst = conn.prepareStatement(sql);
