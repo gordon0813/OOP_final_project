@@ -70,6 +70,24 @@ public class User {
 		
 	}
 	
+	public ArrayList<Order> getOrderList() {
+		return orderList;
+	}
+
+
+
+	public ArrayList<Plan> getPageMark() {
+		return pageMark;
+	}
+
+
+
+	public ArrayList<Search_input> getRecord() {
+		return record;
+	}
+
+
+
 	public void addOrder(Order toadd,boolean save) throws UserException, noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");

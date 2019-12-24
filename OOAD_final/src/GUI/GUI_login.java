@@ -12,6 +12,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import core.User;
 import core.UserException;
+import databaseException.userExist;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -44,12 +45,24 @@ public class GUI_login {
 	private JFrame frame;
 	private JTextField username;
 	private JTextField password;
+	private static String error = "correct";
 	public User usr;
 
 	/**
 	 * Launch the application.
 	 */
-	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUI_login window = new GUI_login();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
@@ -71,12 +84,21 @@ public class GUI_login {
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 	
+		JLabel errormsg = new JLabel("...");
+		errormsg.setBounds(10, 188, 316, 20);
+		frame.getContentPane().add(errormsg);
+		
 		JButton confirm = new JButton("\u78BA\u5B9A");
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
 					User.login(username.getText(), password.getText());
+					errormsg.setText(error);
+					if(error.matches("correct")) {
+						GUI_user fre = new GUI_user();
+						frame.dispose();
+					}						
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -117,7 +139,12 @@ public class GUI_login {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					boolean register = User.signup(username.getText(), password.getText());
+					try {
+						boolean register = User.signup(username.getText(), password.getText());
+					} catch (userExist e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -127,8 +154,17 @@ public class GUI_login {
 		register.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		register.setBounds(37, 136, 130, 29);
 		frame.getContentPane().add(register);
-
-		// DefaultTableModel model = (DefaultTableModel) table.getModel();
+		
 
 	}
+
+	public static String getError() {
+		return error;
+	}
+
+	public static void setError(String error) {
+		GUI_login.error = error;
+	}
+
+	
 }
