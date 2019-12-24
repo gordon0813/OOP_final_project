@@ -831,14 +831,14 @@ public class mumiLite {
 		rs = stmt.executeQuery(sql);
 		while(rs.next()) {
 			Order order = getOrder(rs.getInt("orderid"));
-			user.addOrder(order,true);
+			user.addOrder(order,false);
 		}
 		// get all plan
 		sql = "SELECT * FROM Plan WHERE userid = '" + username + "'";
 		rs = stmt.executeQuery(sql);
 		while(rs.next()) {
 			Plan plan = getPlan(rs.getInt("planid"));
-			user.addpageMark(plan,true);
+			user.addpageMark(plan,false);
 		}
 		// get all search_input
 		sql = "SELECT * FROM Search WHERE userid = '" + username + "'";
