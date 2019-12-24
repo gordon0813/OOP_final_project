@@ -58,21 +58,25 @@ public class Smalltest {
 			//User.logout();
 			//User.login("123", "kirito");
 		
-			Order order1= p1.toOrder();
-			order1.confirm();
-			order1.getPlan().getHotel().addcomments("test:12/23");
-			String[] sarr=order1.getPlan().getHotel().loadcomments();
-			for(int i=0;i<sarr.length;i++) {
-				System.out.println("["+i+"]"+sarr[i]);
-			}
+			//Order order1= p1.toOrder();
+			//order1.confirm();
+			//order1.getPlan().getHotel().addcomments("test:12/23");
+			//String[] sarr=order1.getPlan().getHotel().loadcomments();
+			//for(int i=0;i<sarr.length;i++) {
+			//	System.out.println("["+i+"]"+sarr[i]);
+			//}
+			
 			//order1.confirm();
 			System.out.println("==============================user===============================");
 			System.out.println(User.getUser().toStringAll());
 			//order1.deleteSelf();
 			System.out.println("==============================search=============================");
-			//Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
-			//Plan[] plarr=Hotel.search(si);
-			//Arrays.sort(plarr, new PlanComparatorStar());
+			Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
+			Plan[] plarr=Hotel.search(si);
+			si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台北市");
+			Hotel.search(si);
+			Arrays.sort(plarr, new PlanComparatorStar());
+			System.out.println(User.getUser().toStringAll());
 			//for(Plan p:plarr) {
 			//	System.out.println(p);
 			//}

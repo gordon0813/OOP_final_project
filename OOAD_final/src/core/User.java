@@ -36,6 +36,7 @@ public class User {
 			throw new UserException("current user has not logout");
 		}
 		User.loginUser=DB.getDB().getUser(name,PassWord);
+		User.loginUser.connectALLorder();
 	}
 	/**
 	 * make current user logout( not mean user=null is user.valid=false)
@@ -68,12 +69,13 @@ public class User {
 		record=new ArrayList<Search_input>();
 		
 	}
-	public void addOrder(Order toadd,boolean save) throws UserException {
+	
+	public void addOrder(Order toadd,boolean save) throws UserException, noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
 		if(save) {
-			//DB.getDB().addOrder(this->id,toadd);
+			DB.getDB().addOrder(toadd, name);
 			}
 		orderList.add(toadd);
 	}
@@ -98,13 +100,16 @@ public class User {
 	 * auto trigger when Using Hotel.search()
 	 * will access db
 	 * @param si 
+	 * @throws SQLException 
 	 */
-	public void addRecord(Search_input si,boolean save) {
+	public void addRecord(Search_input si,boolean save) throws SQLException {
 		if(!valid) {
 			return ;
 		}
+		if(this.record.size()!=0 && this.record.get(this.record.size()-1).equals(si))return;
 		record.add(si);
 		if(save) {
+			//DB.getDB().addSearch(si, name);
 			//db.addRecord(this.id,si);
 		}
 		
@@ -158,6 +163,11 @@ public class User {
 		}
 		re+="\n";
 		return re;
+	}
+	private void connectALLorder() {
+		for(int i=0;i<this.orderList.size();i++) {
+			this.orderList.get(i).resetUser(this);
+		}
 	}
 	
 }

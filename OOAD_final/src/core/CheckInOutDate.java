@@ -24,6 +24,9 @@ public class CheckInOutDate implements Cloneable{
 		
 		return (ckio.checkin.compareTo(checkin)>=0 &&  ckio.checkout.compareTo(checkout)<=0 ) ;
 	}
+	public boolean equals(CheckInOutDate ckio) {
+		return ckio.checkin==this.checkin && ckio.checkout==this.checkout;
+	}
 	public String toString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return "checkin: "+checkin.format(formatter)+"\ncheckout: "+checkout.format(formatter)

@@ -64,5 +64,19 @@ public class Search_input {
 				+" numofpeople"+numofpeople;
 		return re;
 	}
+	public boolean equals(Search_input si) {
+		
+		return (si.numofpeople==numofpeople&&
+				si.Lowstar==this.Lowstar&&
+				si.highstar==this.highstar&&
+				si.lowrn.equals(this.lowrn)&&
+				si.address.equals(this.address)&&
+				si.numofpeople==this.numofpeople&&
+				si.highprice==this.highprice&&
+				si.lowprice==this.lowprice&&
+				si.ck==this.ck
+				);
+		
+	}
 	
 }

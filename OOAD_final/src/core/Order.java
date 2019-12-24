@@ -2,6 +2,10 @@ package core;
 
 import java.sql.SQLException;
 
+import databaseException.exceedSchedule;
+import databaseException.noSuchHotel;
+import databaseException.nomoreRoom;
+
 public class Order {
 	private boolean valid;
 	private long id;
@@ -21,12 +25,18 @@ public class Order {
 		id=ID;
 		user=User.getUser();
 	}
-	
+	void resetUser(User us){
+		this.user=us;
+	}
 	/**
 	 * save this order to db
 	 * @throws UserException user own this order has logout
+	 * @throws SQLException 
+	 * @throws nomoreRoom 
+	 * @throws exceedSchedule 
+	 * @throws noSuchHotel 
 	 */
-	public void confirm() throws UserException {
+	public void confirm() throws UserException, noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
 		if(valid==true)return;//valid order should not be confirm again
 		user.addOrder(this,true);//may have exception
 		valid=true;

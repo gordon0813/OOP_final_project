@@ -32,6 +32,9 @@ public class RoomNum {
 	public boolean contain(RoomNum rn) {
 		return (this.singleNum>=rn.singleNum && this.doubleNum>=rn.doubleNum&& this.quadNum>=rn.quadNum);
 	}
+	public boolean equals(RoomNum rn) {
+		return (this.singleNum==rn.singleNum && this.doubleNum==rn.doubleNum&& this.quadNum==rn.quadNum);
+	}
 	public RoomNum clone(){
 		return new RoomNum(singleNum,doubleNum,quadNum);
 	}
