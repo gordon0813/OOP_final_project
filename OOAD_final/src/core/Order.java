@@ -25,7 +25,9 @@ public class Order {
 		id=ID;
 		user=User.getUser();
 	}
-	
+	void resetUser(User us){
+		this.user=us;
+	}
 	/**
 	 * save this order to db
 	 * @throws UserException user own this order has logout
