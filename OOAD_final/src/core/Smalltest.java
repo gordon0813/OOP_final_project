@@ -50,13 +50,13 @@ public class Smalltest {
 			//Order order=new Order(p1, false);
 			//System.out.println(order);
 	
-			User.signup("123", "ugo");
-			User.signup("123", "kirito");
+			//User.signup("123", "ugo");
+			//User.signup("123", "kirito");
 			
 			
-			User.login("123", "ggo");
-			User.logout();
-			User.login("123", "kirito");
+			User.login("123", "ugo");
+			//User.logout();
+			//User.login("123", "kirito");
 		
 			Order order1= p1.toOrder();
 			order1.confirm();
