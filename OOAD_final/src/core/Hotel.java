@@ -25,7 +25,7 @@ public class Hotel {
 			}
 		}
 	}
-	public static Plan[] search(Search_input si) {
+	public static Plan[] search(Search_input si) throws SQLException {
 		assert si!=null;
 		User.getUser().addRecord(si,true);
 		ArrayList<RoomNum> matchroomset=roomset(si.numofpeople,si.lowrn);
