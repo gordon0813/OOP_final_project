@@ -259,8 +259,8 @@ public class test_database {
 		//System.out.println(Lite.currentOrderid());
 		//User user = Lite.getUser("mumi", "dadala");
 		
-		//Order o = Lite.getOrder(22);
-		//System.out.println(o);
+		Order o = Lite.getOrder(31);
+		System.out.println(o);
 		//Lite.deleteOrder(28);
 	}
 	

@@ -356,6 +356,20 @@ public class mumiLite {
 		}   
         stmt.close();   
 	}
+	
+	/**
+	 * not for user
+	 * @param rm
+	 * @param ck
+	 * @param hotelid
+	 * @throws noSuchHotel
+	 * @throws exceedSchedule
+	 * @throws nomoreRoom
+	 * @throws SQLException
+	 */
+	public void editSchedule (RoomNum rm, CheckInOutDate ck, int hotelid) throws noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
+		scheduler(hotelid,rm.getSingleNum(),rm.getDoubleNum(),rm.getQuadNum(),localToLong(ck.getCheckin()),localToLong(ck.getCheckout()));
+	}
 	/**
 	 * set up the Table:Comment for each Hotel
 	 * @throws SQLException
