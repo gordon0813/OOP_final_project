@@ -16,7 +16,7 @@ import org.json.simple.parser.ParseException;
 
 public class test_database {
 
-	public static void main(String[] args) throws SQLException, IOException, ParseException, java.text.ParseException, noSuchHotel {
+	public static void main(String[] args) throws Exception {
 		// connect to the database
 		mumiLite Lite = new mumiLite();
 //=================================================================		
@@ -237,6 +237,31 @@ public class test_database {
 			e.printStackTrace();
 		}
 		*/
+//=================================================================
+		// test scheduler
+		/*
+		try {
+			Lite.addUser("mumi", "dadala");
+		} catch (userExist e) {
+			e.printStackTrace();
+		}*/
+		//Lite.printSchedule(4,LocalDate.of(2020, 1, 1),LocalDate.of(2020, 1, 8));
+		/*
+		User user = Lite.getUser("mumi", "dadala");
+		//System.out.println(user);
+		Hotel hotel = Lite.getHotel(4);
+		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020, 1, 3),LocalDate.of(2020, 1, 6));
+		RoomNum rm = new RoomNum(3,2,1);
+		Plan p = new Plan(rm,ck,hotel,Lite.currentPlanid());
+		Order o = new Order(p,true);
+		Lite.addOrder(o,"mumi");
+		*/
+		//System.out.println(Lite.currentOrderid());
+		//User user = Lite.getUser("mumi", "dadala");
+		
+		//Order o = Lite.getOrder(22);
+		//System.out.println(o);
+		//Lite.deleteOrder(28);
 	}
 	
 	
