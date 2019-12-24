@@ -711,7 +711,7 @@ public class mumiLite {
 		Plan plan = getPlan(planid);
 		rs.close();
 		stmt.close();
-		return new Order(plan,true);
+		return new Order(plan,true,orderid);
 	}
 	
 	/**

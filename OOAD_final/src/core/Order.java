@@ -15,7 +15,7 @@ public class Order {
 		id=DB.getDB().currentOrderid();
 		user=User.getUser();
 	}
-	public Order(Plan p,boolean val,int ID) throws SQLException {
+	public Order(Plan p,boolean val,long ID) throws SQLException {
 		//todo db
 		plan=p;   valid=val; 
 		id=ID;
