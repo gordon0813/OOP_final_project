@@ -848,7 +848,7 @@ public class mumiLite {
 		String addr;
 		while(rs.next()) {
 			lowstar = rs.getInt("lowstar"); highstar = rs.getInt("highstar");
-			lowprice = rs.getInt("lowprivce"); highprice = rs.getInt("highprice");
+			lowprice = rs.getInt("lowprice"); highprice = rs.getInt("highprice");
 			people = rs.getInt("people");
 			checkin = rs.getLong("checkin"); checkout = rs.getLong("checkout");
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
@@ -894,7 +894,7 @@ public class mumiLite {
 		stmt.executeUpdate(sql);
 		 
 		sql = "create table Search (lowstar int,highstar int,lowprice int,"
-								 + "highprice int,people int,checkin long,checkout long"
+								 + "highprice int,people int,checkin long,checkout long,"
 								 + "s_n int,d_n int,q_n int,addr string,userid string)"; 
         stmt.executeUpdate(sql);
 
