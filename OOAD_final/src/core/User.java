@@ -2,11 +2,9 @@ package core;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
+
 import databaseException.*;
-=======
-import databaseException.userExist;
->>>>>>> 08022a67ee847847f8a09a48ec9c57b3aef6d007
+
 
 public class User {
 	private static User loginUser;
@@ -19,11 +17,11 @@ public class User {
 	public static User getUser() {
 		return loginUser;
 	}
-<<<<<<< HEAD
-	public static boolean signup(String name,String PassWord) throws SQLException,userExist {
-=======
+
+
+
 	public static boolean signup(String name,String PassWord) throws SQLException, userExist {
->>>>>>> 08022a67ee847847f8a09a48ec9c57b3aef6d007
+
 		DB.getDB().addUser(name,PassWord);
 		return true;
 	}
