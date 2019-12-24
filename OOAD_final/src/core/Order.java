@@ -15,6 +15,13 @@ public class Order {
 		id=DB.getDB().currentOrderid();
 		user=User.getUser();
 	}
+	public Order(Plan p,boolean val,int ID) throws SQLException {
+		//todo db
+		plan=p;   valid=val; 
+		id=ID;
+		user=User.getUser();
+	}
+	
 	/**
 	 * save this order to db
 	 * @throws UserException user own this order has logout
