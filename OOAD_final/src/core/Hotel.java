@@ -190,9 +190,9 @@ public class Hotel {
 		return re;
 	}
 	public String toString() {
-		String re="ID: "+id+"\nStar: "+star+"\naddress: "+address+"\n"
-				+this.roomsingle.toString()+"\n"
-		        +this.roomdouble.toString()+"\n"
+		String re="ID: "+id+" Star: "+star+" Address: "+address+" "
+				+this.roomsingle.toString()+" "
+		        +this.roomdouble.toString()+" "
 		        +this.roomquad.toString();
 		return re;
 	}

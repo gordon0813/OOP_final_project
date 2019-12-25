@@ -22,7 +22,12 @@ public class User {
 
 	public static boolean signup(String name,String PassWord) throws SQLException, userExist {
 
-		DB.getDB().addUser(name,PassWord);
+		try {
+			DB.getDB().addUser(name,PassWord);
+		} catch (passwordIllegal e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 	/**

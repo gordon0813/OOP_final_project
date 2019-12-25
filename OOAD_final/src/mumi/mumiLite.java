@@ -808,7 +808,7 @@ public class mumiLite {
 		ResultSet rs;
 		String sql;
 		
-		if (password.matches("[a-zA-Z0-9]+") == false || password.length() < 6 || password.length() < 15) {
+		if (password.matches("[a-zA-Z0-9]+") == false || password.length() < 6 || password.length() > 15) {
 		    throw new passwordIllegal(); 
 		}
 		
