@@ -24,6 +24,8 @@ import java.util.GregorianCalendar;
 import org.json.simple.parser.ParseException;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
+
+import GUI.GUI_login;
 import core.*;
 import databaseException.*;
 public class mumiLite {
@@ -820,9 +822,11 @@ public class mumiLite {
 		sql = "SELECT * FROM User WHERE (userid = '" + username + "') AND (password = '" + password + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
+			GUI_login.setError("µL¦¹¥Î¤á");
 		    throw new noSuchUser(username);
 		}
 		if (!rs.getString("password").equals(password)) {
+			GUI_login.setError("±K½X¿ù»~");
 			throw new passwordWrong();
 		}
 		User user = new User(username,password);
@@ -848,7 +852,7 @@ public class mumiLite {
 		String addr;
 		while(rs.next()) {
 			lowstar = rs.getInt("lowstar"); highstar = rs.getInt("highstar");
-			lowprice = rs.getInt("lowprivce"); highprice = rs.getInt("highprice");
+			lowprice = rs.getInt("lowprice"); highprice = rs.getInt("highprice");
 			people = rs.getInt("people");
 			checkin = rs.getLong("checkin"); checkout = rs.getLong("checkout");
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
@@ -894,7 +898,7 @@ public class mumiLite {
 		stmt.executeUpdate(sql);
 		 
 		sql = "create table Search (lowstar int,highstar int,lowprice int,"
-								 + "highprice int,people int,checkin long,checkout long"
+								 + "highprice int,people int,checkin long,checkout long,"
 								 + "s_n int,d_n int,q_n int,addr string,userid string)"; 
         stmt.executeUpdate(sql);
 
