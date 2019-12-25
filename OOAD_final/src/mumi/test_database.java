@@ -264,12 +264,12 @@ public class test_database {
 		//Lite.deleteOrder(28);
 //=================================================================
 		// test add search
-		/*
+		
 		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020, 1, 3),LocalDate.of(2020, 1, 6));
 		RoomNum rm = new RoomNum(3,2,1);
 		Search_input ser = new Search_input(5,3,10000,1000,3,ck,rm,"母咪路四段");
 		Lite.addSearch(ser, "mumi人");
-		*/
+		
 		/*
 		try {
 			Lite.addUser("mumi人", "mumimumi");
