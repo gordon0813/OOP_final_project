@@ -12,6 +12,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import core.CheckInOutDate;
 import core.Order;
+import core.Plan;
 import core.RoomNum;
 import core.User;
 import core.UserException;
@@ -85,6 +86,7 @@ public class GUI_order_confirm {
 		p.put("text.year", "year");
 		
 		UtilDateModel modelin = new UtilDateModel();
+		Plan pp = current_order.getPlan();
 		//can't really turn localdate into date...
 		modelin.setYear(current_order.getPlan().getCheckInOutDate().getCheckin().getYear());
 		modelin.setMonth(current_order.getPlan().getCheckInOutDate().getCheckin().getMonthValue());
@@ -158,6 +160,8 @@ public class GUI_order_confirm {
 					}else{
 						try {
 							current_order.confirm();
+							frame.dispose();
+							GUI_user fre = new GUI_user();
 						} catch (noSuchHotel e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

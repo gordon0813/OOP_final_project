@@ -100,10 +100,14 @@ public class GUI_login {
 						frame.dispose();
 					}						
 				} catch (UserException e1) {
-					// TODO Auto-generated catch block
+					System.out.println("s");
+					frame.dispose();
+					GUI_login fre = new GUI_login();
 					e1.printStackTrace();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					System.out.println("s2");
+					frame.dispose();
+					GUI_login fre = new GUI_login();
 					e1.printStackTrace();
 				}
 			}

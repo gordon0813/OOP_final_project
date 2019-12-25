@@ -54,6 +54,7 @@ public class GUI_hotelpage {
 	private JTable table;
 	private Plan pln = GUI_search.getChosen_plan();
 	private static Order ordr;
+	private JTable hotel_info;
     public static Order getOrdr() {
 		return ordr;
 	}
@@ -159,6 +160,12 @@ public class GUI_hotelpage {
 				RoomNum rn = new RoomNum((Integer) spinner_1.getValue(),
 						(Integer) spinner_2.getValue(), (Integer) spinner_4.getValue());
 				pln.setRoomNum(rn);
+				try {
+					ordr = pln.toOrder();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				GUI_order_confirm fre = new GUI_order_confirm();
 			}
 		});
@@ -176,11 +183,6 @@ public class GUI_hotelpage {
 		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		button_user.setBounds(896, 572, 130, 29);
 		frame.getContentPane().add(button_user);
-		
-		JLabel hotel_info = new JLabel(pln.getHotel().toString());
-		hotel_info.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		hotel_info.setBounds(10, 12, 538, 200);
-		frame.getContentPane().add(hotel_info);
 		
 		JLabel label = new JLabel("\u7E3D\u50F9:");
 		label.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -221,6 +223,17 @@ public class GUI_hotelpage {
 		comment.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		comment.setBounds(589, 642, 130, 29);
 		frame.getContentPane().add(comment);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 15, 520, 197);
+		frame.getContentPane().add(scrollPane_2);
+		
+		
+		String[][] inf = {{"飯店號",((Integer)pln.getHotel().getId()).toString()},{"星級",((Integer)pln.getHotel().getStar()).toString()},{"地址",pln.getHotel().getAddress()}};
+		String[] infhead = {"飯店資訊"};
+		hotel_info = new JTable(new DefaultTableModel(inf, infhead));
+		scrollPane_2.setViewportView(hotel_info);
+		hotel_info.setPreferredScrollableViewportSize(new Dimension(63, 63));
 
 		// DefaultTableModel model = (DefaultTableModel) table.getModel();
 
