@@ -1,5 +1,7 @@
 package GUI;
 import core.*;
+import databaseException.noSuchHotel;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -15,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -33,6 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
@@ -45,33 +50,21 @@ public class GUI_search {
 	private JTable table;
 	private static Plan chosen_plan;
 
-
 	public static Plan getChosen_plan() {
 		return chosen_plan;
 	}
-    private boolean chosen = true;
+    private boolean chosen = false;
 
-	private Plan[] plan_input = new Plan[0];
+	private Plan[] plan_input ;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI_search window = new GUI_search();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public GUI_search() {
+		System.out.println("gui start");
 		initialize();
 	}
 
@@ -80,6 +73,7 @@ public class GUI_search {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -87,7 +81,6 @@ public class GUI_search {
 		frame.setBounds(100, 100, 1080, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
 		Integer[] starin = { 1, 2, 3, 4, 5 };
 		JComboBox starlow = new JComboBox(starin);
 		starlow.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -126,14 +119,13 @@ public class GUI_search {
 		JDatePickerImpl datePickerin = new JDatePickerImpl(datePanelin, new DateComponentFormatter());
 		datePickerin.setSize(130, 38);
 		datePickerin.setLocation(86, 93);
-		LocalDate selectedDatein = (LocalDate) datePickerin.getModel().getValue();
+		
 
 		UtilDateModel modelout = new UtilDateModel();
 		JDatePanelImpl datePanelout = new JDatePanelImpl(modelout, p);
 		JDatePickerImpl datePickerout = new JDatePickerImpl(datePanelout, new DateComponentFormatter());
 		datePickerout.setSize(130, 38);
 		datePickerout.setLocation(296, 93);
-		LocalDate selectedDateout = (LocalDate) datePickerout.getModel().getValue();
 		frame.getContentPane().add(datePickerin);
 		frame.getContentPane().add(datePickerout);
 
@@ -211,32 +203,60 @@ public class GUI_search {
 		 * 0, null, null, null, null); Plan[] plantest = {new Plan(RNtest, CKtest,
 		 * HTtest)};
 		 */
-
 		String[] head = { "Hotel", "Check in/out date", "Room Plan", "Price" };
-		String[][] ph = {};
+		String[][] test = {{"search"}};
+		if(GUI_record.isFrom_record()) {
+			try {
+				plan_input = Hotel.search(GUI_record.getChosen_input());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			for (int i = 0; i < plan_input.length; i++) {
+				test[i][0] = plan_input[i].getHotel().toString();
+				test[i][1] = plan_input[i].getCheckInOutDate().toString();
+				test[i][2] = plan_input[i].getRoomNum().toString();
+				test[i][3] = ((Long) plan_input[i].calTotalPrice()).toString();
+			}
+			GUI_record.setFrom_record(false);
+		}
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 152, 835, 511);
 		frame.getContentPane().add(scrollPane);
-		table = new JTable(new DefaultTableModel(ph, head));
+		table = new JTable(new DefaultTableModel(test, head));
 		JButton searchbutton = new JButton("\u641C\u5C0B");
 		searchbutton.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		searchbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Date datein = (Date) (datePickerin.getModel().getValue());
+				Date dateout = (Date) datePickerout.getModel().getValue();
+				LocalDate selectedDatein = datein.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				LocalDate selectedDateout = dateout.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				Search_input input = new Search_input((Integer) starhigh.getSelectedItem(),
 						(Integer) starlow.getSelectedItem(), Integer.parseInt(highprice.getText()),
 						Integer.parseInt(lowprice.getText()), (Integer) guestnum.getValue(),
 						new CheckInOutDate(selectedDatein, selectedDateout), new RoomNum((Integer) spinner_1.getValue(),
 								(Integer) spinner_2.getValue(), (Integer) spinner_4.getValue()),
 						region_box.getSelectedObjects().toString());
-				//User.getUser().addRecord(input);
-				plan_input = Hotel.search(input);
-				String[][] test = {};
-				for (int i = 0; i < plan_input.length; i++) {
-					test[i][0] = plan_input[i].getHotel().toString();
-					test[i][1] = plan_input[i].getCheckInOutDate().toString();
-					test[i][2] = plan_input[i].getRoomNum().toString();
-					test[i][3] = ((Long) plan_input[i].calTotalPrice()).toString();
+				try {
+					plan_input = Hotel.search(input);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				String[][] test2 = new String[plan_input.length][4];
+				if(plan_input.length == 0) {
+					test[0][0] = "nope";
+					System.out.println("yee");
+				}else {
+					System.out.println(plan_input[0].getHotel().toString());
+					for (int i = 0; i < plan_input.length; i++) {
+						test2[i][0] = plan_input[i].getHotel().toString();
+						test2[i][1] = plan_input[i].getCheckInOutDate().toString();
+						test2[i][2] = plan_input[i].getRoomNum().toString();
+						test2[i][3] = ((Long) plan_input[i].calTotalPrice()).toString();
+					}
+				}				
 				table.setModel(new DefaultTableModel(test,head));
 			}
 		});
@@ -268,8 +288,16 @@ public class GUI_search {
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			//	frame.dispose();
-				GUI_hotelpage fre = new GUI_hotelpage();
+		//		frame.dispose();
+				try {
+					GUI_hotelpage fre = new GUI_hotelpage();
+				} catch (noSuchHotel e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -281,6 +309,7 @@ public class GUI_search {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				GUI_user fre = new GUI_user();
+				frame.dispose();
 			}
 		});
 		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -308,9 +337,15 @@ public class GUI_search {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable s = (JTable) e.getSource();
+				if(plan_input.length==0) {
+					chosen_plan = null;
+					System.out.println("null");
+				}else {
 				Integer row = s.getSelectedRow();
+				System.out.println("nf");
 				chosen_plan = plan_input[row];
 				chosen = true;
+				}
 			}
 		});
 

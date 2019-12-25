@@ -12,7 +12,6 @@ import java.awt.Font;
 public class GUI_user {
 
 	private JFrame frame;
-	public User usr;
 
 	/**
 	 * Launch the application.
@@ -44,7 +43,7 @@ public class GUI_user {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				GUI_search fre = new GUI_search();
+				GUI_search fre = new GUI_search();				
 			}
 		});
 		search.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -54,9 +53,9 @@ public class GUI_user {
 		JButton user_data = new JButton("\u57FA\u672C\u8CC7\u6599");
 		user_data.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {	
 				frame.dispose();
-				GUI_search fre = new GUI_search();
+				GUI_search fre = new GUI_search();			
 			}
 		});
 		user_data.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -67,8 +66,8 @@ public class GUI_user {
 		finished_order.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				GUI_search fre = new GUI_search();
+				GUI_order_manage fre = new GUI_order_manage();
+				frame.dispose();			
 			}
 		});
 		finished_order.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -79,8 +78,8 @@ public class GUI_user {
 		search_history.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				GUI_search fre = new GUI_search();
+				GUI_record fre = new GUI_record();
+				frame.dispose();				
 			}
 		});
 		search_history.setFont(new Font("SansSerif", Font.PLAIN, 16));

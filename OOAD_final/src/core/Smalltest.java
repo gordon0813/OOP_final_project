@@ -47,46 +47,31 @@ public class Smalltest {
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
 			System.out.println(p1);
 			System.out.println("======================Order======================");
-			//Order order=new Order(p1, false);
-			//System.out.println(order);
-	
+
 			//User.signup("123", "ugo");
-			//User.signup("123", "kirito");
+
 			
 			
 			User.login("123", "ugo");
 			//User.logout();
-			//User.login("123", "kirito");
+
 		
 			//Order order1= p1.toOrder();
-			//order1.confirm();
-			//order1.getPlan().getHotel().addcomments("test:12/23");
-			//String[] sarr=order1.getPlan().getHotel().loadcomments();
-			//for(int i=0;i<sarr.length;i++) {
-			//	System.out.println("["+i+"]"+sarr[i]);
-			//}
+		
 			
 			//order1.confirm();
-			System.out.println("==============================user===============================");
-			System.out.println(User.getUser().toStringAll());
-			//order1.deleteSelf();
+			
 			System.out.println("==============================search=============================");
 			Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
 			Plan[] plarr=Hotel.search(si);
 			si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台北市");
 			Hotel.search(si);
 			Arrays.sort(plarr, new PlanComparatorStar());
+			
+
+			System.out.println("==============================user===============================");
 			System.out.println(User.getUser().toStringAll());
-			//for(Plan p:plarr) {
-			//	System.out.println(p);
-			//}
-			/*
-			User u1=User.getUser();
-			User.logout();
-			Hotel.search(si);
-			Hotel.search(si);
-			System.out.println(order1);
-			*/
+			//order1.deleteSelf();
 			System.out.println("==============================other===============================");
 			ArrayList<RoomNum> tmpnum=Hotel.roomset(10,new RoomNum(0,2,0));
 			for(RoomNum i:tmpnum ) {

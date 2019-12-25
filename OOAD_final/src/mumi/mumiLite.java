@@ -24,6 +24,8 @@ import java.util.GregorianCalendar;
 import org.json.simple.parser.ParseException;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
+
+import GUI.GUI_login;
 import core.*;
 import databaseException.*;
 public class mumiLite {
@@ -820,9 +822,11 @@ public class mumiLite {
 		sql = "SELECT * FROM User WHERE (userid = '" + username + "') AND (password = '" + password + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
+			GUI_login.setError("µL¦¹¥Î¤á");
 		    throw new noSuchUser(username);
 		}
 		if (!rs.getString("password").equals(password)) {
+			GUI_login.setError("±K½X¿ù»~");
 			throw new passwordWrong();
 		}
 		User user = new User(username,password);
@@ -854,7 +858,7 @@ public class mumiLite {
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
 			RoomNum rn = new RoomNum(rs.getInt("s_n"),rs.getInt("d_n"),rs.getInt("q_n"));
 			addr = rs.getString("addr");
-			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),true);
+			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),false);
 		}
 		rs.close();
 		stmt.close();

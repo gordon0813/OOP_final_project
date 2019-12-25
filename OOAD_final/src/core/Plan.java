@@ -63,6 +63,10 @@ public class Plan {
 		mark.id=0;//db.getPageMarkid();
 		User.getUser().addpageMark(mark,true);
 	}
+	public void unMark() {
+		assert(id!=0);
+		
+	}
 	public Plan clone(){
 		return new Plan(rn.clone(),ckio.clone(),ht);
 	}

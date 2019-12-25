@@ -70,6 +70,24 @@ public class User {
 		
 	}
 	
+	public ArrayList<Order> getOrderList() {
+		return orderList;
+	}
+
+
+
+	public ArrayList<Plan> getPageMark() {
+		return pageMark;
+	}
+
+
+
+	public ArrayList<Search_input> getRecord() {
+		return record;
+	}
+
+
+
 	public void addOrder(Order toadd,boolean save) throws UserException, noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
@@ -79,11 +97,11 @@ public class User {
 			}
 		orderList.add(toadd);
 	}
-	public void deleteOrder(Order todelete) throws UserException {
+	public void deleteOrder(Order todelete) throws Exception {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
-		//db.deleteOrder(this->id,todelete)
+		DB.getDB().deleteOrder(todelete.getId());
 		orderList.remove(todelete);
 		
 	}
@@ -109,7 +127,7 @@ public class User {
 		if(this.record.size()!=0 && this.record.get(this.record.size()-1).equals(si))return;
 		record.add(si);
 		if(save) {
-			//DB.getDB().addSearch(si, name);
+			DB.getDB().addSearch(si, name);
 			//db.addRecord(this.id,si);
 		}
 		

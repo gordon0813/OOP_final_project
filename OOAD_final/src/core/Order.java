@@ -41,17 +41,23 @@ public class Order {
 		user.addOrder(this,true);//may have exception
 		valid=true;
 	}
-	public void deleteSelf() throws UserException {
+	public void deleteSelf() throws Exception {
 		if(valid==false)return;//invalid order should not be delete
 		valid=false;
 		user.deleteOrder(this);
 	}
 	public void editOrder( Plan newPlan ) throws UserException {
 		if(valid==false)return;//can't edit invalid order in db (because it is not in db)
-		
-		user.editOrder(this);//may have exception
-		
+		Plan tmpsave=plan.clone();
 		plan=newPlan;
+		try {
+			user.editOrder(this);
+		} catch (UserException e) {
+			plan=tmpsave;
+			throw e;
+		}//may have exception
+		
+		
 	}
 	public String toString() {
 		String re ="\n=======================order:\n"
