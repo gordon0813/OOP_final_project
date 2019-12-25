@@ -41,7 +41,7 @@ public class Order {
 		user.addOrder(this,true);//may have exception
 		valid=true;
 	}
-	public void deleteSelf() throws UserException {
+	public void deleteSelf() throws Exception {
 		if(valid==false)return;//invalid order should not be delete
 		valid=false;
 		user.deleteOrder(this);

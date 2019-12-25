@@ -47,26 +47,19 @@ public class Smalltest {
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
 			System.out.println(p1);
 			System.out.println("======================Order======================");
-			//Order order=new Order(p1, false);
-			//System.out.println(order);
-	
+
 			//User.signup("123", "ugo");
-			//User.signup("123", "kirito");
+
 			
 			
 			User.login("123", "ugo");
 			//User.logout();
-			//User.login("123", "kirito");
+
 		
-			//Order order1= p1.toOrder();
-			//order1.confirm();
-			//order1.getPlan().getHotel().addcomments("test:12/23");
-			//String[] sarr=order1.getPlan().getHotel().loadcomments();
-			//for(int i=0;i<sarr.length;i++) {
-			//	System.out.println("["+i+"]"+sarr[i]);
-			//}
+			Order order1= p1.toOrder();
+		
 			
-			//order1.confirm();
+			order1.confirm();
 			System.out.println("==============================user===============================");
 			System.out.println(User.getUser().toStringAll());
 			//order1.deleteSelf();
@@ -77,6 +70,7 @@ public class Smalltest {
 			Hotel.search(si);
 			Arrays.sort(plarr, new PlanComparatorStar());
 			System.out.println(User.getUser().toStringAll());
+			//User.getUser().getOrderList().get(0).deleteSelf();
 			//for(Plan p:plarr) {
 			//	System.out.println(p);
 			//}

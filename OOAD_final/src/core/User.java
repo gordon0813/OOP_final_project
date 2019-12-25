@@ -97,11 +97,11 @@ public class User {
 			}
 		orderList.add(toadd);
 	}
-	public void deleteOrder(Order todelete) throws UserException {
+	public void deleteOrder(Order todelete) throws Exception {
 		if(!valid) {
 			throw new UserException("User who own this order not login");
 		}
-		//db.deleteOrder(this->id,todelete)
+		DB.getDB().deleteOrder(todelete.getId());
 		orderList.remove(todelete);
 		
 	}
