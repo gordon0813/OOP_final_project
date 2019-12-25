@@ -48,10 +48,16 @@ public class Order {
 	}
 	public void editOrder( Plan newPlan ) throws UserException {
 		if(valid==false)return;//can't edit invalid order in db (because it is not in db)
-		
-		user.editOrder(this);//may have exception
-		
+		Plan tmpsave=plan.clone();
 		plan=newPlan;
+		try {
+			user.editOrder(this);
+		} catch (UserException e) {
+			plan=tmpsave;
+			throw e;
+		}//may have exception
+		
+		
 	}
 	public String toString() {
 		String re ="\n=======================order:\n"
