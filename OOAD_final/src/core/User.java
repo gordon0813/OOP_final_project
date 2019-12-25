@@ -127,7 +127,7 @@ public class User {
 		if(this.record.size()!=0 && this.record.get(this.record.size()-1).equals(si))return;
 		record.add(si);
 		if(save) {
-			//DB.getDB().addSearch(si, name);
+			DB.getDB().addSearch(si, name);
 			//db.addRecord(this.id,si);
 		}
 		
