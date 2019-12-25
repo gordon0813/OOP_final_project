@@ -780,12 +780,37 @@ public class mumiLite {
 	 * @param user
 	 * @throws SQLException
 	 * @throws userExist 
+	 * @throws passwordIllegal 
 	 */
-	public void addUser (String username, String password) throws SQLException, userExist {
+	public void addUser (String username, String password) throws SQLException, userExist, passwordIllegal {
 		PreparedStatement pst;
+		String sql;
+		
+		legalUserData(username,password);
+		sql = "INSERT INTO User (userid,password) VALUES (?,?)";
+		pst = conn.prepareStatement(sql);
+		pst.setString(1, username);
+		pst.setString(2,password);
+		pst.executeUpdate();
+		pst.close();
+	}
+	
+	/**
+	 * check the user name and the password is legal
+	 * @param username
+	 * @param password
+	 * @throws SQLException 
+	 * @throws userExist 
+	 * @throws passwordIllegal 
+	 */
+	public void legalUserData (String username, String password) throws SQLException, userExist, passwordIllegal {
 		Statement stmt;
 		ResultSet rs;
 		String sql;
+		
+		if (password.matches("[a-zA-Z0-9]+") == false || password.length() < 6 || password.length() < 15) {
+		    throw new passwordIllegal(); 
+		}
 		
 		stmt = conn.createStatement();
 		sql = "SELECT * FROM User WHERE userid = '" + username + "'";
@@ -793,15 +818,9 @@ public class mumiLite {
 		if (rs.isBeforeFirst()) {    
 		    throw new userExist(username);
 		}
+		//System.out.println("ok!");
 		stmt.close();
 		rs.close();
-		
-		sql = "INSERT INTO User (userid,password) VALUES (?,?)";
-		pst = conn.prepareStatement(sql);
-		pst.setString(1, username);
-		pst.setString(2,password);
-		pst.executeUpdate();
-		pst.close();
 	}
 	
 	/**

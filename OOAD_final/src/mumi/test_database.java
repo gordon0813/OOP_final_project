@@ -287,6 +287,17 @@ public class test_database {
 			e.printStackTrace();
 		}
 		*/
+//===================================================================
+		/*
+		try {
+			Lite.legalUserData("mumi", "mumimumuum以");
+			//Lite.legalUserData("mumi", "       ");
+			//Lite.legalUserData("mumi", "み以以aみ以以");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		*/
 	}
 	
 	
