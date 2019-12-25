@@ -858,7 +858,7 @@ public class mumiLite {
 			CheckInOutDate ck = new CheckInOutDate(longToLocal(checkin),longToLocal(checkout));
 			RoomNum rn = new RoomNum(rs.getInt("s_n"),rs.getInt("d_n"),rs.getInt("q_n"));
 			addr = rs.getString("addr");
-			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),true);
+			user.addRecord(new Search_input(highstar,lowstar,highprice,lowprice,people,ck,rn,addr),false);
 		}
 		rs.close();
 		stmt.close();
