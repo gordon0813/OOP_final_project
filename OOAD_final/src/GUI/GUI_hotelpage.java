@@ -18,6 +18,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -25,8 +26,11 @@ import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JSpinner;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTable;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -39,8 +43,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.awt.Graphics;
 
 public class GUI_hotelpage {
 	//test data
@@ -98,6 +106,16 @@ public class GUI_hotelpage {
 	 */
 	private void initialize() throws noSuchHotel, SQLException {
 		frame = new JFrame();
+		try {
+		    final BufferedImage backgroundImage = ImageIO.read(new File("images/8.png"));
+		    frame.setContentPane(new JPanel(new BorderLayout()) {
+		        @Override public void paintComponent(Graphics g) {
+		            g.drawImage(backgroundImage, 0, 0, null);
+		        }
+		    });
+		} catch (IOException e) {
+		    throw new RuntimeException(e);
+		}
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBackground(Color.BLACK);
@@ -107,6 +125,7 @@ public class GUI_hotelpage {
 		frame.setVisible(true);
 
 		JLabel roomnum = new JLabel("\u55AE\u4EBA\u623F");
+		roomnum.setForeground(Color.WHITE);
 		roomnum.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		roomnum.setBounds(577, 15, 62, 27);
 		frame.getContentPane().add(roomnum);
@@ -124,6 +143,7 @@ public class GUI_hotelpage {
 		frame.getContentPane().add(spinner_4);
 
 		JLabel label_7 = new JLabel("\u96D9\u4EBA\u623F");
+		label_7.setForeground(Color.WHITE);
 		label_7.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_7.setBounds(731, 16, 63, 27);
 		frame.getContentPane().add(label_7);
@@ -135,6 +155,7 @@ public class GUI_hotelpage {
 		frame.getContentPane().add(spinner_2);
 
 		JLabel label_9 = new JLabel("\u56DB\u4EBA\u623F");
+		label_9.setForeground(Color.WHITE);
 		label_9.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_9.setBounds(879, 16, 54, 27);
 		frame.getContentPane().add(label_9);
@@ -163,6 +184,8 @@ public class GUI_hotelpage {
 		table.setRowSelectionAllowed(true);
 		
 		JButton confirm = new JButton("\u78BA\u5B9A");
+		confirm.setBackground(Color.BLACK);
+		confirm.setForeground(Color.WHITE);
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -183,6 +206,8 @@ public class GUI_hotelpage {
 		frame.getContentPane().add(confirm);
 		
 		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.setBackground(Color.BLACK);
+		button_user.setForeground(Color.WHITE);
 		button_user.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -194,6 +219,7 @@ public class GUI_hotelpage {
 		frame.getContentPane().add(button_user);
 		
 		JLabel label = new JLabel("\u7E3D\u50F9:");
+		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label.setBounds(577, 92, 62, 27);
 		frame.getContentPane().add(label);
@@ -212,6 +238,8 @@ public class GUI_hotelpage {
 		scrollPane_1.setViewportView(textArea);
 		
 		JButton comment = new JButton("\u8A55\u8AD6");
+		comment.setBackground(Color.BLACK);
+		comment.setForeground(Color.WHITE);
 		comment.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
