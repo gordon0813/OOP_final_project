@@ -147,10 +147,11 @@ public class User {
 		if(!valid) {
 			throw new UserException("User has not login can't add pagemark");
 		}
-		pageMark.add(pl);
+		
 		if(save) {
 			DB.getDB().addPlan(pl, name);
 		}
+		pageMark.add(pl);
 	}
 	public boolean exitOrder(Hotel ht) throws UserException {
 		if(!valid) {
@@ -187,7 +188,7 @@ public class User {
 		for(Search_input i:record) {
 			re+="\n"+i.toString();
 		}
-		re+="=====================User:Plan=======================\n";
+		re+="=====================User:Plan=== "+pageMark.size()+" ====================\n";
 		for(Plan i:pageMark) {
 			re+="\n"+i.toString();
 		}

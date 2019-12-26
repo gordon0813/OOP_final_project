@@ -72,7 +72,8 @@ public class Plan {
 		return new Plan(rn.clone(),ckio.clone(),ht);
 	}
 	public String toString() {
-		String re="=========Room num:\n"
+		String re="===planid:"+id
+				+"\n=========Room num:\n"
 				+rn.toString()
 				+"\n=========Hotel info:\n"
 				+ht.toString()

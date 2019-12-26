@@ -31,8 +31,8 @@ public class Smalltest {
 		}else if(task==1) {
 			
 			System.out.println("===============check in out===========");
-			LocalDate d1= LocalDate.of(2020, 3, 13);
-			LocalDate d2= LocalDate.of(2020, 3, 17);
+			LocalDate d1= LocalDate.of(2020, 4, 13);
+			LocalDate d2= LocalDate.of(2020, 4, 17);
 			CheckInOutDate ck1=new CheckInOutDate(d1, d2);
 			System.out.println(ck1);
 			System.out.println("======================room num=================");
@@ -49,13 +49,13 @@ public class Smalltest {
 			System.out.println(p1);
 			System.out.println("======================Order======================");
 
-			//User.signup("123", "ugo1387");
+			//User.signup("gogoman", "ugo1387");
 
 			
 			
-			User.login("123", "ugo1387");
+			User.login("gogoman", "ugo1387");
 			//User.logout();
-			p1.Mark();
+			//p1.Mark();
 		
 			//Order order1= p1.toOrder();
 		
