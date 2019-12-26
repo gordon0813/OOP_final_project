@@ -47,7 +47,11 @@ import java.awt.Window.Type;
 
 public class GUI_search {
 
-	private JFrame frame;
+	private static JFrame frame;
+	public static JFrame getFrame() {
+		return frame;
+	}
+
 	private JTextField lowprice;
 	private JTextField highprice;
 	private JTable table;
@@ -244,13 +248,18 @@ public class GUI_search {
 			public void actionPerformed(ActionEvent e) {
 				Date datein = (Date) (datePickerin.getModel().getValue());
 				Date dateout = (Date) datePickerout.getModel().getValue();
+				LocalDate selectedDatein;
+				LocalDate selectedDateout;
 				if(datein==null||dateout==null) {
 					JOptionPane.showMessageDialog(null, "請輸入完整資料", "error:", JOptionPane.INFORMATION_MESSAGE);
+					selectedDatein = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					selectedDateout = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					frame.dispose();
 					GUI_search fre = new GUI_search();
-				}
-				LocalDate selectedDatein = datein.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				LocalDate selectedDateout = dateout.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				}else {
+					selectedDatein = datein.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					selectedDateout = dateout.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				}				
 				Search_input input = new Search_input((Integer) starhigh.getSelectedItem(),
 						(Integer) starlow.getSelectedItem(), Integer.parseInt(highprice.getText()),
 						Integer.parseInt(lowprice.getText()), (Integer) guestnum.getValue(),

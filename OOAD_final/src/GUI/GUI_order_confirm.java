@@ -187,7 +187,7 @@ public class GUI_order_confirm {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (nomoreRoom e1) {
-							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, "剩餘房間數量不足!", "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
