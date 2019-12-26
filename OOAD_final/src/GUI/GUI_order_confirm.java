@@ -56,7 +56,7 @@ public class GUI_order_confirm {
 	private JTable table;
 	private JTable hotel_info;
 	private Order current_order = GUI_hotelpage.getOrdr();
-	private Plan current_plan = current_order.getPlan();
+	private Plan current_plan ;
 
 	/**
 	 * Launch the application.
@@ -70,6 +70,7 @@ public class GUI_order_confirm {
 			System.out.println("isfrom");
 			current_order = GUI_order_manage.getChosen_order();
 		}
+		current_plan = current_order.getPlan();
 		initialize();
 	}
 
@@ -164,6 +165,8 @@ public class GUI_order_confirm {
 						try {
 							System.out.println("yes");
 							current_order.editOrder(current_plan);
+							frame.dispose();
+							GUI_user fre = new GUI_user();
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -173,6 +176,8 @@ public class GUI_order_confirm {
 						try {
 							current_plan.toOrder().confirm();
 							System.out.println(current_order);
+							GUI_search.getFrame().dispose();
+							GUI_hotelpage.getFrame().dispose();
 							frame.dispose();
 							GUI_user fre = new GUI_user();
 						} catch (noSuchHotel e1) {

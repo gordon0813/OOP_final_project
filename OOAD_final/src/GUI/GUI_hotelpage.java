@@ -50,7 +50,10 @@ public class GUI_hotelpage {
 	private Hotel htl = new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
 	private Plan test_plan = new Plan(rmnm, ck, htl);
 
-	private JFrame frame;
+	private static JFrame frame;
+	public static JFrame getFrame() {
+		return frame;
+	}
 	private JTable table;
 	private Plan pln = GUI_search.getChosen_plan();
 	private static Order ordr;
@@ -139,9 +142,9 @@ public class GUI_hotelpage {
 		String[] place = pln.getHotel().loadcomments();	
 		String[][] ph = {{}};
 		if(place != null) {
-			ph = new String[1][place.length];
+			ph = new String[place.length][1];
 			for(int i = 0;i<place.length;i++) {
-				ph[0][i] = place[i];
+				ph[i][0] = place[i];
 			}
 		}			
 		else {

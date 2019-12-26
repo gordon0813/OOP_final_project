@@ -115,10 +115,10 @@ public class GUI_order_manage {
 
 		String[] head = { "已完成訂單" };
 		order_record = User.getUser().getOrderList();
-		String[][] ph = new String[1][order_record.size()];
+		String[][] ph = new String[order_record.size()][1];
 		//search record loaded in default
 		for(int i = 0;i<order_record.size();i++) {
-			ph[0][i] = order_record.get(i).toString();
+			ph[i][0] = order_record.get(i).toString();
 		}
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 835, 653);
@@ -162,6 +162,12 @@ public class GUI_order_manage {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					User.getUser().deleteOrder(chosen_order);
+					order_record = User.getUser().getOrderList();				
+					String[][] ph = new String[order_record.size()][1];					
+					for (int i = 0; i < order_record.size(); i++) {
+						ph[i][0] = order_record.get(i).toString();
+					}
+					table.setModel(new DefaultTableModel(ph, head));
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

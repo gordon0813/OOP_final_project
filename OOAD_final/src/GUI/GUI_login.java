@@ -16,6 +16,7 @@ import databaseException.userExist;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -45,7 +46,6 @@ public class GUI_login {
 	private JFrame frame;
 	private JTextField username;
 	private JTextField password;
-	private static String error = "correct";
 	public User usr;
 
 	/**
@@ -83,31 +83,20 @@ public class GUI_login {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-	
-		JLabel errormsg = new JLabel("...");
-		errormsg.setBounds(10, 188, 316, 20);
-		frame.getContentPane().add(errormsg);
-		
+
 		JButton confirm = new JButton("\u78BA\u5B9A");
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
 					User.login(username.getText(), password.getText());
-					errormsg.setText(error);
-					if(error.matches("correct")) {
-						GUI_user fre = new GUI_user();
-						frame.dispose();
-					}						
-				} catch (UserException e1) {
-					System.out.println("s");
+					GUI_user fre = new GUI_user();
 					frame.dispose();
-					GUI_login fre = new GUI_login();
+				} catch (UserException e1) {
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (Exception e1) {
-					System.out.println("s2");
-					frame.dispose();
-					GUI_login fre = new GUI_login();
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
@@ -115,29 +104,29 @@ public class GUI_login {
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		confirm.setBounds(130, 136, 110, 29);
 		frame.getContentPane().add(confirm);
-		
+
 		JLabel label = new JLabel("\u7528\u6236\u540D");
 		label.setFont(new Font("新細明體", Font.PLAIN, 16));
 		label.setBounds(10, 22, 78, 20);
 		frame.getContentPane().add(label);
-		
+
 		username = new JTextField();
 		username.setFont(new Font("新細明體", Font.PLAIN, 16));
 		username.setBounds(77, 12, 249, 33);
 		frame.getContentPane().add(username);
 		username.setColumns(10);
-		
+
 		JLabel label_1 = new JLabel("\u5BC6\u78BC");
 		label_1.setFont(new Font("新細明體", Font.PLAIN, 16));
 		label_1.setBounds(10, 77, 78, 20);
 		frame.getContentPane().add(label_1);
-		
+
 		password = new JTextField();
 		password.setFont(new Font("新細明體", Font.PLAIN, 16));
 		password.setColumns(10);
 		password.setBounds(77, 71, 249, 33);
 		frame.getContentPane().add(password);
-		
+
 		JButton register = new JButton("\u8A3B\u518A");
 		register.addMouseListener(new MouseAdapter() {
 			@Override
@@ -158,7 +147,7 @@ public class GUI_login {
 		register.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		register.setBounds(10, 136, 110, 29);
 		frame.getContentPane().add(register);
-		
+
 		JButton guest = new JButton("\u8A2A\u5BA2\u767B\u5165");
 		guest.addMouseListener(new MouseAdapter() {
 			@Override
@@ -170,15 +159,7 @@ public class GUI_login {
 		guest.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		guest.setBounds(250, 136, 110, 29);
 		frame.getContentPane().add(guest);
-		
 
 	}
 
-	public static String getError() {
-		return error;
-	}
-
-	public static void setError(String error) {
-		GUI_login.error = error;
-	}
 }
