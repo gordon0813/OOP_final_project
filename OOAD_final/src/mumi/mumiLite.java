@@ -33,7 +33,7 @@ public class mumiLite {
 	final long startday;
 	final long endday;
 	// constructor
-	public mumiLite() throws SQLException {
+	public mumiLite() throws SQLException{
 		SQLiteConfig config = new SQLiteConfig();
 		config.setReadOnly(true);   
 	    config.setSharedCache(true);
@@ -42,7 +42,20 @@ public class mumiLite {
 	    endday = localToLong(LocalDate.of(2020, 9, 1));
 	  //connect to the database
 	   // SQLiteDataSource ds = new SQLiteDataSource(config);
-        conn = DriverManager.getConnection("jdbc:sqlite:database/record.db");      
+        conn = DriverManager.getConnection("jdbc:sqlite:database/record.db");    
+       
+        try {
+        	if (todayflag()) {
+        		//System.out.println("mumi");
+        		System.out.println("check today!!");
+        		checkToday();
+        	} else {
+        		System.out.println("today has been checked!!");
+        	}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	} 
 	/**
 	 * Load data from JSON into database
@@ -293,7 +306,7 @@ public class mumiLite {
 
 		while(rs.next()){
 			System.out.println("=============================================");
-        	System.out.println("date : " + new Date(rs.getLong("date")));
+        	System.out.println("date : " + longToLocal(rs.getLong("date")));
         	System.out.println("s: " + rs.getInt("s_n"));
         	System.out.println("d: " + rs.getInt("d_n"));
         	System.out.println("q: " + rs.getInt("q_n"));
@@ -314,7 +327,7 @@ public class mumiLite {
 
 		while(rs.next()){
 			System.out.println("=============================================");
-        	System.out.println("date : " + new Date(rs.getLong("date")));
+        	System.out.println("date : " + longToLocal(rs.getLong("date")));
         	System.out.println("s: " + rs.getInt("s_n"));
         	System.out.println("d: " + rs.getInt("d_n"));
         	System.out.println("q: " + rs.getInt("q_n"));
@@ -372,6 +385,29 @@ public class mumiLite {
 	public void editSchedule (RoomNum rm, CheckInOutDate ck, int hotelid) throws noSuchHotel, exceedSchedule, nomoreRoom, SQLException {
 		scheduler(hotelid,rm.getSingleNum(),rm.getDoubleNum(),rm.getQuadNum(),localToLong(ck.getCheckin()),localToLong(ck.getCheckout()));
 	}
+	
+	private void checkToday() throws Exception {
+		long today = todayl();
+		Statement stmt;
+		ResultSet rs;
+		String sql = "SELECT * FROM Orders WHERE checkout <= " + today;
+		ArrayList<Long> orderid = new ArrayList<Long>();
+		
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			orderid.add(rs.getLong("orderid"));
+		}
+		//System.out.println(orderid + " " + orderid.size());
+		rs.close();
+		stmt.close();
+		for (int i = 0; i < orderid.size(); i++) {
+			System.out.println("day passing, order is complete");
+			System.out.println("delete orderid : " + orderid.get(i));
+			deleteOrder(orderid.get(i));			
+		}
+	}
+	
 	/**
 	 * set up the Table:Comment for each Hotel
 	 * @throws SQLException
@@ -655,7 +691,7 @@ public class mumiLite {
 		sql = "Drop table IF EXISTS Orders";
 		stmt.executeUpdate(sql);
 		 
-		sql = "create table Orders (orderid long,userid string,planid int)"; 
+		sql = "create table Orders (orderid long,userid string,planid int,checkout long)"; 
         stmt.executeUpdate(sql);
 
 		stmt.close();
@@ -684,11 +720,12 @@ public class mumiLite {
 				   plan.getRoomNum().getSingleNum(),plan.getRoomNum().getDoubleNum(),plan.getRoomNum().getQuadNum(),
 				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
 		//
-		sql = "INSERT INTO Orders (orderid,userid,planid) VALUES (?,?,?)";
+		sql = "INSERT INTO Orders (orderid,userid,planid,checkout) VALUES (?,?,?,?)";
         pst = conn.prepareStatement(sql);
         pst.setLong(1, orderid);
         pst.setString(2, username);
         pst.setInt(3, planid);
+        pst.setLong(4, localToLong(plan.getCheckInOutDate().getCheckout()));
         pst.executeUpdate();
         pst.close();
         stmt.close();
@@ -1025,6 +1062,54 @@ public class mumiLite {
 	 */
 	private long todayl () {
 		return localToLong(LocalDate.now());
+	}
+	
+	public void todayfagInit() throws SQLException {
+		Statement stmt;
+		PreparedStatement pst;
+		String sql;
+		stmt = conn.createStatement();
+		
+		sql = "Drop table IF EXISTS Todayflag";
+		stmt.executeUpdate(sql);
+		
+		sql = "create table Todayflag (today long) "; 
+        stmt.executeUpdate(sql);
+        
+        sql = "INSERT INTO Todayflag (today) VALUES (?)";
+        pst = conn.prepareStatement(sql); 
+		pst.setLong(1, todayl()-1);
+		pst.executeUpdate();
+		
+		stmt.close();
+		pst.close();
+		System.out.println("Table: Todayflag updates successfully!!");
+	}
+	
+	private boolean todayflag() throws SQLException {
+		Statement stmt;
+		PreparedStatement pst;
+		ResultSet rs;
+		String sql;
+		
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Todayflag");
+		long day = rs.getLong("today");
+		long today = todayl();
+		rs.close();
+		
+		if (today != day) {
+			sql = "UPDATE Todayflag SET today = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setLong(1, today);
+			pst.executeUpdate();
+			pst.close();
+			stmt.close();			
+			return true;
+		} else {
+			stmt.close();
+			return false;
+		}
 	}
 }
 

@@ -244,18 +244,24 @@ public class test_database {
 			Lite.addUser("mumi", "dadala");
 		} catch (userExist e) {
 			e.printStackTrace();
-		}*/
-		//Lite.printSchedule(4,LocalDate.of(2020, 1, 1),LocalDate.of(2020, 1, 8));
+		}
+		*/
+		//Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
 		/*
 		User user = Lite.getUser("mumi", "dadala");
 		//System.out.println(user);
-		Hotel hotel = Lite.getHotel(4);
-		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020, 1, 3),LocalDate.of(2020, 1, 6));
+		Hotel hotel = Lite.getHotel(10);
+		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2019, 12, 11),LocalDate.of(2019, 12, 13));
 		RoomNum rm = new RoomNum(3,2,1);
 		Plan p = new Plan(rm,ck,hotel,Lite.currentPlanid());
 		Order o = new Order(p,true);
 		Lite.addOrder(o,"mumi");
-		*/
+		
+		//Lite.checkToday();
+		 
+		 */
+		Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
+		
 		//System.out.println(Lite.currentOrderid());
 		//User user = Lite.getUser("mumi", "dadala");
 		/*
@@ -299,7 +305,11 @@ public class test_database {
 		}
 		*/
 //=================================================================
-		System.out.println(Lite.todayL());
+		// set up table: Todayflag
+		boolean reset_todayflag = false;
+		if (reset_todayflag) {
+			Lite.todayfagInit();
+		}
 	}
 	
 	
