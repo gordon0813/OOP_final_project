@@ -338,7 +338,7 @@ public class GUI_search {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					// TODO Auto-generated catch 
 					e1.printStackTrace();
 				}
 			}
