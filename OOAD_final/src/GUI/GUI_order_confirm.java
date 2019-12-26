@@ -50,6 +50,7 @@ public class GUI_order_confirm {
 
 	private JFrame frame;
 	private JTable table;
+	private JTable hotel_info;
 	private Order current_order = GUI_hotelpage.getOrdr();
 
 	/**
@@ -212,10 +213,23 @@ public class GUI_order_confirm {
 		lblNewLabel.setBounds(622, 186, 144, 27);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel order_info = new JLabel(current_order.toString());
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 15, 520, 197);
+		frame.getContentPane().add(scrollPane_2);
+		
+		JTable order_info = new JTable();
 		order_info.setFont(new Font("新細明體", Font.PLAIN, 20));
 		order_info.setBounds(10, 10, 542, 218);
 		frame.getContentPane().add(order_info);
+		
+		String[][] inf = {{"用戶",User.getUser().getname()},{"訂單號",((Long)current_order.getId()).toString()},{"飯店號",((Integer)current_order.getPlan().getHotel().getId()).toString()},
+				{"星級",((Integer)current_order.getPlan().getHotel().getStar()).toString()},
+				{"地址",current_order.getPlan().getHotel().getAddress()}};
+		String[] infhead = {"訂單資訊",""};
+		hotel_info = new JTable(new DefaultTableModel(inf, infhead));
+		scrollPane_2.setViewportView(hotel_info);
+		hotel_info.setPreferredScrollableViewportSize(new Dimension(63, 63));
+				
 		
 		JLabel label_1 = new JLabel("\u5165\u4F4F\u65E5\u671F:");
 		label_1.setFont(new Font("SansSerif", Font.PLAIN, 16));

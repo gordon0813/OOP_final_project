@@ -230,7 +230,7 @@ public class GUI_hotelpage {
 		
 		
 		String[][] inf = {{"飯店號",((Integer)pln.getHotel().getId()).toString()},{"星級",((Integer)pln.getHotel().getStar()).toString()},{"地址",pln.getHotel().getAddress()}};
-		String[] infhead = {"飯店資訊"};
+		String[] infhead = {"飯店資訊",""};
 		hotel_info = new JTable(new DefaultTableModel(inf, infhead));
 		scrollPane_2.setViewportView(hotel_info);
 		hotel_info.setPreferredScrollableViewportSize(new Dimension(63, 63));

@@ -113,7 +113,7 @@ public class GUI_login {
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		confirm.setBounds(196, 136, 130, 29);
+		confirm.setBounds(130, 136, 110, 29);
 		frame.getContentPane().add(confirm);
 		
 		JLabel label = new JLabel("\u7528\u6236\u540D");
@@ -156,8 +156,20 @@ public class GUI_login {
 			}
 		});
 		register.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		register.setBounds(37, 136, 130, 29);
+		register.setBounds(10, 136, 110, 29);
 		frame.getContentPane().add(register);
+		
+		JButton guest = new JButton("\u8A2A\u5BA2\u767B\u5165");
+		guest.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GUI_search fre = new GUI_search();
+				frame.dispose();
+			}
+		});
+		guest.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		guest.setBounds(250, 136, 110, 29);
+		frame.getContentPane().add(guest);
 		
 
 	}
@@ -169,6 +181,4 @@ public class GUI_login {
 	public static void setError(String error) {
 		GUI_login.error = error;
 	}
-
-	
 }

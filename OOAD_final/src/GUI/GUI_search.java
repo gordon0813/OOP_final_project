@@ -14,10 +14,12 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -37,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Dialog.ModalExclusionType;
@@ -63,7 +66,6 @@ public class GUI_search {
 	 * Create the application.
 	 */
 	public GUI_search() {
-		System.out.println("gui start");
 		initialize();
 	}
 
@@ -232,6 +234,11 @@ public class GUI_search {
 			public void actionPerformed(ActionEvent e) {
 				Date datein = (Date) (datePickerin.getModel().getValue());
 				Date dateout = (Date) datePickerout.getModel().getValue();
+				if(datein==null||dateout==null) {
+					JOptionPane.showMessageDialog(null, "請輸入完整資料", "error:", JOptionPane.INFORMATION_MESSAGE);
+					frame.dispose();
+					GUI_search fre = new GUI_search();
+				}
 				LocalDate selectedDatein = datein.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				LocalDate selectedDateout = dateout.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				Search_input input = new Search_input((Integer) starhigh.getSelectedItem(),
@@ -246,6 +253,7 @@ public class GUI_search {
 					plan_input = Hotel.search(input);
 				} catch (SQLException e1) {
 					System.out.println("empty");
+					JOptionPane.showMessageDialog(null, "請輸入完整資料", "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 				String[][] test2 = new String[plan_input.length][4];
@@ -277,7 +285,7 @@ public class GUI_search {
 		byprice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Arrays.sort(plan_input, new PlanComparatorPrice());
 			}
 		});
 		byprice.setFont(new Font("SansSerif", Font.PLAIN, 16));
