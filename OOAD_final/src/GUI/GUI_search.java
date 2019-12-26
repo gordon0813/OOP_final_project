@@ -330,7 +330,12 @@ public class GUI_search {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					chosen_plan.Mark();
+					try {
+						chosen_plan.Mark();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
