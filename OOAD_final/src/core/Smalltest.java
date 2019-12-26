@@ -64,12 +64,17 @@ public class Smalltest {
 			System.out.println("==============================search=============================");
 			Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
 			Plan[] plarr=Hotel.search(si);
-			si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台北市");
-			Hotel.search(si);
+			//si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台北市");
+			//Hotel.search(si);
 			Arrays.sort(plarr, new PlanComparatorStar());
 			
 
 			System.out.println("==============================user===============================");
+			
+			Order toedit=User.getUser().getOrderList().get(0);
+			Plan Plannew=toedit.getPlan().clone();
+			Plannew.setRoomNum(new RoomNum(100,3,1));
+			//toedit.editOrder(Plannew);
 			System.out.println(User.getUser().toStringAll());
 			//order1.deleteSelf();
 			System.out.println("==============================other===============================");

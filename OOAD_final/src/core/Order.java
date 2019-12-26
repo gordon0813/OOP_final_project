@@ -46,13 +46,13 @@ public class Order {
 		valid=false;
 		user.deleteOrder(this);
 	}
-	public void editOrder( Plan newPlan ) throws UserException {
+	public void editOrder( Plan newPlan ) throws Exception {
 		if(valid==false)return;//can't edit invalid order in db (because it is not in db)
 		Plan tmpsave=plan.clone();
 		plan=newPlan;
 		try {
 			user.editOrder(this);
-		} catch (UserException e) {
+		} catch (Exception e) {
 			plan=tmpsave;
 			throw e;
 		}//may have exception
