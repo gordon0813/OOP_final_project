@@ -1014,5 +1014,17 @@ public class mumiLite {
 	public LocalDate endDay() {
 		return longToLocal(endday);
 	}
+	/**
+	 * @return today (local date version)
+	 */
+	public LocalDate todayL () {
+		return LocalDate.now();
+	}
+	/**
+	 * @return today (long version)
+	 */
+	private long todayl () {
+		return localToLong(LocalDate.now());
+	}
 }
 
