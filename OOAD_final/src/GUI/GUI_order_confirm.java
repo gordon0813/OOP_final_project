@@ -155,7 +155,12 @@ public class GUI_order_confirm {
 					current_order.getPlan().setRoomNum(rn);
 					current_order.getPlan().setCheckInOutDate(ckio);
 					if(GUI_order_manage.isFrom_record()) {
-						User.getUser().editOrder(current_order);
+						try {
+							User.getUser().editOrder(current_order);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						GUI_order_manage.setFrom_record(false);
 					}else{
 						try {

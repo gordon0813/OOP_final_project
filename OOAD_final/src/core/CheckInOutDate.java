@@ -20,6 +20,10 @@ public class CheckInOutDate implements Cloneable{
 		assert days>0;
 		return days;
 	}
+	/**
+	 * @param ckio
+	 * @return this check in out date contain input or not 
+	 */
 	public boolean contain(CheckInOutDate ckio) {
 		
 		return (ckio.checkin.compareTo(checkin)>=0 &&  ckio.checkout.compareTo(checkout)<=0 ) ;
