@@ -162,6 +162,9 @@ public class GUI_order_manage {
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
