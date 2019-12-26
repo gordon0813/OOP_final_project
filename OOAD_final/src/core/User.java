@@ -129,12 +129,12 @@ public class User {
 		if(!valid) {
 			return ;
 		}
-		if(this.record.size()!=0 && this.record.get(this.record.size()-1).equals(si))return;
-		record.add(si);
 		if(save) {
+			if(this.record.size()!=0 && this.record.get(this.record.size()-1).equals(si))return;
 			DB.getDB().addSearch(si, name);
 			//db.addRecord(this.id,si);
 		}
+		record.add(si);
 		
 	}
 	/**
@@ -180,15 +180,15 @@ public class User {
 	public String toStringAll() {
 		String re="\nname: "+name+"\npassword: "+password
 				+"\nlogin: "+valid;
-		re+="=====================User:order=======================\n";
+		re+="\n=====================User:order=========num: "+orderList.size()+" ==============\n";
 		for(Order i:orderList){
 			re+=i.toString();
 		}
-		re+="=====================User:Search_input=======================\n";
+		re+="\n=====================User:Search_input====num: "+record.size()+"===================\n";
 		for(Search_input i:record) {
 			re+="\n"+i.toString();
 		}
-		re+="=====================User:Plan=== "+pageMark.size()+" ====================\n";
+		re+="\n=====================User:Plan===num: "+pageMark.size()+" ====================\n";
 		for(Plan i:pageMark) {
 			re+="\n"+i.toString();
 		}

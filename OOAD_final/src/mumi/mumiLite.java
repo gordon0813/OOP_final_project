@@ -620,7 +620,7 @@ public class mumiLite {
 		Hotel hotel = getHotel(rs.getInt("hotelid"));
 		rs.close();
 		stmt.close();
-		return new Plan(rn,ck,hotel);
+		return new Plan(rn,ck,hotel,planid);
 		
 	}
 	
