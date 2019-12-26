@@ -60,12 +60,10 @@ public class Order {
 		
 	}
 	public String toString() {
-		String re ="\n=======================order:\n"
-				+"===============plan:\n"
-				+plan.toString()
-				+"\n=============User:\n"
+		String re ="Plan: "+plan.toString()
+				+", User:"
 				+user.toString()
-				+"\norder id: "+id;
+				+", order id: "+id;
 		return re;
 	}
 	public boolean equals(Order other) {

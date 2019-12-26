@@ -277,8 +277,8 @@ public class GUI_search {
 				}
 				String[][] test2 = new String[plan_input.length][4];
 				if(plan_input.length == 0) {
+					test2 = new String[1][1];
 					test2[0][0] = "nope";
-					System.out.println("yee");
 				}else {
 					for (int i = 0; i < plan_input.length; i++) {
 						test2[i][0] = plan_input[i].getHotel().toString();
@@ -309,6 +309,7 @@ public class GUI_search {
 		});
 		byprice.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		byprice.setBounds(896, 184, 130, 29);
+		byprice.setEnabled(false);
 		frame.getContentPane().add(byprice);
 		
 		JButton bystar = new JButton("\u4EE5\u661F\u7D1A\u6392\u5217");
@@ -321,6 +322,7 @@ public class GUI_search {
 		});
 		bystar.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		bystar.setBounds(896, 258, 130, 29);
+		bystar.setEnabled(false);
 		frame.getContentPane().add(bystar);
 		
 		JButton byhotel = new JButton("\u4EE5\u98EF\u5E97\u6392\u5217");
@@ -333,6 +335,7 @@ public class GUI_search {
 		});
 		byhotel.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		byhotel.setBounds(896, 337, 130, 29);
+		byhotel.setEnabled(false);
 		frame.getContentPane().add(byhotel);
 		
 		JButton confirm = new JButton("\u78BA\u5B9A");
@@ -344,10 +347,10 @@ public class GUI_search {
 				try {
 					GUI_hotelpage fre = new GUI_hotelpage();
 				} catch (noSuchHotel e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch 
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

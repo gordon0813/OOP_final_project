@@ -17,6 +17,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -219,13 +220,13 @@ public class GUI_hotelpage {
 					GUI_order_manage fre = new GUI_order_manage();
 					frame.dispose();
 				} catch (UserException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (noSuchHotel e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

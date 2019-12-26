@@ -5,6 +5,7 @@ import databaseException.noSuchHotel;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JScrollPane;
@@ -194,10 +195,10 @@ public class GUI_record {
 					try {
 						GUI_hotelpage fre = new GUI_hotelpage();
 					} catch (noSuchHotel e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 						e1.printStackTrace();
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 						e1.printStackTrace();
 					}
 					frame.dispose();

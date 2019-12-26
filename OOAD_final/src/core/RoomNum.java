@@ -24,10 +24,10 @@ public class RoomNum {
 		return singleNum+2*doubleNum+4*quadNum;
 	}
 	public String toString() {
-		return "size 1 num: "+singleNum
-				+"\nsize 2 num: "+doubleNum
-				+"\nsize 4 num: "+quadNum
-				+"\ntotal People: "+this.totalPeople();
+		return ", 虫┬计秖: "+singleNum
+				+", 蛮┬计秖: "+doubleNum
+				+", ┬计秖: "+quadNum
+				+", 羆计:"+this.totalPeople();
 	}
 	public boolean contain(RoomNum rn) {
 		return (this.singleNum>=rn.singleNum && this.doubleNum>=rn.doubleNum&& this.quadNum>=rn.quadNum);

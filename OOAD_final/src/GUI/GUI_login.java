@@ -135,11 +135,11 @@ public class GUI_login {
 					try {
 						boolean register = User.signup(username.getText(), password.getText());
 					} catch (userExist e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 						e1.printStackTrace();
 					}
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

@@ -72,14 +72,13 @@ public class Plan {
 		return new Plan(rn.clone(),ckio.clone(),ht);
 	}
 	public String toString() {
-		String re="===planid:"+id
-				+"\n=========Room num:\n"
+		String re="Planid: "+id
 				+rn.toString()
-				+"\n=========Hotel info:\n"
+				+", 飯店資訊:"
 				+ht.toString()
-				+"\n========check in out info:\n"
+				+", 日期:"
 				+ckio.toString()
-				+"\n========total price:\n"
+				+", 總價格:"
 				+ht.calPriceOneDay(rn)*ckio.howManyDays()+"\n";
 		return re;
 	}

@@ -181,21 +181,21 @@ public class GUI_order_confirm {
 							frame.dispose();
 							GUI_user fre = new GUI_user();
 						} catch (noSuchHotel e1) {
-							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						} catch (exceedSchedule e1) {
-							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						} catch (nomoreRoom e1) {
 							JOptionPane.showMessageDialog(null, "剩餘房間數量不足!", "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						}
 					}
 				} catch (UserException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

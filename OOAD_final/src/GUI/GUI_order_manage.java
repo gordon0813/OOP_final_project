@@ -14,6 +14,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -125,7 +126,7 @@ public class GUI_order_manage {
 		frame.getContentPane().add(scrollPane);
 		table = new JTable(new DefaultTableModel(ph, head));
 		scrollPane.setViewportView(table);
-		table.setPreferredScrollableViewportSize(new Dimension(450, 63));
+		table.setPreferredScrollableViewportSize(new Dimension(835, 65));
 		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(true);
 		table.addMouseListener(new MouseAdapter() {
@@ -169,10 +170,10 @@ public class GUI_order_manage {
 					}
 					table.setModel(new DefaultTableModel(ph, head));
 				} catch (UserException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
@@ -203,10 +204,10 @@ public class GUI_order_manage {
 				try {
 					GUI_hotelpage fre = new GUI_hotelpage();
 				} catch (noSuchHotel e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 				frame.dispose();
