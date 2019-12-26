@@ -298,6 +298,8 @@ public class test_database {
 			System.out.println(e.getMessage());
 		}
 		*/
+//=================================================================
+		System.out.println(Lite.todayL());
 	}
 	
 	
