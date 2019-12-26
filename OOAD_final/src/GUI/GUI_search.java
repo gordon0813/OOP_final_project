@@ -68,6 +68,16 @@ public class GUI_search {
 	public GUI_search() {
 		initialize();
 	}
+	private void table_renew(String[] head) {
+		String[][] test2 = new String[plan_input.length][4];
+		for (int i = 0; i < plan_input.length; i++) {
+			test2[i][0] = plan_input[i].getHotel().toString();
+			test2[i][1] = plan_input[i].getCheckInOutDate().toString();
+			test2[i][2] = plan_input[i].getRoomNum().toString();
+			test2[i][3] = ((Long) plan_input[i].calTotalPrice()).toString();
+		}
+		table.setModel(new DefaultTableModel(test2,head));
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -261,7 +271,6 @@ public class GUI_search {
 					test2[0][0] = "nope";
 					System.out.println("yee");
 				}else {
-					System.out.println(plan_input[0].getHotel().toString());
 					for (int i = 0; i < plan_input.length; i++) {
 						test2[i][0] = plan_input[i].getHotel().toString();
 						test2[i][1] = plan_input[i].getCheckInOutDate().toString();
@@ -286,6 +295,7 @@ public class GUI_search {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Arrays.sort(plan_input, new PlanComparatorPrice());
+				table_renew(head);
 			}
 		});
 		byprice.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -293,11 +303,25 @@ public class GUI_search {
 		frame.getContentPane().add(byprice);
 		
 		JButton bystar = new JButton("\u4EE5\u661F\u7D1A\u6392\u5217");
+		bystar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Arrays.sort(plan_input, new PlanComparatorStar());
+				table_renew(head);
+			}
+		});
 		bystar.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		bystar.setBounds(896, 258, 130, 29);
 		frame.getContentPane().add(bystar);
 		
 		JButton byhotel = new JButton("\u4EE5\u98EF\u5E97\u6392\u5217");
+		byhotel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Arrays.sort(plan_input, new PlanComparatorID());
+				table_renew(head);
+			}
+		});
 		byhotel.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		byhotel.setBounds(896, 337, 130, 29);
 		frame.getContentPane().add(byhotel);

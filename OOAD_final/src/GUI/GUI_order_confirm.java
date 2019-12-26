@@ -63,7 +63,7 @@ public class GUI_order_confirm {
 	 */
 	public GUI_order_confirm() {
 		if(GUI_order_manage.isFrom_record()) {
-			current_order = GUI_order_manage.getChosen_input();
+			current_order = GUI_order_manage.getChosen_order();
 		}
 		initialize();		
 	}

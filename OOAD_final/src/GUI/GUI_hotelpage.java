@@ -78,7 +78,12 @@ public class GUI_hotelpage {
 		if(GUI_record.isFrom_record()) {
 			pln = GUI_record.getChosen_plan();
 			GUI_record.setFrom_record(false);
+		}else if(GUI_order_manage.isFrom_record()) {
+			ordr = GUI_order_manage.getChosen_order();
+			pln = ordr.getPlan();
+			GUI_order_manage.setFrom_record(false);
 		}
+		
 		initialize();
 	}
 
@@ -208,6 +213,8 @@ public class GUI_hotelpage {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					pln.getHotel().addcomments(textArea.getText());
+					GUI_order_manage fre = new GUI_order_manage();
+					frame.dispose();
 				} catch (UserException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -227,8 +234,7 @@ public class GUI_hotelpage {
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(10, 15, 520, 197);
 		frame.getContentPane().add(scrollPane_2);
-		
-		
+				
 		String[][] inf = {{"飯店號",((Integer)pln.getHotel().getId()).toString()},{"星級",((Integer)pln.getHotel().getStar()).toString()},{"地址",pln.getHotel().getAddress()}};
 		String[] infhead = {"飯店資訊",""};
 		hotel_info = new JTable(new DefaultTableModel(inf, infhead));

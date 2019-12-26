@@ -1,5 +1,7 @@
 package GUI;
 import core.*;
+import databaseException.noSuchHotel;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -34,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
@@ -43,7 +46,7 @@ public class GUI_order_manage {
 	private JFrame frame;
 	private JTable table;
 	private static Order chosen_order;
-	public static Order getChosen_input() {
+	public static Order getChosen_order() {
 		return chosen_order;
 	}
 	private  ArrayList<Order> order_record;
@@ -186,7 +189,23 @@ public class GUI_order_manage {
 		edit.setBounds(895, 497, 130, 29);
 		frame.getContentPane().add(edit);
 		
-		JButton comment = new JButton("\u8A55\u8AD6");
+		JButton comment = new JButton("\u65C5\u9928\u8CC7\u8A0A");
+		comment.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				from_record = true;
+				try {
+					GUI_hotelpage fre = new GUI_hotelpage();
+				} catch (noSuchHotel e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frame.dispose();
+			}
+		});
 		comment.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		comment.setBounds(895, 634, 130, 29);
 		frame.getContentPane().add(comment);
