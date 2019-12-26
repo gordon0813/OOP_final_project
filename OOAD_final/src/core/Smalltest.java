@@ -45,16 +45,17 @@ public class Smalltest {
 			System.out.println(h2);
 			System.out.println("======================plan=======================");
 			Plan p1=new Plan(rn.clone(), ck1.clone(), h1);
+			
 			System.out.println(p1);
 			System.out.println("======================Order======================");
 
-			//User.signup("123", "ugo");
+			//User.signup("123", "ugo1387");
 
 			
 			
-			User.login("123", "ugo");
+			User.login("123", "ugo1387");
 			//User.logout();
-
+			p1.Mark();
 		
 			//Order order1= p1.toOrder();
 		

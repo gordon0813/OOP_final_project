@@ -56,11 +56,12 @@ public class Plan {
 	/**
 	 * save this plan as a pagemark
 	 * @throws UserException user not login
+	 * @throws SQLException 
 	 */
-	public void Mark() throws UserException {
+	public void Mark() throws UserException, SQLException {
 		Plan mark=this.clone();
 		if(mark.id!=0)return;
-		mark.id=0;//db.getPageMarkid();
+		mark.id=DB.getDB().currentPlanid();
 		User.getUser().addpageMark(mark,true);
 	}
 	public void unMark() {

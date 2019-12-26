@@ -141,14 +141,15 @@ public class User {
 	 * use by GUI
 	 * @param pl plan that will become pageMark
 	 * @throws UserException 
+	 * @throws SQLException 
 	 */
-	public void addpageMark(Plan pl,boolean save) throws UserException {
+	public void addpageMark(Plan pl,boolean save) throws UserException, SQLException {
 		if(!valid) {
 			throw new UserException("User has not login can't add pagemark");
 		}
 		pageMark.add(pl);
 		if(save) {
-		
+			DB.getDB().addPlan(pl, name);
 		}
 	}
 	public boolean exitOrder(Hotel ht) throws UserException {
@@ -178,10 +179,16 @@ public class User {
 	public String toStringAll() {
 		String re="\nname: "+name+"\npassword: "+password
 				+"\nlogin: "+valid;
+		re+="=====================User:order=======================\n";
 		for(Order i:orderList){
 			re+=i.toString();
 		}
+		re+="=====================User:Search_input=======================\n";
 		for(Search_input i:record) {
+			re+="\n"+i.toString();
+		}
+		re+="=====================User:Plan=======================\n";
+		for(Plan i:pageMark) {
 			re+="\n"+i.toString();
 		}
 		re+="\n";
