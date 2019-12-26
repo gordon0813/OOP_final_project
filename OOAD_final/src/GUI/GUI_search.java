@@ -202,8 +202,9 @@ public class GUI_search {
 		 * 0, null, null, null, null); Plan[] plantest = {new Plan(RNtest, CKtest,
 		 * HTtest)};
 		 */
-		String[] head = { "Hotel", "Check in/out date", "Room Plan", "Price" };
-		String[][] test = {{"search"}};
+		String[] head = { "Hotel", "Check in/out date", "Room Plan", "Price" };	
+		String[][] blank = {{"input something!"}} ;
+		table = new JTable(new DefaultTableModel(blank, head));
 		if(GUI_record.isFrom_record()) {
 			try {
 				plan_input = Hotel.search(GUI_record.getChosen_input());
@@ -211,6 +212,7 @@ public class GUI_search {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			String[][] test =  new String[plan_input.length][4];
 			for (int i = 0; i < plan_input.length; i++) {
 				test[i][0] = plan_input[i].getHotel().toString();
 				test[i][1] = plan_input[i].getCheckInOutDate().toString();
@@ -218,11 +220,12 @@ public class GUI_search {
 				test[i][3] = ((Long) plan_input[i].calTotalPrice()).toString();
 			}
 			GUI_record.setFrom_record(false);
+			table.setModel(new DefaultTableModel(test, head));
 		}
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 152, 835, 511);
 		frame.getContentPane().add(scrollPane);
-		table = new JTable(new DefaultTableModel(test, head));
+		
 		JButton searchbutton = new JButton("\u641C\u5C0B");
 		searchbutton.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		searchbutton.addActionListener(new ActionListener() {
@@ -247,7 +250,7 @@ public class GUI_search {
 				}
 				String[][] test2 = new String[plan_input.length][4];
 				if(plan_input.length == 0) {
-					test[0][0] = "nope";
+					test2[0][0] = "nope";
 					System.out.println("yee");
 				}else {
 					System.out.println(plan_input[0].getHotel().toString());
@@ -354,7 +357,7 @@ public class GUI_search {
 					System.out.println("null");
 				}else {
 				Integer row = s.getSelectedRow();
-				if(row>plan_input.length-1)
+				if(row>plan_input.length-1||row == -1)
 					row=plan_input.length-1;
 				chosen_plan = plan_input[row];
 				confirm.setEnabled(true);

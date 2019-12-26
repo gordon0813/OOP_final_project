@@ -30,13 +30,15 @@ public class GUI_record {
 	private JTable table;
 	private static Plan chosen_plan;
 	private static Search_input chosen_input;
+	private static int index_plan;
+	private static int index_input;
 
 	public static Search_input getChosen_input() {
 		return chosen_input;
 	}
 
-	private ArrayList<Search_input> search_record;
-	private ArrayList<Plan> bkmark;
+	private static ArrayList<Search_input> search_record;
+	private static ArrayList<Plan> bkmark;
 	private int mode = 0;
 	// 0 for search, 1 for bookmark
 	private static boolean from_record = false;
@@ -98,24 +100,17 @@ public class GUI_record {
 		p.put("text.month", "month");
 		p.put("text.year", "year");
 
-		/*
-		 * RoomNum RNtest = new RoomNum(0, 0, 0); CheckInOutDate CKtest = new
-		 * CheckInOutDate(selectedDateout, selectedDateout); Hotel HTtest = new Hotel(0,
-		 * 0, null, null, null, null); Plan[] plantest = {new Plan(RNtest, CKtest,
-		 * HTtest)};
-		 */
-
 		String[] head = { "¬ö¿ý" };
 		search_record = User.getUser().getRecord();
 		bkmark = User.getUser().getPageMark();
-		String[][] ph = new String[1][search_record.size()];
-		String[][] rc = new String[1][bkmark.size()];
+		String[][] ph = new String[search_record.size()][1];
+		String[][] rc = new String[bkmark.size()][1];
 		// search record loaded in default
 		for (int i = 0; i < search_record.size(); i++) {
-			ph[0][i] = search_record.get(i).toString();
+			ph[i][0] = search_record.get(i).toString();
 		}
 		for (int i = 0; i < bkmark.size(); i++) {
-			rc[0][i] = bkmark.get(i).toString();
+			rc[i][0] = bkmark.get(i).toString();
 		}
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 61, 835, 602);
@@ -134,7 +129,7 @@ public class GUI_record {
 		recordbutton.setBounds(10, 10, 167, 29);
 		frame.getContentPane().add(recordbutton);
 		scrollPane.setViewportView(table);
-		table.setPreferredScrollableViewportSize(new Dimension(450, 63));
+		table.setPreferredScrollableViewportSize(new Dimension(450, 100));
 		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(true);
 		table.addMouseListener(new MouseAdapter() {
@@ -147,6 +142,7 @@ public class GUI_record {
 					} else {
 						Integer row = s.getSelectedRow();
 						chosen_input = search_record.get(row);
+						index_input = row;
 						chosen = true;
 					}
 				} else {
@@ -155,6 +151,7 @@ public class GUI_record {
 					} else {
 						Integer row = s.getSelectedRow();
 						chosen_plan = bkmark.get(row);
+						index_plan = row;
 						chosen = true;
 					}
 				}				
@@ -213,17 +210,30 @@ public class GUI_record {
 
 		JButton remove = new JButton("\u522A\u9664");
 		remove.setEnabled(chosen);
-//		remove.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(mode == 0) {
-//					
-//				}					
-//				else {
-//					
-//				}					
-//			}
-//		});
+		remove.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(mode == 0) {
+					User.getUser().getRecord().remove(index_input);
+					search_record = User.getUser().getRecord();					
+					String[][] ph = new String[search_record.size()][1];					
+					for (int i = 0; i < search_record.size(); i++) {
+						ph[i][0] = search_record.get(i).toString();
+					}
+					table.setModel(new DefaultTableModel(ph, head));
+				}					
+				else {
+					User.getUser().getPageMark().remove(index_plan);
+					bkmark = User.getUser().getPageMark();
+					String[][] rc = new String[bkmark.size()][1];
+					for (int i = 0; i < bkmark.size(); i++) {
+						rc[i][0] = bkmark.get(i).toString();
+					}
+					table.setModel(new DefaultTableModel(rc, head));
+				}	
+				
+			}
+		});
 		remove.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		remove.setBounds(895, 458, 130, 29);
 		frame.getContentPane().add(remove);
