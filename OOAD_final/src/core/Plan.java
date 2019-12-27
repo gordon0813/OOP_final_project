@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import databaseException.exceedSchedule;
 import databaseException.noSuchHotel;
+import databaseException.noSuchPlan;
 
 public class Plan {
 	private int id;
@@ -64,8 +65,9 @@ public class Plan {
 		mark.id=DB.getDB().currentPlanid();
 		User.getUser().addpageMark(mark,true);
 	}
-	public void unMark() {
+	public void unMark() throws noSuchPlan, SQLException {
 		assert(id!=0);
+		DB.getDB().deletePlan(this.id);
 		
 	}
 	public Plan clone(){

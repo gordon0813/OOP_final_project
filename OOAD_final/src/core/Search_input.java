@@ -65,6 +65,7 @@ public class Search_input {
 		return re;
 	}
 	public boolean equals(Search_input si) {
+		/*
 		System.out.println("in equal");
 		assert si.numofpeople==numofpeople;
 		assert si.Lowstar==this.Lowstar;
@@ -75,6 +76,7 @@ public class Search_input {
 		assert si.highprice==this.highprice;
 		assert lowprice==this.lowprice;
 		assert  si.ck.equals(this.ck);
+		*/
 		return (si.numofpeople==numofpeople&&
 				si.Lowstar==this.Lowstar&&
 				si.highstar==this.highstar&&

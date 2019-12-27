@@ -73,6 +73,7 @@ public class Smalltest {
 			System.out.println("==============================user===============================");
 			
 			Order toedit=User.getUser().getOrderList().get(0);
+			
 			Plan Plannew=toedit.getPlan().clone();
 			Plannew.setRoomNum(new RoomNum(100,3,1));
 			//toedit.editOrder(Plannew);
