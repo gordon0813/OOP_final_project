@@ -176,6 +176,9 @@ public class Hotel {
 		CheckInOutDate re=null;//db.maxExtendDate(this->ID,rn,ck)
 		return re;
 	}
+	public String googlemapURL() {
+		return "https://www.google.com.tw/maps/place/"+address;
+	}
 	/**
 	 * @param rn number of  rooms
 	 * @param ck now Check In Out Date
