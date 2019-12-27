@@ -276,7 +276,7 @@ public class GUI_search {
 			try {
 				plan_input = Hotel.search(GUI_record.getChosen_input());
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 				e1.printStackTrace();
 			}
 			String[][] test =  new String[plan_input.length][4];
@@ -445,11 +445,11 @@ public class GUI_search {
 					try {
 						chosen_plan.Mark();
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 						e1.printStackTrace();
 					}
 				} catch (UserException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

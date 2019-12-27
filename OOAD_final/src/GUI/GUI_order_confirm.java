@@ -159,8 +159,13 @@ public class GUI_order_confirm {
 					RoomNum rn = new RoomNum((Integer) spinner_1.getValue(), (Integer) spinner_2.getValue(),
 							(Integer) spinner_4.getValue());
 					CheckInOutDate ckio = new CheckInOutDate(selectedDatein, selectedDateout);
+					if(!current_plan.getCheckInOutDate().contain(ckio)) {
+						JOptionPane.showMessageDialog(null, "只能縮短日期，訂單未更改", "error:", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						current_plan.setCheckInOutDate(ckio);	
+					}
 					current_plan.setRoomNum(rn);
-					current_plan.setCheckInOutDate(ckio);					
+									
 					if (GUI_order_manage.isFrom_record()) {
 						try {
 							System.out.println("yes");
@@ -168,7 +173,7 @@ public class GUI_order_confirm {
 							frame.dispose();
 							GUI_user fre = new GUI_user();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
 						}
 						GUI_order_manage.setFrom_record(false);
