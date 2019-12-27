@@ -32,6 +32,8 @@ import javax.swing.JTable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 
 import javax.swing.ListSelectionModel;
@@ -46,6 +48,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -159,6 +163,26 @@ public class GUI_hotelpage {
 		label_9.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_9.setBounds(879, 16, 54, 27);
 		frame.getContentPane().add(label_9);
+		
+		JLabel hyperlink = new JLabel("veiw on google map");
+		hyperlink.setForeground(Color.WHITE);
+		hyperlink.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		hyperlink.setBounds(840, 116, 150, 27);
+		hyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		frame.getContentPane().add(hyperlink);
+		hyperlink.addMouseListener(new MouseAdapter() {
+			 
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		    	  try {    
+		    	        Desktop.getDesktop().browse(new URI(pln.getHotel().googlemapURL()));
+		    	         
+		    	    } catch (IOException | URISyntaxException e1) {
+		    	        e1.printStackTrace();
+		    	  }
+		    }
+
+		});
 
 		String[] head = { "µû½×" };
 		String[] place = pln.getHotel().loadcomments();	
