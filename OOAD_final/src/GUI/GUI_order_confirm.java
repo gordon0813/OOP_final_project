@@ -23,6 +23,7 @@ import databaseException.nomoreRoom;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -33,8 +34,11 @@ import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JSpinner;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTable;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -47,8 +51,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.awt.Graphics;
 
 public class GUI_order_confirm {
 
@@ -79,6 +87,17 @@ public class GUI_order_confirm {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		try {
+			final BufferedImage backgroundImage = ImageIO.read(new File("images/8.png"));
+			frame.setContentPane(new JPanel(new BorderLayout()) {
+				@Override
+				public void paintComponent(Graphics g) {
+					g.drawImage(backgroundImage, 0, 0, null);
+				}
+			});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBackground(Color.BLACK);
@@ -97,6 +116,8 @@ public class GUI_order_confirm {
 		modelin.setValue(in);
 		JDatePanelImpl datePanelin = new JDatePanelImpl(modelin, p);
 		JDatePickerImpl datePickerin = new JDatePickerImpl(datePanelin, new DateComponentFormatter());
+		datePickerin.setBackground(Color.BLACK);
+		datePickerin.setForeground(Color.WHITE);
 		datePickerin.getJFormattedTextField().setText(in.toString());
 		datePickerin.setSize(130, 38);
 		datePickerin.setLocation(664, 93);
@@ -106,6 +127,8 @@ public class GUI_order_confirm {
 		modelout.setValue(out);
 		JDatePanelImpl datePanelout = new JDatePanelImpl(modelout, p);
 		JDatePickerImpl datePickerout = new JDatePickerImpl(datePanelout, new DateComponentFormatter());
+		datePickerout.setBackground(Color.BLACK);
+		datePickerout.setForeground(Color.WHITE);
 		datePickerout.getJFormattedTextField().setText(out.toString());
 		datePickerout.setSize(130, 38);
 		datePickerout.setLocation(896, 93);
@@ -114,39 +137,50 @@ public class GUI_order_confirm {
 		frame.getContentPane().add(datePickerout);
 
 		JLabel roomnum = new JLabel("\u55AE\u4EBA\u623F");
+		roomnum.setForeground(Color.WHITE);
 		roomnum.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		roomnum.setBounds(577, 15, 62, 27);
 		frame.getContentPane().add(roomnum);
 
 		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setForeground(Color.WHITE);
+		spinner_1.setBackground(Color.BLACK);
 		spinner_1.setValue(current_plan.getRoomNum().getSingleNum());
 		spinner_1.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		spinner_1.setBounds(634, 12, 85, 33);
 		frame.getContentPane().add(spinner_1);
 
 		JSpinner spinner_4 = new JSpinner();
+		spinner_4.setForeground(Color.WHITE);
+		spinner_4.setBackground(Color.BLACK);
 		spinner_4.setValue(current_plan.getRoomNum().getQuadNum());
 		spinner_4.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		spinner_4.setBounds(941, 10, 85, 33);
 		frame.getContentPane().add(spinner_4);
 
 		JLabel label_7 = new JLabel("\u96D9\u4EBA\u623F");
+		label_7.setForeground(Color.WHITE);
 		label_7.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_7.setBounds(731, 16, 63, 27);
 		frame.getContentPane().add(label_7);
 
 		JSpinner spinner_2 = new JSpinner();
+		spinner_2.setForeground(Color.WHITE);
+		spinner_2.setBackground(Color.BLACK);
 		spinner_2.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		spinner_2.setValue(current_plan.getRoomNum().getDoubleNum());
 		spinner_2.setBounds(782, 12, 85, 33);
 		frame.getContentPane().add(spinner_2);
 
 		JLabel label_9 = new JLabel("\u56DB\u4EBA\u623F");
+		label_9.setForeground(Color.WHITE);
 		label_9.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_9.setBounds(879, 16, 54, 27);
 		frame.getContentPane().add(label_9);
 
 		JButton confirm = new JButton("\u78BA\u5B9A");
+		confirm.setBackground(Color.BLACK);
+		confirm.setForeground(Color.WHITE);
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -210,6 +244,8 @@ public class GUI_order_confirm {
 		frame.getContentPane().add(confirm);
 
 		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.setBackground(Color.BLACK);
+		button_user.setForeground(Color.WHITE);
 		button_user.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -221,6 +257,7 @@ public class GUI_order_confirm {
 		frame.getContentPane().add(button_user);
 
 		JLabel label = new JLabel("\u7E3D\u50F9:");
+		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label.setBounds(577, 186, 62, 27);
 		frame.getContentPane().add(label);
@@ -231,7 +268,7 @@ public class GUI_order_confirm {
 		frame.getContentPane().add(lblNewLabel);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 15, 520, 197);
+		scrollPane_2.setBounds(10, 15, 520, 140);
 		frame.getContentPane().add(scrollPane_2);
 
 		JTable order_info = new JTable();
@@ -247,15 +284,19 @@ public class GUI_order_confirm {
 				{ "原訂房", current_plan.getRoomNum().toString() } };
 		String[] infhead = { "訂單資訊", "" };
 		hotel_info = new JTable(new DefaultTableModel(inf, infhead));
+		hotel_info.setForeground(Color.WHITE);
+		hotel_info.setBackground(Color.BLACK);
 		scrollPane_2.setViewportView(hotel_info);
 		hotel_info.setPreferredScrollableViewportSize(new Dimension(63, 63));
 
 		JLabel label_1 = new JLabel("\u5165\u4F4F\u65E5\u671F:");
+		label_1.setForeground(Color.WHITE);
 		label_1.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_1.setBounds(577, 93, 77, 27);
 		frame.getContentPane().add(label_1);
 
 		JLabel label_2 = new JLabel("\u9000\u623F\u65E5\u671F:");
+		label_2.setForeground(Color.WHITE);
 		label_2.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_2.setBounds(804, 93, 77, 27);
 		frame.getContentPane().add(label_2);

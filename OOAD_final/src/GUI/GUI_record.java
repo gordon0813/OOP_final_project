@@ -6,14 +6,19 @@ import databaseException.noSuchHotel;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JScrollPane;
 
 import java.util.ArrayList;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTable;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -21,8 +26,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Dialog.ModalExclusionType;
 
 public class GUI_record {
@@ -87,6 +96,17 @@ public class GUI_record {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		try {
+			final BufferedImage backgroundImage = ImageIO.read(new File("images/8.png"));
+			frame.setContentPane(new JPanel(new BorderLayout()) {
+				@Override
+				public void paintComponent(Graphics g) {
+					g.drawImage(backgroundImage, 0, 0, null);
+				}
+			});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		frame.setVisible(true);
 		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		frame.getContentPane().setForeground(Color.WHITE);
@@ -117,8 +137,12 @@ public class GUI_record {
 		scrollPane.setBounds(10, 61, 835, 602);
 		frame.getContentPane().add(scrollPane);
 		table = new JTable(new DefaultTableModel(ph, head));
+		table.setBackground(Color.BLACK);
+		table.setForeground(Color.WHITE);
 
 		JButton recordbutton = new JButton("\u641C\u5C0B\u7D00\u9304");
+		recordbutton.setForeground(Color.WHITE);
+		recordbutton.setBackground(Color.BLACK);
 		recordbutton.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		recordbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,6 +184,8 @@ public class GUI_record {
 		});
 
 		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.setForeground(Color.WHITE);
+		button_user.setBackground(Color.BLACK);
 		button_user.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -172,6 +198,8 @@ public class GUI_record {
 		frame.getContentPane().add(button_user);
 
 		JButton bookmarkbutton = new JButton("\u66F8\u7C64");
+		bookmarkbutton.setForeground(Color.WHITE);
+		bookmarkbutton.setBackground(Color.BLACK);
 		bookmarkbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mode = 1;
@@ -183,6 +211,8 @@ public class GUI_record {
 		frame.getContentPane().add(bookmarkbutton);
 
 		JButton confirm = new JButton("\u524D\u5F80");
+		confirm.setForeground(Color.WHITE);
+		confirm.setBackground(Color.BLACK);
 		confirm.setEnabled(chosen);
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
@@ -210,6 +240,8 @@ public class GUI_record {
 		frame.getContentPane().add(confirm);
 
 		JButton remove = new JButton("\u522A\u9664");
+		remove.setForeground(Color.WHITE);
+		remove.setBackground(Color.BLACK);
 		remove.setEnabled(chosen);
 		remove.addMouseListener(new MouseAdapter() {
 			@Override

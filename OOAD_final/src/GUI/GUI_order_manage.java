@@ -15,6 +15,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.time.LocalDate;
@@ -23,8 +24,11 @@ import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JSpinner;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTable;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -37,8 +41,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
 
@@ -92,6 +100,17 @@ public class GUI_order_manage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		try {
+			final BufferedImage backgroundImage = ImageIO.read(new File("images/8.png"));
+			frame.setContentPane(new JPanel(new BorderLayout()) {
+				@Override
+				public void paintComponent(Graphics g) {
+					g.drawImage(backgroundImage, 0, 0, null);
+				}
+			});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		frame.setVisible(true);
 		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		frame.getContentPane().setForeground(Color.WHITE);
@@ -125,6 +144,8 @@ public class GUI_order_manage {
 		scrollPane.setBounds(10, 10, 835, 653);
 		frame.getContentPane().add(scrollPane);
 		table = new JTable(new DefaultTableModel(ph, head));
+		table.setForeground(Color.WHITE);
+		table.setBackground(Color.BLACK);
 		scrollPane.setViewportView(table);
 		table.setPreferredScrollableViewportSize(new Dimension(835, 65));
 		table.setFillsViewportHeight(true);
@@ -145,6 +166,8 @@ public class GUI_order_manage {
 		});
 		
 		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.setBackground(Color.BLACK);
+		button_user.setForeground(Color.WHITE);
 		button_user.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -157,6 +180,8 @@ public class GUI_order_manage {
 		frame.getContentPane().add(button_user);
 		
 		JButton remove = new JButton("\u522A\u9664\u8A02\u55AE");
+		remove.setBackground(Color.BLACK);
+		remove.setForeground(Color.WHITE);
 		remove.setEnabled(chosen);
 		remove.addMouseListener(new MouseAdapter() {
 			@Override
@@ -183,6 +208,8 @@ public class GUI_order_manage {
 		frame.getContentPane().add(remove);
 		
 		JButton edit = new JButton("\u4FEE\u6539\u8A02\u55AE");
+		edit.setBackground(Color.BLACK);
+		edit.setForeground(Color.WHITE);
 		edit.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		edit.setEnabled(chosen);
 		edit.addMouseListener(new MouseAdapter() {
@@ -197,6 +224,8 @@ public class GUI_order_manage {
 		frame.getContentPane().add(edit);
 		
 		JButton comment = new JButton("\u65C5\u9928\u8CC7\u8A0A");
+		comment.setBackground(Color.BLACK);
+		comment.setForeground(Color.WHITE);
 		comment.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
