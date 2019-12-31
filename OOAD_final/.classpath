@@ -11,5 +11,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ilove/Desktop/物件導向java/final/OOP_final_project/OOAD_final/exJAR/javax.mail-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

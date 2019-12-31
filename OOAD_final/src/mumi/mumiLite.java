@@ -729,6 +729,13 @@ public class mumiLite {
         pst.executeUpdate();
         pst.close();
         stmt.close();
+        
+        String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.makeOrder(mail, o);
+        }
         return orderid;
 	}
 	
@@ -754,6 +761,27 @@ public class mumiLite {
 	}
 	
 	/**
+	 * get userid from orderid
+	 * @param orderid
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUserid(long orderid) throws Exception {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Orders WHERE orderid = " + orderid);
+		if (!rs.isBeforeFirst() ) {    
+		    throw new noSuchOrder(orderid);
+		} 
+		String name = rs.getString("userid");
+		rs.close();
+		stmt.close();
+		
+		return name;
+	}
+	
+	/**
 	 * delete Order
 	 * @param orderid
 	 * @throws Exception 
@@ -761,8 +789,10 @@ public class mumiLite {
 	public void deleteOrder(long orderid) throws Exception {
 		Statement stmt;
 		stmt = conn.createStatement();
+		Order o = getOrder(orderid);
+		String username = getUserid(orderid);
 		
-		Plan plan = getOrder(orderid).getPlan();
+		Plan plan = o.getPlan();
 		
 		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
 		if(stmt.executeUpdate(sql) == 0) {
@@ -777,6 +807,13 @@ public class mumiLite {
 		
 		System.out.println("successfully delete!!");
 		
+		String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.deleteOrder(mail, o);
+        }
+        
 		stmt.close();
 	}
 	
@@ -1108,6 +1145,66 @@ public class mumiLite {
 			stmt.close();
 			return false;
 		}
+	}
+	
+	/**
+	 * set up table: Usermail
+	 * @throws SQLException
+	 */
+	public void usermailInit() throws SQLException {
+		Statement stmt;
+		PreparedStatement pst;
+		String sql;
+		stmt = conn.createStatement();
+		
+		sql = "Drop table IF EXISTS Usermail";
+		stmt.executeUpdate(sql);
+		
+		sql = "create table Usermail (userid String, mail String) "; 
+        stmt.executeUpdate(sql);
+
+		stmt.close();
+		System.out.println("Table: Usermail updates successfully!!");
+	}
+	
+	/** update mail for user
+	 * @param name
+	 * @param mail
+	 * @throws SQLException
+	 */
+	public void addUsermail (String name, String mail) throws SQLException {
+		PreparedStatement pst;
+		String sql;
+		
+		sql = "INSERT INTO Usermail (userid, mail) VALUES (?,?)";
+		pst = conn.prepareStatement(sql);
+		pst.setString(1, name);
+		pst.setString(2, mail);
+		
+		pst.executeUpdate();
+		
+		pst.close();
+	}
+	
+	/** if user has mail, then return it
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getUsermail (String name) throws SQLException {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Usermail WHERE userid = '" + name + "'");
+		if (!rs.isBeforeFirst() ) {    
+		    return "NO";
+		} 
+		String mail = rs.getString("mail");
+		
+		rs.close();
+		stmt.close();
+		
+		return mail;
 	}
 }
 
