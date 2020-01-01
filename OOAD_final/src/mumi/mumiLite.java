@@ -403,7 +403,7 @@ public class mumiLite {
 		for (int i = 0; i < orderid.size(); i++) {
 			System.out.println("day passing, order is complete");
 			System.out.println("delete orderid : " + orderid.get(i));
-			deleteOrder(orderid.get(i));			
+			finishOrder(orderid.get(i));			
 		}
 	}
 	
@@ -811,6 +811,41 @@ public class mumiLite {
         	System.out.println("寄送郵件中~~");
         	mailSender mm = new mailSender();
         	mm.deleteOrder(mail, o);
+        }
+        
+		stmt.close();
+	}
+	
+	/** after checkout date, the order is finished 
+	 * @param orderid
+	 * @throws Exception
+	 */
+	public void finishOrder(long orderid) throws Exception {
+		Statement stmt;
+		stmt = conn.createStatement();
+		Order o = getOrder(orderid);
+		String username = getUserid(orderid);
+		
+		Plan plan = o.getPlan();
+		
+		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
+		if(stmt.executeUpdate(sql) == 0) {
+			throw new noSuchOrder(orderid);
+		} 
+		
+		//
+		scheduler (plan.getHotel().getId(),
+				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		//
+		
+		//System.out.println("訂單已完成!!");
+		
+		String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.finishOrder(mail, o);
         }
         
 		stmt.close();

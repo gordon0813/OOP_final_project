@@ -80,8 +80,8 @@ public class mailSender {
         }
         
     }
-	/*
-	public void editOrder(String mail, Order o) {
+	
+	public void finishOrder(String mail, Order o) {
         Session session = login();
         
         try {
@@ -92,8 +92,8 @@ public class mailSender {
                     Message.RecipientType.TO,
                     InternetAddress.parse(mail + "," + mail)
             );
-            message.setSubject("訂單修改通知");
-            message.setText("您的訂單已更新!!\n\n" + o.toString() + "\n\n請記得不要記錯喔母咪!!");
+            message.setSubject("訂單完成通知");
+            message.setText("您的訂單已完成!!\n\n" + o.toString() + "\n\n期待下次光顧喔母咪!!");
 
             Transport.send(message);
 
@@ -104,6 +104,6 @@ public class mailSender {
             e.printStackTrace();
         }
        
-    } */
+    } 
 
 }
