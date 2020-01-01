@@ -164,6 +164,19 @@ public class User {
 		}
 		return false;
 	}
+	public void editEmail(String email) throws SQLException, UserException {
+		if(!valid) {
+			throw new UserException("User has not login can't edit email");
+		}
+		DB.getDB().editUsermail(this.name, email);
+	}
+	public void editpassword(String userInputOldPassword ,String newpassword) throws UserException, noSuchUser, passwordWrong, userExist, passwordIllegal, SQLException {
+		if(!valid) {
+			throw new UserException("User has not login can't edit email");
+		}
+		DB.getDB().editUserpassword(this.name, userInputOldPassword, newpassword);
+		
+	}
 	public boolean islogin() {
 		return valid;
 	}
