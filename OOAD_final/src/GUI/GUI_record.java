@@ -140,6 +140,64 @@ public class GUI_record {
 		table.setBackground(Color.BLACK);
 		table.setForeground(Color.WHITE);
 
+		JButton confirm = new JButton("\u524D\u5F80");
+		confirm.setForeground(Color.WHITE);
+		confirm.setBackground(Color.BLACK);
+		confirm.setEnabled(false);
+		confirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				from_record = true;
+				if (mode == 0) {
+					GUI_search fre = new GUI_search();
+					frame.dispose();
+				} else {
+					try {
+						GUI_hotelpage fre = new GUI_hotelpage();
+					} catch (noSuchHotel e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
+					}
+					frame.dispose();
+				}
+			}
+		});
+		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		confirm.setBounds(895, 634, 130, 29);
+		frame.getContentPane().add(confirm);
+
+		JButton remove = new JButton("\u522A\u9664");
+		remove.setForeground(Color.WHITE);
+		remove.setBackground(Color.BLACK);
+		remove.setEnabled(false);
+		remove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (mode == 0) {
+					User.getUser().getRecord().remove(index_input);
+					search_record = User.getUser().getRecord();
+					String[][] ph = new String[search_record.size()][1];
+					for (int i = 0; i < search_record.size(); i++) {
+						ph[i][0] = search_record.get(i).toString();
+					}
+					table.setModel(new DefaultTableModel(ph, head));
+				} else {
+					User.getUser().getPageMark().remove(index_plan);
+					bkmark = User.getUser().getPageMark();
+					String[][] rc = new String[bkmark.size()][1];
+					for (int i = 0; i < bkmark.size(); i++) {
+						rc[i][0] = bkmark.get(i).toString();
+					}
+					table.setModel(new DefaultTableModel(rc, head));
+				}
+
+			}
+		});
+		remove.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		remove.setBounds(895, 458, 130, 29);
+		frame.getContentPane().add(remove);
+
 		JButton recordbutton = new JButton("\u641C\u5C0B\u7D00\u9304");
 		recordbutton.setForeground(Color.WHITE);
 		recordbutton.setBackground(Color.BLACK);
@@ -178,8 +236,10 @@ public class GUI_record {
 						chosen_plan = bkmark.get(row);
 						index_plan = row;
 						chosen = true;
+						confirm.setEnabled(true);
+						remove.setEnabled(true);
 					}
-				}				
+				}
 			}
 		});
 
@@ -209,67 +269,6 @@ public class GUI_record {
 		bookmarkbutton.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		bookmarkbutton.setBounds(206, 10, 167, 29);
 		frame.getContentPane().add(bookmarkbutton);
-
-		JButton confirm = new JButton("\u524D\u5F80");
-		confirm.setForeground(Color.WHITE);
-		confirm.setBackground(Color.BLACK);
-		confirm.setEnabled(chosen);
-		confirm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				from_record = true;
-				if (mode == 0) {
-					GUI_search fre = new GUI_search();
-					frame.dispose();
-				} else {
-					try {
-						GUI_hotelpage fre = new GUI_hotelpage();
-					} catch (noSuchHotel e1) {
-						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
-						e1.printStackTrace();
-					}
-					frame.dispose();
-				}
-			}
-		});
-		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		confirm.setBounds(895, 634, 130, 29);
-		frame.getContentPane().add(confirm);
-
-		JButton remove = new JButton("\u522A\u9664");
-		remove.setForeground(Color.WHITE);
-		remove.setBackground(Color.BLACK);
-		remove.setEnabled(chosen);
-		remove.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(mode == 0) {
-					User.getUser().getRecord().remove(index_input);
-					search_record = User.getUser().getRecord();					
-					String[][] ph = new String[search_record.size()][1];					
-					for (int i = 0; i < search_record.size(); i++) {
-						ph[i][0] = search_record.get(i).toString();
-					}
-					table.setModel(new DefaultTableModel(ph, head));
-				}					
-				else {
-					User.getUser().getPageMark().remove(index_plan);
-					bkmark = User.getUser().getPageMark();
-					String[][] rc = new String[bkmark.size()][1];
-					for (int i = 0; i < bkmark.size(); i++) {
-						rc[i][0] = bkmark.get(i).toString();
-					}
-					table.setModel(new DefaultTableModel(rc, head));
-				}	
-				
-			}
-		});
-		remove.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		remove.setBounds(895, 458, 130, 29);
-		frame.getContentPane().add(remove);
 
 	}
 }

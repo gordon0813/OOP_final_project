@@ -215,8 +215,6 @@ public class GUI_order_confirm {
 						try {
 							current_plan.toOrder().confirm();
 							System.out.println(current_order);
-							GUI_search.getFrame().dispose();
-							GUI_hotelpage.getFrame().dispose();
 							frame.dispose();
 							GUI_user fre = new GUI_user();
 						} catch (noSuchHotel e1) {
@@ -250,6 +248,7 @@ public class GUI_order_confirm {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				GUI_user fre = new GUI_user();
+				frame.dispose();
 			}
 		});
 		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));

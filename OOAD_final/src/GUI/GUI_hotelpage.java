@@ -231,6 +231,9 @@ public class GUI_hotelpage {
 					e1.printStackTrace();
 				}
 				GUI_order_confirm fre = new GUI_order_confirm();
+				frame.dispose();
+				if(GUI_search.getFrame().isActive())
+					GUI_search.getFrame().dispose();
 			}
 		});
 		confirm.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -244,6 +247,7 @@ public class GUI_hotelpage {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				GUI_user fre = new GUI_user();
+				frame.dispose();
 			}
 		});
 		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));

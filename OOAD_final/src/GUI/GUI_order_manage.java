@@ -1,4 +1,5 @@
 package GUI;
+
 import core.*;
 import databaseException.noSuchHotel;
 
@@ -55,11 +56,14 @@ public class GUI_order_manage {
 	private JFrame frame;
 	private JTable table;
 	private static Order chosen_order;
+
 	public static Order getChosen_order() {
 		return chosen_order;
 	}
-	private  ArrayList<Order> order_record;
+
+	private ArrayList<Order> order_record;
 	private static boolean from_record = false;
+
 	public static void setFrom_record(boolean from_record) {
 		GUI_order_manage.from_record = from_record;
 	}
@@ -68,9 +72,8 @@ public class GUI_order_manage {
 		return from_record;
 	}
 
-	//to allow GUI_search to tell apart input from different sources
-    private boolean chosen = true;
-
+	// to allow GUI_search to tell apart input from different sources
+	private boolean chosen = true;
 
 	/**
 	 * Launch the application.
@@ -120,76 +123,29 @@ public class GUI_order_manage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-
 		Properties p = new Properties();
 		p.put("text.today", "today");
 		p.put("text.month", "month");
 		p.put("text.year", "year");
 
-		/*
-		 * RoomNum RNtest = new RoomNum(0, 0, 0); CheckInOutDate CKtest = new
-		 * CheckInOutDate(selectedDateout, selectedDateout); Hotel HTtest = new Hotel(0,
-		 * 0, null, null, null, null); Plan[] plantest = {new Plan(RNtest, CKtest,
-		 * HTtest)};
-		 */
-
 		String[] head = { "已完成訂單" };
 		order_record = User.getUser().getOrderList();
 		String[][] ph = new String[order_record.size()][1];
-		//search record loaded in default
-		for(int i = 0;i<order_record.size();i++) {
+		// search record loaded in default
+		for (int i = 0; i < order_record.size(); i++) {
 			ph[i][0] = order_record.get(i).toString();
 		}
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 835, 653);
-		frame.getContentPane().add(scrollPane);
-		table = new JTable(new DefaultTableModel(ph, head));
-		table.setForeground(Color.WHITE);
-		table.setBackground(Color.BLACK);
-		scrollPane.setViewportView(table);
-		table.setPreferredScrollableViewportSize(new Dimension(835, 65));
-		table.setFillsViewportHeight(true);
-		table.setRowSelectionAllowed(true);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JTable s = (JTable) e.getSource();
-				if(order_record.size() == 0) {
-					chosen_order = null;
-				}else {
-				Integer row = s.getSelectedRow();
-				chosen_order = order_record.get(row);	
-				chosen = true;
-				}
-					
-			}
-		});
-		
-		JButton button_user = new JButton("\u4F7F\u7528\u8005");
-		button_user.setBackground(Color.BLACK);
-		button_user.setForeground(Color.WHITE);
-		button_user.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GUI_user fre = new GUI_user();
-				frame.dispose();
-			}
-		});
-		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		button_user.setBounds(895, 595, 130, 29);
-		frame.getContentPane().add(button_user);
 		
 		JButton remove = new JButton("\u522A\u9664\u8A02\u55AE");
 		remove.setBackground(Color.BLACK);
 		remove.setForeground(Color.WHITE);
-		remove.setEnabled(chosen);
-		remove.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		remove.setEnabled(false);
+		remove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					User.getUser().deleteOrder(chosen_order);
-					order_record = User.getUser().getOrderList();				
-					String[][] ph = new String[order_record.size()][1];					
+					order_record = User.getUser().getOrderList();
+					String[][] ph = new String[order_record.size()][1];
 					for (int i = 0; i < order_record.size(); i++) {
 						ph[i][0] = order_record.get(i).toString();
 					}
@@ -206,15 +162,14 @@ public class GUI_order_manage {
 		remove.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		remove.setBounds(895, 458, 130, 29);
 		frame.getContentPane().add(remove);
-		
+
 		JButton edit = new JButton("\u4FEE\u6539\u8A02\u55AE");
 		edit.setBackground(Color.BLACK);
 		edit.setForeground(Color.WHITE);
 		edit.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		edit.setEnabled(chosen);
-		edit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		edit.setEnabled(false);
+		edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				from_record = true;
 				GUI_order_confirm fre = new GUI_order_confirm();
 				frame.dispose();
@@ -222,7 +177,48 @@ public class GUI_order_manage {
 		});
 		edit.setBounds(895, 497, 130, 29);
 		frame.getContentPane().add(edit);
-		
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 835, 653);
+		frame.getContentPane().add(scrollPane);
+		table = new JTable(new DefaultTableModel(ph, head));
+		table.setForeground(Color.WHITE);
+		table.setBackground(Color.BLACK);
+		scrollPane.setViewportView(table);
+		table.setPreferredScrollableViewportSize(new Dimension(835, 65));
+		table.setFillsViewportHeight(true);
+		table.setRowSelectionAllowed(true);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JTable s = (JTable) e.getSource();
+				if (order_record.size() == 0) {
+					chosen_order = null;
+				} else {
+					Integer row = s.getSelectedRow();
+					chosen_order = order_record.get(row);
+					chosen = true;
+					remove.setEnabled(true);
+					edit.setEnabled(true);
+				}
+
+			}
+		});
+
+		JButton button_user = new JButton("\u4F7F\u7528\u8005");
+		button_user.setBackground(Color.BLACK);
+		button_user.setForeground(Color.WHITE);
+		button_user.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GUI_user fre = new GUI_user();
+				frame.dispose();
+			}
+		});
+		button_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		button_user.setBounds(895, 595, 130, 29);
+		frame.getContentPane().add(button_user);
+
 		JButton comment = new JButton("\u65C5\u9928\u8CC7\u8A0A");
 		comment.setBackground(Color.BLACK);
 		comment.setForeground(Color.WHITE);
