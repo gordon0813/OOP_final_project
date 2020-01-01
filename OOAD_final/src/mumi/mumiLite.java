@@ -912,7 +912,7 @@ public class mumiLite {
 		
 		stmt = conn.createStatement();
 		// check whether the info if user is correct
-		sql = "SELECT * FROM User WHERE (userid = '" + username + "') AND (password = '" + password + "')";
+		sql = "SELECT * FROM User WHERE (userid = '" + username + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
 		    throw new noSuchUser(username);
@@ -954,6 +954,47 @@ public class mumiLite {
 		rs.close();
 		stmt.close();
 		return user;
+	}
+	
+	/**
+	 * change password
+	 * @param username
+	 * @param old_p old password
+	 * @param new_p new password
+	 * @throws SQLException
+	 * @throws noSuchUser
+	 * @throws passwordWrong
+	 * @throws passwordIllegal 
+	 * @throws userExist 
+	 */
+	public void editUserpassword(String username, String old_p, String new_p) throws SQLException, noSuchUser, passwordWrong, userExist, passwordIllegal {
+		Statement stmt;
+		ResultSet rs;
+		PreparedStatement pst;
+		String sql;
+		
+		
+		stmt = conn.createStatement();
+		// check whether the info if user is correct
+		sql = "SELECT * FROM User WHERE (userid = '" + username + "')";
+		rs = stmt.executeQuery(sql);
+		if (!rs.isBeforeFirst() ) {    
+		    throw new noSuchUser(username);
+		}
+		if (!rs.getString("password").equals(old_p)) {
+			throw new passwordWrong();
+		}
+		
+		// update the password
+		legalUserData("@@@@@@@@@@",new_p);
+		sql = "UPDATE User SET password = ? WHERE (userid = '" + username + "')";
+		pst = conn.prepareStatement(sql);
+		pst.setString(1, new_p);
+		pst.executeUpdate();
+		System.out.println("密碼更新成功!!");
+		stmt.close();
+		pst.close();
+		rs.close();
 	}
 	
 	/**
@@ -1172,18 +1213,32 @@ public class mumiLite {
 	 * @param mail
 	 * @throws SQLException
 	 */
-	public void addUsermail (String name, String mail) throws SQLException {
+	public void editUsermail (String name, String mail) throws SQLException {
+		Statement stmt;
 		PreparedStatement pst;
+		ResultSet rs;
 		String sql;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Usermail WHERE userid = '" + name + "'");
 		
-		sql = "INSERT INTO Usermail (userid, mail) VALUES (?,?)";
-		pst = conn.prepareStatement(sql);
-		pst.setString(1, name);
-		pst.setString(2, mail);
-		
-		pst.executeUpdate();
-		
-		pst.close();
+		if (!rs.isBeforeFirst()) {    
+			sql = "INSERT INTO Usermail (userid, mail) VALUES (?,?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, name);
+			pst.setString(2, mail);
+			pst.executeUpdate();		
+			pst.close();
+			System.out.println("電子信箱新增成功!!");
+		} else {
+			sql = "UPDATE Usermail SET mail = ? WHERE (userid = '" + name + "')";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, mail);
+			pst.executeUpdate();
+			pst.close();
+			System.out.println("電子信箱更新成功!!");
+		}	
+		rs.close();
+		stmt.close();
 	}
 	
 	/** if user has mail, then return it
@@ -1206,5 +1261,7 @@ public class mumiLite {
 		
 		return mail;
 	}
+	
+	
 }
 

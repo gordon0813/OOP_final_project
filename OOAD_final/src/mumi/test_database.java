@@ -247,10 +247,11 @@ public class test_database {
 		}
 		*/
 		//Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
-		/*
-		User user = Lite.getUser("mumi2", "dadala");
+		
+		//User user = Lite.getUser("mumi2", "dada");
 		//Lite.addUsermail("mumi2", "ilovecene27@gmail.com");
 		//System.out.println(user);
+		/*
 		Hotel hotel = Lite.getHotel(10);
 		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020,1, 18),LocalDate.of(2020, 1, 19));
 		RoomNum rm = new RoomNum(3,2,1);
@@ -323,6 +324,16 @@ public class test_database {
 		if (reset_usermail) {
 			Lite.usermailInit();
 		}
+//=================================================================	
+		// test edit password
+		//Lite.printAllUser();
+		//User user = Lite.getUser("z", "zzzzzzz");
+		//Lite.editUsermail("z", "ilovecene27@gmail.com");
+		//Lite.editUserpassword("mumi2", "dadala","shindondon");
+		/*
+		user = Lite.getUser("mumi2", "dadala");
+		user = Lite.getUser("mumi2", "shindondon");
+		*/
 	}
 
 	
