@@ -241,26 +241,29 @@ public class test_database {
 		// test scheduler and order
 		/*
 		try {
-			Lite.addUser("mumi", "dadala");
+			Lite.addUser("mumi2", "dadala");
 		} catch (userExist e) {
 			e.printStackTrace();
 		}
 		*/
 		//Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
-		/*
-		User user = Lite.getUser("mumi", "dadala");
+		
+		//User user = Lite.getUser("mumi2", "dada");
+		//Lite.addUsermail("mumi2", "ilovecene27@gmail.com");
 		//System.out.println(user);
+		/*
 		Hotel hotel = Lite.getHotel(10);
-		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2019, 12, 11),LocalDate.of(2019, 12, 13));
+		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020,1, 18),LocalDate.of(2020, 1, 19));
 		RoomNum rm = new RoomNum(3,2,1);
 		Plan p = new Plan(rm,ck,hotel,Lite.currentPlanid());
 		Order o = new Order(p,true);
-		Lite.addOrder(o,"mumi");
+		System.out.println(o.getId());
+		Lite.addOrder(o,"mumi2");
+		*/
 		
-		//Lite.checkToday();
+		 //Lite.deleteOrder(117);
 		 
-		 */
-		Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
+		//Lite.printSchedule(10,LocalDate.of(2019, 12, 10),LocalDate.of(2019, 12, 16));
 		
 		//System.out.println(Lite.currentOrderid());
 		//User user = Lite.getUser("mumi", "dadala");
@@ -310,7 +313,29 @@ public class test_database {
 		if (reset_todayflag) {
 			Lite.todayfagInit();
 		}
+//=================================================================
+		// test mail
+		//mailSender mm = new mailSender();
+		
+		//mm.makeOrder("ilovecene27@gmail.com",o);
+//=================================================================
+		// set up table: Usermail
+		boolean reset_usermail = false;
+		if (reset_usermail) {
+			Lite.usermailInit();
+		}
+//=================================================================	
+		// test edit password
+		//Lite.printAllUser();
+		//User user = Lite.getUser("z", "zzzzzzz");
+		//Lite.editUsermail("z", "ilovecene27@gmail.com");
+		//Lite.editUserpassword("mumi2", "dadala","shindondon");
+		/*
+		user = Lite.getUser("mumi2", "dadala");
+		user = Lite.getUser("mumi2", "shindondon");
+		*/
 	}
+
 	
 	
 }

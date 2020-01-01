@@ -40,8 +40,7 @@ public class mumiLite {
 	    config.enableRecursiveTriggers(true);
 	    startday = localToLong(LocalDate.of(2019,12, 1));
 	    endday = localToLong(LocalDate.of(2020, 9, 1));
-	  //connect to the database
-	   // SQLiteDataSource ds = new SQLiteDataSource(config);
+	   // connect to the database
         conn = DriverManager.getConnection("jdbc:sqlite:database/record.db");    
        
         try {
@@ -404,7 +403,7 @@ public class mumiLite {
 		for (int i = 0; i < orderid.size(); i++) {
 			System.out.println("day passing, order is complete");
 			System.out.println("delete orderid : " + orderid.get(i));
-			deleteOrder(orderid.get(i));			
+			finishOrder(orderid.get(i));			
 		}
 	}
 	
@@ -729,6 +728,13 @@ public class mumiLite {
         pst.executeUpdate();
         pst.close();
         stmt.close();
+        
+        String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.makeOrder(mail, o);
+        }
         return orderid;
 	}
 	
@@ -754,6 +760,27 @@ public class mumiLite {
 	}
 	
 	/**
+	 * get userid from orderid
+	 * @param orderid
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUserid(long orderid) throws Exception {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Orders WHERE orderid = " + orderid);
+		if (!rs.isBeforeFirst() ) {    
+		    throw new noSuchOrder(orderid);
+		} 
+		String name = rs.getString("userid");
+		rs.close();
+		stmt.close();
+		
+		return name;
+	}
+	
+	/**
 	 * delete Order
 	 * @param orderid
 	 * @throws Exception 
@@ -761,8 +788,10 @@ public class mumiLite {
 	public void deleteOrder(long orderid) throws Exception {
 		Statement stmt;
 		stmt = conn.createStatement();
+		Order o = getOrder(orderid);
+		String username = getUserid(orderid);
 		
-		Plan plan = getOrder(orderid).getPlan();
+		Plan plan = o.getPlan();
 		
 		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
 		if(stmt.executeUpdate(sql) == 0) {
@@ -777,6 +806,48 @@ public class mumiLite {
 		
 		System.out.println("successfully delete!!");
 		
+		String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.deleteOrder(mail, o);
+        }
+        
+		stmt.close();
+	}
+	
+	/** after checkout date, the order is finished 
+	 * @param orderid
+	 * @throws Exception
+	 */
+	public void finishOrder(long orderid) throws Exception {
+		Statement stmt;
+		stmt = conn.createStatement();
+		Order o = getOrder(orderid);
+		String username = getUserid(orderid);
+		
+		Plan plan = o.getPlan();
+		
+		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
+		if(stmt.executeUpdate(sql) == 0) {
+			throw new noSuchOrder(orderid);
+		} 
+		
+		//
+		scheduler (plan.getHotel().getId(),
+				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		//
+		
+		//System.out.println("訂單已完成!!");
+		
+		String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("寄送郵件中~~");
+        	mailSender mm = new mailSender();
+        	mm.finishOrder(mail, o);
+        }
+        
 		stmt.close();
 	}
 	
@@ -875,7 +946,7 @@ public class mumiLite {
 		
 		stmt = conn.createStatement();
 		// check whether the info if user is correct
-		sql = "SELECT * FROM User WHERE (userid = '" + username + "') AND (password = '" + password + "')";
+		sql = "SELECT * FROM User WHERE (userid = '" + username + "')";
 		rs = stmt.executeQuery(sql);
 		if (!rs.isBeforeFirst() ) {    
 		    throw new noSuchUser(username);
@@ -917,6 +988,47 @@ public class mumiLite {
 		rs.close();
 		stmt.close();
 		return user;
+	}
+	
+	/**
+	 * change password
+	 * @param username
+	 * @param old_p old password
+	 * @param new_p new password
+	 * @throws SQLException
+	 * @throws noSuchUser
+	 * @throws passwordWrong
+	 * @throws passwordIllegal 
+	 * @throws userExist 
+	 */
+	public void editUserpassword(String username, String old_p, String new_p) throws SQLException, noSuchUser, passwordWrong, userExist, passwordIllegal {
+		Statement stmt;
+		ResultSet rs;
+		PreparedStatement pst;
+		String sql;
+		
+		
+		stmt = conn.createStatement();
+		// check whether the info if user is correct
+		sql = "SELECT * FROM User WHERE (userid = '" + username + "')";
+		rs = stmt.executeQuery(sql);
+		if (!rs.isBeforeFirst() ) {    
+		    throw new noSuchUser(username);
+		}
+		if (!rs.getString("password").equals(old_p)) {
+			throw new passwordWrong();
+		}
+		
+		// update the password
+		legalUserData("@@@@@@@@@@",new_p);
+		sql = "UPDATE User SET password = ? WHERE (userid = '" + username + "')";
+		pst = conn.prepareStatement(sql);
+		pst.setString(1, new_p);
+		pst.executeUpdate();
+		System.out.println("密碼更新成功!!");
+		stmt.close();
+		pst.close();
+		rs.close();
 	}
 	
 	/**
@@ -1109,5 +1221,81 @@ public class mumiLite {
 			return false;
 		}
 	}
+	
+	/**
+	 * set up table: Usermail
+	 * @throws SQLException
+	 */
+	public void usermailInit() throws SQLException {
+		Statement stmt;
+		PreparedStatement pst;
+		String sql;
+		stmt = conn.createStatement();
+		
+		sql = "Drop table IF EXISTS Usermail";
+		stmt.executeUpdate(sql);
+		
+		sql = "create table Usermail (userid String, mail String) "; 
+        stmt.executeUpdate(sql);
+
+		stmt.close();
+		System.out.println("Table: Usermail updates successfully!!");
+	}
+	
+	/** update mail for user
+	 * @param name
+	 * @param mail
+	 * @throws SQLException
+	 */
+	public void editUsermail (String name, String mail) throws SQLException {
+		Statement stmt;
+		PreparedStatement pst;
+		ResultSet rs;
+		String sql;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Usermail WHERE userid = '" + name + "'");
+		
+		if (!rs.isBeforeFirst()) {    
+			sql = "INSERT INTO Usermail (userid, mail) VALUES (?,?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, name);
+			pst.setString(2, mail);
+			pst.executeUpdate();		
+			pst.close();
+			System.out.println("電子信箱新增成功!!");
+		} else {
+			sql = "UPDATE Usermail SET mail = ? WHERE (userid = '" + name + "')";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, mail);
+			pst.executeUpdate();
+			pst.close();
+			System.out.println("電子信箱更新成功!!");
+		}	
+		rs.close();
+		stmt.close();
+	}
+	
+	/** if user has mail, then return it
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getUsermail (String name) throws SQLException {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Usermail WHERE userid = '" + name + "'");
+		if (!rs.isBeforeFirst() ) {    
+		    return "NO";
+		} 
+		String mail = rs.getString("mail");
+		
+		rs.close();
+		stmt.close();
+		
+		return mail;
+	}
+	
+	
 }
 
