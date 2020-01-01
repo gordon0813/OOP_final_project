@@ -40,8 +40,7 @@ public class mumiLite {
 	    config.enableRecursiveTriggers(true);
 	    startday = localToLong(LocalDate.of(2019,12, 1));
 	    endday = localToLong(LocalDate.of(2020, 9, 1));
-	  //connect to the database
-	   // SQLiteDataSource ds = new SQLiteDataSource(config);
+	   // connect to the database
         conn = DriverManager.getConnection("jdbc:sqlite:database/record.db");    
        
         try {
