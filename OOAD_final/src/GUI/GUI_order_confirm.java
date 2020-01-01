@@ -263,6 +263,7 @@ public class GUI_order_confirm {
 		frame.getContentPane().add(label);
 
 		JLabel lblNewLabel = new JLabel(((Long) current_plan.calTotalPrice()).toString());
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		lblNewLabel.setBounds(622, 186, 144, 27);
 		frame.getContentPane().add(lblNewLabel);
@@ -273,7 +274,7 @@ public class GUI_order_confirm {
 
 		JTable order_info = new JTable();
 		order_info.setFont(new Font("新細明體", Font.PLAIN, 20));
-		order_info.setBounds(10, 10, 542, 218);
+		order_info.setBounds(10, 10, 520, 140);
 		frame.getContentPane().add(order_info);
 
 		String[][] inf = { { "用戶", User.getUser().getname() }, { "訂單號", ((Long) current_order.getId()).toString() },
