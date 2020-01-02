@@ -340,7 +340,7 @@ public class test_database {
 		//System.out.println(Lite.getOrder(121));
 //=================================================================
 		// test print all order
-		Lite.printAllOrder();
+		//Lite.printAllOrder();
 	}
 
 	
