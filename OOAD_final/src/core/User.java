@@ -158,6 +158,7 @@ public class User {
 			throw new UserException("User has not login can't delete mark");
 		}
 		DB.getDB().deletePlan(p.getid());
+		this.pageMark.remove(p);
 	}
 	public boolean exitOrder(Hotel ht) throws UserException {
 		if(!valid) {
@@ -221,6 +222,7 @@ public class User {
 	}
 	public void clearRecord() throws SQLException {
 		DB.getDB().deleteSearch(this.name);
+		record=new ArrayList<Search_input>();
 	}
 	
 }

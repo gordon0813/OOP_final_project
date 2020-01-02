@@ -2,6 +2,7 @@ package GUI;
 
 import core.*;
 import databaseException.noSuchHotel;
+import databaseException.noSuchPlan;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -175,15 +176,28 @@ public class GUI_record {
 		remove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (mode == 0) {
-					User.getUser().getRecord().remove(index_input);
-					search_record = User.getUser().getRecord();
-					String[][] ph = new String[search_record.size()][1];
-					for (int i = 0; i < search_record.size(); i++) {
-						ph[i][0] = search_record.get(i).toString();
+					try {
+						User.getUser().clearRecord();
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
 					}
+					String[][] ph = new String[1][1];
 					table.setModel(new DefaultTableModel(ph, head));
 				} else {
-					User.getUser().getPageMark().remove(index_plan);
+			//		User.getUser().getPageMark().remove(index_plan);
+					try {
+						chosen_plan.unMark();
+					} catch (noSuchPlan e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
+					} catch (UserException e1) {
+						JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e1.printStackTrace();
+					}
 					bkmark = User.getUser().getPageMark();
 					String[][] rc = new String[bkmark.size()][1];
 					for (int i = 0; i < bkmark.size(); i++) {
@@ -227,6 +241,8 @@ public class GUI_record {
 						chosen_input = search_record.get(row);
 						index_input = row;
 						chosen = true;
+						confirm.setEnabled(true);
+						remove.setEnabled(true);
 					}
 				} else {
 					if (bkmark == null) {
