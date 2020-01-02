@@ -104,6 +104,9 @@ public class Plan {
 	public int  getid() {
 		return this.id;
 	}
+	public boolean equals(Plan p) {
+		return p.id==this.id;
+	}
 	public boolean canChangeTo(Plan newplan) throws noSuchHotel, exceedSchedule, SQLException {
 		assert newplan !=null;
 		CheckInOutDate limitdate=this.maxExtendDate();
