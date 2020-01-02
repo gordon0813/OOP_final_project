@@ -241,6 +241,8 @@ public class GUI_record {
 						chosen_input = search_record.get(row);
 						index_input = row;
 						chosen = true;
+						confirm.setEnabled(true);
+						remove.setEnabled(true);
 					}
 				} else {
 					if (bkmark == null) {

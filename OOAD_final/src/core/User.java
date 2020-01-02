@@ -222,6 +222,7 @@ public class User {
 	}
 	public void clearRecord() throws SQLException {
 		DB.getDB().deleteSearch(this.name);
+		record=new ArrayList<Search_input>();
 	}
 	
 }

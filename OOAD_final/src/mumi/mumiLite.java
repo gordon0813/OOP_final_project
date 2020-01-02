@@ -1161,7 +1161,7 @@ public class mumiLite {
 		Statement stmt;
 		stmt = conn.createStatement();
 		
-		stmt.executeUpdate("DELETE FROM Search WHRER userid = '" + username + "'");
+		stmt.executeUpdate("DELETE FROM Search WHERE userid = '" + username + "'");
 		stmt.close();
 	}
 	
