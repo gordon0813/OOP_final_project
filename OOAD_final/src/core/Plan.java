@@ -23,8 +23,11 @@ public class Plan {
 
 	/**
 	 * @return max extend Check In Out Date base on now room number
+	 * @throws SQLException 
+	 * @throws exceedSchedule 
+	 * @throws noSuchHotel 
 	 */
-	public CheckInOutDate maxExtendDate() {
+	public CheckInOutDate maxExtendDate() throws noSuchHotel, exceedSchedule, SQLException {
 		return ht.maxExtendDate(rn, ckio);
 	}
 	public boolean check() throws noSuchHotel, exceedSchedule, SQLException {
@@ -100,5 +103,15 @@ public class Plan {
 	}
 	public int  getid() {
 		return this.id;
+	}
+	public boolean canChangeTo(Plan newplan) throws noSuchHotel, exceedSchedule, SQLException {
+		assert newplan !=null;
+		CheckInOutDate limitdate=this.maxExtendDate();
+		assert limitdate!=null;
+		RoomNum limitRn=this.maxExtendRoom();
+		assert limitRn!=null;
+		boolean a1= limitdate.contain(newplan.getCheckInOutDate());
+		boolean a2=limitRn.contain(newplan.getRoomNum());
+		return a1&&a2 ;
 	}
 }
