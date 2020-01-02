@@ -856,12 +856,48 @@ public class mumiLite {
 	 * @param o new order
 	 * @throws Exception 
 	 */
-	public void editOrder(Order o, String username) throws Exception {		
+	public void editOrder(Order n_o, String username) throws Exception {		
+		long orderid = n_o.getId();
+
+		//////////// delete order
+		Statement stmt;
+		stmt = conn.createStatement();
+		Order o_o = getOrder(orderid);	
+		Plan plan = o_o.getPlan();
 		
-		
-		deleteOrder(o.getId());
-		
-		addOrder(o,username);
+		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
+		if(stmt.executeUpdate(sql) == 0) {
+			throw new noSuchOrder(orderid);
+		} 	
+		//
+		scheduler (plan.getHotel().getId(),
+				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		//////////// add order
+		PreparedStatement pst;
+		stmt = conn.createStatement();
+		plan = n_o.getPlan();
+		int planid = addPlan(plan,username);		
+		//
+		scheduler (plan.getHotel().getId(),
+				   plan.getRoomNum().getSingleNum(),plan.getRoomNum().getDoubleNum(),plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		sql = "INSERT INTO Orders (orderid,userid,planid,checkout) VALUES (?,?,?,?)";
+        pst = conn.prepareStatement(sql);
+        pst.setLong(1, orderid);
+        pst.setString(2, username);
+        pst.setInt(3, planid);
+        pst.setLong(4, localToLong(plan.getCheckInOutDate().getCheckout()));
+        pst.executeUpdate();
+        pst.close();
+        stmt.close();
+        
+        String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("±H°e¶l¥ó¤¤~~");
+        	mailSender mm = new mailSender();
+        	mm.editOrder(mail, n_o);
+        }
 	}
 	
 	/**

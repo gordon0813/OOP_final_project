@@ -122,7 +122,7 @@ public class mailSender {
         }
        
     } 
-	/*
+	
 	public void editOrder(String mail, Order o) {
         Session session = login();
         
@@ -135,7 +135,7 @@ public class mailSender {
                     InternetAddress.parse(mail + "," + mail)
             );
             message.setSubject("訂單修改通知");
-            message.setText("您的訂單已變更!!\n\n" + o.toString() + "\n\n不要搞錯喔母咪!!");
+            message.setText("您的訂單已變更!! 您的新訂單\n\n" + o.toString() + "\n\n不要搞錯喔母咪!!");
 
             Transport.send(message);
 
@@ -147,6 +147,6 @@ public class mailSender {
         }
        
     }
-    */ 
+    
 
 }
