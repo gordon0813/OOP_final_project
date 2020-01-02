@@ -153,6 +153,12 @@ public class User {
 		}
 		pageMark.add(pl);
 	}
+	public void deleteMark(Plan p) throws noSuchPlan, SQLException, UserException {
+		if(!valid) {
+			throw new UserException("User has not login can't delete mark");
+		}
+		DB.getDB().deletePlan(p.getid());
+	}
 	public boolean exitOrder(Hotel ht) throws UserException {
 		if(!valid) {
 			throw new UserException("User has not login can't leave comment");
@@ -212,6 +218,9 @@ public class User {
 		for(int i=0;i<this.orderList.size();i++) {
 			this.orderList.get(i).resetUser(this);
 		}
+	}
+	public void clearRecord() throws SQLException {
+		DB.getDB().deleteSearch(this.name);
 	}
 	
 }
