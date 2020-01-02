@@ -170,10 +170,13 @@ public class Hotel {
 	 * @param rn number of  rooms
 	 * @param ck now Check In Out Date
 	 * @return max extend Check In Out Date
+	 * @throws SQLException 
+	 * @throws exceedSchedule 
+	 * @throws noSuchHotel 
 	 */
-	public CheckInOutDate maxExtendDate(RoomNum rn,CheckInOutDate ck) {
+	public CheckInOutDate maxExtendDate(RoomNum rn,CheckInOutDate ck) throws noSuchHotel, exceedSchedule, SQLException {
 		//todo db
-		CheckInOutDate re=null;//db.maxExtendDate(this->ID,rn,ck)
+		CheckInOutDate re=DB.getDB().extendDate(this.id,rn,ck);
 		return re;
 	}
 	public String googlemapURL() {

@@ -49,6 +49,9 @@ public class Order {
 	public void editOrder( Plan newPlan ) throws Exception {
 		if(valid==false)return;//can't edit invalid order in db (because it is not in db)
 		Plan tmpsave=plan.clone();
+		if(!tmpsave.canChangeTo(newPlan)) {
+			throw new Exception("invalid change");
+		}
 		plan=newPlan;
 		try {
 			user.editOrder(this);
@@ -57,8 +60,8 @@ public class Order {
 			throw e;
 		}//may have exception
 		
-		
 	}
+	
 	public String toString() {
 		String re ="Plan: "+plan.toString()
 				+", User:"
