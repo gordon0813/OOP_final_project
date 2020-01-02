@@ -338,6 +338,9 @@ public class test_database {
 		// test order to string form
 		//System.out.println(Lite.currentOrderid());
 		//System.out.println(Lite.getOrder(121));
+//=================================================================
+		// test print all order
+		Lite.printAllOrder();
 	}
 
 	

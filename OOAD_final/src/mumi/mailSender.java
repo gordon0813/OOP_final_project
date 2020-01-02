@@ -32,7 +32,7 @@ public class mailSender {
     	 return ss;
     }
     
-    public String orderTostring (Order o) {
+    static public String orderTostring (Order o) {
     	LocalDate checkin = o.getPlan().getCheckInOutDate().getCheckin();
     	LocalDate checkout = o.getPlan().getCheckInOutDate().getCheckout();
     	int s_n = o.getPlan().getRoomNum().getSingleNum();

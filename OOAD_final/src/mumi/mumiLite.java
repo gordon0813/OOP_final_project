@@ -697,6 +697,21 @@ public class mumiLite {
 		System.out.println("Table: Orders updates successfully!!");
 	}
 	
+	public void printAllOrder () throws Exception {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Orders");
+
+		while(rs.next()){
+			System.out.println("=============================================");
+			System.out.println(mailSender.orderTostring(getOrder(rs.getLong("orderid"))));
+        }
+		System.out.println("=============================================");
+		stmt.close();
+	    rs.close();
+	}
+	
 	/**
 	 * add 1 Order into database
 	 * @param o Order
