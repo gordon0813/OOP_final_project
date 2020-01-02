@@ -251,7 +251,7 @@ public class test_database {
 		//User user = Lite.getUser("mumi2", "dada");
 		//Lite.addUsermail("mumi2", "ilovecene27@gmail.com");
 		//System.out.println(user);
-		
+		/*
 		Hotel hotel = Lite.getHotel(88);
 		CheckInOutDate ck = new CheckInOutDate(LocalDate.of(2020,3, 19),LocalDate.of(2020, 3, 21));
 		RoomNum rm = new RoomNum(3,2,1);
@@ -259,7 +259,7 @@ public class test_database {
 		Order o = new Order(p,true);
 		System.out.println(o.getId());
 		Lite.addOrder(o,"mumi2");
-		
+		*/
 		
 		 //Lite.deleteOrder(117);
 		 
