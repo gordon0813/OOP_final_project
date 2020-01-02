@@ -65,10 +65,9 @@ public class Plan {
 		mark.id=DB.getDB().currentPlanid();
 		User.getUser().addpageMark(mark,true);
 	}
-	public void unMark() throws noSuchPlan, SQLException {
+	public void unMark() throws noSuchPlan, SQLException, UserException {
 		assert(id!=0);
-		DB.getDB().deletePlan(this.id);
-		
+		User.getUser().deleteMark(this);
 	}
 	public Plan clone(){
 		return new Plan(rn.clone(),ckio.clone(),ht);
@@ -98,5 +97,8 @@ public class Plan {
 	}
 	public Hotel getHotel() {
 		return ht;
+	}
+	public int  getid() {
+		return this.id;
 	}
 }
