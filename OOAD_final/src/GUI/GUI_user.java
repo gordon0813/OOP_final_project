@@ -12,6 +12,8 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -81,7 +83,7 @@ public class GUI_user {
 			@Override
 			public void mouseClicked(MouseEvent e) {	
 				frame.dispose();
-				GUI_search fre = new GUI_search();			
+				GUI_user_data fre = new GUI_user_data();			
 			}
 		});
 		user_data.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -91,9 +93,9 @@ public class GUI_user {
 		JButton finished_order = new JButton("\u5DF2\u5B8C\u6210\u8A02\u55AE");
 		finished_order.setBackground(Color.BLACK);
 		finished_order.setForeground(Color.WHITE);
-		finished_order.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		finished_order.setEnabled(User.getUser().islogin());
+		finished_order.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				GUI_order_manage fre = new GUI_order_manage();
 				frame.dispose();			
 			}
@@ -105,9 +107,9 @@ public class GUI_user {
 		JButton search_history = new JButton("\u67E5\u8A62\u7D00\u9304");
 		search_history.setBackground(Color.BLACK);
 		search_history.setForeground(Color.WHITE);
-		search_history.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		search_history.setEnabled(User.getUser().islogin());
+		search_history.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)  {
 				GUI_record fre = new GUI_record();
 				frame.dispose();				
 			}
@@ -119,9 +121,9 @@ public class GUI_user {
 		JButton logout = new JButton("\u767B\u51FA");
 		logout.setForeground(Color.WHITE);
 		logout.setBackground(Color.BLACK);
-		logout.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		logout.setEnabled(User.getUser().islogin());
+		logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				User.logout();
 				GUI_login fre = new GUI_login();

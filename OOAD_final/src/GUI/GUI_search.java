@@ -355,9 +355,8 @@ public class GUI_search {
 		JButton byprice = new JButton("\u4EE5\u50F9\u683C\u6392\u5217");
 		byprice.setBackground(Color.BLACK);
 		byprice.setForeground(Color.WHITE);
-		byprice.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		byprice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				Arrays.sort(plan_input, new PlanComparatorPrice());
 				table_renew(head);
 			}
@@ -370,9 +369,8 @@ public class GUI_search {
 		JButton bystar = new JButton("\u4EE5\u661F\u7D1A\u6392\u5217");
 		bystar.setBackground(Color.BLACK);
 		bystar.setForeground(Color.WHITE);
-		bystar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		bystar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				Arrays.sort(plan_input, new PlanComparatorStar());
 				table_renew(head);
 			}
@@ -385,9 +383,8 @@ public class GUI_search {
 		JButton byhotel = new JButton("\u4EE5\u98EF\u5E97\u6392\u5217");
 		byhotel.setBackground(Color.BLACK);
 		byhotel.setForeground(Color.WHITE);
-		byhotel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		byhotel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				Arrays.sort(plan_input, new PlanComparatorID());
 				table_renew(head);
 			}
@@ -401,10 +398,8 @@ public class GUI_search {
 		confirm.setBackground(Color.BLACK);
 		confirm.setForeground(Color.WHITE);
 		confirm.setEnabled(false);
-		confirm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		//		frame.dispose();
+		confirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					GUI_hotelpage fre = new GUI_hotelpage();
 				} catch (noSuchHotel e1) {
@@ -438,9 +433,8 @@ public class GUI_search {
 		button_mark.setBackground(Color.BLACK);
 		button_mark.setForeground(Color.WHITE);
 		button_mark.setEnabled(false);
-		button_mark.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		button_mark.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					try {
 						chosen_plan.Mark();
@@ -463,7 +457,6 @@ public class GUI_search {
 				JTable s = (JTable) e.getSource();
 				if(plan_input.length==0||plan_input==null) {
 					chosen_plan = null;
-					System.out.println("null");
 				}else {
 				Integer row = s.getSelectedRow();
 				if(row>plan_input.length-1||row == -1)
