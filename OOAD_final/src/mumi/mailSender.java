@@ -40,7 +40,7 @@ public class mailSender {
     	int q_n = o.getPlan().getRoomNum().getQuadNum();
     	Hotel hotel = o.getHotel();
     	long orderid = o.getId();
-    	String message =  "飯店: " + hotel.getId() + "  地址: " + hotel.getAddress() + "\n" 
+    	String message =  "飯店編號: " + hotel.getId() + "  地址: " + hotel.getAddress() + "\n" 
     					  + "入住日期 : " + checkin + " ~ " + checkout + "\n單人房 " + s_n + " 間     雙人房 " 
     					  + d_n + " 間     四人房 " + q_n + " 間\n" 
     					  + "訂單編號: " + orderid + "\n價格: " + hotel.calPriceOneDay(o.getPlan().getRoomNum())*o.getPlan().getCheckInOutDate().howManyDays();

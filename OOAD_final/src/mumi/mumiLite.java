@@ -240,9 +240,9 @@ public class mumiLite {
 			else
 				break;
 		}
-		stmt.clearBatch();
+		stmt.close();
 		rs.close();
-		return new CheckInOutDate(longToLocal(start),longToLocal(end));
+		return new CheckInOutDate(longToLocal(start),longToLocal(end).plusDays(1));
 	}
 	
 	/**
