@@ -110,7 +110,7 @@ public class mailSender {
                     InternetAddress.parse(mail + "," + mail)
             );
             message.setSubject("訂單完成通知");
-            message.setText("您的訂單已完成!!\n\n" + o.toString() + "\n\n期待下次光顧喔母咪!!");
+            message.setText("您的訂單已完成!!\n\n" + orderTostring(o) + "\n\n期待下次光顧喔母咪!!");
 
             Transport.send(message);
 
@@ -135,7 +135,7 @@ public class mailSender {
                     InternetAddress.parse(mail + "," + mail)
             );
             message.setSubject("訂單修改通知");
-            message.setText("您的訂單已變更!! 您的新訂單\n\n" + o.toString() + "\n\n不要搞錯喔母咪!!");
+            message.setText("您的訂單已變更!! 您的新訂單\n\n" + orderTostring(o) + "\n\n不要搞錯喔母咪!!");
 
             Transport.send(message);
 
