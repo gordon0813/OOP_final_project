@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.HeadlessException;
 
 public class GUI_order_confirm {
 
@@ -193,10 +194,24 @@ public class GUI_order_confirm {
 					RoomNum rn = new RoomNum((Integer) spinner_1.getValue(), (Integer) spinner_2.getValue(),
 							(Integer) spinner_4.getValue());
 					CheckInOutDate ckio = new CheckInOutDate(selectedDatein, selectedDateout);
-					if(!current_plan.getCheckInOutDate().contain(ckio)) {
-						JOptionPane.showMessageDialog(null, "只能縮短日期，訂單未更改", "error:", JOptionPane.INFORMATION_MESSAGE);
-					}else {
-						current_plan.setCheckInOutDate(ckio);	
+					try {
+						if(!current_plan.maxExtendDate().contain(ckio)) {
+							JOptionPane.showMessageDialog(null, "只能縮短日期，訂單未更改", "error:", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							current_plan.setCheckInOutDate(ckio);	
+						}
+					} catch (HeadlessException e2) {
+						JOptionPane.showMessageDialog(null, e2.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e2.printStackTrace();
+					} catch (noSuchHotel e2) {
+						JOptionPane.showMessageDialog(null, e2.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e2.printStackTrace();
+					} catch (exceedSchedule e2) {
+						JOptionPane.showMessageDialog(null, e2.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e2.printStackTrace();
+					} catch (SQLException e2) {
+						JOptionPane.showMessageDialog(null, e2.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
+						e2.printStackTrace();
 					}
 					current_plan.setRoomNum(rn);
 									
@@ -206,11 +221,11 @@ public class GUI_order_confirm {
 							current_order.editOrder(current_plan);
 							frame.dispose();
 							GUI_user fre = new GUI_user();
+							GUI_order_manage.setFrom_record(false);
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 							e1.printStackTrace();
-						}
-						GUI_order_manage.setFrom_record(false);
+						}						
 					} else {
 						try {
 							current_plan.toOrder().confirm();

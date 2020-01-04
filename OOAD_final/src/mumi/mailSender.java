@@ -32,7 +32,7 @@ public class mailSender {
     	 return ss;
     }
     
-    public String orderTostring (Order o) {
+    static public String orderTostring (Order o) {
     	LocalDate checkin = o.getPlan().getCheckInOutDate().getCheckin();
     	LocalDate checkout = o.getPlan().getCheckInOutDate().getCheckout();
     	int s_n = o.getPlan().getRoomNum().getSingleNum();
@@ -40,7 +40,7 @@ public class mailSender {
     	int q_n = o.getPlan().getRoomNum().getQuadNum();
     	Hotel hotel = o.getHotel();
     	long orderid = o.getId();
-    	String message =  "飯店: " + hotel.getId() + "  地址: " + hotel.getAddress() + "\n" 
+    	String message =  "飯店編號: " + hotel.getId() + "  地址: " + hotel.getAddress() + "\n" 
     					  + "入住日期 : " + checkin + " ~ " + checkout + "\n單人房 " + s_n + " 間     雙人房 " 
     					  + d_n + " 間     四人房 " + q_n + " 間\n" 
     					  + "訂單編號: " + orderid + "\n價格: " + hotel.calPriceOneDay(o.getPlan().getRoomNum())*o.getPlan().getCheckInOutDate().howManyDays();
@@ -110,7 +110,7 @@ public class mailSender {
                     InternetAddress.parse(mail + "," + mail)
             );
             message.setSubject("訂單完成通知");
-            message.setText("您的訂單已完成!!\n\n" + o.toString() + "\n\n期待下次光顧喔母咪!!");
+            message.setText("您的訂單已完成!!\n\n" + orderTostring(o) + "\n\n期待下次光顧喔母咪!!");
 
             Transport.send(message);
 
@@ -122,7 +122,7 @@ public class mailSender {
         }
        
     } 
-	/*
+	
 	public void editOrder(String mail, Order o) {
         Session session = login();
         
@@ -135,7 +135,7 @@ public class mailSender {
                     InternetAddress.parse(mail + "," + mail)
             );
             message.setSubject("訂單修改通知");
-            message.setText("您的訂單已變更!!\n\n" + o.toString() + "\n\n不要搞錯喔母咪!!");
+            message.setText("您的訂單已變更!! 您的新訂單\n\n" + orderTostring(o) + "\n\n不要搞錯喔母咪!!");
 
             Transport.send(message);
 
@@ -147,6 +147,6 @@ public class mailSender {
         }
        
     }
-    */ 
+    
 
 }

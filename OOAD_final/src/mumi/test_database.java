@@ -338,6 +338,15 @@ public class test_database {
 		// test order to string form
 		//System.out.println(Lite.currentOrderid());
 		//System.out.println(Lite.getOrder(121));
+//=================================================================
+		// test print all order
+		//Lite.printAllOrder();
+//=================================================================
+		/*
+		LocalDate lo = LocalDate.of(2020, 1, 3);
+		System.out.println(lo);
+		System.out.println(lo.plusDays(1));
+		*/
 	}
 
 	

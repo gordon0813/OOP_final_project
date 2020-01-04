@@ -240,9 +240,9 @@ public class mumiLite {
 			else
 				break;
 		}
-		stmt.clearBatch();
+		stmt.close();
 		rs.close();
-		return new CheckInOutDate(longToLocal(start),longToLocal(end));
+		return new CheckInOutDate(longToLocal(start),longToLocal(end).plusDays(1));
 	}
 	
 	/**
@@ -697,6 +697,21 @@ public class mumiLite {
 		System.out.println("Table: Orders updates successfully!!");
 	}
 	
+	public void printAllOrder () throws Exception {
+		Statement stmt;
+		ResultSet rs;
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM Orders");
+
+		while(rs.next()){
+			System.out.println("=============================================");
+			System.out.println(mailSender.orderTostring(getOrder(rs.getLong("orderid"))));
+        }
+		System.out.println("=============================================");
+		stmt.close();
+	    rs.close();
+	}
+	
 	/**
 	 * add 1 Order into database
 	 * @param o Order
@@ -856,12 +871,48 @@ public class mumiLite {
 	 * @param o new order
 	 * @throws Exception 
 	 */
-	public void editOrder(Order o, String username) throws Exception {		
+	public void editOrder(Order n_o, String username) throws Exception {		
+		long orderid = n_o.getId();
+
+		//////////// delete order
+		Statement stmt;
+		stmt = conn.createStatement();
+		Order o_o = getOrder(orderid);	
+		Plan plan = o_o.getPlan();
 		
-		
-		deleteOrder(o.getId());
-		
-		addOrder(o,username);
+		String sql = "DELETE FROM Orders WHERE orderid = " + orderid;
+		if(stmt.executeUpdate(sql) == 0) {
+			throw new noSuchOrder(orderid);
+		} 	
+		//
+		scheduler (plan.getHotel().getId(),
+				   -plan.getRoomNum().getSingleNum(),-plan.getRoomNum().getDoubleNum(),-plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		//////////// add order
+		PreparedStatement pst;
+		stmt = conn.createStatement();
+		plan = n_o.getPlan();
+		int planid = addPlan(plan,username);		
+		//
+		scheduler (plan.getHotel().getId(),
+				   plan.getRoomNum().getSingleNum(),plan.getRoomNum().getDoubleNum(),plan.getRoomNum().getQuadNum(),
+				   localToLong(plan.getCheckInOutDate().getCheckin()),localToLong(plan.getCheckInOutDate().getCheckout()));
+		sql = "INSERT INTO Orders (orderid,userid,planid,checkout) VALUES (?,?,?,?)";
+        pst = conn.prepareStatement(sql);
+        pst.setLong(1, orderid);
+        pst.setString(2, username);
+        pst.setInt(3, planid);
+        pst.setLong(4, localToLong(plan.getCheckInOutDate().getCheckout()));
+        pst.executeUpdate();
+        pst.close();
+        stmt.close();
+        
+        String mail = getUsermail(username);
+        if (!mail.equals("NO")) {
+        	System.out.println("±H°e¶l¥ó¤¤~~");
+        	mailSender mm = new mailSender();
+        	mm.editOrder(mail, n_o);
+        }
 	}
 	
 	/**
@@ -1110,7 +1161,7 @@ public class mumiLite {
 		Statement stmt;
 		stmt = conn.createStatement();
 		
-		stmt.executeUpdate("DELETE FROM Search WHRER userid = '" + username + "'");
+		stmt.executeUpdate("DELETE FROM Search WHERE userid = '" + username + "'");
 		stmt.close();
 	}
 	
