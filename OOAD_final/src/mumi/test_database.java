@@ -342,11 +342,12 @@ public class test_database {
 		// test print all order
 		//Lite.printAllOrder();
 //=================================================================
-		/*
-		LocalDate lo = LocalDate.of(2020, 1, 3);
-		System.out.println(lo);
-		System.out.println(lo.plusDays(1));
-		*/
+		
+		LocalDate in = LocalDate.of(2020, 1, 29);
+		LocalDate out = LocalDate.of(2020, 2, 1);
+
+		Lite.printSchedule(720, in, out);
+		
 	}
 
 	
