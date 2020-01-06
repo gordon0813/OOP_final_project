@@ -131,6 +131,7 @@ public class GUI_hotelpage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JLabel roomnum = new JLabel("\u55AE\u4EBA\u623F");
 		roomnum.setForeground(Color.WHITE);
@@ -283,8 +284,18 @@ public class GUI_hotelpage {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					pln.getHotel().addcomments(cmtarea.getText());
-					GUI_order_manage fre = new GUI_order_manage();
-					frame.dispose();
+					String[] place = pln.getHotel().loadcomments();
+					String[][] ph = { {} };
+					if (place != null) {
+						ph = new String[place.length][1];
+						for (int i = 0; i < place.length; i++) {
+							ph[i][0] = place[i];
+						}
+					} else {
+						ph = new String[1][1];
+						ph[0][0] = "no comment";
+					}
+					table.setModel(new DefaultTableModel(ph, head));
 				} catch (UserException e1) {
 					JOptionPane.showMessageDialog(null, e1.toString(), "error:", JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();

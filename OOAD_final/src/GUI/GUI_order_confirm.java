@@ -106,7 +106,7 @@ public class GUI_order_confirm {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Properties p = new Properties();
 		p.put("text.today", "today");
 		p.put("text.month", "month");

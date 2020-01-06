@@ -727,7 +727,7 @@ public class mumiLite {
 		stmt = conn.createStatement();
 		long orderid = o.getId();
 		Plan plan = o.getPlan();
-		int planid = addPlan(plan,username);
+		int planid = addPlan(plan,"null");
 		
 		//
 		scheduler (plan.getHotel().getId(),

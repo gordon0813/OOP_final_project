@@ -32,11 +32,11 @@ public class Smalltest {
 			
 			System.out.println("===============check in out===========");
 			LocalDate d1= LocalDate.of(2020, 4, 13);
-			LocalDate d2= LocalDate.of(2020, 4, 17);
+			LocalDate d2= LocalDate.of(2020, 4, 14);
 			CheckInOutDate ck1=new CheckInOutDate(d1, d2);
 			System.out.println(ck1);
 			System.out.println("======================room num=================");
-			RoomNum rn=new RoomNum(1,3,1);
+			RoomNum rn=new RoomNum(0,0,0);
 			System.out.println(rn);
 			System.out.println("=====================hotel======================");
 			Hotel h1=Hotel.getHotel(13);//new Hotel(2, 3, "road 1", new Room(1, 1000), new Room(2,200),new Room(4,30));
@@ -53,7 +53,7 @@ public class Smalltest {
 
 			
 			
-			User.login("gogoman", "ugo1387");
+			//User.login("gogoman", "ugo1387");
 			//User.logout();
 			//p1.Mark();
 		
@@ -63,13 +63,15 @@ public class Smalltest {
 			//order1.confirm();
 			
 			System.out.println("==============================search=============================");
-			Search_input si=new Search_input(2, 1, 100000/4, 100, 20, ck1, rn, "台北市"); //120000/4 price per days
+			Search_input si=new Search_input(3, 2, 100000/4, 100, 1, ck1, rn, "高雄市"); //120000/4 price per days
 			Plan[] plarr=Hotel.search(si);
-			//si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台北市");
+			//si=new Search_input(2, 1, 100008/4, 100, 20, ck1, rn, "台中市");
 			//Hotel.search(si);
-			Arrays.sort(plarr, new PlanComparatorStar());
+			//Arrays.sort(plarr, new PlanComparatorStar());
 			
-
+			for(Plan i :plarr) {
+				System.out.println(i);
+			}
 			System.out.println("==============================user===============================");
 			
 			Order toedit=User.getUser().getOrderList().get(0);

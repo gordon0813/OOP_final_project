@@ -116,7 +116,7 @@ public class GUI_record {
 		frame.setBounds(100, 100, 1080, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Properties p = new Properties();
 		p.put("text.today", "today");
 		p.put("text.month", "month");

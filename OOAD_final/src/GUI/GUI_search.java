@@ -114,6 +114,7 @@ public class GUI_search {
 		frame.setBounds(100, 100, 1080, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Integer[] starin = { 1, 2, 3, 4, 5 };
 		JComboBox starlow = new JComboBox(starin);
 		starlow.setForeground(Color.WHITE);
@@ -133,8 +134,8 @@ public class GUI_search {
 		label_1.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		label_1.setBounds(438, 93, 46, 35);
 		frame.getContentPane().add(label_1);
-		String[] region = { "基隆市", "台北市", "新北市", "桃園縣", "新竹市", "新竹縣", "苗栗縣", "台中市 ", "彰化縣", "雲林縣", "嘉義市", "嘉義縣", "台南市",
-				"韓國", "屏東縣", "台東縣", "花蓮縣", "宜蘭縣", "澎湖縣", "金門縣", "連江縣" };
+		String[] region = { "基隆市", "台北市", "新北市", "桃園縣", "新竹市", "新竹縣", "苗栗縣", "台中市", "彰化縣", "雲林縣", "嘉義市", "嘉義縣", "台南市",
+				"高雄市", "屏東縣", "台東縣", "花蓮縣", "宜蘭縣", "澎湖縣", "金門縣", "連江縣" };
 		JComboBox region_box = new JComboBox(region);
 		region_box.setBackground(Color.BLACK);
 		region_box.setForeground(Color.WHITE);

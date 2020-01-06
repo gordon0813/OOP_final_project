@@ -65,7 +65,7 @@ public class Plan {
 	public void Mark() throws UserException, SQLException {
 		Plan mark=this.clone();
 		if(mark.id!=0)return;
-		mark.id=DB.getDB().currentPlanid();
+		mark.id=DB.getDB().currentPlanid()+1;
 		User.getUser().addpageMark(mark,true);
 	}
 	public void unMark() throws noSuchPlan, SQLException, UserException {

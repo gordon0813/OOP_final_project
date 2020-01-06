@@ -77,7 +77,7 @@ public class GUI_login {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JButton confirm = new JButton("\u78BA\u5B9A");
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override

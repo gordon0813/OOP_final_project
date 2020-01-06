@@ -60,7 +60,7 @@ public class GUI_user {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-	
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JButton search = new JButton("\u67E5\u8A62\u98EF\u5E97");
 		search.setBackground(Color.BLACK);
 		search.setForeground(Color.WHITE);
@@ -121,7 +121,7 @@ public class GUI_user {
 		JButton logout = new JButton("\u767B\u51FA");
 		logout.setForeground(Color.WHITE);
 		logout.setBackground(Color.BLACK);
-		logout.setEnabled(User.getUser().islogin());
+		logout.setEnabled(true);
 		logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
